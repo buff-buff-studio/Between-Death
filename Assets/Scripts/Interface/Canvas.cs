@@ -94,8 +94,8 @@ namespace Refactor.Interface
             var dt = Time.deltaTime * 32f;
             if (currentWidget == null)
             {
-                selectionDisplay.position = Vector3.zero;
-                selectionDisplay.sizeDelta = Vector2.zero;
+                selectionDisplay.position = new Vector3(Screen.width / 2f, Screen.height / 2f, 0);
+                selectionDisplay.sizeDelta = new Vector2(Screen.width, Screen.height);
                 
                 if (currentWindow != null)
                     SetCurrentWidget(currentWindow.GetFirstWidget());
