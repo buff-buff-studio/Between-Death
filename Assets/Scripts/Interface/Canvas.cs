@@ -7,21 +7,11 @@ using UnityEngine.Serialization;
 
 namespace Refactor.Interface
 {
-    public class InterfaceActionState
-    {
-        public float NextTime = 0;
-        public int Streak = 0;
-    }
-    
     public class Canvas : MonoBehaviour
     {
         [Header("REFERENCES")] 
         public RectTransform selectionDisplay;
         public BindingDisplayGroup bindingDisplayGroup;
-
-        [Header("SETTINGS")] 
-        public float delaySecondInput = 1f;
-        public float delayNextInputs = 0.25f;
         
         [FormerlySerializedAs("currentWindows")]
         [Header("STATE")]
@@ -31,7 +21,6 @@ namespace Refactor.Interface
         private Window currentWindow;
         [SerializeField]
         private Widget currentWidget;
-        private readonly Dictionary<InterfaceAction, InterfaceActionState> _actionStates = new();
 
         public void AddActiveWindow(Window window)
         {
@@ -95,7 +84,7 @@ namespace Refactor.Interface
             if (currentWidget == null)
             {
                 selectionDisplay.position = new Vector3(Screen.width / 2f, Screen.height / 2f, 0);
-                selectionDisplay.sizeDelta = new Vector2(Screen.width, Screen.height);
+                selectionDisplay.sizeDelta = Vector2.zero; //new Vector2(Screen.width, Screen.height);
                 
                 if (currentWindow != null)
                     SetCurrentWidget(currentWindow.GetFirstWidget());
@@ -115,8 +104,12 @@ namespace Refactor.Interface
                     else
                     {
                         var rt = currentWidget.rectTransform;
-                        //selectionDisplay.position = rt.position;
-                        //selectionDisplay.sizeDelta = rt.sizeDelta;
+
+                        if (selectionDisplay.sizeDelta.x == 0)
+                        {
+                            selectionDisplay.position = selectionDisplay.position;
+                            selectionDisplay.sizeDelta = selectionDisplay.sizeDelta;
+                        }
 
                         selectionDisplay.position = Vector3.Lerp(selectionDisplay.position, rt.position, dt);
                         selectionDisplay.sizeDelta = Vector2.Lerp(selectionDisplay.sizeDelta, rt.sizeDelta, dt);
@@ -126,29 +119,10 @@ namespace Refactor.Interface
                 }
             }
             
-            //Actions
-            var inputOk = Input.GetKey(KeyCode.Return);
-            var inputCancel = Input.GetKey(KeyCode.Escape);
             
-            var inputX = Input.GetAxisRaw("Horizontal");
-            var inputY = Input.GetAxisRaw("Vertical");
-            var inputTriggerLeft = Input.GetKey(KeyCode.Q);
-            var inputTriggerRight = Input.GetKey(KeyCode.E);
-            var now = Time.time;
-            
-            HandleInput(inputY > 0.15f, InterfaceAction.MoveUp, now);
-            HandleInput(inputY < -0.15f, InterfaceAction.MoveDown, now);
-            HandleInput(inputX > 0.15f, InterfaceAction.MoveRight, now);
-            HandleInput(inputX < -0.15f, InterfaceAction.MoveLeft, now);
-            
-            HandleInput(inputOk, InterfaceAction.Confirm, now);
-            HandleInput(inputCancel, InterfaceAction.Cancel, now);
-                
-            HandleInput(inputTriggerLeft, InterfaceAction.TriggerLeft, now);
-            HandleInput(inputTriggerRight, InterfaceAction.TriggerRight, now);
         }
 
-        private void _CallAction(InterfaceAction action)
+        public void CallAction(InterfaceAction action)
         {
             var nnw = currentWindow != null;
             if (nnw && !currentWindow.readyForInput) return;
@@ -159,33 +133,7 @@ namespace Refactor.Interface
             if (nnw)
                 currentWindow.DoAction(action);
         }
-
-        private void HandleInput(bool value, InterfaceAction action, float now)
-        {
-            var state = _actionStates.GetValueOrDefault(action);
-            if (state == null)
-            {
-                state = new InterfaceActionState() { NextTime = now };
-                _actionStates[action] = state;
-            }
-            
-            //Handle it
-            if (value)
-            {
-                if(now > state.NextTime)
-                {
-                    state.NextTime = now + (state.Streak > 0 ? delayNextInputs : delaySecondInput);
-                    state.Streak++;
-                    _CallAction(action);
-                }
-            }
-            else
-            {
-                state.NextTime = now;
-                state.Streak = 0;
-            }
-        }
-
+        
         public void UpdateBindingActions()
         {
             List<string> actions = new();
