@@ -287,7 +287,7 @@ namespace Refactor.Interface
             // Root for the UI
             var root = new GameObject("Canvas");
             root.layer = LayerMask.NameToLayer(kUILayerName);
-            Canvas canvas = root.AddComponent<Canvas>();
+            UnityEngine.Canvas canvas = root.AddComponent<UnityEngine.Canvas>();
             canvas.renderMode = RenderMode.ScreenSpaceOverlay;
             root.AddComponent<CanvasScaler>();
             root.AddComponent<GraphicRaycaster>();

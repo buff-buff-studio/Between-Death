@@ -1,4 +1,6 @@
-﻿using TMPro;
+﻿using System.Collections;
+using System.Collections.Generic;
+using TMPro;
 using Unity.Mathematics;
 using UnityEngine;
 using UnityEngine.Events;
@@ -56,6 +58,30 @@ namespace Refactor.Interface
         public void OnPointerUp(PointerEventData eventData)
         {
             state = math.min(state, 1);
+        }
+
+        public override bool DoAction(InterfaceAction action)
+        {
+            if (action == InterfaceAction.Confirm)
+            {
+                StartCoroutine(_DoClick());
+                return true;
+            }
+
+            return false;
+        }
+
+        private IEnumerator _DoClick()
+        {
+            onPress.Invoke();
+            state = 2;
+            yield return new WaitForSeconds(0.1f);
+            state = 0;
+        }
+        
+        public override IEnumerable<string> GetBindingActions()
+        {
+            yield return "confirm";
         }
     }
 }

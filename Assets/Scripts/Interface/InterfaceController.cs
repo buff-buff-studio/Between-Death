@@ -4,28 +4,9 @@ namespace Refactor.Interface
 {
     public class InterfaceController : MonoBehaviour
     {
-        public Window currentWindow;
-        public Window[] windows;
-        public Widget currentWidget;
-        
         public float timeToMove = 0f;
         public RectTransform navigationHighlighting;
-        
-        public void SetOpenWindow(string id)
-        {
-            foreach (var v in windows)
-            {
-                if (v.id == id)
-                {
-                    v.gameObject.SetActive(true);
-                    currentWindow = v;
-                }
-                else
-                {
-                    v.gameObject.SetActive(false);
-                }
-            }
-        }
+        public Widget currentWidget;
         
         private void OnEnable()
         {

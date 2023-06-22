@@ -5,6 +5,22 @@ using UnityEngine;
 
 namespace Refactor.Interface
 {
+    public enum InterfaceAction
+    {
+        Confirm,
+        Cancel,
+        
+        MoveLeft,
+        MoveRight,
+        MoveUp,
+        MoveDown,
+        
+        TriggerLeft, 
+        TriggerRight,
+        
+        Start
+    }
+    
     [RequireComponent(typeof(RectTransform))]
     public class Widget : MonoBehaviour
     {
@@ -13,16 +29,17 @@ namespace Refactor.Interface
         [Header("SETTINGS")]
         public bool isNavigableTarget = false;
         
-        [HideInInspector]
-        public RectTransform rectTransform;
-        
-        [Header("ANIMATION")]
-        public bool hasAnimation;
-        public Vector2 offset = new Vector2(20, 0);
+        [HideInInspector, SerializeField]
+        private RectTransform _rectTransform;
+        public RectTransform rectTransform => _rectTransform;
+        [HideInInspector, SerializeField]
+        private Canvas _canvas;
+        public Canvas canvas => _canvas;
         
         protected virtual void OnEnable()
         {
-            rectTransform = GetComponent<RectTransform>();
+            _rectTransform = GetComponent<RectTransform>();
+            _canvas = GetComponentInParent<Canvas>();
             Widgets.Add(this);
         }
 
@@ -36,6 +53,16 @@ namespace Refactor.Interface
            
         }
         
+        public virtual bool DoAction(InterfaceAction action)
+        {
+            return false;
+        }
+
+        public virtual IEnumerable<string> GetBindingActions()
+        {
+            yield break;
+        }
+
         #region Navigation
         public Widget GetNextNavigable(Vector2 direction)
         {
@@ -50,7 +77,6 @@ namespace Refactor.Interface
                 
                 var dif = widget.rectTransform.position - pos;
                 var dot = Vector2.Dot(direction, dif.normalized);
-
                 
                 if (dot <= 0.15) continue;
                 
