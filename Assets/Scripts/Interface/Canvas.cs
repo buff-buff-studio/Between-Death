@@ -118,8 +118,6 @@ namespace Refactor.Interface
                     }
                 }
             }
-            
-            
         }
 
         public void CallAction(InterfaceAction action)
