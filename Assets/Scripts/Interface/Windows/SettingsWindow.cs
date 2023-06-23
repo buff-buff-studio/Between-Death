@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Refactor.Data;
 using Refactor.Interface.Widgets;
+using TMPro;
 using UnityEngine;
 
 namespace Refactor.Interface.Windows
@@ -11,11 +12,17 @@ namespace Refactor.Interface.Windows
         public TabWidget tab;
         public Window restoreAlert;
         public Settings settings;
+        public TMP_Dropdown languageDropdown;
 
         public override void Open()
         {
             settings.Load();
             base.Open();
+
+            var options = settings.languages.Select(s => new TMP_Dropdown.OptionData(s.localizedName)).ToList();
+            languageDropdown.ClearOptions();
+            languageDropdown.AddOptions(options);
+            languageDropdown.value = (int) settings.variableLanguage.GetValue();
         }
 
         public override void Close()

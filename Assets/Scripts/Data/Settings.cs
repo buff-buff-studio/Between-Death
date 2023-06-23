@@ -4,6 +4,7 @@ using System.Text;
 using Refactor.Data.Variables;
 using Refactor.I18n;
 using UnityEngine;
+using UnityEngine.Serialization;
 #if UNITY_EDITOR
 using UnityEditor;
 #endif
@@ -12,10 +13,19 @@ namespace Refactor.Data
 {
     [CreateAssetMenu(menuName = "Refactor/Data/Settings", fileName = "Settings", order = 100)]
     public class Settings : ScriptableObject
-    {       
+    {
+        [Serializable]
+        public struct LanguageSnapshot
+        {
+            public string id;
+            public string localizedName;
+        }
+        
         public Variable[] variables = Array.Empty<Variable>();
 
-        public string[] languages;
+        public Variable variableLanguage;
+        public Variable variableGraphicsQuality;
+        public LanguageSnapshot[] languages;
 
         public void OnEnable()
         {
@@ -75,11 +85,6 @@ namespace Refactor.Data
             
 
             Debug.Log($"[!] Loaded settings from '{filePath}'");
-        }
-    
-        public void OnChangeLanguage(int languageIndex)
-        {
-            LanguageManager.language = languages[languageIndex];
         }
     }
 

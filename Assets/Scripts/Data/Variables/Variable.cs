@@ -18,6 +18,8 @@ namespace Refactor.Data.Variables
 
         public virtual void Reset() => throw new NotImplementedException();
         public virtual void ForceUpdate() => throw new NotImplementedException();
+
+        public virtual object GetValue() => throw new NotImplementedException();
     }
 
     /// <summary>
@@ -94,6 +96,11 @@ namespace Refactor.Data.Variables
             ValueHolder holder = new ValueHolder(default(T));
             JsonUtility.FromJsonOverwrite(json, holder);
             _value = holder.value;
+        }
+
+        public override object GetValue()
+        {
+            return _value;
         }
     }
 
