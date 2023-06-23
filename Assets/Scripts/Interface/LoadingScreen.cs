@@ -23,6 +23,7 @@ namespace Refactor.Interface
         public RectTransform progressBarFill;
         public TMP_Text labelTip;
         public TMP_Text labelLoading;
+        public TMP_Text targetSceneLabel;
         
         [Header("SETTINGS")]
         public int tipCount = 5;
@@ -38,6 +39,8 @@ namespace Refactor.Interface
         {
             loadingText = LanguageManager.Localize("ui.loading.loading");
             labelTip.text = LanguageManager.Localize($"ui.loading.tips.{Random.Range(0, tipCount)}");
+            var slc = Scene.Split("/");
+            targetSceneLabel.text = LanguageManager.Localize($"ui.loading.scene.{slc[^1].ToLower()}");
             
             StartCoroutine(_LoadSceneCoroutine());
         }
