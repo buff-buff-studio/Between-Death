@@ -19,22 +19,30 @@ namespace Refactor.Interface.Windows
         public void PlayGame()
         {
             Close();
+            canvas.StartCoroutine(_LoadScene("Scenes/Game_Playground"));
         }
         
         public void PlayTutorial()
         {
             Close();
+            canvas.StartCoroutine(_LoadScene("Scenes/Tutorial"));
         }
 
         public void Exit()
         {
-            StartCoroutine(_Quit());
+            Close();
+            canvas.StartCoroutine(_Quit());
+        }
+
+        private IEnumerator _LoadScene(string scene)
+        {
+            yield return new WaitForSeconds(1f);
+            LoadingScreen.LoadScene(scene);
         }
 
         private IEnumerator _Quit()
         {
-            Close();
-            yield return new WaitForSeconds(0.25f);
+            yield return new WaitForSeconds(0.75f);
             Application.Quit();
             #if UNITY_EDITOR
             EditorApplication.isPlaying = false;
