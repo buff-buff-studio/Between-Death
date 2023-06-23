@@ -146,7 +146,7 @@ namespace Refactor.Entities.Modules
             
             _currentCombo.OnEnd(entity, _currentAttack);
             canAttack = true;
-            entity.GetModule<PlayerControllerEntityModule>().state = PlayerState.Defauilt;
+            entity.GetModule<PlayerControllerEntityModule>().state = PlayerState.Default;
             _currentAttack = null;
         }
 

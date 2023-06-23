@@ -9,7 +9,7 @@ namespace Refactor.Entities.Modules
 {
     public enum PlayerState
     {
-        Defauilt,
+        Default,
         Jumping,
         Dashing,
         Attacking,
@@ -96,7 +96,7 @@ namespace Refactor.Entities.Modules
         {
             switch (state)
             {
-                case PlayerState.Defauilt:
+                case PlayerState.Default:
                     State__Default(deltaTime);
                     Handle__Dash();
                     break;
@@ -163,7 +163,7 @@ namespace Refactor.Entities.Modules
                     yield return new WaitForSeconds(0.5f);
                     entity.element = (entity.element is Element.Chaos) ? Element.Order : Element.Chaos;
                     yield return new WaitForSeconds(0.75f);
-                    state = PlayerState.Defauilt;
+                    state = PlayerState.Default;
                 }
 
                 entity.StartCoroutine(Coroutine());
@@ -212,7 +212,7 @@ namespace Refactor.Entities.Modules
             
             
             lastGrounded = Time.time;
-            state = PlayerState.Defauilt;
+            state = PlayerState.Default;
 
             entity.velocity = inputMove;
         }
@@ -245,7 +245,7 @@ namespace Refactor.Entities.Modules
             #endregion
 
             if (entity.isGrounded)
-                state = PlayerState.Defauilt;
+                state = PlayerState.Default;
 
             animator.SetBool("grounded", entity.isGrounded);
         }
