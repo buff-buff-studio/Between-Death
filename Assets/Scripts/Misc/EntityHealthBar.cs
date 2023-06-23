@@ -4,6 +4,7 @@ using Refactor.Entities;
 using Refactor.Entities.Modules;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace Refactor.Misc
 {
@@ -12,6 +13,7 @@ namespace Refactor.Misc
         public Entity entity;
         private HealthEntityModule _module;
         public CanvasGroup canvasGroup;
+        public Image healthBarImage;
         public RectTransform healthBar;
         private Transform _camera;
         
@@ -46,7 +48,10 @@ namespace Refactor.Misc
             {
                 if(health == 0)
                     canvasGroup.DOFade(0f, 0.5f);
-                healthBar.sizeDelta = new Vector2(100 * health/maxHealth, 15);
+
+                healthBarImage.color = Color.yellow;
+                healthBarImage.DOColor(Color.red, 0.5f);
+                healthBar.DOSizeDelta(new Vector2(100 * health / maxHealth, 15), 0.5f);
             }
         }
     }
