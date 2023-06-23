@@ -16,6 +16,11 @@ namespace Refactor.Interface
 
         public BindingDisplayItem[] items;
 
+        public void FixedUpdate()
+        {
+            LayoutRebuilder.ForceRebuildLayoutImmediate(gameObject.GetRectTransform());
+        }
+
         public void SetVisible(List<string> names)
         {
             foreach (var bdi in items)
