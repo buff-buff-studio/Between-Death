@@ -100,11 +100,13 @@ namespace Refactor.Interface
             var readInputTrigger = inputTrigger.ReadValue<float>();
             
             var now = Time.time;
-            
-            _HandleInput(readInputXY.y > 0.15f, InterfaceAction.MoveUp, now);
-            _HandleInput(readInputXY.y < -0.15f, InterfaceAction.MoveDown, now);
-            _HandleInput(readInputXY.x > 0.15f, InterfaceAction.MoveRight, now);
-            _HandleInput(readInputXY.x < -0.15f, InterfaceAction.MoveLeft, now);
+
+            _HandleInput(readInputXY, InterfaceAction.MoveRight, InterfaceAction.MoveLeft, InterfaceAction.MoveUp,
+                InterfaceAction.MoveDown, now);
+            //_HandleInput(readInputXY.y > 0.15f, InterfaceAction.MoveUp, now);
+            //_HandleInput(readInputXY.y < -0.15f, InterfaceAction.MoveDown, now);
+            //_HandleInput(readInputXY.x > 0.15f, InterfaceAction.MoveRight, now);
+            //_HandleInput(readInputXY.x < -0.15f, InterfaceAction.MoveLeft, now);
             
             _HandleInput(readInputYes, InterfaceAction.Confirm, now);
             _HandleInput(readInputNo, InterfaceAction.Cancel, now);
@@ -130,6 +132,39 @@ namespace Refactor.Interface
                 state.NextTime = now + (state.Streak > 0 ? delayNextInputs : delaySecondInput);
                 state.Streak++;
                 canvas.CallAction(action);
+            }
+            else
+            {
+                state.NextTime = now;
+                state.Streak = 0;
+            }
+        }
+        
+        private void _HandleInput(Vector2 value, InterfaceAction a, InterfaceAction b, InterfaceAction c, InterfaceAction d, float now)
+        {
+            var state = _actionStates.GetValueOrDefault(a);
+            if (state == null)
+            {
+                state = new InterfaceActionState() { NextTime = now };
+                _actionStates[a] = state;
+            }
+
+            var isA = value.x > 0.8f; //right
+            var isB = value.x < -0.8f; //left
+            var isC = value.y > 0.8f; //up
+            var isD = value.y < -0.8f; //down
+            
+            //Handle it
+            if (isA || isB || isC || isD)
+            {
+                if (!(now > state.NextTime)) return;
+                state.NextTime = now + (state.Streak > 0 ? delayNextInputs : delaySecondInput);
+                state.Streak++;
+                
+                if(isA) canvas.CallAction(a);
+                if(isB) canvas.CallAction(b);
+                if(isC) canvas.CallAction(c);
+                if(isD) canvas.CallAction(d);
             }
             else
             {
