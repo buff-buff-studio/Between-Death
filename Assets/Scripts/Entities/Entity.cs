@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections;
+using DG.Tweening;
 using Refactor.Data;
 using Refactor.Data.Variables;
+using Refactor.Entities.Modules;
 using Unity.Mathematics;
 using UnityEngine;
 using UnityEngine.Events;
@@ -66,6 +68,28 @@ namespace Refactor.Entities
                 velocity.y = math.min(velocity.y, 0);
             
             isGrounded = controller.isGrounded;
+        }
+
+        public void Die()
+        {
+            var entityModule = GetModule<EnemyControllerEntityModule>();
+            if (entityModule != null)
+            {
+                entityModule.animator.CrossFade("Die", 0.2f);
+                velocity.x = velocity.z = 0;
+                RemoveModule(entityModule);
+            }
+            
+            var playerModule = GetModule<PlayerControllerEntityModule>();
+            if (playerModule != null)
+            {
+                playerModule.animator.CrossFade("Die", 0.2f);
+                velocity.x = velocity.z = 0;
+                RemoveModule(playerModule);
+            }
+            
+            Destroy(gameObject, 3f);
+            //transform.DOScale(new Vector3(1, 0, 1), 3f).SetDelay(2f);
         }
         #endregion
         
