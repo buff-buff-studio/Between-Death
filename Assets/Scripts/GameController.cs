@@ -26,6 +26,7 @@ namespace Refactor
         
         protected override void OnEnable()
         {
+            Interactible.Interactibles.Clear();
             base.OnEnable();
             if (player != null)
             {

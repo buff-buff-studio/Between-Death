@@ -1,3 +1,4 @@
+date_time_format=dd/MM/yyyy HH:mm:ss
 input
     ui
         confirm=Confirmar
@@ -51,3 +52,11 @@ ui
     quit
         title=Sair para o Menu
         message=Você tem certeza que quer sair para o Menu?
+    saves=Salvamentos
+        slot_0=Espaço de Salvamento #1
+        slot_1=Espaço de Salvamento #2  
+        slot_2=Espaço de Salvamento #3 
+        empty=<< Espaço Vazio >>
+        alert
+            title=Deletar Salvamento?
+            content=Você tem certeza que quer excluir os dados desse salvamento?

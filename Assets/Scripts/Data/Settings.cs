@@ -83,7 +83,6 @@ namespace Refactor.Data
                 variables[i].ForceUpdate();
             }
             
-
             Debug.Log($"[!] Loaded settings from '{filePath}'");
         }
     }

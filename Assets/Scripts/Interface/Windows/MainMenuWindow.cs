@@ -14,12 +14,14 @@ namespace Refactor.Interface.Windows
         [Header("REFERENCES")] 
         public Window windowSettings;
         public Window windowCredits;
+        public Window windowSave;
         public Widget[] widgets;
 
         public void PlayGame()
         {
             Close();
-            canvas.StartCoroutine(_LoadScene("Scenes/Game_Playground"));
+            canvas.CloseThenOpen(this, windowSave);
+            //canvas.StartCoroutine(_LoadScene("Scenes/Game_Playground"));
         }
         
         public void PlayTutorial()

@@ -1,3 +1,4 @@
+date_time_format=MM/dd/yyyy HH:mm:ss
 input
     ui
         confirm=Confirm
@@ -50,4 +51,13 @@ ui
             4=This game still in development, but we hope you enjoy it :)
     quit
         title=Quit to Menu
-        message=Are you sure that you want to quit to menu?
+        message=Are you sure that you want to quit to menu?  
+    saves=Saves
+        slot_0=Save Slot #1
+        slot_1=Save Slot #2  
+        slot_2=Save Slot #3 
+        empty=<< Empty Slot >>
+        alert
+            title=Delete Save?
+            content=Are you sure that you want do delete save data?
+        

@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Refactor.Interface.Windows;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -79,7 +80,8 @@ namespace Refactor.Interface
             base.Update();
             
             if(CurrentControlScheme == ControlScheme.Desktop)
-                canvas.SetCurrentWidget(null);
+                if(canvas.currentWindow == null || canvas.currentWindow is not SaveWindow)
+                    canvas.SetCurrentWidget(null);
             
             var readInputXY = inputMove.ReadValue<Vector2>();
             var readInputStart = inputStart.ReadValue<float>() > 0;

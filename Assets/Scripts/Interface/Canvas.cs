@@ -20,7 +20,7 @@ namespace Refactor.Interface
         [SerializeField]
         protected List<Window> openWindows = new();
         [SerializeField]
-        private Window currentWindow;
+        public Window currentWindow;
         [SerializeField]
         private Widget currentWidget;
         [SerializeField]
