@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using Refactor.Interface.Widgets;
+using TMPro;
 using UnityEngine;
 #if UNITY_EDITOR
 using UnityEditor;
@@ -16,6 +17,7 @@ namespace Refactor.Interface.Windows
         public Window windowCredits;
         public Window windowSave;
         public Widget[] widgets;
+        public TMP_Text labelController;
 
         public void PlayGame()
         {
@@ -60,7 +62,13 @@ namespace Refactor.Interface.Windows
         {
             canvas.CloseThenOpen(this, windowCredits);
         }
-        
+
+        protected override void Update()
+        {
+            base.Update();
+            labelController.gameObject.SetActive(GameInput.CurrentControlScheme == GameInput.ControlScheme.Desktop);
+        }
+
         public override Widget GetFirstWidget() => widgets[0];
 
         public override bool DoAction(InterfaceAction action)
