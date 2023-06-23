@@ -2,7 +2,7 @@
 using Unity.VisualScripting;
 using UnityEngine;
 
-namespace Refactor.Interface.Misc
+namespace Refactor.Interface
 {
     [RequireComponent(typeof(CanvasGroup))]
     public class ClosableCanvasGroup : MonoBehaviour

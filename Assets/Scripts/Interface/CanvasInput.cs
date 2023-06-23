@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using Refactor.Interface.Widgets;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.DualShock;
@@ -11,7 +12,6 @@ namespace Refactor.Interface
     {
         public static ControlScheme controlScheme = ControlScheme.Desktop;
         public static Action<ControlScheme> OnChangeControlScheme;
-
         
         public class InterfaceActionState
         {
@@ -90,6 +90,9 @@ namespace Refactor.Interface
                     SetControlScheme(ControlScheme.Desktop);
                     break;
             }
+            
+            if(controlScheme == ControlScheme.Desktop)
+                canvas.SetCurrentWidget(null);
             
             var readInputXY = inputMove.ReadValue<Vector2>();
             var readInputYes = inputConfirm.ReadValue<float>() > 0;

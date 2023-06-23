@@ -1,12 +1,11 @@
 using DG.Tweening;
+using Refactor;
 using Unity.Mathematics;
-using Unity.VisualScripting;
-using UnityEngine;
-
-#if UNITY_EDITOR
 using UnityEditor;
-#endif
-namespace Refactor.Interface
+using UnityEngine;
+using UnityEngine.UI;
+
+namespace Refactor.Interface.Widgets
 {
     public class TabWidget : Widget
     {
@@ -99,6 +98,9 @@ namespace Refactor.Interface
             
             if (open)
             {
+                var scrollRect = rt.gameObject.GetComponentInChildren<ScrollRect>();
+                if (scrollRect != null)
+                    scrollRect.verticalNormalizedPosition = 1;
                 rt.SetSiblingIndex(1);
                 cg.alpha = 0;
                 rt.gameObject.SetActive(true);

@@ -1,5 +1,7 @@
+using System;
 using System.Collections.Generic;
-using UnityEditor.PackageManager;
+using System.Linq;
+using Refactor.Interface.Widgets;
 using UnityEngine;
 
 namespace Refactor.Interface.Windows
@@ -19,40 +21,28 @@ namespace Refactor.Interface.Windows
                 case InterfaceAction.TriggerRight:
                     tab.NextTab();
                     return true;
-                
+
                 case InterfaceAction.MoveDown:
-                    if (canvas.GetCurrentWidget() != null)
-                    {
-                        List<Widget> widgets = new List<Widget>();
-                        foreach(Transform t in canvas.GetCurrentWidget().transform.parent)
-                        {
-                            var w = t.GetComponent<Widget>();
-                            if(t == null) continue;
-                            widgets.Add(w);
-                        }
+                {
+                    if (canvas.GetCurrentWidget() == null) return true;
+                    var widgets = (from Transform t in canvas.GetCurrentWidget().transform.parent select t.GetComponent<Widget>() into w where w != null select w).ToList();
 
-                        var i = (widgets.IndexOf(canvas.GetCurrentWidget()) + 1)%widgets.Count;
-                        canvas.SetCurrentWidget(widgets[i]);
-                    }
+                    var i = (widgets.IndexOf(canvas.GetCurrentWidget()) + 1)%widgets.Count;
+                    canvas.SetCurrentWidget(widgets[i]);
                     return true;
-                
+                }
+
                 case InterfaceAction.MoveUp:
-                    if(canvas.GetCurrentWidget() != null)
-                    {
-                        List<Widget> widgets = new List<Widget>();
-                        foreach(Transform t in canvas.GetCurrentWidget().transform.parent)
-                        {
-                            var w = t.GetComponent<Widget>();
-                            if(t == null) continue;
-                            widgets.Add(w);
-                        }
+                {
+                    if (canvas.GetCurrentWidget() == null) return true;
+                    var widgets = (from Transform t in canvas.GetCurrentWidget().transform.parent select t.GetComponent<Widget>() into w where w != null select w).ToList();
 
-                        var i = (widgets.IndexOf(canvas.GetCurrentWidget()) - 1);
-                        if (i < 0) i = widgets.Count - 1;
-                        canvas.SetCurrentWidget(widgets[i]);
-                    }
+                    var i = (widgets.IndexOf(canvas.GetCurrentWidget()) - 1);
+                    if (i < 0) i = widgets.Count - 1;
+                    canvas.SetCurrentWidget(widgets[i]);
                     return true;
-                
+                }
+
                 default:
                     return base.DoAction(action);
             }

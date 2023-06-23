@@ -1,9 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using Unity.VisualScripting;
+using Refactor.Interface.Widgets;
+using Refactor.Interface.Windows;
 using UnityEngine;
 using UnityEngine.Serialization;
+using UnityEngine.UI;
 
 namespace Refactor.Interface
 {
@@ -21,6 +23,8 @@ namespace Refactor.Interface
         private Window currentWindow;
         [SerializeField]
         private Widget currentWidget;
+        [SerializeField]
+        private ScrollRect currentWidgetScrollRect;
 
         public void AddActiveWindow(Window window)
         {
@@ -57,6 +61,7 @@ namespace Refactor.Interface
             else
             {
                 currentWidget = widget;
+                currentWidgetScrollRect = currentWidget.GetComponentInParent<ScrollRect>();
                 UpdateBindingActions();
             }
         }
@@ -80,7 +85,7 @@ namespace Refactor.Interface
             else
                 bindingDisplayGroup.gameObject.SetActive(true);
             
-            var dt = Time.deltaTime * 32f;
+            var deltaTime = Time.deltaTime;
             if (currentWidget == null)
             {
                 selectionDisplay.position = new Vector3(Screen.width / 2f, Screen.height / 2f, 0);
@@ -111,10 +116,22 @@ namespace Refactor.Interface
                             selectionDisplay.sizeDelta = selectionDisplay.sizeDelta;
                         }
 
-                        selectionDisplay.position = Vector3.Lerp(selectionDisplay.position, rt.position, dt);
-                        selectionDisplay.sizeDelta = Vector2.Lerp(selectionDisplay.sizeDelta, rt.sizeDelta, dt);
+                        selectionDisplay.position = Vector3.Lerp(selectionDisplay.position, rt.position, deltaTime * 32);
+                        selectionDisplay.sizeDelta = Vector2.Lerp(selectionDisplay.sizeDelta, rt.sizeDelta, deltaTime * 32);
                         
                         selectionDisplay.gameObject.SetActive(true);
+                        
+                        //Scroll
+                        if (currentWidgetScrollRect != null)
+                        {
+                            var offset = new Vector3(0, 200, 0);
+                            var target = currentWidget.rectTransform;
+                            var newAnchor = (Vector2)currentWidgetScrollRect.transform.InverseTransformPoint(currentWidgetScrollRect.content.position)
+                                            - (Vector2)currentWidgetScrollRect.transform.InverseTransformPoint(target.position + offset);
+                            currentWidgetScrollRect.content.anchoredPosition = Vector2.Lerp(
+                                currentWidgetScrollRect.content.anchoredPosition, newAnchor, deltaTime * 32f);
+
+                        }
                     }
                 }
             }

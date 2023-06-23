@@ -1,9 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using Unity.Mathematics;
 using UnityEngine;
+using Canvas = Refactor.Interface.Canvas;
 
-namespace Refactor.Interface
+namespace Refactor.Interface.Widgets
 {
     public enum InterfaceAction
     {
@@ -25,9 +25,6 @@ namespace Refactor.Interface
     public class Widget : MonoBehaviour
     {
         public static readonly List<Widget> Widgets = new();
-        
-        [Header("SETTINGS")]
-        public bool isNavigableTarget = false;
         
         [HideInInspector, SerializeField]
         private RectTransform _rectTransform;
@@ -64,6 +61,7 @@ namespace Refactor.Interface
         }
 
         #region Navigation
+        /*
         public Widget GetNextNavigable(Vector2 direction)
         {
             Widget min = null;
@@ -93,6 +91,7 @@ namespace Refactor.Interface
 
             return min;
         }
+        */
         #endregion
     }
 }
