@@ -101,13 +101,9 @@ namespace Refactor.Interface
             
             var now = Time.time;
 
-            _HandleInput(readInputXY, InterfaceAction.MoveRight, InterfaceAction.MoveLeft, InterfaceAction.MoveUp,
+            _HandleInputXY(readInputXY, InterfaceAction.MoveRight, InterfaceAction.MoveLeft, InterfaceAction.MoveUp,
                 InterfaceAction.MoveDown, now);
-            //_HandleInput(readInputXY.y > 0.15f, InterfaceAction.MoveUp, now);
-            //_HandleInput(readInputXY.y < -0.15f, InterfaceAction.MoveDown, now);
-            //_HandleInput(readInputXY.x > 0.15f, InterfaceAction.MoveRight, now);
-            //_HandleInput(readInputXY.x < -0.15f, InterfaceAction.MoveLeft, now);
-            
+ 
             _HandleInput(readInputYes, InterfaceAction.Confirm, now);
             _HandleInput(readInputNo, InterfaceAction.Cancel, now);
                 
@@ -140,7 +136,7 @@ namespace Refactor.Interface
             }
         }
         
-        private void _HandleInput(Vector2 value, InterfaceAction a, InterfaceAction b, InterfaceAction c, InterfaceAction d, float now)
+        private void _HandleInputXY(Vector2 value, InterfaceAction a, InterfaceAction b, InterfaceAction c, InterfaceAction d, float now)
         {
             var state = _actionStates.GetValueOrDefault(a);
             if (state == null)
