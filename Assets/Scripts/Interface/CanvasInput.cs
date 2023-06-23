@@ -25,25 +25,14 @@ namespace Refactor.Interface
         ActionForth,
     }
     
-    public class CanvasInput : MonoBehaviour
+    public class CanvasInput : Singleton<CanvasInput>
     {
-        public static ControlScheme controlScheme = ControlScheme.Desktop;
-        public static Action<ControlScheme> OnChangeControlScheme;
-        
-        public class InterfaceActionState
+        private class InterfaceActionState
         {
             public float NextTime = 0;
             public int Streak = 0;
         }
-
-        public enum ControlScheme
-        {
-            Desktop,
-            Gamepad,
-            Xbox,
-            Playstation
-        }
-
+        
         [Header("SETTINGS")] 
         public float delaySecondInput = 0.5f;
 
@@ -59,7 +48,7 @@ namespace Refactor.Interface
         public InputAction inputThird;
         public InputAction inputForth;
         
-        public void OnEnable()
+        protected override void OnEnable()
         {
             inputMove.Enable();
             inputConfirm.Enable();
@@ -67,16 +56,10 @@ namespace Refactor.Interface
             inputTrigger.Enable();
             inputThird.Enable();
             inputForth.Enable();
-
-            Invoke(nameof(ReloadScheme), 0.1f);
         }
+        
 
-        public void ReloadScheme()
-        {
-            OnChangeControlScheme?.Invoke(controlScheme);
-        }
-
-        private void OnDisable()
+        protected override void OnDisable()
         {
             inputMove.Disable();
             inputConfirm.Disable();
@@ -85,36 +68,11 @@ namespace Refactor.Interface
             inputThird.Disable();
             inputForth.Disable();
         }
-
-        private void SetControlScheme(ControlScheme scheme)
-        {
-            if (scheme == controlScheme) return;
-
-            controlScheme = scheme;
-            ReloadScheme();
-        }
         
         private void Update()
         {
-            var gamepad = Gamepad.current;
             
-            switch (gamepad)
-            {
-                case XInputController:
-                    SetControlScheme(ControlScheme.Xbox);
-                    break;
-                case DualShockGamepad:
-                    SetControlScheme(ControlScheme.Playstation);
-                    break;
-                case not null:
-                    SetControlScheme(ControlScheme.Gamepad);
-                    break;
-                default:
-                    SetControlScheme(ControlScheme.Desktop);
-                    break;
-            }
-            
-            if(controlScheme == ControlScheme.Desktop)
+            if(GameInput.CurrentControlScheme == GameInput.ControlScheme.Desktop)
                 canvas.SetCurrentWidget(null);
             
             var readInputXY = inputMove.ReadValue<Vector2>();

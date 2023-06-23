@@ -4,12 +4,13 @@ using UnityEngine;
 
 namespace Refactor.Data
 {
-    public class SettingsLoader : MonoBehaviour
+    public class SettingsLoader : Singleton<SettingsLoader>
     {
         public Settings settings;
 
-        public void OnEnable()
+        protected override void OnEnable()
         {
+            base.OnEnable();
             settings.Load();
             settings.variableLanguage.onChanged.AddListener(_OnChangedLanguageSelector);
             settings.variableGraphicsQuality.onChanged.AddListener(_OnChangedGraphicsQuality);
@@ -18,8 +19,9 @@ namespace Refactor.Data
             _OnChangedGraphicsQuality();
         }
 
-        private void OnDisable()
+        protected override void OnDisable()
         {
+            base.OnDisable();
             settings.variableLanguage.onChanged.RemoveListener(_OnChangedLanguageSelector);
             settings.variableGraphicsQuality.onChanged.RemoveListener(_OnChangedGraphicsQuality);
         }

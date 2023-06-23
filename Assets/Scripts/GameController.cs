@@ -2,12 +2,16 @@
 using Refactor.Data.Variables;
 using Refactor.Entities;
 using Refactor.Entities.Modules;
+using Refactor.Interface;
 using Refactor.Props;
 using UnityEngine;
+using UnityEngine.InputSystem;
+using UnityEngine.InputSystem.DualShock;
+using UnityEngine.InputSystem.XInput;
 
 namespace Refactor
 {
-    public class GameController : MonoBehaviour
+    public class GameController : Singleton<GameController>
     {
         [Header("REFERENCES")]
         public Entity player;
@@ -19,10 +23,10 @@ namespace Refactor
             foreach(var v in toReset)
                 v.Reset();
         }
-
         
-        public void OnEnable()
+        protected override void OnEnable()
         {
+            base.OnEnable();
             if (player != null)
             {
                 _interactionPlayerModule = player.GetModule<InteractionEntityModule>();
@@ -30,7 +34,7 @@ namespace Refactor
                     InvokeRepeating(nameof(UpdateInteractibles), 0f, 0.1f);
             }
         }
-
+        
         public void UpdateInteractibles()
         {
             Interactible min = null;

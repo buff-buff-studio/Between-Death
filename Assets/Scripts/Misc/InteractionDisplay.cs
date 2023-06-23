@@ -1,4 +1,5 @@
-﻿using Unity.VisualScripting;
+﻿using Refactor.Interface;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -9,10 +10,18 @@ namespace Refactor.Misc
         private Transform _camera;
         public Image interactionProgress;
         public float progress = 0f;
+        public Image imageSprite;
+        public BindingDisplay.SpritePalette palette;
         
         private void OnEnable()
         {
             _camera = Camera.main!.transform;
+            //CanvasInput.controlScheme
+        }
+
+        private void _ReloadSprite()
+        {
+            
         }
 
         public void Update()
