@@ -12,7 +12,7 @@ namespace Refactor.Interface
         
         public override void CallAction(InterfaceAction action)
         {
-            if (action is InterfaceAction.Cancel && openWindows.Count == 0)
+            if (action is InterfaceAction.Start && ingameGameInput.canInput)
             {
                 quitDialogWindow.Open();
                 ingameGameInput.canInput = false;
@@ -36,8 +36,14 @@ namespace Refactor.Interface
 
         public void CloseQuitGame()
         {
-            ingameGameInput.canInput = true;
             quitDialogWindow.Close();
+            StartCoroutine(_CloseQuitGame());
+        }
+        
+        private IEnumerator _CloseQuitGame()
+        {
+            yield return new WaitForSeconds(0.5f);
+            ingameGameInput.canInput = true;
         }
     }
 }

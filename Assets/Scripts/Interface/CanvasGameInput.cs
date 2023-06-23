@@ -6,6 +6,8 @@ namespace Refactor.Interface
 {
     public enum InterfaceAction
     {
+        Start,
+        
         Confirm,
         Cancel,
         
@@ -37,6 +39,7 @@ namespace Refactor.Interface
         private readonly Dictionary<InterfaceAction, InterfaceActionState> _actionStates = new();
 
         [Header("INPUT")] 
+        public InputAction inputStart;
         public InputAction inputMove;
         public InputAction inputConfirm;
         public InputAction inputCancel;
@@ -52,6 +55,7 @@ namespace Refactor.Interface
             inputTrigger.Enable();
             inputThird.Enable();
             inputForth.Enable();
+            inputStart.Enable();
             
             base.OnEnable();
         }
@@ -65,6 +69,7 @@ namespace Refactor.Interface
             inputTrigger.Disable();
             inputThird.Disable();
             inputForth.Disable();
+            inputStart.Disable();
             
             base.OnDisable();
         }
@@ -77,6 +82,7 @@ namespace Refactor.Interface
                 canvas.SetCurrentWidget(null);
             
             var readInputXY = inputMove.ReadValue<Vector2>();
+            var readInputStart = inputStart.ReadValue<float>() > 0;
             var readInputYes = inputConfirm.ReadValue<float>() > 0;
             var readInputNo = inputCancel.ReadValue<float>() > 0;
             var readInputTrigger = inputTrigger.ReadValue<float>();
@@ -97,6 +103,7 @@ namespace Refactor.Interface
             
             _HandleInput(readInputThird, InterfaceAction.ActionThird, now);
             _HandleInput(readInputForth, InterfaceAction.ActionForth, now);
+            _HandleInput(readInputStart, InterfaceAction.Start, now);
         }
         
         

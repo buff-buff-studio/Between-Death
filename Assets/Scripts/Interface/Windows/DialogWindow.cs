@@ -19,7 +19,7 @@ namespace Refactor.Interface.Windows
 
         public override Widget GetFirstWidget()
         {
-            return widgets[0];
+            return null;
         }
 
         public override void Open()

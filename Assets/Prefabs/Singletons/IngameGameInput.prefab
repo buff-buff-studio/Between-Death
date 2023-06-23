@@ -30,7 +30,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 6
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &4815472593131307393
 MonoBehaviour:
@@ -47,6 +47,31 @@ MonoBehaviour:
   delaySecondInput: 0.5
   delayNextInputs: 0.125
   canvas: {fileID: 0}
+  inputStart:
+    m_Name: Input Start
+    m_Type: 0
+    m_ExpectedControlType: 
+    m_Id: 893d96b3-1bf0-4ac1-94e0-97b31770369a
+    m_Processors: 
+    m_Interactions: 
+    m_SingletonActionBindings:
+    - m_Name: 
+      m_Id: c427a3e7-bbaa-483d-9cea-0be3dd652a14
+      m_Path: <Keyboard>/escape
+      m_Interactions: 
+      m_Processors: 
+      m_Groups: 
+      m_Action: Input Start
+      m_Flags: 0
+    - m_Name: 
+      m_Id: bc442e1f-6e63-45f3-8eb9-2ea74eb2086f
+      m_Path: <Gamepad>/start
+      m_Interactions: 
+      m_Processors: 
+      m_Groups: 
+      m_Action: Input Start
+      m_Flags: 0
+    m_Flags: 0
   inputMove:
     m_Name: Input
     m_Type: 0
