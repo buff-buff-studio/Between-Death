@@ -7,8 +7,6 @@ namespace Refactor.Tutorial
 {
     public class TutorialController : MonoBehaviour
     {
-        
-        
         [Header("STEPS")]
         public TutorialStep[] steps;
 

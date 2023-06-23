@@ -55,5 +55,10 @@ namespace Refactor
 
             _interactionPlayerModule.currentInteractible = min;
         }
+        
+        public void Quit()
+        {
+            LoadingScreen.LoadScene("Scene/Menu");
+        }
     }
 }

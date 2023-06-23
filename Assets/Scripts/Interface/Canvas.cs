@@ -18,7 +18,7 @@ namespace Refactor.Interface
         [FormerlySerializedAs("currentWindows")]
         [Header("STATE")]
         [SerializeField]
-        private List<Window> openWindows = new();
+        protected List<Window> openWindows = new();
         [SerializeField]
         private Window currentWindow;
         [SerializeField]
@@ -80,11 +80,14 @@ namespace Refactor.Interface
 
         public void Update()
         {
-            if(currentWindow != null)
-                bindingDisplayGroup.gameObject.SetActive(currentWindow.readyForInput);
-            else
-                bindingDisplayGroup.gameObject.SetActive(true);
-            
+            if (bindingDisplayGroup != null)
+            {
+                if (currentWindow != null)
+                    bindingDisplayGroup.gameObject.SetActive(currentWindow.readyForInput);
+                else
+                    bindingDisplayGroup.gameObject.SetActive(true);
+            }
+
             var deltaTime = Time.deltaTime;
             if (currentWidget == null)
             {
@@ -150,7 +153,7 @@ namespace Refactor.Interface
             }
         }
         
-        public void CallAction(InterfaceAction action)
+        public virtual void CallAction(InterfaceAction action)
         {
             var nnw = currentWindow != null;
             if (nnw && !currentWindow.readyForInput) return;
