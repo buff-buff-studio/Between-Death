@@ -5,20 +5,27 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="af9a6182-d03c-4121-80f8-9c6044ceb1d2" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/Assets/Scripts/GameInput.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Scripts/GameInput.cs.meta" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Singleton.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Singleton.cs.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Prefabs/Singletons.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scripts/IngameGameInput.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scripts/IngameGameInput.cs.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Sprites/Ring.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Sprites/Ring.png.meta" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.ti-2023-rebirth/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.ti-2023-rebirth/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Resources/Languages/EnUS.txt" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Resources/Languages/EnUS.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Prefabs/Interface/BindingDisplayGroup.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Prefabs/Interface/BindingDisplayGroup.prefab" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Prefabs/Interface/InteractionDisplay.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Prefabs/Interface/InteractionDisplay.prefab" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scenes/Game_Playground.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/Game_Playground.unity" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scenes/Menu.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/Menu.unity" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scenes/Tutorial.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/Tutorial.unity" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Data/SettingsLoader.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Data/SettingsLoader.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/GameController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/GameController.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Entities/Modules/InteractionEntityModule.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Entities/Modules/InteractionEntityModule.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Entities/Modules/PlayerAttackEntityModule.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Entities/Modules/PlayerAttackEntityModule.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Entities/Modules/PlayerControllerEntityModule.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Entities/Modules/PlayerControllerEntityModule.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/GameInput.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/GameInput.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scripts/Interface/BindingDisplay.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Interface/BindingDisplay.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Interface/CanvasInput.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Interface/CanvasInput.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Interface/CanvasInput.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Interface/CanvasGameInput.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Interface/CanvasInput.cs.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Interface/CanvasGameInput.cs.meta" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scripts/Misc/InteractionDisplay.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Misc/InteractionDisplay.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Misc/OrbitCamera.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Misc/OrbitCamera.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Singleton.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Singleton.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/UserSettings/EditorUserSettings.asset" beforeDir="false" afterPath="$PROJECT_DIR$/UserSettings/EditorUserSettings.asset" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -41,6 +48,7 @@
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/6c9b376c3fca40b787e8c1a2133bf243171a00/87/994ce2f2/Object.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/6c9b376c3fca40b787e8c1a2133bf243171a00/bc/66a064d6/Behaviour.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/f942ac1a0e36493c88c6d7ed3b664d7d14ec18/c7/a12b0e2c/GameObject.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/3ea01e77be99618395f448b16bd7cc2bd4248bd9e5d8474964b2d97f39c5d74/System.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/Interface/Widgets/Widget.cs" root0="FORCE_HIGHLIGHTING" />
   </component>
   <component name="MarkdownSettingsMigration">
@@ -137,7 +145,7 @@
       <workItem from="1687457406056" duration="5281000" />
       <workItem from="1687473747207" duration="14969000" />
       <workItem from="1687492823239" duration="1082000" />
-      <workItem from="1687528551122" duration="3547000" />
+      <workItem from="1687528551122" duration="7574000" />
     </task>
     <servers />
   </component>

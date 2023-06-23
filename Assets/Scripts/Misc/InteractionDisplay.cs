@@ -1,4 +1,5 @@
-﻿using Refactor.Interface;
+﻿using System;
+using Refactor.Interface;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
@@ -16,12 +17,18 @@ namespace Refactor.Misc
         private void OnEnable()
         {
             _camera = Camera.main!.transform;
-            //CanvasInput.controlScheme
+            GameInput.OnChangeControlScheme += _ReloadSprite;
+            _ReloadSprite();
+        }
+
+        private void OnDisable()
+        {
+            GameInput.OnChangeControlScheme -= _ReloadSprite;
         }
 
         private void _ReloadSprite()
         {
-            
+            imageSprite.sprite = palette.GetSprite(GameInput.CurrentControlScheme);
         }
 
         public void Update()

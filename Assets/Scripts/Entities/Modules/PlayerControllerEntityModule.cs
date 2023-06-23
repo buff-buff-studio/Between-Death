@@ -128,7 +128,7 @@ namespace Refactor.Entities.Modules
 
         public void Handle__ChangeElement()
         {
-            if (Input.GetKeyDown(KeyCode.E) && entity.isGrounded)
+            if (IngameGameInput.InputChangeElement.trigger && entity.isGrounded)
             {
                 entity.velocity = Vector3.zero;
                 
@@ -173,7 +173,7 @@ namespace Refactor.Entities.Modules
         
         public void Handle__Dash()
         {
-            if (Input.GetKeyDown(KeyCode.Q) && entity.element == Element.Chaos)
+            if (IngameGameInput.InputDash.trigger && entity.element == Element.Chaos)
             {
                 state = PlayerState.Dashing;
                 entity.StartCoroutine(_Handle__Dash_Coroutine());
@@ -183,7 +183,9 @@ namespace Refactor.Entities.Modules
         private IEnumerator _Handle__Dash_Coroutine()
         {
             #region Inputs
-            var inputMove = new Vector3(Input.GetAxisRaw("Horizontal"), 0, Input.GetAxisRaw("Vertical")).normalized;
+
+            var inputMove2 = IngameGameInput.InputMove;
+            var inputMove = new Vector3(inputMove2.x, 0, inputMove2.y).normalized;
             if(useCameraView)
                 inputMove = Quaternion.Euler(0, camera.transform.eulerAngles.y, 0) * inputMove;
             if (inputMove.magnitude < 0.15f)
@@ -222,7 +224,8 @@ namespace Refactor.Entities.Modules
             rigIdle.value = rigLean.value = 0;
             
             #region Inputs
-            var inputMove = new Vector3(Input.GetAxisRaw("Horizontal"), 0, Input.GetAxisRaw("Vertical")).normalized;
+            var inputMove2 = IngameGameInput.InputMove;
+            var inputMove = new Vector3(inputMove2.x, 0, inputMove2.y).normalized;
             if(useCameraView)
                 inputMove = Quaternion.Euler(0, camera.transform.eulerAngles.y, 0) * inputMove;
             #endregion
@@ -275,15 +278,16 @@ namespace Refactor.Entities.Modules
             #endregion
 
             #region Inputs
-            var inputMove = new Vector3(Input.GetAxisRaw("Horizontal"), 0, Input.GetAxisRaw("Vertical")).normalized;
+            var inputMove2 = IngameGameInput.InputMove;
+            var inputMove = new Vector3(inputMove2.x, 0, inputMove2.y).normalized;
             if(useCameraView)
                 inputMove = Quaternion.Euler(0, camera.transform.eulerAngles.y, 0) * inputMove;
-            var inputRunning = Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.LeftControl);
-            var inputJumping = Input.GetKeyDown(KeyCode.Space);
+            var inputRunning = IngameGameInput.InputRunning;
+            var inputJumping = IngameGameInput.InputJump;
             #endregion
 
             #region Jump
-            if (inputJumping && entity.isGrounded)
+            if (inputJumping.trigger && entity.isGrounded)
             {
                 entity.velocity.y = 8f;
             }
@@ -320,7 +324,7 @@ namespace Refactor.Entities.Modules
             #region Animations
             var animWalking = animator.GetFloat("walking");
             animator.SetFloat("turning", math.lerp(animator.GetFloat("turning"), math.clamp(math.abs(deltaAngle) < 25f ? 0 : deltaAngle/30f, -1f, 1f), deltaTime * 8f));
-            animator.SetFloat("walking", math.lerp(animWalking, isMoving ? (inputRunning ? 1 : 0.5f) : 0, deltaTime * 2f));
+            animator.SetFloat("walking", math.lerp(animWalking, isMoving ? (inputRunning.value ? 1 : 0.5f) : 0, deltaTime * 2f));
             
             if((animWalking > 0.5f && Time.time > lastWalkingInput + 0.2f)) 
                 animator.CrossFade("Stop", 0.2f);

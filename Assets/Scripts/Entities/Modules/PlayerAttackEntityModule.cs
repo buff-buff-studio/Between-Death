@@ -80,11 +80,11 @@ namespace Refactor.Entities.Modules
         {
             if (!canAttack)
                 return;
-            
-            var attackLeft = Input.GetMouseButtonDown(0);
-            var attackRight = Input.GetMouseButtonDown(1);
-            var isAttacking = attackLeft || attackRight;
 
+            var attackLeft = IngameGameInput.InputAttack0.trigger;
+            var attackRight = IngameGameInput.InputAttack1.trigger;
+            var isAttacking = attackLeft || attackRight;
+            
             if (!isAttacking) return;
 
             if (state != PlayerState.Attacking)
@@ -168,7 +168,8 @@ namespace Refactor.Entities.Modules
                 {
                     combo.OnStart(entity);
       
-                    var inputMove = new Vector3(Input.GetAxisRaw("Horizontal"), 0, Input.GetAxisRaw("Vertical")).normalized;
+                    var inputMove2 = IngameGameInput.InputMove;
+                    var inputMove = new Vector3(inputMove2.x, 0, inputMove2.y).normalized;
                     if(_controllerEntity.useCameraView)
                         inputMove = Quaternion.Euler(0, _controllerEntity.camera.transform.eulerAngles.y, 0) * inputMove;
                     

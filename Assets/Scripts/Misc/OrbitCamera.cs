@@ -39,12 +39,16 @@ namespace Refactor.Misc
             var deltaTime = Time.deltaTime;
             var t = transform;
             var d = distance;
+            var ms = mouseSensibility;
+            if (GameInput.CurrentControlScheme is GameInput.ControlScheme.Desktop)
+                ms *= 0.25f;
 
             #region Input
             if (Cursor.lockState == CursorLockMode.Locked)
             {
-                rotation.y += Input.GetAxisRaw("Mouse X") * mouseSensibility;
-                rotation.x = math.clamp(rotation.x + Input.GetAxisRaw("Mouse Y") * mouseSensibility, -89f, 89f);
+                var mouseInput = IngameGameInput.InputCamera;
+                rotation.y += mouseInput.x * ms;
+                rotation.x = math.clamp(rotation.x + mouseInput.y * ms, -89f, 89f);
             }
             #endregion
 

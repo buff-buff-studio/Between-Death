@@ -50,7 +50,7 @@ namespace Refactor.Entities.Modules
 
             Interactible frameInteractible = null;
 
-            if (Input.GetKey(KeyCode.I))
+            if (IngameGameInput.InputInteract.value)
             {
                 if (currentInteractible != null && currentInteractible.enabled)
                 {

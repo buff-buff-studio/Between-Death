@@ -15,8 +15,9 @@ namespace Refactor
             
             if (_instance != null) return _instance;
             
-            var go = new GameObject($"Singleton:{typeof(T).Name}");
+            var go = new GameObject("");
             _instance = go.AddComponent<T>();
+            go.name = $"Singleton:{_instance.GetType().Name}";
 
             return _instance;
         }
@@ -32,7 +33,7 @@ namespace Refactor
             else
                 _instance = (T) this;
 
-            gameObject.name = $"Singleton:{typeof(T).Name}";
+            gameObject.name = $"Singleton:{GetType().Name}";
         }
 
         protected virtual void OnDisable()

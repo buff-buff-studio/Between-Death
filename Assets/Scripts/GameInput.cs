@@ -8,7 +8,7 @@ namespace Refactor
     public class GameInput : Singleton<GameInput>
     {
         public static ControlScheme CurrentControlScheme = ControlScheme.Desktop;
-        public static Action<ControlScheme> OnChangeControlScheme;
+        public static Action OnChangeControlScheme;
         
         public enum ControlScheme
         {
@@ -26,7 +26,7 @@ namespace Refactor
         
         public void ReloadScheme()
         {
-            OnChangeControlScheme?.Invoke(CurrentControlScheme);
+            OnChangeControlScheme?.Invoke();
         }
         
         private void SetControlScheme(ControlScheme scheme)
@@ -37,7 +37,7 @@ namespace Refactor
             ReloadScheme();
         }
 
-        private void Update()
+        protected virtual void Update()
         {
             var gamepad = Gamepad.current;
             

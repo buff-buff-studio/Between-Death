@@ -23,6 +23,17 @@ namespace Refactor.Interface
             public Sprite gamepad;
             public Sprite xbox;
             public Sprite playstation;
+
+            public Sprite GetSprite(GameInput.ControlScheme scheme)
+            {
+                return scheme switch
+                {
+                    GameInput.ControlScheme.Xbox => xbox,
+                    GameInput.ControlScheme.Playstation => playstation,
+                    GameInput.ControlScheme.Gamepad => gamepad,
+                    _ => desktop
+                };
+            }
         }
 
         public Image displayImage;
@@ -34,7 +45,7 @@ namespace Refactor.Interface
         {
             LanguageManager.onLanguageChanged += _ReloadLabel;
 
-            _ReloadSprite(GameInput.CurrentControlScheme);
+            _ReloadSprite();
             _ReloadLabel(null);
             GameInput.OnChangeControlScheme += _OnChangeControlScheme;
         }
@@ -45,20 +56,14 @@ namespace Refactor.Interface
             GameInput.OnChangeControlScheme -= _OnChangeControlScheme;
         }
 
-        private void _ReloadSprite(GameInput.ControlScheme scheme)
+        private void _ReloadSprite()
         {
-            displayImage.sprite = scheme switch
-            {
-                GameInput.ControlScheme.Xbox => spritePalette.xbox,
-                GameInput.ControlScheme.Playstation => spritePalette.playstation,
-                GameInput.ControlScheme.Gamepad => spritePalette.gamepad,
-                _ => spritePalette.desktop
-            };
+            displayImage.sprite = spritePalette.GetSprite(GameInput.CurrentControlScheme);
         }
 
-        private void _OnChangeControlScheme(GameInput.ControlScheme scheme)
+        private void _OnChangeControlScheme()
         {
-            _ReloadSprite(scheme);
+            _ReloadSprite();
         }
 
         private void _ReloadLabel(LanguageManager.LanguageCache cache)
