@@ -7,8 +7,8 @@ using UnityEditor;
 
 namespace Refactor.Audio
 {
-    [CreateAssetMenu(menuName = "RPG/AudioPallete", fileName = "AudioPallete", order = 20)]
-    public class AudioPallete : ScriptableObject
+    [CreateAssetMenu(menuName = "Refactor/AudioPalette", fileName = "AudioPalette", order = 20)]
+    public class AudioPalette : ScriptableObject
     {
         #region Classes
         [Serializable]
@@ -59,7 +59,7 @@ namespace Refactor.Audio
     }
 
     #if UNITY_EDITOR
-    [CustomPropertyDrawer(typeof(AudioPallete.Audio), true)]
+    [CustomPropertyDrawer(typeof(AudioPalette.Audio), true)]
     public class VariableDrawer : PropertyDrawer
     {   
         public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)

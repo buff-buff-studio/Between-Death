@@ -8,6 +8,23 @@ using UnityEngine.InputSystem.XInput;
 
 namespace Refactor.Interface
 {
+    public enum InterfaceAction
+    {
+        Confirm,
+        Cancel,
+        
+        MoveLeft,
+        MoveRight,
+        MoveUp,
+        MoveDown,
+        
+        TriggerLeft, 
+        TriggerRight,
+        
+        ActionThird,
+        ActionForth,
+    }
+    
     public class CanvasInput : MonoBehaviour
     {
         public static ControlScheme controlScheme = ControlScheme.Desktop;
@@ -39,6 +56,8 @@ namespace Refactor.Interface
         public InputAction inputConfirm;
         public InputAction inputCancel;
         public InputAction inputTrigger;
+        public InputAction inputThird;
+        public InputAction inputForth;
         
         public void OnEnable()
         {
@@ -46,6 +65,8 @@ namespace Refactor.Interface
             inputConfirm.Enable();
             inputCancel.Enable();
             inputTrigger.Enable();
+            inputThird.Enable();
+            inputForth.Enable();
 
             Invoke(nameof(ReloadScheme), 0.1f);
         }
@@ -61,6 +82,8 @@ namespace Refactor.Interface
             inputConfirm.Disable();
             inputCancel.Disable();
             inputTrigger.Disable();
+            inputThird.Disable();
+            inputForth.Disable();
         }
 
         private void SetControlScheme(ControlScheme scheme)
@@ -99,6 +122,9 @@ namespace Refactor.Interface
             var readInputNo = inputCancel.ReadValue<float>() > 0;
             var readInputTrigger = inputTrigger.ReadValue<float>();
             
+            var readInputThird = inputThird.ReadValue<float>() > 0;
+            var readInputForth = inputForth.ReadValue<float>() > 0;
+            
             var now = Time.time;
 
             _HandleInputXY(readInputXY, InterfaceAction.MoveRight, InterfaceAction.MoveLeft, InterfaceAction.MoveUp,
@@ -106,9 +132,12 @@ namespace Refactor.Interface
  
             _HandleInput(readInputYes, InterfaceAction.Confirm, now);
             _HandleInput(readInputNo, InterfaceAction.Cancel, now);
-                
+            
             _HandleInput(readInputTrigger < -0.15f, InterfaceAction.TriggerLeft, now);
             _HandleInput(readInputTrigger > 0.15f, InterfaceAction.TriggerRight, now);
+            
+            _HandleInput(readInputThird, InterfaceAction.ActionThird, now);
+            _HandleInput(readInputForth, InterfaceAction.ActionForth, now);
         }
         
         

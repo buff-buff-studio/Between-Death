@@ -10,8 +10,9 @@ namespace Refactor.Data.Variables
     /// <summary>
     /// Base generic variable class
     /// </summary>
-    public class Variable : ScriptableObject 
+    public class Variable : ScriptableObject
     {
+        public UnityEvent onChanged;
         public virtual string ToJson()  => throw new NotImplementedException();
         public virtual void LoadFromJson(string json)  => throw new NotImplementedException();
 
@@ -80,6 +81,7 @@ namespace Refactor.Data.Variables
         public override void ForceUpdate()
         {
             onValueChanged?.Invoke(_value);
+            onChanged?.Invoke();
         }
 
         public override string ToJson()
@@ -96,6 +98,22 @@ namespace Refactor.Data.Variables
     }
 
     #if UNITY_EDITOR
+    [CustomEditor(typeof(Variable), true)]
+    public class VariableEditor : Editor
+    {
+        public override void OnInspectorGUI()
+        {
+            base.OnInspectorGUI();
+            
+            if (GUILayout.Button("Reset"))
+                (target as Variable)!.Reset();
+
+            if (GUILayout.Button("Force Update"))
+                (target as Variable)!.ForceUpdate();
+        }
+    }
+
+
     [CustomPropertyDrawer(typeof(Variable), true)]
     public class VariableDrawer : PropertyDrawer
     {   

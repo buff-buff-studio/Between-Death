@@ -137,6 +137,19 @@ namespace Refactor.Interface
             }
         }
 
+        public void CallAction(string action)
+        {
+            switch (action)
+            {
+                case "confirm":
+                    CallAction(InterfaceAction.Confirm);
+                    break;
+                case "cancel" or "close" or "back":
+                    CallAction(InterfaceAction.Cancel);
+                    break;
+            }
+        }
+        
         public void CallAction(InterfaceAction action)
         {
             var nnw = currentWindow != null;

@@ -6,6 +6,8 @@ input
         close=Close
         change_value=Change
         toggle_value=Toggle
+        reset=Reset
+        move_x=Move
 ui
     wip=<color=#ffff00>[WIP]</color>
     mm
@@ -18,8 +20,13 @@ ui
     stg
         title=Settings
         general=General
+            language=Language
         audio=Audio
+            volume_fx=FX Volume
+            volume_music=Music Volume
+            volume_general=General Volume
         graphics=Graphics
+            quality=Graphics Quality
     credits
         title=Credits
         project_manager=Project Manager
@@ -28,6 +35,11 @@ ui
         lead_artist=Lead Artist
         artist=Artist
         programmer=Programmer
+    alert
+        title=Alert
+        restoresettings=Are you sure that you want to restore the settings?
+        confirm=Confirm
+        cancel=Cancel
     loading
         loading=Loading...
         tips

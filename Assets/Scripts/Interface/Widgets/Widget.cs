@@ -5,22 +5,6 @@ using Canvas = Refactor.Interface.Canvas;
 
 namespace Refactor.Interface.Widgets
 {
-    public enum InterfaceAction
-    {
-        Confirm,
-        Cancel,
-        
-        MoveLeft,
-        MoveRight,
-        MoveUp,
-        MoveDown,
-        
-        TriggerLeft, 
-        TriggerRight,
-        
-        Start
-    }
-    
     [RequireComponent(typeof(RectTransform))]
     public class Widget : MonoBehaviour
     {

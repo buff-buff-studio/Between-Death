@@ -35,7 +35,7 @@ namespace Refactor.Interface.Windows
             canvas.RemoveActiveWindow(this);
         }
 
-        public void Open()
+        public virtual void Open()
         {
             gameObject.SetActive(true);
             readyForInput = false;
@@ -89,7 +89,7 @@ namespace Refactor.Interface.Windows
             }
         }
 
-        public void Close()
+        public virtual void Close()
         {
             var tweenId = $"window_{id}";
             DOTween.Kill(tweenId);

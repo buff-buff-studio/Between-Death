@@ -1,6 +1,6 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
+using Refactor.Data;
 using Refactor.Interface.Widgets;
 using UnityEngine;
 
@@ -8,13 +8,30 @@ namespace Refactor.Interface.Windows
 {
     public class SettingsWindow : Window
     {
-        //public Widget[] firstWidget;
         public TabWidget tab;
-        
+        public Window restoreAlert;
+        public Settings settings;
+
+        public override void Open()
+        {
+            settings.Load();
+            base.Open();
+        }
+
+        public override void Close()
+        {
+            settings.Save();
+            base.Close();
+        }
+
         public override bool DoAction(InterfaceAction action)
         {
             switch (action)
             {
+                case InterfaceAction.ActionThird:
+                    restoreAlert.Open();
+                    return true;
+                
                 case InterfaceAction.TriggerLeft:
                     tab.PrevTab();
                     return true;
@@ -46,6 +63,15 @@ namespace Refactor.Interface.Windows
                 default:
                     return base.DoAction(action);
             }
+        }
+
+        public override IEnumerable<string> GetBindingActions()
+        {
+            yield return "reset";
+            yield return "move_y";
+            
+            if (canClose)
+                yield return openOnClose == null ? "close" : "back";
         }
 
         public override Widget GetFirstWidget()

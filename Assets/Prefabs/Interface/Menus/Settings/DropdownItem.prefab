@@ -453,7 +453,7 @@ RectTransform:
   - {fileID: 7999774250597930275}
   - {fileID: 6067624502928103652}
   - {fileID: 7355437348813245710}
-  m_Father: {fileID: 8766887264369145248}
+  m_Father: {fileID: 3190199515537504804}
   m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.5}
@@ -1239,7 +1239,7 @@ PrefabInstance:
     - target: {fileID: 1017783609241661422, guid: 0b6648c8d39f5954b93ae2686a35e7f6,
         type: 3}
       propertyPath: m_Name
-      value: DropdownItem Variant
+      value: DropdownItem
       objectReference: {fileID: 0}
     - target: {fileID: 1172810512374180708, guid: 0b6648c8d39f5954b93ae2686a35e7f6,
         type: 3}
@@ -1384,8 +1384,12 @@ PrefabInstance:
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 1753569909671859257}
+    - targetCorrespondingSourceObject: {fileID: 1017783609241661422, guid: 0b6648c8d39f5954b93ae2686a35e7f6,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 6384363125704050655}
   m_SourcePrefab: {fileID: 100100000, guid: 0b6648c8d39f5954b93ae2686a35e7f6, type: 3}
---- !u!1 &5580920602864882134 stripped
+--- !u!1 &1773443751575395922 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 1017783609241661422, guid: 0b6648c8d39f5954b93ae2686a35e7f6,
     type: 3}
@@ -1397,7 +1401,7 @@ MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5580920602864882134}
+  m_GameObject: {fileID: 1773443751575395922}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c2def34450664007bd1a9fa7b2e4010e, type: 3}
@@ -1406,7 +1410,23 @@ MonoBehaviour:
   _rectTransform: {fileID: 0}
   _canvas: {fileID: 0}
   dropdown: {fileID: 6258859111246486779}
---- !u!224 &8766887264369145248 stripped
+--- !u!114 &6384363125704050655
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1773443751575395922}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6829d6ae25024c65ab2a02f8192f017e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  toggle: {fileID: 6258859111246486779}
+  value:
+    localValue: 0
+    variable: {fileID: 0}
+--- !u!224 &3190199515537504804 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 4235267046187043736, guid: 0b6648c8d39f5954b93ae2686a35e7f6,
     type: 3}
