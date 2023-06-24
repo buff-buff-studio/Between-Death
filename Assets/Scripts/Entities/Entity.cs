@@ -72,6 +72,7 @@ namespace Refactor.Entities
 
         public void Die()
         {
+            gameObject.layer = LayerMask.NameToLayer("Intangible");
             var entityModule = GetModule<EnemyControllerEntityModule>();
             if (entityModule != null)
             {

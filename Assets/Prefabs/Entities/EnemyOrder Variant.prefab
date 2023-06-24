@@ -95,6 +95,16 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1810785417488868619, guid: 139912740d4ff1b4d8699c889406f457,
         type: 3}
+      propertyPath: managedReferences[5295486037513732097].isAttacking
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1810785417488868619, guid: 139912740d4ff1b4d8699c889406f457,
+        type: 3}
+      propertyPath: managedReferences[5295486037513732097].attackTarget
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 1810785417488868619, guid: 139912740d4ff1b4d8699c889406f457,
+        type: 3}
       propertyPath: managedReferences[5295486037513732097].ikFootOffset
       value: 0.005
       objectReference: {fileID: 0}
@@ -102,6 +112,21 @@ PrefabInstance:
         type: 3}
       propertyPath: managedReferences[5295486037513732097].pelvisOffset
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1810785417488868619, guid: 139912740d4ff1b4d8699c889406f457,
+        type: 3}
+      propertyPath: managedReferences[5295486037513732097].shouldAttack
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1810785417488868619, guid: 139912740d4ff1b4d8699c889406f457,
+        type: 3}
+      propertyPath: managedReferences[5295486037513732097].goingToAttack
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1810785417488868619, guid: 139912740d4ff1b4d8699c889406f457,
+        type: 3}
+      propertyPath: managedReferences[5295486037513732097].attackDistance
+      value: 3.5
       objectReference: {fileID: 0}
     - target: {fileID: 1810785417488868619, guid: 139912740d4ff1b4d8699c889406f457,
         type: 3}
@@ -138,6 +163,12 @@ PrefabInstance:
       propertyPath: managedReferences[5295486037513732097].groundMask.m_Bits
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 1810785417488868619, guid: 139912740d4ff1b4d8699c889406f457,
+        type: 3}
+      propertyPath: managedReferences[5295486037513732097].hitParticlesPrefab
+      value: 
+      objectReference: {fileID: 8256934238815781683, guid: 93152307537c6d6429fe37b4792bf46d,
+        type: 3}
     - target: {fileID: 1810785417488868619, guid: 139912740d4ff1b4d8699c889406f457,
         type: 3}
       propertyPath: managedReferences[5295486037513732097].leftFootState.weight
@@ -455,6 +486,11 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 6874727514398577004}
     m_Modifications:
+    - target: {fileID: 596847907675746552, guid: 60b51d36e826fc84b90c3ac20f8a2004,
+        type: 3}
+      propertyPath: m_Layer
+      value: 8
+      objectReference: {fileID: 0}
     - target: {fileID: 6206423075991073775, guid: 60b51d36e826fc84b90c3ac20f8a2004,
         type: 3}
       propertyPath: m_Pivot.x
@@ -569,6 +605,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: EntityHealthDisplay
+      objectReference: {fileID: 0}
+    - target: {fileID: 8206011066006705706, guid: 60b51d36e826fc84b90c3ac20f8a2004,
+        type: 3}
+      propertyPath: m_Layer
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 8444069238595798806, guid: 60b51d36e826fc84b90c3ac20f8a2004,
+        type: 3}
+      propertyPath: m_Layer
+      value: 8
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections;
 using Refactor.Data;
+using Refactor.Misc;
 using Unity.Mathematics;
 using UnityEngine;
 using UnityEngine.AI;
+using Object = UnityEngine.Object;
 using Random = UnityEngine.Random;
 
 namespace Refactor.Entities.Modules
@@ -11,15 +13,25 @@ namespace Refactor.Entities.Modules
     [Serializable]
     public class EnemyControllerEntityModule : EntityModule
     {
+        [Header("SETTINGS")]
         public bool shouldWalk;
-        public Animator animator;
+        public bool shouldAttack;
+        public float attackDistance = 4f;
         
+        [Header("REFERENCES")]
+        public Animator animator;
+        public Transform body;
+        public Transform attackTarget;
+        public GameObject hitParticlesPrefab;
+        
+        [Header("STATE - AI")]
         public Vector3 target = Vector3.zero;
         private NavMeshPath _path;
         private int _pathIndex = 0;
         public float lastWalkingInput = 0;
-        public Transform body;
-        
+        public bool goingToAttack = false;
+        public bool isAttacking = false;
+
         [Header("SETTINGS - IK")]
         public float ikFootOffset = 0.005f;
         public float groundLeanWeight = 0.25f;
@@ -34,21 +46,32 @@ namespace Refactor.Entities.Modules
 
         public void NewTarget()
         {
-            var offset = Random.onUnitSphere;
-            target = new Vector3(Random.Range(-7f, 7f), 0, Random.Range(-7f, 7f));
-            RePath();
+            if (shouldAttack && Vector3.Distance(entity.transform.position, attackTarget.position) < attackDistance)
+            {
+                target = attackTarget.position;
+                RePath(true);
+            }
+            else
+            {
+                target = new Vector3(Random.Range(-7f, 7f), 0, Random.Range(-7f, 7f));
+                RePath(false);
+            }
         }
 
-        public void RePath()
+        public void RePath(bool isEnemy)
         {
+            goingToAttack = isEnemy;
             timeout = Random.Range(3f, 5f);
             _path ??= new NavMeshPath();
+            
             NavMesh.CalculatePath(entity.transform.position, target, NavMesh.AllAreas, _path);
             _pathIndex = 0;
         }
         
         public override void OnEnable()
         {
+            isAttacking = false;
+            goingToAttack = false;
             entity.onChangeElement.AddListener(OnChangeElement);
             NewTarget();
         }
@@ -66,7 +89,23 @@ namespace Refactor.Entities.Modules
                 entity.velocity.z = math.lerp(entity.velocity.z, 0, deltaTime * 8f);
             }
 
+            if (isAttacking)
+            {
+                animator.SetFloat("turning", 0);
+                animator.SetFloat("walking", 0);
+                var dt = Utils.GetVectorXZ(attackTarget.position - entity.transform.position);
+                var angle = Vector3.SignedAngle(Vector3.forward, dt.normalized, Vector3.up);
+
+                body.eulerAngles = new Vector3(0, Mathf.LerpAngle(body.eulerAngles.y, angle, deltaTime * 8f), 0);
+                return;
+            }
+
             var inputMove = UpdateWalk(deltaTime, out bool isRunning);
+            if (goingToAttack)
+            {
+                isRunning = Vector3.Distance(entity.transform.position, attackTarget.position) > attackDistance / 2f;
+            }
+            
             var isMoving = inputMove.magnitude > 0.15f;
             var deltaAngle = 0f;
 
@@ -105,6 +144,11 @@ namespace Refactor.Entities.Modules
                 _path = null;
                 return Vector3.zero;
             }
+            if (!goingToAttack && shouldAttack &&
+                Vector3.Distance(entity.transform.position, attackTarget.position) < attackDistance)
+            {
+                NewTarget();
+            }
             
             if (shouldWalk && _path != null && _path.status is not NavMeshPathStatus.PathInvalid)
             {
@@ -114,7 +158,13 @@ namespace Refactor.Entities.Modules
                     _path = null;
                     return Vector3.zero;
                 }
-
+                
+                if (goingToAttack && Vector3.Distance(entity.transform.position, attackTarget.position) < 1.25f)
+                {
+                    entity.StartCoroutine(_Attack());
+                    return Vector3.zero;
+                }
+                
                 var waypoint = _path.corners[_pathIndex];
                 var delta = Utils.GetVectorXZ(waypoint) - Utils.GetVectorXZ(entity.transform.position);
                 var distance = delta.magnitude;
@@ -133,10 +183,58 @@ namespace Refactor.Entities.Modules
             return Vector3.zero;
         }
 
+        private IEnumerator _Attack()
+        {
+            isAttacking = true;
+            animator.CrossFade($"Attack {Random.Range(0, 3)}", 0.25f);
+            yield return new WaitForSeconds(0.25f);
+            ApplyDamageFor(1, 2);
+            yield return new WaitForSeconds(2f);
+            isAttacking = false;
+            NewTarget();
+        }
+        
+        private void ApplyDamageFor(float damage, float radius)
+        {
+            var p = entity.transform.position;
+            var pos = p + Vector3.up;/* + _controllerEntity.body.rotation * attackOffset;*/
+            var fw = body.forward;
+            
+            foreach (var damageTarget in HealthHelper.GetTargets(pos, radius))
+            {
+                if(damageTarget.GetGameObject().transform != attackTarget) continue;
+                //if(target.GetGameObject() == entity.gameObject) continue;
+
+                var delta = (damageTarget.GetGameObject().transform.position - p);
+                var dir = delta.normalized;
+                var dot = Vector3.Dot(fw, dir);
+                if (dot < 0.1) continue;
+                
+                var hPos = (damageTarget.GetGameObject().transform.position + pos) / 2f;
+                
+                damageTarget.Damage(damage);
+                
+                if (damageTarget.health > 0 && damageTarget is HealthEntityModule module)
+                {
+                    var e = module.entity;
+                    e.velocity = dir * 4f;
+                }
+                var go = Object.Instantiate(hitParticlesPrefab, hPos, Quaternion.identity);
+                Object.Destroy(go, 2f);
+            }
+        }
+
         private IEnumerator _Next()
         {
-            yield return new WaitForSeconds(Random.Range(2f, 4f));
-            NewTarget();
+            if (shouldAttack && Vector3.Distance(entity.transform.position, attackTarget.position) < attackDistance)
+            {
+                NewTarget();
+            }
+            else
+            {
+                yield return new WaitForSeconds(Random.Range(2f, 4f));
+                NewTarget();
+            }
         }
 
         public void OnChangeElement()

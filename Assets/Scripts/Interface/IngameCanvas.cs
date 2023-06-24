@@ -27,7 +27,6 @@ namespace Refactor.Interface
             lastHealth = hlt.health;
             module.onHealthChange.AddListener((h) =>
             {
-                Debug.Log($"Changed: {h} {lastHealth}");
                 if (h < lastHealth)
                 {
                     ShowDamageEffect();
