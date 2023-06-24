@@ -727,6 +727,7 @@ Transform:
   - {fileID: 1122790721}
   - {fileID: 715882912}
   - {fileID: 8925151407264416622}
+  - {fileID: 1799792037}
   m_Father: {fileID: 0}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -3077,6 +3078,51 @@ MeshCollider:
   m_Convex: 1
   m_CookingOptions: 30
   m_Mesh: {fileID: 10206, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!1 &1799792036
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1799792037}
+  - component: {fileID: 1799792038}
+  m_Layer: 0
+  m_Name: SettingsLoader
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1799792037
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1799792036}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 141406782}
+  m_RootOrder: -1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1799792038
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1799792036}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 664cb3afefb44b8f84f5192ced2506f6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  settings: {fileID: 11400000, guid: a72fadd6b10511444bd714d13c713374, type: 2}
 --- !u!1 &1857358159
 GameObject:
   m_ObjectHideFlags: 0
@@ -3140,6 +3186,7 @@ MonoBehaviour:
     - rid: 5295485834288693249
     - rid: 5295485834288693250
   controller: {fileID: 1857358160}
+  respawnPosition: {x: 0, y: 0, z: 0}
   isGrounded: 0
   velocity: {x: 0, y: 0, z: 0}
   _element:
@@ -3206,10 +3253,16 @@ MonoBehaviour:
         editorOpen: 1
         entity: {fileID: 1857358161}
         shouldWalk: 1
+        shouldAttack: 0
+        attackDistance: 4
         animator: {fileID: 1193202828}
+        body: {fileID: 1193202826}
+        attackTarget: {fileID: 0}
+        hitParticlesPrefab: {fileID: 0}
         target: {x: 0, y: 0, z: 0}
         lastWalkingInput: 0
-        body: {fileID: 1193202826}
+        goingToAttack: 0
+        isAttacking: 0
         ikFootOffset: 0.005
         groundLeanWeight: 0.25
         pelvisOffset: 0
@@ -3629,6 +3682,7 @@ MonoBehaviour:
     - rid: 5295485834288693249
     - rid: 5295485834288693250
   controller: {fileID: 1988543403}
+  respawnPosition: {x: 0, y: 0, z: 0}
   isGrounded: 0
   velocity: {x: 0, y: 0, z: 0}
   _element:
@@ -3695,10 +3749,16 @@ MonoBehaviour:
         editorOpen: 1
         entity: {fileID: 1988543404}
         shouldWalk: 1
+        shouldAttack: 0
+        attackDistance: 4
         animator: {fileID: 175765618}
+        body: {fileID: 175765614}
+        attackTarget: {fileID: 0}
+        hitParticlesPrefab: {fileID: 0}
         target: {x: 0, y: 0, z: 0}
         lastWalkingInput: 0
-        body: {fileID: 175765614}
+        goingToAttack: 0
+        isAttacking: 0
         ikFootOffset: 0.005
         groundLeanWeight: 0.25
         pelvisOffset: 0

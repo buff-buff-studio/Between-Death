@@ -45,7 +45,7 @@ namespace Refactor
 
             foreach (var i in Interactible.Interactibles)
             {
-                var distance = Vector3.Distance(pos, i.transform.position);
+                var distance = Vector3.Distance(pos, i.transform.position + i.offset);
 
                 if (distance < i.radius && (min == null || distance < minDistance))
                 {
