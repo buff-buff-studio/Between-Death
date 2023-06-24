@@ -2,6 +2,7 @@
 using System.Collections;
 using Refactor.Data;
 using Refactor.Misc;
+using Refactor.Tutorial;
 using Unity.Mathematics;
 using UnityEngine;
 
@@ -9,7 +10,7 @@ namespace Refactor.Entities.Modules
 {
     public enum PlayerState
     {
-        Defauilt,
+        Default,
         Jumping,
         Dashing,
         Attacking,
@@ -96,7 +97,7 @@ namespace Refactor.Entities.Modules
         {
             switch (state)
             {
-                case PlayerState.Defauilt:
+                case PlayerState.Default:
                     State__Default(deltaTime);
                     Handle__Dash();
                     break;
@@ -130,6 +131,9 @@ namespace Refactor.Entities.Modules
         {
             if (Input.GetKeyDown(KeyCode.E) && entity.isGrounded)
             {
+                
+                TutorialController.Instance.OnElementChanged.Complete();
+                
                 entity.velocity = Vector3.zero;
                 
                 state = PlayerState.Casting;
@@ -163,7 +167,7 @@ namespace Refactor.Entities.Modules
                     yield return new WaitForSeconds(0.5f);
                     entity.element = (entity.element is Element.Chaos) ? Element.Order : Element.Chaos;
                     yield return new WaitForSeconds(0.75f);
-                    state = PlayerState.Defauilt;
+                    state = PlayerState.Default;
                 }
 
                 entity.StartCoroutine(Coroutine());
@@ -175,6 +179,7 @@ namespace Refactor.Entities.Modules
         {
             if (Input.GetKeyDown(KeyCode.Q) && entity.element == Element.Chaos)
             {
+                TutorialController.Instance.OnDash.Complete();
                 state = PlayerState.Dashing;
                 entity.StartCoroutine(_Handle__Dash_Coroutine());
             }
@@ -210,7 +215,7 @@ namespace Refactor.Entities.Modules
             
             
             lastGrounded = Time.time;
-            state = PlayerState.Defauilt;
+            state = PlayerState.Default;
 
             entity.velocity = inputMove;
         }
@@ -242,7 +247,7 @@ namespace Refactor.Entities.Modules
             #endregion
 
             if (entity.isGrounded)
-                state = PlayerState.Defauilt;
+                state = PlayerState.Default;
 
             animator.SetBool("grounded", entity.isGrounded);
         }
@@ -286,6 +291,7 @@ namespace Refactor.Entities.Modules
             if (inputJumping && entity.isGrounded)
             {
                 entity.velocity.y = 8f;
+                TutorialController.Instance.OnJump.Complete();
             }
             #endregion
             
@@ -295,6 +301,7 @@ namespace Refactor.Entities.Modules
             #region Rotation
             if (isMoving)
             {
+                TutorialController.Instance.OnMove.Complete();
                 lastWalkingInput = Time.time;
                 var angle = Vector3.SignedAngle(Vector3.forward, inputMove, Vector3.up);
                 deltaAngle = Mathf.DeltaAngle(body.eulerAngles.y, angle);

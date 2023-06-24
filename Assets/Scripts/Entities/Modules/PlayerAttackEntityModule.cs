@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Refactor.Data;
 using Refactor.Misc;
+using Refactor.Tutorial;
 using Unity.Mathematics;
 using UnityEngine;
 using Object = UnityEngine.Object;
@@ -146,7 +147,7 @@ namespace Refactor.Entities.Modules
             
             _currentCombo.OnEnd(entity, _currentAttack);
             canAttack = true;
-            entity.GetModule<PlayerControllerEntityModule>().state = PlayerState.Defauilt;
+            entity.GetModule<PlayerControllerEntityModule>().state = PlayerState.Default;
             _currentAttack = null;
         }
 
@@ -246,6 +247,8 @@ namespace Refactor.Entities.Modules
                 v.emitting = true;
                 v.material.SetColor("_EmissionColor", entity.element.GetColor() * 10);
             }
+            
+            TutorialController.Instance.OnCombo.Complete();
         }
 
         public bool CheckRules(AttackCombo combo)
