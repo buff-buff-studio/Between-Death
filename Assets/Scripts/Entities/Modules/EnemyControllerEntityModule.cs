@@ -188,7 +188,7 @@ namespace Refactor.Entities.Modules
             isAttacking = true;
             animator.CrossFade($"Attack {Random.Range(0, 3)}", 0.25f);
             yield return new WaitForSeconds(0.25f);
-            ApplyDamageFor(1, 2);
+            ApplyDamageFor(4, 2);
             yield return new WaitForSeconds(2f);
             isAttacking = false;
             NewTarget();

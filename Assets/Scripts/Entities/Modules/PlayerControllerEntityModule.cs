@@ -15,7 +15,8 @@ namespace Refactor.Entities.Modules
         Jumping,
         Dashing,
         Attacking,
-        Casting
+        Casting,
+        Dead
     }
     
     [Serializable]
@@ -101,6 +102,13 @@ namespace Refactor.Entities.Modules
         {
             switch (state)
             {
+                case PlayerState.Dead:
+                    animator.SetFloat("walking", 0);
+                    animator.SetFloat("turning", 0);
+                    entity.velocity.x = entity.velocity.z = 0;
+                    return;
+                    break;
+                
                 case PlayerState.Default:
                     State__Default(deltaTime);
                     Handle__Dash();

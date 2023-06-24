@@ -4,6 +4,7 @@ using DG.Tweening;
 using Refactor.Data;
 using Refactor.Data.Variables;
 using Refactor.Entities.Modules;
+using Refactor.Misc;
 using Unity.Mathematics;
 using UnityEngine;
 using UnityEngine.Events;
@@ -15,6 +16,9 @@ namespace Refactor.Entities
         #region Fields
         [Header("REFERENCES")]
         public CharacterController controller;
+
+        [Header("SETTINGS")] 
+        public Vector3 respawnPosition;
         
         [Header("STATE")]
         public bool isGrounded;
@@ -72,13 +76,16 @@ namespace Refactor.Entities
 
         public void Die()
         {
-            gameObject.layer = LayerMask.NameToLayer("Intangible");
+            
             var entityModule = GetModule<EnemyControllerEntityModule>();
             if (entityModule != null)
             {
+                gameObject.layer = LayerMask.NameToLayer("Intangible");
                 entityModule.animator.CrossFade("Die", 0.2f);
                 velocity.x = velocity.z = 0;
                 RemoveModule(entityModule);
+                Destroy(gameObject, 3f);
+                return;
             }
             
             var playerModule = GetModule<PlayerControllerEntityModule>();
@@ -86,11 +93,25 @@ namespace Refactor.Entities
             {
                 playerModule.animator.CrossFade("Die", 0.2f);
                 velocity.x = velocity.z = 0;
-                RemoveModule(playerModule);
+                playerModule.state = PlayerState.Dead;
+                StartCoroutine(_Respawn());
             }
-            
-            Destroy(gameObject, 3f);
-            //transform.DOScale(new Vector3(1, 0, 1), 3f).SetDelay(2f);
+        }
+
+        private IEnumerator _Respawn()
+        {
+            yield return new WaitForSeconds(2f);
+            var playerModule = GetModule<PlayerControllerEntityModule>();
+            playerModule.animator.CrossFade("MainMovement", 0);
+            controller.enabled = false;
+            playerModule.body.localScale = new Vector3(1, 0, 1);
+            transform.position = respawnPosition;
+            playerModule.body.DOScale(Vector3.one, 1f);
+            IHealth health = GetModule<HealthEntityModule>();
+            health.Heal(health.maxHealth);
+            controller.enabled = true;
+            yield return new WaitForSeconds(1f);
+            playerModule.state = PlayerState.Default;
         }
         #endregion
         
