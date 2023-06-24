@@ -16,6 +16,7 @@ namespace Refactor.Tutorial.Steps
         {
             base.OnEnd();
             input.canInput = true;
+            input.DisableAllInput();
         }
 
         private IEnumerator _Wait()
