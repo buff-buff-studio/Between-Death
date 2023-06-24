@@ -265,8 +265,6 @@ namespace Refactor.Entities.Modules
                 v.emitting = true;
                 v.material.SetColor("_EmissionColor", entity.element.GetColor() * 10);
             }
-            
-            TutorialController.Instance.OnCombo.Complete();
         }
 
         public bool CheckRules(AttackCombo combo)

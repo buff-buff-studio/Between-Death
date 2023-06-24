@@ -51,6 +51,19 @@ namespace Refactor
         public InputAction inputDash;
         public InputAction inputRunning;
 
+        public void DisableAllInput()
+        { 
+            canMove = false;
+            canInteract = false;
+            //canMoveCamera = false;
+            canJump = false;
+            canChangeElement = false;
+            canAttack0 = false;
+            canAttack1 = false;
+            canDash = false;
+            canRun = false;
+        }
+
         protected override void OnEnable()
         {
             base.OnEnable();
