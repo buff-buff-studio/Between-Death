@@ -7,7 +7,8 @@ namespace Refactor.Tutorial.Steps
     public class WaitTutorialStep : TutorialStep
     {
         public float time = 1;
-
+        [SerializeField]
+        private bool goToNext;
         private void OnEnable()
         {
             if (isCurrent)
@@ -23,7 +24,10 @@ namespace Refactor.Tutorial.Steps
         private IEnumerator _Task()
         {
             yield return new WaitForSeconds(time);
-            tutorialController.NextStep();
+            if (goToNext)
+                tutorialController.NextStep();
+            else
+                OnEnd();
         }
     }
 }

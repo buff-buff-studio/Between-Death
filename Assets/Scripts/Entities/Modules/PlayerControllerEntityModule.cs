@@ -1,7 +1,8 @@
-﻿using System;
+using System;
 using System.Collections;
 using Refactor.Data;
 using Refactor.Misc;
+using Refactor.Tutorial;
 using Unity.Mathematics;
 using UnityEngine;
 using UnityEngine.Events;
@@ -134,6 +135,9 @@ namespace Refactor.Entities.Modules
         {
             if (IngameGameInput.InputChangeElement.trigger && entity.isGrounded)
             {
+                
+                TutorialController.Instance.OnElementChanged.Complete();
+                
                 entity.velocity = Vector3.zero;
                 
                 state = PlayerState.Casting;
@@ -179,6 +183,7 @@ namespace Refactor.Entities.Modules
         {
             if (IngameGameInput.InputDash.trigger && entity.element == Element.Chaos)
             {
+                TutorialController.Instance.OnDash.Complete();
                 state = PlayerState.Dashing;
                 entity.StartCoroutine(_Handle__Dash_Coroutine());
                 onPlayerDash.Invoke();
@@ -296,6 +301,7 @@ namespace Refactor.Entities.Modules
             {
                 entity.velocity.y = 8f;
                 onPlayerJump.Invoke();
+                TutorialController.Instance.OnJump.Complete();
             }
             #endregion
             
@@ -305,6 +311,7 @@ namespace Refactor.Entities.Modules
             #region Rotation
             if (isMoving)
             {
+                TutorialController.Instance.OnMove.Complete();
                 lastWalkingInput = Time.time;
                 var angle = Vector3.SignedAngle(Vector3.forward, inputMove, Vector3.up);
                 deltaAngle = Mathf.DeltaAngle(body.eulerAngles.y, angle);

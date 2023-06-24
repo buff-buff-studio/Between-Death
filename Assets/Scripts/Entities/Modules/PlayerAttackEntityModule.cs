@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Refactor.Data;
 using Refactor.Misc;
+using Refactor.Tutorial;
 using Unity.Mathematics;
 using UnityEngine;
 using UnityEngine.Events;
@@ -264,6 +265,8 @@ namespace Refactor.Entities.Modules
                 v.emitting = true;
                 v.material.SetColor("_EmissionColor", entity.element.GetColor() * 10);
             }
+            
+            TutorialController.Instance.OnCombo.Complete();
         }
 
         public bool CheckRules(AttackCombo combo)
