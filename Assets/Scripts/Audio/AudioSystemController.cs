@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Refactor.Data.Variables;
+using UnityEngine.Serialization;
 
 namespace Refactor.Audio
 {
@@ -13,8 +14,8 @@ namespace Refactor.Audio
         [SerializeField, HideInInspector]
         public int nextSourceId = 0;
 
-        [Header("REFERENCES")]
-        public AudioPallete pallete;
+        [FormerlySerializedAs("pallete")] [Header("REFERENCES")]
+        public AudioPalette palette;
         public FloatVariable volumeFX;
         public FloatVariable volumeMusic;
 
@@ -129,7 +130,7 @@ namespace Refactor.Audio
         #region Methods
         public AudioPlayer PlaySound(int sound)
         {
-            AudioPallete.Audio audio = pallete.GetAudio(sound);
+            AudioPalette.Audio audio = palette.GetAudio(sound);
             
             if(audio != null)
             {
@@ -148,7 +149,7 @@ namespace Refactor.Audio
 
         public void PlayMusic(int music, float fadeIn = 1f, float fadeOut = 1f)
         {
-            AudioPallete.Audio audio = pallete.GetAudio(music);
+            AudioPalette.Audio audio = palette.GetAudio(music);
 
             if(audio != null)
             {

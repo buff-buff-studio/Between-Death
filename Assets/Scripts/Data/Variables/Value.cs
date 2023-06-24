@@ -16,6 +16,8 @@ namespace Refactor.Data.Variables
         [SerializeField]
         private Variable<T> variable;
 
+        public Variable currentVariable => variable;
+
         public Action onValueChange;
 
         public T value

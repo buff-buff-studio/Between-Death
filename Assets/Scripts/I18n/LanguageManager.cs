@@ -7,7 +7,7 @@ namespace Refactor.I18n
     public class LanguageManager
     {
         #region Constants
-        public const string DEFAULT_LANGUAGE = "EnUS";
+        public const string DEFAULT_LANGUAGE = "PtBR";
         #endregion
 
         #region Classes

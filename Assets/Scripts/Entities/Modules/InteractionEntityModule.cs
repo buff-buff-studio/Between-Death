@@ -15,11 +15,15 @@ namespace Refactor.Entities.Modules
         public GameObject prefabInteractionDisplay;
         public InteractionDisplay interactionDisplay;
         private Interactible _lastFrameInteractible;
+        
+        [SerializeField, HideInInspector]
+        public PlayerControllerEntityModule controllerEntityModule;
         public float time = 0;
         public bool needToRestart = true;
 
         public override void OnEnable()
         {
+            controllerEntityModule = entity.GetModule<PlayerControllerEntityModule>();
             if (interactionDisplay == null)
             {
                 var go = Object.Instantiate(prefabInteractionDisplay, entity.transform);
@@ -38,7 +42,9 @@ namespace Refactor.Entities.Modules
 
         public override void UpdateFrame(float deltaTime)
         {
-            if (currentInteractible != null)
+            var canInteract = controllerEntityModule.state == PlayerState.Default && entity.isGrounded;
+            
+            if (currentInteractible != null && canInteract)
             {
                 interactionDisplay.gameObject.SetActive(true);
                 interactionDisplay.transform.position = currentInteractible.transform.position;
@@ -50,9 +56,9 @@ namespace Refactor.Entities.Modules
 
             Interactible frameInteractible = null;
 
-            if (Input.GetKey(KeyCode.I))
+            if (IngameGameInput.InputInteract.value)
             {
-                if (currentInteractible != null && currentInteractible.enabled)
+                if (canInteract && currentInteractible != null && currentInteractible.enabled)
                 {
                     frameInteractible = currentInteractible;
                 }

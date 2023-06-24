@@ -41,7 +41,7 @@ namespace Refactor.Audio
         private float _volume = 1f;
 
         [Header("AUDIO")]
-        public AudioPallete.Audio audio;
+        public AudioPalette.Audio audio;
         public AudioSource source;
 
         [Header("CALLBACK")]
@@ -56,7 +56,7 @@ namespace Refactor.Audio
             _type = type;
         }
 
-        public void Play(AudioPallete.Audio audio)
+        public void Play(AudioPalette.Audio audio)
         {
             this.audio = audio;
             source.clip = audio.clip;
