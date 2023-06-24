@@ -294,25 +294,25 @@ PrefabInstance:
         type: 3}
       propertyPath: spritePalette.xbox
       value: 
-      objectReference: {fileID: 21300000, guid: e3a21eef584d72743afeb442fa240f06,
+      objectReference: {fileID: 21300000, guid: 76e2eb15d490085428b55122a6496b08,
         type: 3}
     - target: {fileID: 246010936099246325, guid: fc52a14fee338884aa53bbe61155f12d,
         type: 3}
       propertyPath: spritePalette.desktop
       value: 
-      objectReference: {fileID: 21300000, guid: 3b8701f90f61f004ba96103f6caf2921,
+      objectReference: {fileID: 21300000, guid: 215d5c60dd1ff2f4887843a636d3ddd3,
         type: 3}
     - target: {fileID: 246010936099246325, guid: fc52a14fee338884aa53bbe61155f12d,
         type: 3}
       propertyPath: spritePalette.gamepad
       value: 
-      objectReference: {fileID: 21300000, guid: e3a21eef584d72743afeb442fa240f06,
+      objectReference: {fileID: 21300000, guid: 76e2eb15d490085428b55122a6496b08,
         type: 3}
     - target: {fileID: 246010936099246325, guid: fc52a14fee338884aa53bbe61155f12d,
         type: 3}
       propertyPath: spritePalette.playstation
       value: 
-      objectReference: {fileID: 21300000, guid: 61e9d79dd522a1243b52343caade265a,
+      objectReference: {fileID: 21300000, guid: 1b55cfaa12fcbe14fbedeb0ce0bfabbb,
         type: 3}
     - target: {fileID: 5268324452939134000, guid: fc52a14fee338884aa53bbe61155f12d,
         type: 3}
@@ -670,7 +670,7 @@ PrefabInstance:
         type: 3}
       propertyPath: spritePalette.xbox
       value: 
-      objectReference: {fileID: 21300000, guid: 699d7f48a2a2f0649b385bde384d3016,
+      objectReference: {fileID: 21300000, guid: 6c02c0bcf74cac44f911b6e79c56789b,
         type: 3}
     - target: {fileID: 246010936099246325, guid: fc52a14fee338884aa53bbe61155f12d,
         type: 3}
@@ -682,13 +682,13 @@ PrefabInstance:
         type: 3}
       propertyPath: spritePalette.gamepad
       value: 
-      objectReference: {fileID: 21300000, guid: 699d7f48a2a2f0649b385bde384d3016,
+      objectReference: {fileID: 21300000, guid: 6c02c0bcf74cac44f911b6e79c56789b,
         type: 3}
     - target: {fileID: 246010936099246325, guid: fc52a14fee338884aa53bbe61155f12d,
         type: 3}
       propertyPath: spritePalette.playstation
       value: 
-      objectReference: {fileID: 21300000, guid: 480254e496e910742a9d74bab30de9be,
+      objectReference: {fileID: 21300000, guid: 9b0f020a7c6f9654ba1034422269305c,
         type: 3}
     - target: {fileID: 5268324452939134000, guid: fc52a14fee338884aa53bbe61155f12d,
         type: 3}
@@ -1592,6 +1592,10 @@ PrefabInstance:
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 657044875}
+    - targetCorrespondingSourceObject: {fileID: -8679921383154817045, guid: 1f750a091e476104391266e190fc2a2d,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 821154443}
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 1f750a091e476104391266e190fc2a2d,
         type: 3}
@@ -2617,6 +2621,89 @@ MonoBehaviour:
   m_MinRegionArea: 2
   m_NavMeshData: {fileID: 23800000, guid: 3c57d6cef38b3324d83641f89d14ed62, type: 2}
   m_BuildHeightMesh: 0
+--- !u!1 &821154442
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 821154443}
+  - component: {fileID: 821154445}
+  - component: {fileID: 821154444}
+  m_Layer: 0
+  m_Name: Aura (1)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &821154443
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 821154442}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 6}
+  m_LocalScale: {x: 2, y: 2, z: 2}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 499408205}
+  m_RootOrder: -1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!23 &821154444
+MeshRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 821154442}
+  m_Enabled: 1
+  m_CastShadows: 1
+  m_ReceiveShadows: 1
+  m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 2
+  m_RayTraceProcedural: 0
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 2100000, guid: 9f484f23f85067e4d9f4d05ad353bf1e, type: 2}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 3
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+  m_AdditionalVertexStreams: {fileID: 0}
+--- !u!33 &821154445
+MeshFilter:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 821154442}
+  m_Mesh: {fileID: 10207, guid: 0000000000000000e000000000000000, type: 0}
 --- !u!1 &831938846
 GameObject:
   m_ObjectHideFlags: 0
@@ -2804,6 +2891,89 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _cache: 
+--- !u!1 &833896498
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 833896499}
+  - component: {fileID: 833896502}
+  - component: {fileID: 833896501}
+  m_Layer: 0
+  m_Name: Aura
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &833896499
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 833896498}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 2, y: 2, z: 2}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1801569697}
+  m_RootOrder: -1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!23 &833896501
+MeshRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 833896498}
+  m_Enabled: 1
+  m_CastShadows: 1
+  m_ReceiveShadows: 1
+  m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 2
+  m_RayTraceProcedural: 0
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 2100000, guid: 9f484f23f85067e4d9f4d05ad353bf1e, type: 2}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 3
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+  m_AdditionalVertexStreams: {fileID: 0}
+--- !u!33 &833896502
+MeshFilter:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 833896498}
+  m_Mesh: {fileID: 10207, guid: 0000000000000000e000000000000000, type: 0}
 --- !u!1001 &884562977
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3188,25 +3358,25 @@ PrefabInstance:
         type: 3}
       propertyPath: spritePalette.xbox
       value: 
-      objectReference: {fileID: 21300000, guid: 2fbc238c9dee06547b255aebba023d46,
+      objectReference: {fileID: 21300000, guid: 699d7f48a2a2f0649b385bde384d3016,
         type: 3}
     - target: {fileID: 246010936099246325, guid: fc52a14fee338884aa53bbe61155f12d,
         type: 3}
       propertyPath: spritePalette.desktop
       value: 
-      objectReference: {fileID: 21300000, guid: 3b8701f90f61f004ba96103f6caf2921,
+      objectReference: {fileID: 21300000, guid: 6f7bdd9247702b14f87c4056b7570ce9,
         type: 3}
     - target: {fileID: 246010936099246325, guid: fc52a14fee338884aa53bbe61155f12d,
         type: 3}
       propertyPath: spritePalette.gamepad
       value: 
-      objectReference: {fileID: 21300000, guid: 2fbc238c9dee06547b255aebba023d46,
+      objectReference: {fileID: 21300000, guid: 699d7f48a2a2f0649b385bde384d3016,
         type: 3}
     - target: {fileID: 246010936099246325, guid: fc52a14fee338884aa53bbe61155f12d,
         type: 3}
       propertyPath: spritePalette.playstation
       value: 
-      objectReference: {fileID: 21300000, guid: 5b6fa08786f839e4791d9cb75d4fce5f,
+      objectReference: {fileID: 21300000, guid: 480254e496e910742a9d74bab30de9be,
         type: 3}
     - target: {fileID: 5268324452939134000, guid: fc52a14fee338884aa53bbe61155f12d,
         type: 3}
@@ -3633,7 +3803,7 @@ PrefabInstance:
         type: 3}
       propertyPath: spritePalette.xbox
       value: 
-      objectReference: {fileID: 21300000, guid: 76e2eb15d490085428b55122a6496b08,
+      objectReference: {fileID: 21300000, guid: 4057b5ce5c658b843a45dbd545502538,
         type: 3}
     - target: {fileID: 246010936099246325, guid: fc52a14fee338884aa53bbe61155f12d,
         type: 3}
@@ -3645,13 +3815,13 @@ PrefabInstance:
         type: 3}
       propertyPath: spritePalette.gamepad
       value: 
-      objectReference: {fileID: 21300000, guid: 76e2eb15d490085428b55122a6496b08,
+      objectReference: {fileID: 21300000, guid: 4057b5ce5c658b843a45dbd545502538,
         type: 3}
     - target: {fileID: 246010936099246325, guid: fc52a14fee338884aa53bbe61155f12d,
         type: 3}
       propertyPath: spritePalette.playstation
       value: 
-      objectReference: {fileID: 21300000, guid: 1b55cfaa12fcbe14fbedeb0ce0bfabbb,
+      objectReference: {fileID: 21300000, guid: 14041830083fda449b4189500b293032,
         type: 3}
     - target: {fileID: 5268324452939134000, guid: fc52a14fee338884aa53bbe61155f12d,
         type: 3}
@@ -3872,7 +4042,7 @@ PrefabInstance:
         type: 3}
       propertyPath: spritePalette.xbox
       value: 
-      objectReference: {fileID: 21300000, guid: 4057b5ce5c658b843a45dbd545502538,
+      objectReference: {fileID: 21300000, guid: e3a21eef584d72743afeb442fa240f06,
         type: 3}
     - target: {fileID: 246010936099246325, guid: fc52a14fee338884aa53bbe61155f12d,
         type: 3}
@@ -3884,13 +4054,13 @@ PrefabInstance:
         type: 3}
       propertyPath: spritePalette.gamepad
       value: 
-      objectReference: {fileID: 21300000, guid: 4057b5ce5c658b843a45dbd545502538,
+      objectReference: {fileID: 21300000, guid: e3a21eef584d72743afeb442fa240f06,
         type: 3}
     - target: {fileID: 246010936099246325, guid: fc52a14fee338884aa53bbe61155f12d,
         type: 3}
       propertyPath: spritePalette.playstation
       value: 
-      objectReference: {fileID: 21300000, guid: 14041830083fda449b4189500b293032,
+      objectReference: {fileID: 21300000, guid: 61e9d79dd522a1243b52343caade265a,
         type: 3}
     - target: {fileID: 5268324452939134000, guid: fc52a14fee338884aa53bbe61155f12d,
         type: 3}
@@ -5383,7 +5553,7 @@ MonoBehaviour:
   - name: move_camera
     display: {fileID: 1299578176}
   steps: []
-  currentStepIndex: 4
+  currentStepIndex: -1
   onTutorialBegin:
     m_PersistentCalls:
       m_Calls: []
@@ -5807,6 +5977,10 @@ PrefabInstance:
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 831938847}
+    - targetCorrespondingSourceObject: {fileID: -8679921383154817045, guid: 1f750a091e476104391266e190fc2a2d,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 833896499}
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 1f750a091e476104391266e190fc2a2d,
         type: 3}
