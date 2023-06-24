@@ -18,7 +18,6 @@ namespace Refactor.Tutorial.Steps
             
             controller.ShowBindingDisplay("interact");
             button.gameObject.SetActive(true);
-            
         }
         
         public override void OnEnd()
