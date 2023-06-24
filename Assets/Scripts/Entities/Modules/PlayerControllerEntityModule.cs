@@ -4,6 +4,7 @@ using Refactor.Data;
 using Refactor.Misc;
 using Unity.Mathematics;
 using UnityEngine;
+using UnityEngine.Events;
 
 namespace Refactor.Entities.Modules
 {
@@ -73,6 +74,9 @@ namespace Refactor.Entities.Modules
         public LayerMask groundMask;
         
         private PlayerAttackEntityModule _playerAttack;
+
+        public UnityEvent onPlayerJump;
+        public UnityEvent onPlayerDash;
 
         #region Callbacks
         public override void OnEnable()
@@ -177,6 +181,7 @@ namespace Refactor.Entities.Modules
             {
                 state = PlayerState.Dashing;
                 entity.StartCoroutine(_Handle__Dash_Coroutine());
+                onPlayerDash.Invoke();
             }
         }
 
@@ -290,6 +295,7 @@ namespace Refactor.Entities.Modules
             if (inputJumping.trigger && entity.isGrounded)
             {
                 entity.velocity.y = 8f;
+                onPlayerJump.Invoke();
             }
             #endregion
             

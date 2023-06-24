@@ -5,6 +5,7 @@ using Refactor.Data;
 using Refactor.Misc;
 using Unity.Mathematics;
 using UnityEngine;
+using UnityEngine.Events;
 using Object = UnityEngine.Object;
 
 namespace Refactor.Entities.Modules
@@ -32,6 +33,11 @@ namespace Refactor.Entities.Modules
         public List<AttackCombo> possibleCombos = new();
         public List<AttackCombo.AttackType> inputOrder = new();
         public bool hasDamaged;
+        
+        [Header("EVENTS")] 
+        public UnityEvent<AttackCombo, int> onPlayerPerformAttack;
+        public UnityEvent onPlayerFailCombo;
+        public UnityEvent<IHealth, float> onPlayerDamageVictim;
         
         private AttackCombo _currentCombo;
         private AttackCombo.Attack _currentAttack;
@@ -195,6 +201,7 @@ namespace Refactor.Entities.Modules
 
         public void OnFailCombo()
         {
+            onPlayerFailCombo.Invoke();
             if (inputOrder.Count <= 1) return;
             canAttack = false;
         }
@@ -225,6 +232,8 @@ namespace Refactor.Entities.Modules
                     e.velocity = dir * 4f;
                 }
                 
+                onPlayerDamageVictim.Invoke(target, attack.damageCount);
+                
                 var go = Object.Instantiate(hitParticlesPrefab, hPos, Quaternion.identity);
                 Object.Destroy(go, 2f);
             }
@@ -232,9 +241,12 @@ namespace Refactor.Entities.Modules
         
         public void OnPerformAttack(AttackCombo combo, AttackCombo.Attack attack)
         {
+           
             var index = Array.IndexOf(combo.attacks, attack);
             if (index > 0)
                 ApplyDamageFor(combo.attacks[index - 1]);
+            
+            onPlayerPerformAttack.Invoke(combo, index - 1);
 
             animator.CrossFade(attack.clipName, attack.transitionTime);
             entity.GetModule<PlayerControllerEntityModule>().state = PlayerState.Attacking;
