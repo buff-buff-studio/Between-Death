@@ -1,21 +1,16 @@
-using System;
 using System.Collections.Generic;
 using DG.Tweening;
 using Refactor.Interface.Widgets;
+using Refactor.Interface.Windows;
 using UnityEngine;
-using UnityEngine.Events;
 
-namespace Refactor.Interface.Windows
+namespace Refactor.Interface
 {
-    public class DialogWindow : Window
+    public class DocumentWindow : Window
     {
         [Header("REFERENCES")]
         public CanvasGroup dimmer;
-
-        [Header("EVENTS")] 
-        public UnityEvent onConfirm;
-        public UnityEvent onCancel;
-
+        
         public override Widget GetFirstWidget()
         {
             return null;
@@ -28,6 +23,20 @@ namespace Refactor.Interface.Windows
             dimmer.alpha = 0;
             dimmer.gameObject.SetActive(true);
             dimmer.DOFade(1f, 0.25f).SetId(tweenId);
+        }
+        
+        public override bool DoAction(InterfaceAction action)
+        {
+            switch (action)
+            {
+                case InterfaceAction.Cancel:
+                {
+                    Close();
+                    return true;
+                }
+                default:
+                    return false;
+            }
         }
         
         public override void Close()
@@ -45,26 +54,7 @@ namespace Refactor.Interface.Windows
                     dimmer.gameObject.SetActive(false);
                 });
         }
-
-        public override bool DoAction(InterfaceAction action)
-        {
-            switch (action)
-            {
-                case InterfaceAction.Confirm:
-                {
-                    onConfirm.Invoke();
-                    return true;
-                }
-                case InterfaceAction.Cancel:
-                {
-                    onCancel.Invoke();
-                    return true;
-                }
-                default:
-                    return false;
-            }
-        }
-
+        
         public override IEnumerable<string> GetBindingActions()
         {
             yield break;

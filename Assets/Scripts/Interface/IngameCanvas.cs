@@ -13,6 +13,7 @@ namespace Refactor.Interface
     public class IngameCanvas : Canvas
     {
         public Window quitDialogWindow;
+        public Window documentDialogWindow;
         public IngameGameInput ingameGameInput;
         public Image[] bloodStains;
         public Entity player;
@@ -49,6 +50,23 @@ namespace Refactor.Interface
             }
             
             base.CallAction(action);
+        }
+
+        public void OpenDocumentWindow()
+        {
+            documentDialogWindow.Open();
+            ingameGameInput.canInput = false;
+        }
+
+        public void OnCloseDocumentWindow()
+        {
+            StartCoroutine(_OnCloseDocumentWindow());
+        }
+        
+        private IEnumerator _OnCloseDocumentWindow()
+        {
+            yield return new WaitForSeconds(0.5f);
+            ingameGameInput.canInput = true;
         }
         
         public void QuitGame()
