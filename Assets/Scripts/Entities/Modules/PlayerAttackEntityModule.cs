@@ -215,10 +215,17 @@ namespace Refactor.Entities.Modules
                 var dot = Vector3.Dot(fw, dir);
                 if (dot < snapMinDot) continue;
                 
-
                 var hPos = (target.GetGameObject().transform.position + pos) / 2f;
                 
+                
+                
                 target.Damage(attack.damageCount);
+                
+                if (target.health > 0 && target is HealthEntityModule module)
+                {
+                    var e = module.entity;
+                    e.velocity = dir * 4f;
+                }
                 
                 var go = Object.Instantiate(hitParticlesPrefab, hPos, Quaternion.identity);
                 Object.Destroy(go, 2f);

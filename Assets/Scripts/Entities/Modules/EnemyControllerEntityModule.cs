@@ -60,6 +60,12 @@ namespace Refactor.Entities.Modules
 
         public override void UpdateFrame(float deltaTime)
         {
+            if (entity.isGrounded)
+            {
+                entity.velocity.x = math.lerp(entity.velocity.x, 0, deltaTime * 8f);
+                entity.velocity.z = math.lerp(entity.velocity.z, 0, deltaTime * 8f);
+            }
+
             var inputMove = UpdateWalk(deltaTime, out bool isRunning);
             var isMoving = inputMove.magnitude > 0.15f;
             var deltaAngle = 0f;
