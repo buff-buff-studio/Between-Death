@@ -2035,7 +2035,7 @@ Transform:
   m_GameObject: {fileID: 798840900}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 2, y: 1, z: 2}
+  m_LocalScale: {x: 1.9, y: 1, z: 1.9}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 277585117}
@@ -2776,9 +2776,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe112c183db949cc9f5d30564a8363d2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  open: 0
-  lerpSpeed: 5
-  _canvasGroup: {fileID: 1064888302}
 --- !u!4 &1067170068 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 338211623354005698, guid: 055562c2a24b6c240a8e467ab79e5207,
@@ -4503,7 +4500,7 @@ MonoBehaviour:
   - name: move_camera
     display: {fileID: 1299578176}
   steps: []
-  currentStepIndex: 2
+  currentStepIndex: -1
   onTutorialBegin:
     m_PersistentCalls:
       m_Calls: []
@@ -5071,16 +5068,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9bae579062094f87bf0902e96ffbe92e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  steps:
-  - {fileID: 492821903}
-  - {fileID: 1372395038}
-  - {fileID: 2070471454}
-  - {fileID: 2101859833}
-  - {fileID: 905806319}
-  - {fileID: 780173968}
-  labelTutorialText: {fileID: 670092457}
-  currentStep: {fileID: 0}
-  index: 0
 --- !u!4 &1873791200
 Transform:
   m_ObjectHideFlags: 0
