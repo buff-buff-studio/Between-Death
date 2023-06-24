@@ -30,7 +30,7 @@ namespace Refactor.Props
         public void HealPlayer()
         {
             var hem = player.GetModule<HealthEntityModule>() as IHealth;
-            hem.Heal(hem.maxHealth - hem.maxHealth);
+            hem.Heal(hem.maxHealth - hem.health);
         }
 
         public void DamagePlayer()
