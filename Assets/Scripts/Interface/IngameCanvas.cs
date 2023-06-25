@@ -19,6 +19,7 @@ namespace Refactor.Interface
         public Entity player;
         private float lastHealth = 0;
         public RectTransform healthBarFill;
+        public InspectDoc documentWindow;
 
         private void OnEnable()
         {
@@ -56,14 +57,22 @@ namespace Refactor.Interface
             documentDialogWindow.Open();
             ingameGameInput.canInput = false;
         }
+        
+        public void OpenDocumentWindow(DocumentText txt)
+        {
+            documentWindow._documentData = txt;
+            documentDialogWindow.Open();
+            ingameGameInput.canInput = false;
+        }
 
-        public void OnCloseDocumentWindow()
+        public void CloseDocumentWindow()
         {
             StartCoroutine(_OnCloseDocumentWindow());
         }
         
         private IEnumerator _OnCloseDocumentWindow()
         {
+            documentDialogWindow.Close();
             yield return new WaitForSeconds(0.5f);
             ingameGameInput.canInput = true;
         }

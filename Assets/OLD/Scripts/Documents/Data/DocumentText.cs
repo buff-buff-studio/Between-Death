@@ -17,6 +17,8 @@ public class DocumentText : DocumentData
     public struct DocumentTextData
     {
         public TMP_FontAsset documentFont;
+        [Range(4,6)]
+        public float documentFontSize;
         
         [TextArea(3,20)]
         public string documentText;
