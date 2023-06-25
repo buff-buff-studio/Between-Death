@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Collections.Generic;
 using Refactor.Entities;
 using Refactor.Entities.Modules;
 using Refactor.Interface;
@@ -14,6 +15,8 @@ namespace Refactor.Tutorial.Steps
         public float radius = 5;
         public int count = 5;
         public Entity player;
+
+        public List<Entity> aliveEnemies = new List<Entity>();
 
         public GameObject[] enemiesPrefabs;
 
@@ -35,8 +38,9 @@ namespace Refactor.Tutorial.Steps
                 module.attackTarget = player.transform;
                 module.wanderingCenterPoint = center;
                 module.NewTarget();
+                aliveEnemies.Add(entity);
                 
-                entity.GetModule<HealthEntityModule>().onDie.AddListener(OnEnemyDie);
+                entity.GetModule<HealthEntityModule>().onDie.AddListener(() => OnEnemyDie(entity));
             }
         }
 
@@ -45,16 +49,18 @@ namespace Refactor.Tutorial.Steps
             base.OnEnd();
             controller.ShowBindingDisplay("");
             input.DisableAllInput();
-            LoadingScreen.LoadScene("Scenes/Menu");
         }
 
-        public void OnEnemyDie()
+        public void OnEnemyDie(Entity e)
         {
-            if (--count == 0)
-                StartCoroutine(_OnEnemyDie());
+            if (!aliveEnemies.Contains(e)) return;
+            aliveEnemies.Remove(e);
+            
+            if(aliveEnemies.Count == 0)
+                StartCoroutine(_OnAllDied());
         }
 
-        private IEnumerator _OnEnemyDie()
+        private IEnumerator _OnAllDied()
         {
             controller.NextStep();
             yield return new WaitForSeconds(2.5f);
