@@ -21,7 +21,10 @@ namespace Refactor.Props
             t.forward = -fw;
 
             foreach (var mesh in meshes)
+            {
                 mesh.right = -fw;
+                mesh.eulerAngles = new Vector3(0, mesh.eulerAngles.y, 0);
+            }
         }
     }
 }
