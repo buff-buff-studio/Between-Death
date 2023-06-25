@@ -26,10 +26,9 @@ namespace Refactor.Data
         public Variable variableLanguage;
         public Variable variableGraphicsQuality;
         public LanguageSnapshot[] languages;
-
+        
         public void OnEnable()
         {
-            Save();
             Load();
         }
 

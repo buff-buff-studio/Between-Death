@@ -92,8 +92,12 @@ namespace Refactor.Interface.Windows
                     var n = w == null ? -1 : Array.IndexOf(widgets, w);
                     if (n != -1)
                     {
-                        save.currentSlot = n;
-                        saveWindowAlert.Open();
+                        var data = save.GetSaveSnapshot(n);
+                        if (data.Exists)
+                        {
+                            save.currentSlot = n;
+                            saveWindowAlert.Open();
+                        }
                     }
 
                     return true;

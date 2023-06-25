@@ -12,6 +12,7 @@ namespace Refactor.Props
         public float time = 0f;
         
         public UnityEvent onInteract;
+        public Vector3 offset;
 
         protected virtual void OnEnable()
         {
@@ -26,7 +27,7 @@ namespace Refactor.Props
         private void OnDrawGizmos()
         {
             Gizmos.color = Color.yellow;
-            Gizmos.DrawWireSphere(transform.position, radius);
+            Gizmos.DrawWireSphere(transform.position + offset, radius);
         }
     }
 }

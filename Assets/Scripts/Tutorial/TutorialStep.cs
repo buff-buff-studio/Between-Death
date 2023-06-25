@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.Serialization;
 
 namespace Refactor.Tutorial
 {
@@ -11,7 +12,9 @@ namespace Refactor.Tutorial
         [SerializeField, HideInInspector]
         private bool _isCurrent = false;
         [SerializeField, HideInInspector]
-        public TutorialController tutorialController;
+        public NewTutorialController controller;
+
+        public IngameGameInput input => controller.input;
         
         public virtual void OnBegin()
         {

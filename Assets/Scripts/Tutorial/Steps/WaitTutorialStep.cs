@@ -25,7 +25,7 @@ namespace Refactor.Tutorial.Steps
         {
             yield return new WaitForSeconds(time);
             if (goToNext)
-                tutorialController.NextStep();
+                controller.NextStep();
             else
                 OnEnd();
         }
