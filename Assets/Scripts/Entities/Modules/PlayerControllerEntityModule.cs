@@ -143,7 +143,6 @@ namespace Refactor.Entities.Modules
         {
             if (IngameGameInput.InputChangeElement.trigger && entity.isGrounded)
             {
-
                 entity.velocity = Vector3.zero;
                 
                 state = PlayerState.Casting;

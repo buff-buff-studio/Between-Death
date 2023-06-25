@@ -63,6 +63,19 @@ namespace Refactor
             canDash = false;
             canRun = false;
         }
+        
+        public void EnableAllInput()
+        { 
+            canMove = true;
+            canInteract = true;
+            canMoveCamera = true;
+            canJump = true;
+            canChangeElement = true;
+            canAttack0 = true;
+            canAttack1 = true;
+            canDash = true;
+            canRun = true;
+        }
 
         protected override void OnEnable()
         {
@@ -100,7 +113,7 @@ namespace Refactor
             
             InputInteract.SetValue(canInput && canInteract && inputInteract.ReadValue<float>() > 0);
             InputMove = canInput && canMove ? inputMove.ReadValue<Vector2>() : Vector2.zero;
-            InputCamera = canInput && canMoveCamera ? inputCamera.ReadValue<Vector2>() : Vector2.zero;
+            InputCamera = canInput && canMoveCamera ? -inputCamera.ReadValue<Vector2>() : Vector2.zero;
             InputJump.SetValue(canInput && canJump && inputJump.ReadValue<float>() > 0);
             
             InputAttack0.SetValue(canInput && canAttack0 && inputAttack0.ReadValue<float>() > 0);

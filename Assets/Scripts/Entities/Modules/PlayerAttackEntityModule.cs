@@ -34,15 +34,18 @@ namespace Refactor.Entities.Modules
         public List<AttackCombo> possibleCombos = new();
         public List<AttackCombo.AttackType> inputOrder = new();
         public bool hasDamaged;
+        public float time = 0;
         
         [Header("EVENTS")] 
         public UnityEvent<AttackCombo, int> onPlayerPerformAttack;
         public UnityEvent onPlayerFailCombo;
         public UnityEvent<IHealth, float> onPlayerDamageVictim;
+        public UnityEvent onAttackEnd;
         
         private AttackCombo _currentCombo;
         private AttackCombo.Attack _currentAttack;
         private PlayerControllerEntityModule _controllerEntity;
+        
 
         public override void OnEnable()
         {
@@ -130,8 +133,11 @@ namespace Refactor.Entities.Modules
 
             if (state.IsName(attack.clipName))
             {
+                time = state.normalizedTime;
                 if (state.normalizedTime > 0.9f)
                 {
+                    if(canAttack)
+                        onAttackEnd.Invoke();
                     //Out of attack
                     entity.StartCoroutine(_EndAttacks());
                     foreach (var v in attackTrails)
@@ -144,6 +150,8 @@ namespace Refactor.Entities.Modules
                     ApplyDamageFor(attack);
                 }
             }
+            else
+                time = 0;
         }
 
         public IEnumerator _EndAttacks()
@@ -242,13 +250,13 @@ namespace Refactor.Entities.Modules
         
         public void OnPerformAttack(AttackCombo combo, AttackCombo.Attack attack)
         {
-           
             var index = Array.IndexOf(combo.attacks, attack);
             if (index > 0)
                 ApplyDamageFor(combo.attacks[index - 1]);
             
             onPlayerPerformAttack.Invoke(combo, index - 1);
-
+            
+            time = 0;
             animator.CrossFade(attack.clipName, attack.transitionTime);
             entity.GetModule<PlayerControllerEntityModule>().state = PlayerState.Attacking;
             _controllerEntity.body.eulerAngles = new Vector3(0, angle, 0);
