@@ -20,11 +20,12 @@ namespace Refactor.Misc
         
         [Header("EVENTS")]
         public UnityEvent onDie;
+        public UnityEvent<float> onChangeHealth;
         
         float IHealth.health
         {
             get => _health;
-            set => _health = value;
+            set { _health = value; onChangeHealth.Invoke(_health);}
         }
 
         float IHealth.maxHealth

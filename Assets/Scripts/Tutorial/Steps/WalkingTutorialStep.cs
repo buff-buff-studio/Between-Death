@@ -18,7 +18,7 @@ namespace Refactor.Tutorial.Steps
             input.canMove = true;
             
             controller.ShowBindingDisplay("move");
-            target.gameObject.SetActive(true);
+            target.SetActive(true);
         }
         
         public override void OnEnd()
@@ -27,7 +27,7 @@ namespace Refactor.Tutorial.Steps
             controller.ShowBindingDisplay("");
             input.DisableAllInput();
             
-            target.gameObject.SetActive(false);
+            target.SetActive(false);
         }
 
         private void FixedUpdate()
