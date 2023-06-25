@@ -99,10 +99,12 @@ namespace Refactor.Tutorial.Steps
         {
             base.OnEnd();
             input.DisableAllInput();
-            
-            _module.onPlayerPerformAttack.RemoveListener(_OnPerformAttack);
-            _module.onPlayerFailCombo.RemoveListener(_OnFailAttack);
-            _module.onAttackEnd.RemoveListener(_OnAttacKEnd);
+            if (_module != null)
+            {
+                _module.onPlayerPerformAttack.RemoveListener(_OnPerformAttack);
+                _module.onPlayerFailCombo.RemoveListener(_OnFailAttack);
+                _module.onAttackEnd.RemoveListener(_OnAttacKEnd);
+            }
             displayGroup.DOFade(0f, 0.5f);
         }
     }

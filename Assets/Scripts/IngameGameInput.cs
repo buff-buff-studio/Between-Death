@@ -63,6 +63,19 @@ namespace Refactor
             canDash = false;
             canRun = false;
         }
+        
+        public void EnableAllInput()
+        { 
+            canMove = true;
+            canInteract = true;
+            canMoveCamera = true;
+            canJump = true;
+            canChangeElement = true;
+            canAttack0 = true;
+            canAttack1 = true;
+            canDash = true;
+            canRun = true;
+        }
 
         protected override void OnEnable()
         {
