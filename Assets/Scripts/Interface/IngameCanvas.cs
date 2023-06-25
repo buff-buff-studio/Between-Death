@@ -4,6 +4,7 @@ using DG.Tweening;
 using Refactor.Entities;
 using Refactor.Entities.Modules;
 using Refactor.Interface.Windows;
+using Refactor.Data;
 using Refactor.Misc;
 using UnityEngine;
 using UnityEngine.UI;
@@ -14,11 +15,15 @@ namespace Refactor.Interface
     {
         public Window quitDialogWindow;
         public Window documentDialogWindow;
+        public CanvasGroup uiGroup;
         public IngameGameInput ingameGameInput;
         public Image[] bloodStains;
         public Entity player;
         private float lastHealth = 0;
         public RectTransform healthBarFill;
+        public Image elementIcon;
+        public Sprite chaosIcon;
+        public Sprite orderIcon;
         public InspectDoc documentWindow;
 
         private void OnEnable()
@@ -37,7 +42,20 @@ namespace Refactor.Interface
                 UpdateHealthBar(h);
             });
 
+            player.onChangeElement.AddListener(UpdateElementIcon);
+
+            UpdateElementIcon();
             UpdateHealthBar(hlt.maxHealth);
+        }
+        
+        public void UpdateElementIcon()
+        {
+            elementIcon.sprite = player.element switch
+            {
+                Element.Chaos => chaosIcon,
+                Element.Order => orderIcon,
+                _ => elementIcon.sprite
+            };
         }
 
         public override void CallAction(InterfaceAction action)
@@ -54,12 +72,14 @@ namespace Refactor.Interface
 
         public void OpenDocumentWindow()
         {
+            uiGroup.alpha = 0;
             documentDialogWindow.Open();
             ingameGameInput.canInput = false;
         }
         
         public void OpenDocumentWindow(DocumentText txt)
         {
+            uiGroup.alpha = 0;
             documentWindow._documentData = txt;
             documentDialogWindow.Open();
             ingameGameInput.canInput = false;
@@ -73,6 +93,7 @@ namespace Refactor.Interface
         private IEnumerator _OnCloseDocumentWindow()
         {
             documentDialogWindow.Close();
+            uiGroup.alpha = 1;
             yield return new WaitForSeconds(0.5f);
             ingameGameInput.canInput = true;
         }

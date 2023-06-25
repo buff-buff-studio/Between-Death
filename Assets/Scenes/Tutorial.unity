@@ -2642,8 +2642,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 643062952a5c41cdb02e047915f37fa2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  interactionPointOffset: {fileID: 0}
   radius: 1.25
   time: 1
+  offset: {x: 0, y: -1, z: 0}
   onInteract:
     m_PersistentCalls:
       m_Calls:
@@ -2659,7 +2661,6 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-  offset: {x: 0, y: -1, z: 0}
   text: {fileID: 657044875}
   meshes:
   - {fileID: 1827310881}
@@ -6418,6 +6419,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3502017291139285432, guid: 4c74c524c2067ed4c9ae965513877bae,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -38.30005
+      objectReference: {fileID: 0}
     - target: {fileID: 4127653367515469816, guid: 4c74c524c2067ed4c9ae965513877bae,
         type: 3}
       propertyPath: m_IsActive
@@ -6795,7 +6801,11 @@ PrefabInstance:
         type: 3}
       insertIndex: 1
       addedObject: {fileID: 587043914}
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 2197781192768925906, guid: 4c74c524c2067ed4c9ae965513877bae,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 0}
   m_SourcePrefab: {fileID: 100100000, guid: 4c74c524c2067ed4c9ae965513877bae, type: 3}
 --- !u!224 &1279707075 stripped
 RectTransform:
@@ -7699,7 +7709,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 15
+  m_fontSize: 18
   m_fontSizeBase: 24
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -9115,8 +9125,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 643062952a5c41cdb02e047915f37fa2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  interactionPointOffset: {fileID: 0}
   radius: 1.25
   time: 1
+  offset: {x: 0, y: -1, z: 0}
   onInteract:
     m_PersistentCalls:
       m_Calls:
@@ -9132,7 +9144,6 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-  offset: {x: 0, y: -1, z: 0}
   text: {fileID: 831938847}
   meshes:
   - {fileID: 2030068219}
