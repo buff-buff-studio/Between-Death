@@ -54,6 +54,7 @@ namespace Refactor.Tutorial.Steps
 
         private IEnumerator _OnEnemyDie()
         {
+            controller.NextStep();
             yield return new WaitForSeconds(2.5f);
             var module = player.GetModule<HealthEntityModule>() as IHealth;
             module.Heal(module.maxHealth);
