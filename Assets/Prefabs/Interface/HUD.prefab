@@ -935,6 +935,7 @@ MonoBehaviour:
   - {fileID: 5873528405447287873}
   player: {fileID: 0}
   healthBarFill: {fileID: 7937005099187016364}
+  documentWindow: {fileID: 109143484297662031}
 --- !u!1 &6651471906235780903
 GameObject:
   m_ObjectHideFlags: 0
@@ -1690,11 +1691,41 @@ PrefabInstance:
       propertyPath: m_Name
       value: DocumentWindow
       objectReference: {fileID: 0}
+    - target: {fileID: 1432320535629532776, guid: 97cc43cff1d2da24398034996031a54f,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2760908368015736926, guid: 97cc43cff1d2da24398034996031a54f,
+        type: 3}
+      propertyPath: m_SortingLayer
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2760908368015736926, guid: 97cc43cff1d2da24398034996031a54f,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+    - target: {fileID: 2811877955164482579, guid: 97cc43cff1d2da24398034996031a54f,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4813267092255538364, guid: 97cc43cff1d2da24398034996031a54f,
         type: 3}
       propertyPath: dimmer
       value: 
       objectReference: {fileID: 4393345312517514690}
+    - target: {fileID: 5587529801240206542, guid: 97cc43cff1d2da24398034996031a54f,
+        type: 3}
+      propertyPath: m_SortingLayer
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5655520519184379921, guid: 97cc43cff1d2da24398034996031a54f,
+        type: 3}
+      propertyPath: m_sharedMaterial
+      value: 
+      objectReference: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
     - target: {fileID: 5917614017360198288, guid: 97cc43cff1d2da24398034996031a54f,
         type: 3}
       propertyPath: m_Pivot.x
@@ -1800,11 +1831,68 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6250394392607263677, guid: 97cc43cff1d2da24398034996031a54f,
+        type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6250394392607263677, guid: 97cc43cff1d2da24398034996031a54f,
+        type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6250394392607263677, guid: 97cc43cff1d2da24398034996031a54f,
+        type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 1075
+      objectReference: {fileID: 0}
+    - target: {fileID: 6250394392607263677, guid: 97cc43cff1d2da24398034996031a54f,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -50
+      objectReference: {fileID: 0}
+    - target: {fileID: 7213291198001912268, guid: 97cc43cff1d2da24398034996031a54f,
+        type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7213291198001912268, guid: 97cc43cff1d2da24398034996031a54f,
+        type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7213291198001912268, guid: 97cc43cff1d2da24398034996031a54f,
+        type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 25
+      objectReference: {fileID: 0}
+    - target: {fileID: 7213291198001912268, guid: 97cc43cff1d2da24398034996031a54f,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -50
+      objectReference: {fileID: 0}
+    - target: {fileID: 8823993795840381709, guid: 97cc43cff1d2da24398034996031a54f,
+        type: 3}
+      propertyPath: m_SortingLayer
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 97cc43cff1d2da24398034996031a54f, type: 3}
+--- !u!114 &109143484297662031 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 195826938481722379, guid: 97cc43cff1d2da24398034996031a54f,
+    type: 3}
+  m_PrefabInstance: {fileID: 230940303773370948}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1f9467bc072cb96488cb2bd96ad3ca05, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &4753652832594065144 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 4813267092255538364, guid: 97cc43cff1d2da24398034996031a54f,
