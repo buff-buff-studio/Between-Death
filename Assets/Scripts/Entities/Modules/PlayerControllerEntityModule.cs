@@ -322,7 +322,7 @@ namespace Refactor.Entities.Modules
                 var angle = Vector3.SignedAngle(Vector3.forward, inputMove, Vector3.up);
                 deltaAngle = Mathf.DeltaAngle(body.eulerAngles.y, angle);
                 
-                if (math.abs(deltaAngle) < 50f)
+                //if (math.abs(deltaAngle) < 50f)
                 {
                     body.eulerAngles = new Vector3(0,
                         Mathf.LerpAngle(body.eulerAngles.y, angle, deltaTime * 8f), 0);

@@ -18,7 +18,6 @@ namespace Refactor
             }
         }
         
-        
         public static readonly InputBool InputInteract = new();
         public static Vector2 InputMove = Vector2.zero;
         public static Vector2 InputCamera = Vector2.zero;

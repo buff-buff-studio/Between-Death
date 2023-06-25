@@ -1207,6 +1207,7 @@ MonoBehaviour:
     - rid: 5295485814535094273
     - rid: 5295485939385630720
   controller: {fileID: 7596402278019098228}
+  respawnPosition: {x: 0, y: 0, z: 0}
   isGrounded: 0
   velocity: {x: 0, y: 0, z: 0}
   _element:
@@ -1253,7 +1254,8 @@ MonoBehaviour:
         groundLeanWeight: 0.25
         dashDuration: 0.075
         dashSpeed: 25
-        airMoveSpeed: 5
+        airMoveSpeed: 3
+        dashCooldown: 1
         state: 0
         lookDirection: {x: 0, y: 0, z: 0}
         posY: 0
@@ -1322,6 +1324,7 @@ MonoBehaviour:
         possibleCombos: []
         inputOrder: 
         hasDamaged: 0
+        time: 0
         onPlayerPerformAttack:
           m_PersistentCalls:
             m_Calls: []
@@ -1329,6 +1332,9 @@ MonoBehaviour:
           m_PersistentCalls:
             m_Calls: []
         onPlayerDamageVictim:
+          m_PersistentCalls:
+            m_Calls: []
+        onAttackEnd:
           m_PersistentCalls:
             m_Calls: []
     - rid: 5295485814535094272
@@ -1402,6 +1408,7 @@ MonoBehaviour:
           dashDuration: 1
           dashSpeed: 10
           airMoveSpeed: 3
+          dashCooldown: 1
           state: 0
           lookDirection: {x: 0, y: 0, z: 0}
           posY: 0
