@@ -5,11 +5,10 @@ using Refactor.I18n;
 using Refactor.Interface;
 using TMPro;
 using UnityEngine;
-using UnityEngine.Events;
 
 namespace Refactor.Tutorial
 {
-    public class NewTutorialController : Singleton<NewTutorialController>
+    public class TutorialController : Singleton<TutorialController>
     {
         [Serializable]
         public class BindingDisplayItem
@@ -19,13 +18,10 @@ namespace Refactor.Tutorial
         }
         
         public BindingDisplayItem[] bindingDisplayItems;
-        
+        public TutorialTargetMarker tutorialTargetMarker;
         public TutorialStep[] steps;
         public int currentStepIndex = -1;
-
-        public UnityEvent onTutorialBegin;
-        public UnityEvent onTutorialEnd;
-
+        
         public CanvasGroup tutorialBox;
         public TMP_Text tutorialBoxTitle;
         public TMP_Text tutorialBoxContent;
@@ -68,6 +64,34 @@ namespace Refactor.Tutorial
         private void CloseTutorialBox()
         {
             tutorialBox.DOFade(0f, 0.5f);
+        }
+
+        public void ShowTargetMarker(Vector3 point, Color color)
+        {
+            if (tutorialTargetMarker.canvasGroup.alpha < 0.1f)
+            {
+                tutorialTargetMarker.canvasGroup.DOFade(1f, 0.5f);
+                tutorialTargetMarker.targetPos = point;
+                tutorialTargetMarker.color = color;
+            }
+            else
+            {
+                StartCoroutine(_ShowTargetMarker(point, color));
+            }
+        }
+
+        public void CloseTargetMarker()
+        {
+            tutorialTargetMarker.canvasGroup.DOFade(0f, 0.25f);
+        }
+
+        private IEnumerator _ShowTargetMarker(Vector3 point, Color color)
+        {
+            tutorialTargetMarker.canvasGroup.DOFade(0f, 0.25f);
+            yield return new WaitForSeconds(0.25f);
+            tutorialTargetMarker.targetPos = point;
+            tutorialTargetMarker.color = color;
+            tutorialTargetMarker.canvasGroup.DOFade(1f, 0.25f);
         }
 
         public void ShowTutorialBox(string title, string content)

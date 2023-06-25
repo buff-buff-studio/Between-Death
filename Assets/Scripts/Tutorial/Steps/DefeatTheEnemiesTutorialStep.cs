@@ -34,6 +34,7 @@ namespace Refactor.Tutorial.Steps
                 module.shouldAttack = true;
                 module.attackTarget = player.transform;
                 module.wanderingCenterPoint = center;
+                module.NewTarget();
                 
                 entity.GetModule<HealthEntityModule>().onDie.AddListener(OnEnemyDie);
             }

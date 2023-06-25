@@ -12,7 +12,7 @@ namespace Refactor.Tutorial
         [SerializeField, HideInInspector]
         private bool _isCurrent = false;
         [SerializeField, HideInInspector]
-        public NewTutorialController controller;
+        public TutorialController controller;
 
         public IngameGameInput input => controller.input;
         

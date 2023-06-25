@@ -21,7 +21,7 @@ namespace Refactor.Props
             t.forward = -fw;
 
             foreach (var mesh in meshes)
-                mesh.forward = -fw;
+                mesh.right = -fw;
         }
     }
 }

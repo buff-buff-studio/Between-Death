@@ -18,6 +18,8 @@ namespace Refactor.Tutorial.Steps
             
             controller.ShowBindingDisplay("interact");
             button.gameObject.SetActive(true);
+            
+            controller.ShowTargetMarker(button.transform.position, Color.green);
         }
         
         public override void OnEnd()
@@ -27,6 +29,7 @@ namespace Refactor.Tutorial.Steps
             input.DisableAllInput();
             
             button.gameObject.SetActive(false);
+            controller.CloseTargetMarker();
         }
     }
 }

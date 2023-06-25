@@ -23,6 +23,8 @@ namespace Refactor.Tutorial.Steps
 
             foreach (var plat in platforms)
                 plat.SetActive(true);
+            
+            controller.ShowTargetMarker(button.transform.position, Color.green);
         }
         
         public override void OnEnd()
@@ -35,6 +37,7 @@ namespace Refactor.Tutorial.Steps
                 plat.SetActive(false);
             
             button.SetActive(false);
+            controller.CloseTargetMarker();
         }
     }
 }
