@@ -1,5 +1,6 @@
 using Refactor.Entities;
 using Refactor.Entities.Modules;
+using Refactor.Interface;
 using Refactor.Misc;
 using UnityEngine;
 
@@ -36,9 +37,17 @@ namespace Refactor.Tutorial.Steps
             }
         }
 
+        public override void OnEnd()
+        {
+            base.OnEnd();
+            controller.ShowBindingDisplay("");
+            input.DisableAllInput();
+            LoadingScreen.LoadScene("Scene/Menu");
+        }
+
         public void OnEnemyDie()
         {
-            if (--count == 0)
+            if (count-- == 0)
             {
                 var module = player.GetModule<HealthEntityModule>() as IHealth;
                 module.Heal(module.maxHealth);
