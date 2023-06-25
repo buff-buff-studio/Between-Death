@@ -1,4 +1,5 @@
-﻿using Unity.Mathematics;
+﻿using Refactor.Data.Variables;
+using Unity.Mathematics;
 using UnityEngine;
 
 namespace Refactor.Misc
@@ -7,11 +8,15 @@ namespace Refactor.Misc
     {
         [Header("REFERENCES")]
         public Transform target;
-        
+
+        public Value<float> sensitivityX = 50;
+        public Value<float> sensitivityY = 50;
+        public Value<bool> invertX = false;
+        public Value<bool> invertY = true;
+
         [Header("SETTINGS")]
         public Vector3 offset;
         public float distance = 5f;
-        public float mouseSensibility = 2f;
         public float rotationLerpSpeed = 5f;
         public float collisionRadius = 3f;
         public float minDistance = 1f;
@@ -39,16 +44,19 @@ namespace Refactor.Misc
             var deltaTime = Time.deltaTime;
             var t = transform;
             var d = distance;
-            var ms = mouseSensibility;
+            var msModifier = 1f;
             if (GameInput.CurrentControlScheme is GameInput.ControlScheme.Desktop)
-                ms *= 0.25f;
+                msModifier *= 0.25f;
 
             #region Input
-            if (Cursor.lockState == CursorLockMode.Locked)
+            
+            if (Cursor.lockState == CursorLockMode.Locked && GameInput.CurrentControlScheme != GameInput.ControlScheme.Desktop)
             {
+                var senX = (invertX ? -1f : 1f) * math.clamp(sensitivityX.value/10f, 0f, 1f); 
+                var senY = (invertY ? -1f : 1f) * math.clamp(sensitivityY.value/10f, 0f, 1f); 
                 var mouseInput = IngameGameInput.InputCamera;
-                rotation.y += mouseInput.x * ms;
-                rotation.x = math.clamp(rotation.x + mouseInput.y * ms, -89f, 89f);
+                rotation.y += mouseInput.x * senX * msModifier;
+                rotation.x = math.clamp(rotation.x + mouseInput.y * senY * msModifier, -89f, 89f);
             }
             #endregion
 

@@ -60,6 +60,7 @@ namespace Refactor.Entities.Modules
         public float dashDuration = 1f;
         public float dashSpeed = 10f;
         public float airMoveSpeed = 3f;
+        public float dashCooldown = 1f;
         
         [Header("STATE")] 
         public PlayerState state;
@@ -186,8 +187,11 @@ namespace Refactor.Entities.Modules
         
         public void Handle__Dash()
         {
-            if (IngameGameInput.InputDash.trigger && entity.element == Element.Chaos)
+            dashCooldown -= Time.deltaTime;
+            
+            if (dashCooldown < 0 && IngameGameInput.InputDash.trigger && entity.element == Element.Chaos)
             {
+                dashCooldown = 0.5f;
                 state = PlayerState.Dashing;
                 entity.StartCoroutine(_Handle__Dash_Coroutine());
                 onPlayerDash.Invoke();

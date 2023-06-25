@@ -18,6 +18,7 @@ namespace Refactor
             }
         }
         
+        
         public static readonly InputBool InputInteract = new();
         public static Vector2 InputMove = Vector2.zero;
         public static Vector2 InputCamera = Vector2.zero;
@@ -108,7 +109,7 @@ namespace Refactor
         protected override void Update()
         {
             base.Update();
-    
+            
             Cursor.lockState = canInput ? CursorLockMode.Locked : CursorLockMode.None;
             
             InputInteract.SetValue(canInput && canInteract && inputInteract.ReadValue<float>() > 0);
