@@ -31,6 +31,8 @@ namespace Refactor.Entities.Modules
         public float lastWalkingInput = 0;
         public bool goingToAttack = false;
         public bool isAttacking = false;
+        public Vector3 wanderingCenterPoint;
+        public float wanderingRadius = 6;
 
         [Header("SETTINGS - IK")]
         public float ikFootOffset = 0.005f;
@@ -53,7 +55,7 @@ namespace Refactor.Entities.Modules
             }
             else
             {
-                target = new Vector3(Random.Range(-7f, 7f), 0, Random.Range(-7f, 7f));
+                target = wanderingCenterPoint + Quaternion.Euler(0, Random.Range(0f, 360f), 0) * new Vector3(0, 0, wanderingRadius);
                 RePath(false);
             }
         }

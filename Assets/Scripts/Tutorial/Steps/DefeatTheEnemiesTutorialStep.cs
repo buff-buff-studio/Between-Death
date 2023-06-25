@@ -33,6 +33,7 @@ namespace Refactor.Tutorial.Steps
                 var module = entity.GetModule<EnemyControllerEntityModule>();
                 module.shouldAttack = true;
                 module.attackTarget = player.transform;
+                module.wanderingCenterPoint = center;
                 
                 entity.GetModule<HealthEntityModule>().onDie.AddListener(OnEnemyDie);
             }
