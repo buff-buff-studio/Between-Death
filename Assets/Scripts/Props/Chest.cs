@@ -3,14 +3,15 @@ using UnityEngine.Events;
 
 namespace Refactor.Props
 {
-    public class Lever : Interactible
+    public class Chest : Interactible
     {
         [Space]
         public bool state;
 
         public bool callOnEnable = true;
-        public UnityEvent onOn;
-        public UnityEvent onOff;
+        public string openAnimationName = "Open";
+        
+        private Animator animator => GetComponent<Animator>();
         
         protected override void OnEnable()
         {
@@ -21,9 +22,7 @@ namespace Refactor.Props
             if (!callOnEnable) return;
             
             if (state)
-                onOn.Invoke();
-            else
-                onOff.Invoke();
+                animator.Play(openAnimationName);
         }
 
         protected override void OnDisable()
@@ -35,10 +34,8 @@ namespace Refactor.Props
 
         public void Toggle()
         {
-            if ((state = !state))
-                onOn.Invoke();
-            else
-                onOff.Invoke();
+            if (state)
+                animator.Play(openAnimationName);
         }
     }
 }

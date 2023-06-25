@@ -47,7 +47,7 @@ namespace Refactor.Entities.Modules
             if (currentInteractible != null && canInteract)
             {
                 interactionDisplay.gameObject.SetActive(true);
-                interactionDisplay.transform.position = currentInteractible.transform.position;
+                interactionDisplay.transform.position = currentInteractible.interactionPoint;
             }
             else
             {
