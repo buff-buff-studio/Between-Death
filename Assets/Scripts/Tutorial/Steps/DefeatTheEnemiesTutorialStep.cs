@@ -1,3 +1,4 @@
+using System.Collections;
 using Refactor.Entities;
 using Refactor.Entities.Modules;
 using Refactor.Interface;
@@ -42,17 +43,21 @@ namespace Refactor.Tutorial.Steps
             base.OnEnd();
             controller.ShowBindingDisplay("");
             input.DisableAllInput();
-            LoadingScreen.LoadScene("Scene/Menu");
+            LoadingScreen.LoadScene("Scenes/Menu");
         }
 
         public void OnEnemyDie()
         {
-            if (count-- == 0)
-            {
-                var module = player.GetModule<HealthEntityModule>() as IHealth;
-                module.Heal(module.maxHealth);
-                controller.NextStep();
-            }
+            if (--count == 0)
+                StartCoroutine(_OnEnemyDie());
+        }
+
+        private IEnumerator _OnEnemyDie()
+        {
+            yield return new WaitForSeconds(2.5f);
+            var module = player.GetModule<HealthEntityModule>() as IHealth;
+            module.Heal(module.maxHealth);
+            controller.NextStep();
         }
     }
 }

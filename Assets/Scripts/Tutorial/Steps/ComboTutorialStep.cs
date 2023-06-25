@@ -35,6 +35,7 @@ namespace Refactor.Tutorial.Steps
             _module.onPlayerPerformAttack.AddListener(_OnPerformAttack);
             _module.onPlayerFailCombo.AddListener(_OnFailAttack);
             _module.onAttackEnd.AddListener(_OnAttacKEnd);
+            _module.time = 0;
 
             _OnAttacKEnd();
             displayGroup.DOFade(1f, 0.5f);

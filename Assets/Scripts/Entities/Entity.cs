@@ -76,7 +76,6 @@ namespace Refactor.Entities
 
         public void Die()
         {
-            
             var entityModule = GetModule<EnemyControllerEntityModule>();
             if (entityModule != null)
             {

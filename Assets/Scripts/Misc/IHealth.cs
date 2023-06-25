@@ -20,7 +20,7 @@ namespace Refactor.Misc
                 ShowHealthDisplay(true, math.ceil(a));
 
             health = OnHealthChange(health - a);
-            if(health <= 0) 
+            if(health <= 0 && a > 0) 
                 OnDie();
             
             return a;
