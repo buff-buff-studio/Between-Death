@@ -1,8 +1,5 @@
-using System;
 using DG.Tweening;
 using TMPro;
-using Unity.Mathematics;
-using Unity.VisualScripting;
 using UnityEngine;
 
 namespace Refactor.Tutorial.Steps
@@ -39,10 +36,10 @@ namespace Refactor.Tutorial.Steps
 
             angle += IngameGameInput.InputCamera.magnitude;
 
-            if (angle > 150f)
+            if (angle > 400f)
             {
                 controller.NextStep();
-                angle = 150f;
+                angle = 400f;
             }
 
             rotatingAngleLabel.text = $"{angle:F0}°";
