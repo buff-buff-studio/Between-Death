@@ -33,6 +33,8 @@ namespace Refactor.Tutorial.Steps
             controller.ShowBindingDisplay("dash");
             target.SetActive(true);
             controller.ShowTargetMarker(target.transform.position, Color.magenta);
+            
+            player.GetModule<PlayerAttackEntityModule>().attackRadius = 1.5f;
         }
         
         public override void OnEnd()

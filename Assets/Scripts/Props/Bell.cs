@@ -19,7 +19,7 @@ namespace Refactor.Props
         {
             var deltaTime = Time.deltaTime;
             var targetPos = state ? topPosition : bottomPosition;
-            transform.position = Vector3.Lerp(transform.position, targetPos, deltaTime * 12f);
+            transform.position = Vector3.Lerp(transform.position, targetPos, deltaTime);
         }
     }
 }
