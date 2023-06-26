@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using Refactor.Audio;
 using Refactor.Data;
 using Refactor.Interface.Widgets;
 using TMPro;
@@ -53,6 +54,7 @@ namespace Refactor.Interface.Windows
 
                     var i = (widgets.IndexOf(canvas.GetCurrentWidget()) + 1)%widgets.Count;
                     canvas.SetCurrentWidget(widgets[i]);
+                    AudioSystem.PlaySound("ui_click");
                     return true;
                 }
 
@@ -64,6 +66,7 @@ namespace Refactor.Interface.Windows
                     var i = (widgets.IndexOf(canvas.GetCurrentWidget()) - 1);
                     if (i < 0) i = widgets.Count - 1;
                     canvas.SetCurrentWidget(widgets[i]);
+                    AudioSystem.PlaySound("ui_click");
                     return true;
                 }
 

@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Refactor.Audio;
 using Refactor.Interface.Widgets;
 using TMPro;
 using UnityEngine;
@@ -82,6 +83,7 @@ namespace Refactor.Interface.Windows
 
                     index = (index + 1) % widgets.Length;
                     canvas.SetCurrentWidget(widgets[index]);
+                    AudioSystem.PlaySound("ui_click");
                     return true;
                 }
                 case InterfaceAction.MoveUp:
@@ -91,6 +93,7 @@ namespace Refactor.Interface.Windows
 
                     index = (index > 0) ? index - 1 : widgets.Length - 1;
                     canvas.SetCurrentWidget(widgets[index]);
+                    AudioSystem.PlaySound("ui_click");
                     return true;
                 }
                 default:

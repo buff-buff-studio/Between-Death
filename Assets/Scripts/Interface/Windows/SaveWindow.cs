@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Refactor.Audio;
 using Refactor.Data;
 using Refactor.I18n;
 using Refactor.Interface.Widgets;
@@ -52,6 +53,7 @@ namespace Refactor.Interface.Windows
 
                     index = (index + 1) % widgets.Length;
                     canvas.SetCurrentWidget(widgets[index]);
+                    AudioSystem.PlaySound("ui_click");
                     return true;
                 }
                 case InterfaceAction.MoveUp:
@@ -61,6 +63,7 @@ namespace Refactor.Interface.Windows
 
                     index = (index > 0) ? index - 1 : widgets.Length - 1;
                     canvas.SetCurrentWidget(widgets[index]);
+                    AudioSystem.PlaySound("ui_click");
                     return true;
                 }
                 case InterfaceAction.Confirm:
@@ -83,7 +86,8 @@ namespace Refactor.Interface.Windows
                         Close();
                         canvas.StartCoroutine(_LoadScene("Scenes/Game_Playground"));
                     }
-
+                    
+                    AudioSystem.PlaySound("ui_click");
                     return true;
                 }
                 case InterfaceAction.ActionThird:
