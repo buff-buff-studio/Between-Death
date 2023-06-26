@@ -1,4 +1,5 @@
 using System;
+using Refactor.Audio;
 using Refactor.Data.Variables;
 using TMPro;
 using UnityEngine;
@@ -17,7 +18,7 @@ namespace Refactor.Interface.Data
             if (value.hasVariable)
             {
                 value.currentVariable.onChanged.AddListener(_HandleValueInverse);
-                _HandleValueInverse();
+                toggle.value = value.value;
             }
         }
 
@@ -36,6 +37,7 @@ namespace Refactor.Interface.Data
         private void _HandleValueInverse()
         {
             toggle.value = value.value;
+            AudioSystem.PlaySound("ui_click");
         }
     }
 }

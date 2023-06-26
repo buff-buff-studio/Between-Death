@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using DG.Tweening;
+using Refactor.Audio;
 using Refactor.Interface.Widgets;
 using UnityEngine;
 
@@ -91,6 +92,8 @@ namespace Refactor.Interface.Windows
 
         public virtual void Close()
         {
+            AudioSystem.PlaySound("ui_window");
+            
             var tweenId = $"window_{id}";
             DOTween.Kill(tweenId);
             var group = gameObject.GetOrAddComponent<CanvasGroup>();
