@@ -235,6 +235,7 @@ namespace Refactor.Entities.Modules
                 var hPos = (target.GetGameObject().transform.position + pos) / 2f;
                 
                 target.Damage(attack.damageCount);
+                AudioSystem.PlaySound("impact").At(hPos);
                 
                 if (target.health > 0 && target is HealthEntityModule module)
                 {
