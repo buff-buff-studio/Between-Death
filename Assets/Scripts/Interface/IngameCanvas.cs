@@ -20,7 +20,7 @@ namespace Refactor.Interface
         public Image[] bloodStains;
         public Entity player;
         private float lastHealth = 0;
-        public RectTransform healthBarFill;
+        public Image healthBarFill;
         public Image elementIcon;
         public Sprite chaosIcon;
         public Sprite orderIcon;
@@ -125,7 +125,7 @@ namespace Refactor.Interface
         public void UpdateHealthBar(float health)
         {
             var module = (IHealth) player.GetModule<HealthEntityModule>();
-            healthBarFill.DOSizeDelta(new Vector2(260 * health / module.maxHealth, 20), 0.5f);
+            healthBarFill.DOFillAmount(health / module.maxHealth, 0.5f);
         }
         
         public void ShowDamageEffect()
