@@ -1,5 +1,6 @@
 using DG.Tweening;
 using Refactor;
+using Refactor.Audio;
 using Unity.Mathematics;
 using UnityEditor;
 using UnityEngine;
@@ -53,6 +54,7 @@ namespace Refactor.Interface.Widgets
             var prevTab = currentTab;
             currentTab = (currentTab + 1) % tabs.Length;
             _SwitchTabAnimation(prevTab, currentTab, -1);
+            AudioSystem.PlaySound("ui_window");
         }
 
         public void PrevTab()
@@ -62,6 +64,7 @@ namespace Refactor.Interface.Widgets
             var prevTab = currentTab;
             currentTab = currentTab > 0 ? currentTab - 1 : tabs.Length - 1;
             _SwitchTabAnimation(prevTab, currentTab, 1);
+            AudioSystem.PlaySound("ui_window");
         }
 
         public void SetTab(int tab)

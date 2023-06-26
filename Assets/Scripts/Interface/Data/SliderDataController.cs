@@ -1,3 +1,4 @@
+using Refactor.Audio;
 using Refactor.Data.Variables;
 using UnityEngine;
 using UnityEngine.UI;
@@ -15,7 +16,7 @@ namespace Refactor.Interface.Data
             if (value.hasVariable)
             {
                 value.currentVariable.onChanged.AddListener(_HandleValueInverse);
-                _HandleValueInverse();
+                slider.value = value.value;
             }
         }
 
@@ -34,6 +35,7 @@ namespace Refactor.Interface.Data
         private void _HandleValueInverse()
         {
             slider.value = value.value;
+            AudioSystem.PlaySound("ui_click");
         }
     }
 }
