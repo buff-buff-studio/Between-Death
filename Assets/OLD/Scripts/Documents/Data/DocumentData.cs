@@ -21,7 +21,7 @@ public class DocumentData : ScriptableObject
     public string documentName = "New Document";
     public string documentDescription = "Document Description";
     
-    [SerializeField] [Multiline] internal string _documentTranscript;
+    [SerializeField] [TextArea(3,20)] internal string _documentTranscript;
     
     public virtual object GetDocument => null;
 }
