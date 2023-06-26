@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using Refactor.Audio;
 using Refactor.Data;
 using Refactor.Misc;
 using Refactor.Tutorial;
@@ -30,6 +31,9 @@ namespace Refactor.Entities.Modules
         public GameObject groundObject;
         public Vector3 groundPos;
         public Quaternion groundRotation;
+        public float groundDistance;
+        public bool wasOnGround;
+        public float footstepTime;
         
         public Vector3 offset;
         public Quaternion rotation;
@@ -61,6 +65,7 @@ namespace Refactor.Entities.Modules
         public float dashSpeed = 10f;
         public float airMoveSpeed = 3f;
         public float dashCooldown = 1f;
+        public float footThreshold = 0.236f;
         
         [Header("STATE")] 
         public PlayerState state;
@@ -382,6 +387,24 @@ namespace Refactor.Entities.Modules
             
             ApplyFootIK(AvatarIKGoal.LeftFoot,ref leftFootState);
             ApplyFootIK(AvatarIKGoal.RightFoot,ref rightFootState);
+
+            HandleFootSound(ref leftFootState);
+            HandleFootSound(ref rightFootState);
+        }
+
+        public void HandleFootSound(ref HumanFootState footState)
+        {
+            var grounded = footState.groundDistance < footThreshold;
+            if (grounded && !footState.wasOnGround)
+            {
+                if (Time.time > footState.footstepTime)
+                {
+                    footState.footstepTime = Time.time + 0.5f;
+                    AudioSystemController.instance.PlaySound(AudioSystem.HashString("step")).At(footState.groundPos);
+                }
+            }
+
+            footState.wasOnGround = grounded;
         }
 
         private void CalculateFootIK(HumanBodyBones bone, ref HumanFootState footState,float deltaTime)
@@ -449,8 +472,13 @@ namespace Refactor.Entities.Modules
 
             for(var i = 0; i < 1; i ++)
             {
+                footState.groundDistance = 100;
+                
                 if (!Physics.Raycast(pos + transform.forward * (i * off), Vector3.down, out var hit, 0.75f,
                         groundMask)) continue;
+
+                footState.groundDistance = hit.distance;
+                
                 if(i == 0)
                     footState.hitCache = hit;
                 else

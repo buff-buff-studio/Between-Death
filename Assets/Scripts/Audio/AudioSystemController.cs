@@ -5,7 +5,7 @@ using UnityEngine.Serialization;
 
 namespace Refactor.Audio
 {
-    public class AudioSystemController : MonoBehaviour
+    public class AudioSystemController : Singleton<AudioSystemController>
     {
         #region Fields
         [Header("SETTINGS")]
@@ -16,6 +16,7 @@ namespace Refactor.Audio
 
         [FormerlySerializedAs("pallete")] [Header("REFERENCES")]
         public AudioPalette palette;
+        public FloatVariable volumeGeneral;
         public FloatVariable volumeFX;
         public FloatVariable volumeMusic;
 
@@ -65,8 +66,9 @@ namespace Refactor.Audio
         {
             transform.position = Camera.main.transform.position;
 
-            float volFX = volumeFX.Value;
-            float volMusic = volumeMusic.Value;
+            var volGen = Mathf.Clamp01(volumeGeneral.Value/10f);
+            var volFX = Mathf.Clamp01(volumeFX.Value/10) * volGen;
+            var volMusic = Mathf.Clamp01(volumeMusic.Value/10) * volGen;
 
             if(_musicFading && _isPlayingMusic)
             {

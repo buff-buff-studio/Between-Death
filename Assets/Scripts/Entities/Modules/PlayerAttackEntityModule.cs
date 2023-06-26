@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using Refactor.Audio;
 using Refactor.Data;
 using Refactor.Misc;
 using Refactor.Tutorial;
@@ -250,6 +251,8 @@ namespace Refactor.Entities.Modules
         
         public void OnPerformAttack(AttackCombo combo, AttackCombo.Attack attack)
         {
+            AudioSystem.PlaySound("attack").At(entity.transform.position);
+
             var index = Array.IndexOf(combo.attacks, attack);
             if (index > 0)
                 ApplyDamageFor(combo.attacks[index - 1]);

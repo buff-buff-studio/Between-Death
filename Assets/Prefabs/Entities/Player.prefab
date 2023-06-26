@@ -1256,6 +1256,7 @@ MonoBehaviour:
         dashSpeed: 25
         airMoveSpeed: 3
         dashCooldown: 1
+        footThreshold: 0.25
         state: 0
         lookDirection: {x: 0, y: 0, z: 0}
         posY: 0
@@ -1267,6 +1268,8 @@ MonoBehaviour:
           groundObject: {fileID: 0}
           groundPos: {x: 0, y: 0, z: 0}
           groundRotation: {x: 0, y: 0, z: 0, w: 0}
+          groundDistance: 0
+          wasOnGround: 0
           offset: {x: 0, y: 0, z: 0}
           rotation: {x: 0, y: 0, z: 0, w: 0}
           heightChange: 0
@@ -1275,6 +1278,8 @@ MonoBehaviour:
           groundObject: {fileID: 0}
           groundPos: {x: 0, y: 0, z: 0}
           groundRotation: {x: 0, y: 0, z: 0, w: 0}
+          groundDistance: 0
+          wasOnGround: 0
           offset: {x: 0, y: 0, z: 0}
           rotation: {x: 0, y: 0, z: 0, w: 0}
           heightChange: 0
@@ -1409,6 +1414,7 @@ MonoBehaviour:
           dashSpeed: 10
           airMoveSpeed: 3
           dashCooldown: 1
+          footThreshold: 0.236
           state: 0
           lookDirection: {x: 0, y: 0, z: 0}
           posY: 0
@@ -1420,6 +1426,8 @@ MonoBehaviour:
             groundObject: {fileID: 0}
             groundPos: {x: 0, y: 0, z: 0}
             groundRotation: {x: 0, y: 0, z: 0, w: 0}
+            groundDistance: 0
+            wasOnGround: 0
             offset: {x: 0, y: 0, z: 0}
             rotation: {x: 0, y: 0, z: 0, w: 0}
             heightChange: 0
@@ -1428,6 +1436,8 @@ MonoBehaviour:
             groundObject: {fileID: 0}
             groundPos: {x: 0, y: 0, z: 0}
             groundRotation: {x: 0, y: 0, z: 0, w: 0}
+            groundDistance: 0
+            wasOnGround: 0
             offset: {x: 0, y: 0, z: 0}
             rotation: {x: 0, y: 0, z: 0, w: 0}
             heightChange: 0

@@ -731,6 +731,7 @@ Transform:
   - {fileID: 715882912}
   - {fileID: 8925151407264416622}
   - {fileID: 1799792037}
+  - {fileID: 602440321}
   m_Father: {fileID: 0}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -1528,6 +1529,12 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!4 &602440321 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 7774545127360487104, guid: 3d45a0d00c5ff1e4dbe50fba9902f3cf,
+    type: 3}
+  m_PrefabInstance: {fileID: 1027950365118398490}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &643682944
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2954,6 +2961,9 @@ MonoBehaviour:
           groundObject: {fileID: 0}
           groundPos: {x: 0, y: 0, z: 0}
           groundRotation: {x: 0, y: 0, z: 0, w: 0}
+          groundDistance: 0
+          wasOnGround: 0
+          footstepTime: 0
           offset: {x: 0, y: 0, z: 0}
           rotation: {x: 0, y: 0, z: 0, w: 0}
           heightChange: 0
@@ -2962,6 +2972,9 @@ MonoBehaviour:
           groundObject: {fileID: 0}
           groundPos: {x: 0, y: 0, z: 0}
           groundRotation: {x: 0, y: 0, z: 0, w: 0}
+          groundDistance: 0
+          wasOnGround: 0
+          footstepTime: 0
           offset: {x: 0, y: 0, z: 0}
           rotation: {x: 0, y: 0, z: 0, w: 0}
           heightChange: 0
@@ -3452,6 +3465,9 @@ MonoBehaviour:
           groundObject: {fileID: 0}
           groundPos: {x: 0, y: 0, z: 0}
           groundRotation: {x: 0, y: 0, z: 0, w: 0}
+          groundDistance: 0
+          wasOnGround: 0
+          footstepTime: 0
           offset: {x: 0, y: 0, z: 0}
           rotation: {x: 0, y: 0, z: 0, w: 0}
           heightChange: 0
@@ -3460,6 +3476,9 @@ MonoBehaviour:
           groundObject: {fileID: 0}
           groundPos: {x: 0, y: 0, z: 0}
           groundRotation: {x: 0, y: 0, z: 0, w: 0}
+          groundDistance: 0
+          wasOnGround: 0
+          footstepTime: 0
           offset: {x: 0, y: 0, z: 0}
           rotation: {x: 0, y: 0, z: 0, w: 0}
           heightChange: 0
@@ -3869,6 +3888,79 @@ Transform:
   m_Father: {fileID: 1477831796}
   m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1001 &1027950365118398490
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 141406782}
+    m_Modifications:
+    - target: {fileID: 6038740041157408684, guid: 3d45a0d00c5ff1e4dbe50fba9902f3cf,
+        type: 3}
+      propertyPath: m_Name
+      value: AudioSystem
+      objectReference: {fileID: 0}
+    - target: {fileID: 7774545127360487104, guid: 3d45a0d00c5ff1e4dbe50fba9902f3cf,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: -1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7774545127360487104, guid: 3d45a0d00c5ff1e4dbe50fba9902f3cf,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7774545127360487104, guid: 3d45a0d00c5ff1e4dbe50fba9902f3cf,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7774545127360487104, guid: 3d45a0d00c5ff1e4dbe50fba9902f3cf,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7774545127360487104, guid: 3d45a0d00c5ff1e4dbe50fba9902f3cf,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7774545127360487104, guid: 3d45a0d00c5ff1e4dbe50fba9902f3cf,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7774545127360487104, guid: 3d45a0d00c5ff1e4dbe50fba9902f3cf,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7774545127360487104, guid: 3d45a0d00c5ff1e4dbe50fba9902f3cf,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7774545127360487104, guid: 3d45a0d00c5ff1e4dbe50fba9902f3cf,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7774545127360487104, guid: 3d45a0d00c5ff1e4dbe50fba9902f3cf,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7774545127360487104, guid: 3d45a0d00c5ff1e4dbe50fba9902f3cf,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 3d45a0d00c5ff1e4dbe50fba9902f3cf, type: 3}
 --- !u!1 &1057212863274704280
 GameObject:
   m_ObjectHideFlags: 0
@@ -3988,12 +4080,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8c5bb9e632194989aab4ce613f3d606e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  interactionPointOffset: {fileID: 0}
   radius: 1
   time: 0
+  offset: {x: 0, y: -0.25, z: 0}
   onInteract:
     m_PersistentCalls:
       m_Calls: []
-  offset: {x: 0, y: -0.25, z: 0}
   text: {fileID: 2334185147577710915}
   meshes:
   - {fileID: 1917851213976469907}
@@ -4939,11 +5032,7 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 2197781192768925906, guid: 4c74c524c2067ed4c9ae965513877bae,
-        type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 0}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4c74c524c2067ed4c9ae965513877bae, type: 3}
 --- !u!114 &4441033577819424108 stripped
 MonoBehaviour:

@@ -50,10 +50,10 @@ namespace Refactor.Misc
 
             #region Input
             
-            if (Cursor.lockState == CursorLockMode.Locked && GameInput.CurrentControlScheme != GameInput.ControlScheme.Desktop)
+            if (Cursor.lockState == CursorLockMode.Locked || GameInput.CurrentControlScheme != GameInput.ControlScheme.Desktop)
             {
                 var senX = (invertX ? -1f : 1f) * math.clamp(sensitivityX.value/10f, 0f, 1f); 
-                var senY = (invertY ? -1f : 1f) * math.clamp(sensitivityY.value/10f, 0f, 1f); 
+                var senY = (invertY ? -1f : 1f) * math.clamp(sensitivityY.value/10f, 0f, 1f);
                 var mouseInput = IngameGameInput.InputCamera;
                 rotation.y += mouseInput.x * senX * msModifier;
                 rotation.x = math.clamp(rotation.x + mouseInput.y * senY * msModifier, -89f, 89f);
