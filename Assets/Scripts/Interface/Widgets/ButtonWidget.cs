@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using Refactor.Audio;
 using TMPro;
 using Unity.Mathematics;
 using UnityEngine;
@@ -37,6 +38,7 @@ namespace Refactor.Interface.Widgets
 
         public void OnPointerClick(PointerEventData eventData)
         {
+            AudioSystem.PlaySound("ui_click");
             onPress.Invoke();
         }
         
@@ -73,6 +75,7 @@ namespace Refactor.Interface.Widgets
 
         private IEnumerator _DoClick()
         {
+            AudioSystem.PlaySound("ui_click");
             onPress.Invoke();
             state = 2;
             yield return new WaitForSeconds(0.1f);

@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using DG.Tweening;
+using Refactor.Audio;
 using Refactor.Interface.Widgets;
 using UnityEngine;
 using UnityEngine.Events;
@@ -28,10 +29,13 @@ namespace Refactor.Interface.Windows
             dimmer.alpha = 0;
             dimmer.gameObject.SetActive(true);
             dimmer.DOFade(1f, 0.25f).SetId(tweenId);
+            
+            AudioSystem.PlaySound("ui_alert");
         }
         
         public override void Close()
         {
+            AudioSystem.PlaySound("ui_click");
             base.Close();
             var tweenId = $"window_{id}";
             dimmer.DOFade(0f, 1f).SetId(tweenId)
