@@ -114,6 +114,7 @@ namespace Refactor.Interface
         {
             quitDialogWindow.Close();
             StartCoroutine(_CloseQuitGame());
+            ingameGameInput.canInput = true;
         }
         
         private IEnumerator _CloseQuitGame()
