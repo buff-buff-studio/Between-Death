@@ -1,4 +1,5 @@
 using DG.Tweening;
+using Refactor.Misc;
 using TMPro;
 using UnityEngine;
 
@@ -8,8 +9,7 @@ namespace Refactor.Tutorial.Steps
     {
         public CanvasGroup rotatingAngleBox;
         public TMP_Text rotatingAngleLabel;
-        public float angle;
-        
+
         public override void OnBegin()
         {
             base.OnBegin();
@@ -19,6 +19,7 @@ namespace Refactor.Tutorial.Steps
             controller.ShowBindingDisplay("move_camera");
             
             rotatingAngleBox.DOFade(1f, 0.5f);
+            OrbitCamera.DeltaRot = 0;
         }
 
         public override void OnEnd()
@@ -33,16 +34,14 @@ namespace Refactor.Tutorial.Steps
         private void FixedUpdate()
         {
             if (!isCurrent) return;
-
-            angle += IngameGameInput.InputCamera.magnitude;
-
-            if (angle > 400f)
+            
+            if (OrbitCamera.DeltaRot > 400f)
             {
                 controller.NextStep();
-                angle = 400f;
+                OrbitCamera.DeltaRot = 400f;
             }
 
-            rotatingAngleLabel.text = $"{angle:F0}°";
+            rotatingAngleLabel.text = $"{OrbitCamera.DeltaRot:F0}°";
         }
     }
 }

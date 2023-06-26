@@ -6,6 +6,7 @@ namespace Refactor.Misc
 {
     public class OrbitCamera : MonoBehaviour
     {
+        public static float DeltaRot = 0;
         [Header("REFERENCES")]
         public Transform target;
 
@@ -55,6 +56,8 @@ namespace Refactor.Misc
                 var senX = (invertX ? -1f : 1f) * math.clamp(sensitivityX.value/10f, 0f, 1f); 
                 var senY = (invertY ? -1f : 1f) * math.clamp(sensitivityY.value/10f, 0f, 1f);
                 var mouseInput = IngameGameInput.InputCamera;
+
+                DeltaRot += math.abs(mouseInput.x * senX * msModifier) + math.abs(mouseInput.y * senY * msModifier);
                 rotation.y += mouseInput.x * senX * msModifier;
                 rotation.x = math.clamp(rotation.x + mouseInput.y * senY * msModifier, -89f, 89f);
             }
