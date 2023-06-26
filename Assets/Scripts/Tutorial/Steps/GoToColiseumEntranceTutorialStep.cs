@@ -1,4 +1,5 @@
 using Refactor.Entities;
+using Refactor.Entities.Modules;
 using UnityEngine;
 
 namespace Refactor.Tutorial.Steps
@@ -22,6 +23,8 @@ namespace Refactor.Tutorial.Steps
             target.gameObject.SetActive(true);
             
             controller.ShowTargetMarker(target.transform.position, Color.magenta);
+
+            player.GetModule<PlayerAttackEntityModule>().attackRadius = 8f;
         }
         
         public override void OnEnd()

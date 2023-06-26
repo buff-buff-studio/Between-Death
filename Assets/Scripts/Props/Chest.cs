@@ -34,6 +34,7 @@ namespace Refactor.Props
 
         public void Toggle()
         {
+            state = !state;
             if (state)
                 animator.Play(openAnimationName);
         }
