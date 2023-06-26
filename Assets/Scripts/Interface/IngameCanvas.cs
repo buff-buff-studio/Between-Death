@@ -100,6 +100,7 @@ namespace Refactor.Interface
         
         public void QuitGame()
         {
+            Debug.Log("aaaa");
             quitDialogWindow.GetComponent<CanvasGroup>().DOFade(0, 0.5f);
             StartCoroutine(_QuitGame());
         }

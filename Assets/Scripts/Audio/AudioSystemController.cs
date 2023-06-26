@@ -47,17 +47,18 @@ namespace Refactor.Audio
                 _CreateNewSource();
         }
 
-        public void OnEnable()
+        protected override void OnEnable()
         {
+            base.OnEnable();
             if(AudioSystem.controller != null) 
                 Destroy(gameObject);
 
             AudioSystem.controller = this;
-            DontDestroyOnLoad(gameObject);
         }
 
-        public void OnDisable()
+        protected override void OnDisable()
         {
+            base.OnDisable();
             if(AudioSystem.controller != null && AudioSystem.controller == this)
                 AudioSystem.controller = null;
         }

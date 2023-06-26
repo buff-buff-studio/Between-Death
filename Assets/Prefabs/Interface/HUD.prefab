@@ -426,7 +426,7 @@ CanvasGroup:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1409444683328174023}
   m_Enabled: 1
-  m_Alpha: 1
+  m_Alpha: 0
   m_Interactable: 1
   m_BlocksRaycasts: 1
   m_IgnoreParentGroups: 0
@@ -2235,7 +2235,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: '[ui.alert.title]'
+  m_text: '[ui.quit.title]'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 214c60289f9f35045bd73f7a9e5d878b, type: 2}
   m_sharedMaterial: {fileID: -1527441815234785752, guid: 214c60289f9f35045bd73f7a9e5d878b,
@@ -2461,7 +2461,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: '[ui.alert.restoresettings]'
+  m_text: '[ui.quit.message]'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 214c60289f9f35045bd73f7a9e5d878b, type: 2}
   m_sharedMaterial: {fileID: -1527441815234785752, guid: 214c60289f9f35045bd73f7a9e5d878b,
@@ -2692,6 +2692,12 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 195826938481722379, guid: 97cc43cff1d2da24398034996031a54f,
         type: 3}
+      propertyPath: _documentData
+      value: 
+      objectReference: {fileID: 11400000, guid: 6089e270529c891418a9524cbd236791,
+        type: 2}
+    - target: {fileID: 195826938481722379, guid: 97cc43cff1d2da24398034996031a54f,
+        type: 3}
       propertyPath: _descriptionText
       value: 
       objectReference: {fileID: 3321015981036290896}
@@ -2848,7 +2854,7 @@ PrefabInstance:
     - target: {fileID: 6250394392607263677, guid: 97cc43cff1d2da24398034996031a54f,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 1690
+      value: 1659.8271
       objectReference: {fileID: 0}
     - target: {fileID: 6250394392607263677, guid: 97cc43cff1d2da24398034996031a54f,
         type: 3}
@@ -2873,7 +2879,7 @@ PrefabInstance:
     - target: {fileID: 7213291198001912268, guid: 97cc43cff1d2da24398034996031a54f,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 230
+      value: 219.94235
       objectReference: {fileID: 0}
     - target: {fileID: 7213291198001912268, guid: 97cc43cff1d2da24398034996031a54f,
         type: 3}
@@ -3248,21 +3254,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 7919303916722034133}
-        m_TargetAssemblyTypeName: Refactor.Interface.Windows.DialogWindow, Assembly-CSharp
-        m_MethodName: Close
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 11400000, guid: a72fadd6b10511444bd714d13c713374, type: 2}
-        m_TargetAssemblyTypeName: Refactor.Data.Settings, Assembly-CSharp
-        m_MethodName: Reset
+      - m_Target: {fileID: 1075087075779185976}
+        m_TargetAssemblyTypeName: Refactor.Interface.IngameCanvas, Assembly-CSharp
+        m_MethodName: QuitGame
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

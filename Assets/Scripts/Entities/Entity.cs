@@ -97,6 +97,11 @@ namespace Refactor.Entities
             }
         }
 
+        private void OnControllerColliderHit(ControllerColliderHit hit)
+        {
+            Debug.Log(hit.gameObject);
+        }
+
         private IEnumerator _Respawn()
         {
             yield return new WaitForSeconds(2f);
