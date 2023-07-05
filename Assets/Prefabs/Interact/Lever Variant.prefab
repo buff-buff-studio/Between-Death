@@ -190,6 +190,10 @@ PrefabInstance:
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 5163650664203227897}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 1b49011bc98d633439390e6831c2991f,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 0}
     - targetCorrespondingSourceObject: {fileID: -3133498875991405556, guid: 1b49011bc98d633439390e6831c2991f,
         type: 3}
       insertIndex: -1
@@ -235,9 +239,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   interactionPointOffset: {fileID: 6650047210992600310}
-  radius: 2
   time: 0
+  colliderType: 0
   offset: {x: 0, y: 0, z: 0}
+  size: {x: 0, y: 0, z: 0}
+  editOnCollider: 0
   onInteract:
     m_PersistentCalls:
       m_Calls: []

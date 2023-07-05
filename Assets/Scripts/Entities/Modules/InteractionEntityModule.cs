@@ -70,6 +70,7 @@ namespace Refactor.Entities.Modules
             {
                 if (frameInteractible != null && !needToRestart)
                 {
+                    /*
                     if ((time += deltaTime) > frameInteractible.time)
                     {
                         frameInteractible.onInteract.Invoke();
@@ -78,6 +79,7 @@ namespace Refactor.Entities.Modules
                     }
 
                     interactionDisplay.progress = time / frameInteractible.time;
+                    */
                 }
                 else
                     interactionDisplay.progress = time = 0;
