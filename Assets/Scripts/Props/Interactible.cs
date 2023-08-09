@@ -55,68 +55,18 @@ namespace Refactor.Props
 
         protected virtual void OnDisable() { }
 
+        protected void OnTriggerEnter(Collider col)
+        {
+            if (!col.CompareTag("Player")) return;
+            
+            var distance = distanceToInteract >= Vector3.Distance(transform.position, col.transform.position);
+            
+        }
+
 #if UNITY_EDITOR
         private void OnValidate()
         {
-            distanceToInteract = Mathf.Clamp(distanceToInteract, 0f, radius);
-            /*
-            if(Application.isPlaying) return;
-
-            if (!editOnCollider && !copyCollider)
-            {
-                var sp = TryGetComponent(out SphereCollider sphere);
-                var bx = TryGetComponent(out BoxCollider box);
-
-                if (true)
-                {
-                    if (sp) if (sphere.isTrigger) StartCoroutine(DestroyCollider(sphere));
-
-                    if (!bx) _collider = gameObject.AddComponent<BoxCollider>();
-
-                    var boxCollider = (BoxCollider)_collider;
-                    
-                    boxCollider.center = offset;
-                    boxCollider.size = size;
-                }
-                else
-                {
-                    if (bx) if (box.isTrigger) StartCoroutine(DestroyCollider(box));
-
-                    if (!sp) _collider = gameObject.AddComponent<SphereCollider>();
-
-                    var sphereCollider = (SphereCollider)_collider;
-                    radius = size.x;
-                    sphereCollider.center = offset;
-                    sphereCollider.radius = radius;
-                }
-
-                _collider.isTrigger = true;
-                _collider.enabled = true;
-            }
-            else
-            {
-                switch (colliderType)
-                {
-                    case ColliderType.Box when TryGetComponent(out BoxCollider box):
-                        size = box.size;
-                        offset = box.center;
-                        break;
-                    case ColliderType.Sphere when TryGetComponent(out SphereCollider sphere):
-                        radius = sphere.radius;
-                        offset = sphere.center;
-                        break;
-                    default:
-                        throw new ArgumentOutOfRangeException();
-                }
-                copyCollider = editOnCollider;
-            }
-            */
-        }
-        
-        private IEnumerator DestroyCollider(Collider collider)
-        {
-            yield return new WaitForEndOfFrame();
-            DestroyImmediate(collider);
+            
         }
 #endif
     }
