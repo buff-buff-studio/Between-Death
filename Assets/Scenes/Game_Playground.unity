@@ -17932,6 +17932,21 @@ PrefabInstance:
       propertyPath: _ingameCanvas
       value: 
       objectReference: {fileID: 627541023}
+    - target: {fileID: 248135093931975882, guid: 4c74c524c2067ed4c9ae965513877bae,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1004007703093551442, guid: 4c74c524c2067ed4c9ae965513877bae,
+        type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1004007703093551442, guid: 4c74c524c2067ed4c9ae965513877bae,
+        type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1075087075779185976, guid: 4c74c524c2067ed4c9ae965513877bae,
         type: 3}
       propertyPath: player
@@ -18072,6 +18087,11 @@ PrefabInstance:
       propertyPath: m_sharedMaterial
       value: 
       objectReference: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+    - target: {fileID: 5772409553836203165, guid: 4c74c524c2067ed4c9ae965513877bae,
+        type: 3}
+      propertyPath: m_Color.a
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6163644954855375353, guid: 4c74c524c2067ed4c9ae965513877bae,
         type: 3}
       propertyPath: m_AnchorMax.y
@@ -18085,7 +18105,7 @@ PrefabInstance:
     - target: {fileID: 6163644954855375353, guid: 4c74c524c2067ed4c9ae965513877bae,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 1075
+      value: 1690
       objectReference: {fileID: 0}
     - target: {fileID: 6163644954855375353, guid: 4c74c524c2067ed4c9ae965513877bae,
         type: 3}
@@ -18097,6 +18117,21 @@ PrefabInstance:
       propertyPath: m_Name
       value: HUD
       objectReference: {fileID: 0}
+    - target: {fileID: 7086763889792266509, guid: 4c74c524c2067ed4c9ae965513877bae,
+        type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7086763889792266509, guid: 4c74c524c2067ed4c9ae965513877bae,
+        type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7086763889792266509, guid: 4c74c524c2067ed4c9ae965513877bae,
+        type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7435078891500245896, guid: 4c74c524c2067ed4c9ae965513877bae,
         type: 3}
       propertyPath: m_AnchorMax.y
@@ -18110,7 +18145,7 @@ PrefabInstance:
     - target: {fileID: 7435078891500245896, guid: 4c74c524c2067ed4c9ae965513877bae,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 25
+      value: 230
       objectReference: {fileID: 0}
     - target: {fileID: 7435078891500245896, guid: 4c74c524c2067ed4c9ae965513877bae,
         type: 3}
@@ -18175,7 +18210,11 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 2197781192768925906, guid: 4c74c524c2067ed4c9ae965513877bae,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 0}
   m_SourcePrefab: {fileID: 100100000, guid: 4c74c524c2067ed4c9ae965513877bae, type: 3}
 --- !u!114 &627541023 stripped
 MonoBehaviour:
@@ -27817,11 +27856,14 @@ MonoBehaviour:
   interactionPointOffset: {fileID: 0}
   time: 0.5
   distanceToInteract: 0
-  colliderType: 0
-  vectorSize: {x: 0, y: 0, z: 0}
   onInteract:
     m_PersistentCalls:
       m_Calls: []
+  colliderType: 0
+  vectorSize: {x: 0, y: 0, z: 0}
+  _anchorX: 0
+  _anchorY: 0
+  _anchorZ: 0
   text: {fileID: 1214061793}
   meshes:
   - {fileID: 976013518}
@@ -52508,11 +52550,14 @@ MonoBehaviour:
   interactionPointOffset: {fileID: 0}
   time: 0
   distanceToInteract: 1.203
-  colliderType: 2
-  vectorSize: {x: 1.46, y: 1.1, z: 1.34}
   onInteract:
     m_PersistentCalls:
       m_Calls: []
+  colliderType: 2
+  vectorSize: {x: 1.46, y: 1.1, z: 1.34}
+  _anchorX: 0
+  _anchorY: 0
+  _anchorZ: 0
   state: 0
   callOnEnable: 1
   canReOpen: 1
