@@ -11,6 +11,7 @@ public class SkillList : ScriptableObject
     public SkillData Get(int i) => skills[i];
     public Element GetElement(int i) => skills[i].element;
     public int GetDamage(int i) => skills[i].damage;
+    public int GetKnockback(int i) => skills[i].knockback;
     public float GetDuration(int i) => skills[i].duration;
     public float GetCooldown(int i) => skills[i].cooldown;
     public Sprite GetIcon(int i) => skills[i].icon;
