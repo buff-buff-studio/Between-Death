@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.18028378, g: 0.22571412, b: 0.30692285, a: 1}
+  m_IndirectSpecularColor: {r: 0.18028352, g: 0.22571376, b: 0.30692244, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -491,7 +491,27 @@ PrefabInstance:
     - target: {fileID: 1526624545595797904, guid: 82a623b96aea47c4986141c7e88eecba,
         type: 3}
       propertyPath: _modules.editorOpen
-      value: 0
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1526624545595797904, guid: 82a623b96aea47c4986141c7e88eecba,
+        type: 3}
+      propertyPath: managedReferences[5295486037513732097].attackDelay
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1526624545595797904, guid: 82a623b96aea47c4986141c7e88eecba,
+        type: 3}
+      propertyPath: managedReferences[5295486037513732097].attackRange
+      value: 1.25
+      objectReference: {fileID: 0}
+    - target: {fileID: 1526624545595797904, guid: 82a623b96aea47c4986141c7e88eecba,
+        type: 3}
+      propertyPath: managedReferences[5295486037513732097].attackTarget
+      value: 
+      objectReference: {fileID: 475066394}
+    - target: {fileID: 1526624545595797904, guid: 82a623b96aea47c4986141c7e88eecba,
+        type: 3}
+      propertyPath: managedReferences[5295486037513732097].shouldAttack
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1526624545595797904, guid: 82a623b96aea47c4986141c7e88eecba,
         type: 3}
@@ -1601,7 +1621,32 @@ PrefabInstance:
     - target: {fileID: 5953383342743106851, guid: 7af2fb47d60c569428af5e6ba45c96e2,
         type: 3}
       propertyPath: _modules.editorOpen
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5953383342743106851, guid: 7af2fb47d60c569428af5e6ba45c96e2,
+        type: 3}
+      propertyPath: managedReferences[5295485814535094272].editorOpen
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5953383342743106851, guid: 7af2fb47d60c569428af5e6ba45c96e2,
+        type: 3}
+      propertyPath: managedReferences[5295486037513732096].attackDelay
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5953383342743106851, guid: 7af2fb47d60c569428af5e6ba45c96e2,
+        type: 3}
+      propertyPath: managedReferences[5295486037513732096].attackRange
+      value: 1.25
+      objectReference: {fileID: 0}
+    - target: {fileID: 5953383342743106851, guid: 7af2fb47d60c569428af5e6ba45c96e2,
+        type: 3}
+      propertyPath: managedReferences[5295486037513732096].attackTarget
+      value: 
+      objectReference: {fileID: 475066394}
+    - target: {fileID: 5953383342743106851, guid: 7af2fb47d60c569428af5e6ba45c96e2,
+        type: 3}
+      propertyPath: managedReferences[5295486037513732096].shouldAttack
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5953383342743106851, guid: 7af2fb47d60c569428af5e6ba45c96e2,
         type: 3}
@@ -2943,6 +2988,8 @@ MonoBehaviour:
         shouldWalk: 1
         shouldAttack: 0
         attackDistance: 4
+        attackDelay: 4
+        attackRange: 1.25
         animator: {fileID: 1193202828}
         body: {fileID: 1193202826}
         attackTarget: {fileID: 0}
@@ -3447,6 +3494,8 @@ MonoBehaviour:
         shouldWalk: 1
         shouldAttack: 0
         attackDistance: 4
+        attackDelay: 4
+        attackRange: 1.25
         animator: {fileID: 175765618}
         body: {fileID: 175765614}
         attackTarget: {fileID: 0}
@@ -4081,12 +4130,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   interactionPointOffset: {fileID: 0}
-  radius: 1
   time: 0
-  offset: {x: 0, y: -0.25, z: 0}
+  distanceToInteract: 1
   onInteract:
     m_PersistentCalls:
       m_Calls: []
+  colliderType: 0
+  vectorSize: {x: 0, y: 0, z: 0}
+  _anchorX: 0
+  _anchorY: 0
+  _anchorZ: 0
   text: {fileID: 2334185147577710915}
   meshes:
   - {fileID: 1917851213976469907}
@@ -4263,6 +4316,11 @@ PrefabInstance:
     - target: {fileID: 3786246022240127654, guid: 055562c2a24b6c240a8e467ab79e5207,
         type: 3}
       propertyPath: m_Name
+      value: Player
+      objectReference: {fileID: 0}
+    - target: {fileID: 3786246022240127654, guid: 055562c2a24b6c240a8e467ab79e5207,
+        type: 3}
+      propertyPath: m_TagString
       value: Player
       objectReference: {fileID: 0}
     - target: {fileID: 5341423231546255535, guid: 055562c2a24b6c240a8e467ab79e5207,

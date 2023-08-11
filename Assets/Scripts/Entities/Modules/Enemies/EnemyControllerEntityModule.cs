@@ -17,6 +17,8 @@ namespace Refactor.Entities.Modules
         public bool shouldWalk;
         public bool shouldAttack;
         public float attackDistance = 4f;
+        public float attackDelay = 4f;
+        public float attackRange = 1.25f;
         
         [Header("REFERENCES")]
         public Animator animator;
@@ -46,13 +48,20 @@ namespace Refactor.Entities.Modules
         public LayerMask groundMask;
         public float timeout = 10f;
 
+        protected virtual void OnLineOfSightPlayer()
+        {
+            
+        }
+        
         public void NewTarget()
         {
-            if (shouldAttack && Vector3.Distance(entity.transform.position, attackTarget.position) < attackDistance)
+            // saw player
+            if (shouldAttack && IsSeeingPlayer())
             {
                 target = attackTarget.position;
                 RePath(true);
             }
+            // wandering
             else
             {
                 target = wanderingCenterPoint + Quaternion.Euler(0, Random.Range(0f, 360f), 0) * new Vector3(0, 0, wanderingRadius);
@@ -135,7 +144,15 @@ namespace Refactor.Entities.Modules
                 animator.CrossFade("Stop", 0.2f);
             #endregion
         }
-        
+
+        protected virtual bool IsSeeingPlayer()
+        {
+            return Vector3.Distance(entity.transform.position, attackTarget.position) < attackDistance;
+        }
+        protected virtual bool DistanceToAttack()
+        {
+            return Vector3.Distance(entity.transform.position, attackTarget.position) < attackRange;
+        }
         
         public Vector3 UpdateWalk(float deltaTime,out bool running)
         {
@@ -147,7 +164,7 @@ namespace Refactor.Entities.Modules
                 return Vector3.zero;
             }
             if (!goingToAttack && shouldAttack &&
-                Vector3.Distance(entity.transform.position, attackTarget.position) < attackDistance)
+                IsSeeingPlayer())
             {
                 NewTarget();
             }
@@ -161,8 +178,9 @@ namespace Refactor.Entities.Modules
                     return Vector3.zero;
                 }
                 
-                if (goingToAttack && Vector3.Distance(entity.transform.position, attackTarget.position) < 1.25f)
+                if (goingToAttack && DistanceToAttack())
                 {
+                    Debug.Log("Attack");
                     entity.StartCoroutine(_Attack());
                     return Vector3.zero;
                 }
@@ -185,7 +203,7 @@ namespace Refactor.Entities.Modules
             return Vector3.zero;
         }
 
-        private IEnumerator _Attack()
+        protected virtual IEnumerator _Attack()
         {
             isAttacking = true;
             animator.CrossFade($"Attack {Random.Range(0, 3)}", 0.25f);
@@ -228,7 +246,7 @@ namespace Refactor.Entities.Modules
 
         private IEnumerator _Next()
         {
-            if (shouldAttack && Vector3.Distance(entity.transform.position, attackTarget.position) < attackDistance)
+            if (shouldAttack && IsSeeingPlayer())
             {
                 NewTarget();
             }
