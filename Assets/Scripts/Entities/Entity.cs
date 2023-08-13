@@ -99,7 +99,7 @@ namespace Refactor.Entities
 
         private void OnControllerColliderHit(ControllerColliderHit hit)
         {
-            Debug.Log(hit.gameObject);
+           // Debug.Log(hit.gameObject);
         }
 
         private IEnumerator _Respawn()
