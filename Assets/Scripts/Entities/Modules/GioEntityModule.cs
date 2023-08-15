@@ -10,13 +10,15 @@ namespace Refactor.Entities.Modules
     public class GioEntityModule : EntityModule
     {
         public const float TARGET_DISTANCE_THRESHOLD = 0.5f;
+        public float distanceToAttack = 3f;
         
         public enum State
         {
             Idling, //Just waiting
             Wandering, //Just walking around
             Targeting, //Targeting someone
-            Attacking //Attacking someone
+            Attacking, //Attacking someone
+            Retriving
         }
 
         [Header("SETTINGS")] 
@@ -26,6 +28,8 @@ namespace Refactor.Entities.Modules
         public Transform body;
         public Animator animator;
         public Vector3 wanderingOrigin;
+        [SerializeField]private Transform playerRef;
+        
         
         [Header("STATE")]
         public State state;
@@ -37,11 +41,13 @@ namespace Refactor.Entities.Modules
         private NavMeshPath _path;
         private int _pathIndex = 0;
         public float pathTime = 0;
-    
+        
         public override void OnEnable()
         {
             base.OnEnable();
             wanderingStart = entity.transform.position;
+
+            playerRef =playerRef ? GameObject.FindWithTag("Player").transform : playerRef;
         }
 
         public override void UpdateFrame(float deltaTime)
@@ -98,9 +104,8 @@ namespace Refactor.Entities.Modules
                 
                 case State.Idling:
                     return Vector3.zero;
-                
-                case State.Wandering:
-                case State.Targeting:
+             
+                case State.Targeting or State.Wandering:
                     if (_path == null || _path.status == NavMeshPathStatus.PathInvalid)
                     {
                         _NewWanderTarget();
@@ -112,8 +117,21 @@ namespace Refactor.Entities.Modules
                         _OnReachTarget();
                         return Vector3.zero;
                     }
-                    
+          
+                
                     //distance & state is State.Targeting
+
+                    if (state == State.Wandering)
+                    {
+                        if (IsSeeingPlayer())
+                            state = State.Targeting;
+                    }
+                    else
+                    {
+                        if (IsSeeingPlayer())
+                            state = State.Targeting;
+                    }
+                    
                     pathTime += deltaTime;
                     
                     var waypoint = _path.corners[_pathIndex];
@@ -127,12 +145,16 @@ namespace Refactor.Entities.Modules
                         _pathIndex++;
                         return Vector3.zero;
                     }
+                    
+              
+                    
+                    
                     return direction;
             }
             
             return Vector3.zero;
         }
-        
+
         public void UpdatePathfinding(float deltaTime)
         {
             switch (state)
@@ -183,6 +205,21 @@ namespace Refactor.Entities.Modules
         protected virtual void _NewWanderTarget()
         {
             _DoPathTo(wanderingStart + new Vector3(Random.Range(-3, 3), 1, Random.Range(-3, 3)));
+        }
+        
+        protected virtual bool IsSeeingPlayer()
+        {
+            return false;
+        }
+
+        protected virtual void DistanceToAttack()
+        {
+            
+        }
+        
+        protected virtual void Attack()
+        {
+           
         }
         #endregion
     }

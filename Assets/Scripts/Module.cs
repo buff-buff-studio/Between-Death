@@ -48,8 +48,8 @@ namespace Refactor
         
         public virtual void OnEnable() {}
         public virtual void OnDisable() {}
-        
-    #if UNITY_EDITOR
+
+#if UNITY_EDITOR
         [SerializeField, HideInInspector]
         public bool editorOpen = true;
     #endif
