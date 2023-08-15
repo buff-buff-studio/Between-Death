@@ -1,4 +1,5 @@
 using System;
+using Refactor.Misc;
 using Unity.Mathematics;
 using UnityEngine;
 using UnityEngine.AI;
@@ -7,10 +8,10 @@ using Random = UnityEngine.Random;
 namespace Refactor.Entities.Modules
 {
     [Serializable]
-    public class GioEntityModule : EntityModule
+    public class BaseEnemyEntityModule : EntityModule
     {
         public const float TARGET_DISTANCE_THRESHOLD = 0.5f;
-        public float distanceToAttack = 3f;
+      
         
         public enum State
         {
@@ -18,7 +19,8 @@ namespace Refactor.Entities.Modules
             Wandering, //Just walking around
             Targeting, //Targeting someone
             Attacking, //Attacking someone
-            Retriving
+            Retriving,
+            Dodging
         }
 
         [Header("SETTINGS")] 
@@ -41,12 +43,27 @@ namespace Refactor.Entities.Modules
         private NavMeshPath _path;
         private int _pathIndex = 0;
         public float pathTime = 0;
+
+
+        [Header("STATE - ATTACKING")] 
+        [SerializeField] private float attackCollDown = 2f;
+        private float _lastAttack = 0;
+        [SerializeField]private float distanceToAttack = 1.25f;
+        [SerializeField]private float distanceToChasePlayer = 6f;
+        private bool _isAttacking;
+
+        [Header("STATE - RETRIVE")] [SerializeField]
+        private float chanceToRetrive = 5;
         
+        [Header("STATE - DODGE")] 
+        [SerializeField]
+        private float chanceToDogde;
         public override void OnEnable()
         {
             base.OnEnable();
             wanderingStart = entity.transform.position;
-
+            _pathTime = PathTime();
+            _wanderingTime = WanderingTime();
             playerRef =playerRef ? GameObject.FindWithTag("Player").transform : playerRef;
         }
 
@@ -96,13 +113,26 @@ namespace Refactor.Entities.Modules
         public Vector3 GetWalkInput(float deltaTime, out bool running)
         {
             running = false;
-            
             switch (state)
             {
                 case State.Attacking:
+                    
+                    if (!DistanceToAttack())
+                        state = State.Targeting;
+                    
+                    if (Time.time > _lastAttack + attackCollDown)
+                    {
+                        Attack();
+
+                        if (Random.Range(0, 11) < chanceToRetrive)
+                            state = State.Retriving;
+                        _lastAttack = Time.time;
+                    }
                     break;
                 
                 case State.Idling:
+                    if (IsSeeingPlayer())
+                        state = State.Targeting;
                     return Vector3.zero;
              
                 case State.Targeting or State.Wandering:
@@ -117,14 +147,15 @@ namespace Refactor.Entities.Modules
                         _OnReachTarget();
                         return Vector3.zero;
                     }
-          
-                
+                    
                     //distance & state is State.Targeting
 
-                    if (state == State.Wandering)
+                    if(state == State.Targeting)
                     {
-                        if (IsSeeingPlayer())
-                            state = State.Targeting;
+                        if (!IsSeeingPlayer())
+                            state = State.Wandering;
+                        if (DistanceToAttack())
+                            state = State.Attacking;
                     }
                     else
                     {
@@ -139,42 +170,67 @@ namespace Refactor.Entities.Modules
                     var distance = delta.magnitude;
                     var direction = delta / distance;
                     
-                    running = distance > runningDistance;
+                    running = distance > runningDistance || state == State.Targeting;
                     if (distance < TARGET_DISTANCE_THRESHOLD) //Distance Threshold
                     {
                         _pathIndex++;
                         return Vector3.zero;
                     }
-                    
-              
-                    
-                    
+
+
                     return direction;
+                
+                case State.Retriving:
+                    break;
+                case State.Dodging:
+                    break;
             }
             
             return Vector3.zero;
         }
 
+        private int GetRandomWanderingTime()
+        {
+            return Random.Range(2, 5);
+        }
+        
+        private int WanderingTime()
+        {
+            return Random.Range(8, 15);
+        }
+        
+        private int PathTime()
+        {
+            return Random.Range(2, 4);
+        }
+
+        private int _wanderingTime;
+        private int _pathTime;
         public void UpdatePathfinding(float deltaTime)
         {
             switch (state)
             {
                 case State.Idling:
-                    if (stateTime > 3)
+                    if (stateTime > _pathTime)
                     {
                         state = State.Wandering;
                         stateTime = 0;
+                        _pathTime = PathTime();
                     }
                     return;
                 
                 case State.Wandering:
-                    if(pathTime > 3)
+                    if (pathTime > _pathTime)
+                    {
                         _NewWanderTarget();
-
-                    if (stateTime > 10)
+                        _wanderingTime = WanderingTime();
+                    }
+                    
+                    if (stateTime > _wanderingTime)
                     {
                         state = State.Idling;
                         stateTime = 0;
+                        _pathTime = PathTime();
                     }
                     return;
                 
@@ -204,23 +260,64 @@ namespace Refactor.Entities.Modules
 
         protected virtual void _NewWanderTarget()
         {
-            _DoPathTo(wanderingStart + new Vector3(Random.Range(-3, 3), 1, Random.Range(-3, 3)));
+            Vector3 target;
+            if (IsSeeingPlayer())
+                target = playerRef.position;
+            else
+                target = wanderingStart + new Vector3(Random.Range(-3, 3), 1, Random.Range(-3, 3));
+            
+            
+            _DoPathTo(target);
         }
         
         protected virtual bool IsSeeingPlayer()
         {
-            return false;
+            return Vector3.Distance(playerRef.transform.position, entity.transform.position) < distanceToChasePlayer;
         }
 
-        protected virtual void DistanceToAttack()
+        protected virtual bool DistanceToAttack()
         {
-            
+            return Vector3.Distance(playerRef.transform.position, entity.transform.position) < distanceToAttack;
         }
         
         protected virtual void Attack()
         {
-           
+            _isAttacking = true;
+            animator.CrossFade($"Attack {Random.Range(0, 3)}", 0.25f);
+            ApplyDamageFor(1, 2);
         }
+        
+        private void ApplyDamageFor(float damage, float radius)
+        {
+            var p = entity.transform.position;
+            var pos = p + Vector3.up;/* + _controllerEntity.body.rotation * attackOffset;*/
+            var fw = body.forward;
+            
+            foreach (var damageTarget in HealthHelper.GetTargets(pos, radius))
+            {
+                if(damageTarget.GetGameObject().transform != playerRef) continue;
+                //if(target.GetGameObject() == entity.gameObject) continue;
+
+                var delta = (damageTarget.GetGameObject().transform.position - p);
+                var dir = delta.normalized;
+                var dot = Vector3.Dot(fw, dir);
+                if (dot < 0.1) continue;
+                
+                var hPos = (damageTarget.GetGameObject().transform.position + pos) / 2f;
+                
+                damageTarget.Damage(damage);
+                
+                if (damageTarget.health > 0 && damageTarget is HealthEntityModule module)
+                {
+                    var e = module.entity;
+                    e.velocity = dir * 4f;
+                }
+                /*var go = Object.Instantiate(hitParticlesPrefab, hPos, Quaternion.identity);
+                Object.Destroy(go, 2f);*/
+            }
+            _isAttacking = false;
+        }
+
         #endregion
     }
 }
