@@ -6,7 +6,7 @@ namespace Refactor.Entities.Modules
 {
     public class EnemiesInSceneController : MonoBehaviour
     {
-        private List<BaseEnemyEntityModule> enemiesToSpawn;
+        private List<GioEntityModule> enemiesToSpawn;
         private bool _hasSpawned;
 
         public void Spawn()

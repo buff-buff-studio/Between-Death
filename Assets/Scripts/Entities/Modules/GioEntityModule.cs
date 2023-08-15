@@ -3,12 +3,13 @@ using Refactor.Misc;
 using Unity.Mathematics;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.Serialization;
 using Random = UnityEngine.Random;
 
 namespace Refactor.Entities.Modules
 {
     [Serializable]
-    public class BaseEnemyEntityModule : EntityModule
+    public class GioEntityModule : EntityModule
     {
         public const float TARGET_DISTANCE_THRESHOLD = 0.5f;
       
@@ -19,7 +20,7 @@ namespace Refactor.Entities.Modules
             Wandering, //Just walking around
             Targeting, //Targeting someone
             Attacking, //Attacking someone
-            Retriving,
+            Retreating,
             Dodging
         }
 
@@ -52,12 +53,18 @@ namespace Refactor.Entities.Modules
         [SerializeField]private float distanceToChasePlayer = 6f;
         private bool _isAttacking;
 
-        [Header("STATE - RETRIVE")] [SerializeField]
-        private float chanceToRetrive = 5;
+        [Header("STATE - RETREAT")] [SerializeField]
+        private float chanceToRetreat = 5;
+        private bool canTurn;
+        private float retreatTime = 3f;
+        private float _lastRetreat = 0;
+        private float distanceBehind = 4;
         
         [Header("STATE - DODGE")] 
         [SerializeField]
         private float chanceToDogde;
+
+        
         public override void OnEnable()
         {
             base.OnEnable();
@@ -85,24 +92,34 @@ namespace Refactor.Entities.Modules
             #endregion
 
             #region Rotation
-            if (isMoving)
+
+            if (canTurn)
             {
-                lastWalkingInput = Time.time;
-                var angle = Vector3.SignedAngle(Vector3.forward, inputMove, Vector3.up);
-                deltaAngle = Mathf.DeltaAngle(body.eulerAngles.y, angle);
-                
-                if (math.abs(deltaAngle) < 50f)
+                  
+                if (isMoving)
                 {
-                    body.eulerAngles = new Vector3(0,
-                        Mathf.LerpAngle(body.eulerAngles.y, angle, deltaTime * 8f), 0);
+                    lastWalkingInput = Time.time;
+                    var angle = Vector3.SignedAngle(Vector3.forward, inputMove, Vector3.up);
+                    deltaAngle = Mathf.DeltaAngle(body.eulerAngles.y, angle);
+                
+                    if (math.abs(deltaAngle) < 50f)
+                    {
+                        body.eulerAngles = new Vector3(0,
+                            Mathf.LerpAngle(body.eulerAngles.y, angle, deltaTime * 8f), 0);
+                    }
                 }
             }
+          
             #endregion
             
             #region Animations
             var animWalking = animator.GetFloat("walking");
-            animator.SetFloat("turning", math.lerp(animator.GetFloat("turning"), math.clamp(math.abs(deltaAngle) < 25f ? 0 : deltaAngle/30f, -1f, 1f), deltaTime * 8f));
-            animator.SetFloat("walking", math.lerp(animWalking, isMoving ? (isRunning ? 1f : 0.5f) : 0, deltaTime * 2f));
+            if(canTurn)
+                animator.SetFloat("turning", math.lerp(animator.GetFloat("turning"), math.clamp(math.abs(deltaAngle) < 25f ? 0 : deltaAngle/30f, -1f, 1f), deltaTime * 8f));
+            else
+                animator.SetFloat("turning", 0);
+            
+            animator.SetFloat("walking", math.lerp(animWalking, isMoving ? state == State.Retreating ? -0.5f : (isRunning ? 1f : 0.5f) : 0, deltaTime * 2f));
             
             if((animWalking > 0.5f && Time.time > lastWalkingInput + 0.2f)) 
                 animator.CrossFade("Stop", 0.2f);
@@ -124,8 +141,8 @@ namespace Refactor.Entities.Modules
                     {
                         Attack();
 
-                        if (Random.Range(0, 11) < chanceToRetrive)
-                            state = State.Retriving;
+                        if (Random.Range(0, 11) < chanceToRetreat)
+                            state = State.Retreating;
                         _lastAttack = Time.time;
                     }
                     break;
@@ -135,7 +152,7 @@ namespace Refactor.Entities.Modules
                         state = State.Targeting;
                     return Vector3.zero;
              
-                case State.Targeting or State.Wandering:
+                case State.Targeting or State.Wandering or State.Retreating:
                     if (_path == null || _path.status == NavMeshPathStatus.PathInvalid)
                     {
                         _NewWanderTarget();
@@ -148,8 +165,6 @@ namespace Refactor.Entities.Modules
                         return Vector3.zero;
                     }
                     
-                    //distance & state is State.Targeting
-
                     if(state == State.Targeting)
                     {
                         if (!IsSeeingPlayer())
@@ -157,11 +172,21 @@ namespace Refactor.Entities.Modules
                         if (DistanceToAttack())
                             state = State.Attacking;
                     }
-                    else
-                    {
+                    else if(state == State.Wandering)
+                    { 
                         if (IsSeeingPlayer())
                             state = State.Targeting;
+                    }else if (state == State.Retreating)
+                    {
+                        canTurn = false;
+                        if (Time.time > _lastRetreat + retreatTime)
+                        {
+                            _lastRetreat = Time.time;
+                            state = State.Targeting;
+                            canTurn = true;
+                        }
                     }
+                    
                     
                     pathTime += deltaTime;
                     
@@ -176,12 +201,9 @@ namespace Refactor.Entities.Modules
                         _pathIndex++;
                         return Vector3.zero;
                     }
-
-
+                    
                     return direction;
                 
-                case State.Retriving:
-                    break;
                 case State.Dodging:
                     break;
             }
@@ -263,8 +285,11 @@ namespace Refactor.Entities.Modules
             Vector3 target;
             if (IsSeeingPlayer())
                 target = playerRef.position;
+            else if(state == State.Retreating)
+                target = entity.transform.position - (entity.transform.forward * distanceBehind);
             else
                 target = wanderingStart + new Vector3(Random.Range(-3, 3), 1, Random.Range(-3, 3));
+
             
             
             _DoPathTo(target);
