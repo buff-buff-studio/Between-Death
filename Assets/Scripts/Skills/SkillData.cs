@@ -6,6 +6,11 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "Skill", menuName = "RPG/Skill")]
 public class SkillData : ScriptableObject
 {
+    [Header("About")]
+    public string name;
+    [TextArea(3, 10)]
+    public string description;
+    
     [Header("Visuals")]
     public Animation animation;
     public Sprite icon;
