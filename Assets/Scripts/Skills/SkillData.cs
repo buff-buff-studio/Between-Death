@@ -14,6 +14,8 @@ public class SkillData : ScriptableObject
     [Header("Visuals")]
     public Animation animation;
     public Sprite icon;
+    //TODO:: Change this to a VideoClip
+    public Sprite preview;
     
     [Space]
     [Header("Values")]
