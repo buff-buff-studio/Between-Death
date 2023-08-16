@@ -8,10 +8,11 @@ public class SkillItem : MonoBehaviour
 {
     [SerializeField] private bool isEquipSlot = false;
     
-    [SerializeField] private int id;
+    [SerializeField] private uint id;
     [SerializeField] private Image icon;
     [SerializeField] private Button button;
     [SerializeField] private TMPro.TextMeshProUGUI name;
+    [SerializeField] private uint slotID;
     
     public Sprite sprite
     {
@@ -28,24 +29,36 @@ public class SkillItem : MonoBehaviour
     public void Start()
     {
         UpdateSkill(id);
+        button.onClick.AddListener(OnClick);
     }
 
-    public void UpdateSkill(int id)
+    public void UpdateSkill(uint id)
     {
         this.id = id;
-        icon.sprite = SkillManager.instance.skills.GetIcon(id);
-        button.interactable = SkillManager.instance.IsEquipped(id);
-        
+        gameObject.SetActive(SkillManager.instance.InInventory(id));
+        icon.sprite = SkillManager.instance.skills.GetIcon((int)id);
+        button.interactable = !SkillManager.instance.IsEquipped(id);
+
         if (!isEquipSlot) 
-            name.text = SkillManager.instance.skills.GetName(id);
+            name.text = SkillManager.instance.skills.GetName((int)id);
+    }
+    
+    public void OnClick()
+    {
+        if (isEquipSlot)
+            SkillManager.instance.Equip(id, slotID);
+        else
+            SkillManager.instance.Select(id);
     }
 
+#if UNITY_EDITOR
     private void OnValidate()
     {
-        icon ??= GetComponent<Image>();
+        icon ??= transform.GetChild(0).GetComponent<Image>();
         button ??= GetComponent<Button>();
         
         if (!isEquipSlot)
             name ??= GetComponentInChildren<TMPro.TextMeshProUGUI>();
-    }
+    }    
+#endif
 }

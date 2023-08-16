@@ -32,12 +32,24 @@ public class SkillManager : MonoBehaviour
     [SerializeField] private SkillItem[] equippedSlots = new SkillItem[3];
     [SerializeField] private Image[] inGameSlots = new Image[3];
 
+    private int _selectedSkill = -1;
+
     private void Awake()
     {
         if (instance == null) instance = this;
         else Destroy(gameObject);
         
         skills ??= Resources.Load<SkillList>("Skills/SkillList");
+        
+        
+    }
+
+    public void UpdateInfo(int skill)
+    {
+        skillName.text = skills.GetName(skill);
+        skillPreview.sprite = skills.GetPreview(skill);
+        skillElement.text = skills.GetElement(skill).ToString();
+        skillDescription.text = skills.GetDescription(skill);
     }
 
     private void AddSkill(int skill)
@@ -49,7 +61,7 @@ public class SkillManager : MonoBehaviour
         }
     }
     
-    private void ChangeSlot(int slot, int skill)
+    private void ChangeSlot(uint slot, int skill)
     {
         if (inventorySkills.Contains(skill))
         {
@@ -75,14 +87,38 @@ public class SkillManager : MonoBehaviour
         var i = 0;
         foreach (var skill in equippedSkills)
         {
-            equippedSlots[i].sprite = skills.GetIcon(skill);
+            equippedSlots[i].UpdateSkill((uint)skill);
             inGameSlots[i].sprite = skills.GetIcon(skill);
             i++;
         }
     }
-    
-    public bool IsEquipped(int id)
+
+    public bool IsEquipped(uint id)
     {
-        return equippedSkills.Contains(id);
+        return equippedSkills.Contains((int)id);
+    }
+
+    public bool InInventory(uint id)
+    {
+        return inventorySkills.Contains((int)id);
+    }
+
+    public void Equip(uint id, uint slot)
+    {
+        if (_selectedSkill < 0)
+        {
+            _selectedSkill = (int)id;
+        }
+        else
+        {
+            ChangeSlot(slot,_selectedSkill);
+            _selectedSkill = -1;
+        }
+    }
+
+    public void Select(uint id)
+    {
+        _selectedSkill = (int)id;
+        UpdateInfo((int)id);
     }
 }
