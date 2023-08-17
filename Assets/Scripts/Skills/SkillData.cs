@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Refactor.Data;
 using UnityEngine;
+using UnityEngine.Video;
 
 [CreateAssetMenu(fileName = "Skill", menuName = "RPG/Skill")]
 public class SkillData : ScriptableObject
@@ -14,8 +15,7 @@ public class SkillData : ScriptableObject
     [Header("Visuals")]
     public Animation animation;
     public Sprite icon;
-    //TODO:: Change this to a VideoClip
-    public Sprite preview;
+    public VideoClip preview;
     
     [Space]
     [Header("Values")]

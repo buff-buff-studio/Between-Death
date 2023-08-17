@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Refactor.Data;
 using UnityEngine;
+using UnityEngine.Video;
 
 [CreateAssetMenu(fileName = "SkillList", menuName = "RPG/SkillList")]
 public class SkillList : ScriptableObject
@@ -17,7 +18,7 @@ public class SkillList : ScriptableObject
     //Visuals
     public Sprite GetIcon(int i) => skills[i].icon;
     public Animation GetAnimation(int i) => skills[i].animation;
-    public Sprite GetPreview(int i) => skills[i].preview;
+    public VideoClip GetPreview(int i) => skills[i].preview;
     
     //Values
     public Element GetElement(int i) => skills[i].element;

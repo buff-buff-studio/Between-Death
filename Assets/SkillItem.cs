@@ -8,7 +8,7 @@ public class SkillItem : MonoBehaviour
 {
     [SerializeField] private bool isEquipSlot = false;
     
-    [SerializeField] private uint id;
+    [SerializeField] private int id;
     [SerializeField] private Image icon;
     [SerializeField] private Button button;
     [SerializeField] private TMPro.TextMeshProUGUI name;
@@ -32,15 +32,24 @@ public class SkillItem : MonoBehaviour
         button.onClick.AddListener(OnClick);
     }
 
-    public void UpdateSkill(uint id)
+    public void UpdateSkill(int id)
     {
         this.id = id;
-        gameObject.SetActive(SkillManager.instance.InInventory(id));
-        icon.sprite = SkillManager.instance.skills.GetIcon((int)id);
-        button.interactable = !SkillManager.instance.IsEquipped(id);
-
-        if (!isEquipSlot) 
-            name.text = SkillManager.instance.skills.GetName((int)id);
+        icon.enabled = true;
+        
+        if (!isEquipSlot)
+        {
+            gameObject.SetActive(SkillManager.instance.InInventory(id));
+            icon.sprite = SkillManager.instance.skills.GetIcon(id);
+            button.interactable = !SkillManager.instance.IsEquipped(id);
+            name.text = SkillManager.instance.skills.GetName(id);
+        }
+        else
+        {
+            if (id >= 0) icon.sprite = SkillManager.instance.skills.GetIcon(id);
+            else icon.enabled = false;
+            button.interactable = true;
+        }
     }
     
     public void OnClick()
