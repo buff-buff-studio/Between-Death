@@ -53,15 +53,17 @@ namespace Refactor.Entities.Modules
         [SerializeField]private float distanceToChasePlayer = 6f;
         private bool _isAttacking;
 
-        [Header("STATE - RETREAT")] [SerializeField]
+        [Header("STATE - RETREAT")] 
+        [SerializeField]
+        [Range(0,10)]
         private float chanceToRetreat = 5;
-        private bool canTurn;
-        private float retreatTime = 3f;
-        private float _lastRetreat = 0;
-        private float distanceBehind = 4;
+        private bool _canTurn = true;
+        private float _retreatTime = 5f;
+        private float _distanceBehind = 5;
         
         [Header("STATE - DODGE")] 
         [SerializeField]
+        [Range(0,10)]
         private float chanceToDogde;
 
         
@@ -93,7 +95,7 @@ namespace Refactor.Entities.Modules
 
             #region Rotation
 
-            if (canTurn)
+            if (_canTurn)
             {
                   
                 if (isMoving)
@@ -114,7 +116,7 @@ namespace Refactor.Entities.Modules
             
             #region Animations
             var animWalking = animator.GetFloat("walking");
-            if(canTurn)
+            if(_canTurn)
                 animator.SetFloat("turning", math.lerp(animator.GetFloat("turning"), math.clamp(math.abs(deltaAngle) < 25f ? 0 : deltaAngle/30f, -1f, 1f), deltaTime * 8f));
             else
                 animator.SetFloat("turning", 0);
@@ -140,10 +142,9 @@ namespace Refactor.Entities.Modules
                     if (Time.time > _lastAttack + attackCollDown)
                     {
                         Attack();
-
+                        _lastAttack = Time.time;
                         if (Random.Range(0, 11) < chanceToRetreat)
                             state = State.Retreating;
-                        _lastAttack = Time.time;
                     }
                     break;
                 
@@ -176,15 +177,10 @@ namespace Refactor.Entities.Modules
                     { 
                         if (IsSeeingPlayer())
                             state = State.Targeting;
-                    }else if (state == State.Retreating)
+                    }
+                    else if (state == State.Retreating)
                     {
-                        canTurn = false;
-                        if (Time.time > _lastRetreat + retreatTime)
-                        {
-                            _lastRetreat = Time.time;
-                            state = State.Targeting;
-                            canTurn = true;
-                        }
+                        _canTurn = false;
                     }
                     
                     
@@ -261,6 +257,15 @@ namespace Refactor.Entities.Modules
                 
                 case State.Attacking:
                     return;
+                
+                case State.Retreating:
+                    if (stateTime > _retreatTime)
+                    {
+                        state = State.Targeting;
+                        stateTime = 0;
+                        _canTurn = true;
+                    }
+                    return;
             }
         }
         #endregion
@@ -286,7 +291,7 @@ namespace Refactor.Entities.Modules
             if (IsSeeingPlayer())
                 target = playerRef.position;
             else if(state == State.Retreating)
-                target = entity.transform.position - (entity.transform.forward * distanceBehind);
+                target = entity.transform.position - (entity.transform.forward * _distanceBehind);
             else
                 target = wanderingStart + new Vector3(Random.Range(-3, 3), 1, Random.Range(-3, 3));
 
