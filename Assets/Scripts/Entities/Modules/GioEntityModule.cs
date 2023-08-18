@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using Refactor.Misc;
 using Unity.Mathematics;
 using UnityEngine;
@@ -58,15 +59,18 @@ namespace Refactor.Entities.Modules
         [Range(0,10)]
         private float chanceToRetreat = 5;
         private bool _canTurn = true;
-        private float _retreatTime = 5f;
-        private float _distanceBehind = 5;
+        private float _retreatTime = 4f;
+        private float _distanceBehind = 1;
         
+        [FormerlySerializedAs("chanceToDogde")]
         [Header("STATE - DODGE")] 
         [SerializeField]
         [Range(0,10)]
-        private float chanceToDogde;
+        private float chanceToDodge;
+        private float dodgeSpeed = 2f;
+        private float _dodgeTime = 3f;
 
-        
+        private Vector3 inputMove;
         public override void OnEnable()
         {
             base.OnEnable();
@@ -88,7 +92,7 @@ namespace Refactor.Entities.Modules
             #region Input
             stateTime += deltaTime;
             UpdatePathfinding(deltaTime);
-            var inputMove = GetWalkInput(deltaTime, out bool isRunning);
+            inputMove = GetWalkInput(deltaTime, out bool isRunning);
             var isMoving = inputMove.magnitude > 0.15f;
             var deltaAngle = 0f;
             #endregion
@@ -120,14 +124,56 @@ namespace Refactor.Entities.Modules
                 animator.SetFloat("turning", math.lerp(animator.GetFloat("turning"), math.clamp(math.abs(deltaAngle) < 25f ? 0 : deltaAngle/30f, -1f, 1f), deltaTime * 8f));
             else
                 animator.SetFloat("turning", 0);
-            
-            animator.SetFloat("walking", math.lerp(animWalking, isMoving ? state == State.Retreating ? -0.5f : (isRunning ? 1f : 0.5f) : 0, deltaTime * 2f));
+
+
+            var speed = state == State.Dodging ? 4f : 2f;
+            animator.SetFloat("walking", math.lerp(animWalking, isMoving ? state == State.Retreating || state == State.Dodging  ? -0.5f : (isRunning ? 1f : 0.5f) : 0, deltaTime * speed));
             
             if((animWalking > 0.5f && Time.time > lastWalkingInput + 0.2f)) 
                 animator.CrossFade("Stop", 0.2f);
             #endregion
         }
 
+        private void SetDodge()
+        {
+            state = State.Dodging;
+            entity.velocity.x = inputMove.x * dodgeSpeed;
+            entity.velocity.y = 0.2f;
+            entity.velocity.z = inputMove.z * -dodgeSpeed;
+            _canTurn = false;
+            
+        }
+
+        private IEnumerator HandleDodgeCoroutine()
+        {
+            const int count = 4;
+
+            for (var i = 1; i < count; i++)
+            {
+                yield return new WaitForSeconds(_dodgeTime / count);
+                entity.GetModule<CloneEntityModule>()?.Clone(0.25f);
+            }
+        }
+
+        private IEnumerator OnAttackAnimationFinish()
+        {
+            yield return new WaitForSeconds(0.2f);
+
+            yield return new WaitUntil(() =>animator.GetCurrentAnimatorStateInfo(0).normalizedTime > 0.95f);
+            Debug.Log("Animtion finished");
+            
+            if (Random.Range(0, 11) <= chanceToRetreat)
+                state = State.Retreating;
+
+            if (Random.Range(0, 11) <= chanceToDodge)
+            {
+                entity.StartCoroutine(HandleDodgeCoroutine());
+                SetDodge();
+            }
+         
+        }
+        
+        
         #region Setions
         public Vector3 GetWalkInput(float deltaTime, out bool running)
         {
@@ -143,9 +189,19 @@ namespace Refactor.Entities.Modules
                     {
                         Attack();
                         _lastAttack = Time.time;
-                        if (Random.Range(0, 11) < chanceToRetreat)
+                        /*if (Random.Range(0, 11) < chanceToRetreat)
                             state = State.Retreating;
+
+                        if (Random.Range(0, 11) < chanceToDodge)
+                        {
+                            entity.StartCoroutine(HandleDodgeCoroutine());
+                            SetDodge();
+                        }*/
+
+                        entity.StartCoroutine(OnAttackAnimationFinish());
+
                     }
+
                     break;
                 
                 case State.Idling:
@@ -153,37 +209,44 @@ namespace Refactor.Entities.Modules
                         state = State.Targeting;
                     return Vector3.zero;
              
-                case State.Targeting or State.Wandering or State.Retreating:
+                case State.Targeting or State.Wandering or State.Retreating or State.Dodging:
+                    
                     if (_path == null || _path.status == NavMeshPathStatus.PathInvalid)
                     {
                         _NewWanderTarget();
                         return Vector3.zero;
                     }
-                    
                     if (_pathIndex >= _path.corners.Length)
                     {
                         _OnReachTarget();
                         return Vector3.zero;
                     }
-                    
-                    if(state == State.Targeting)
+
+                    switch (state)
                     {
-                        if (!IsSeeingPlayer())
-                            state = State.Wandering;
-                        if (DistanceToAttack())
-                            state = State.Attacking;
+                        case State.Targeting:
+                        {
+                            if (!IsSeeingPlayer())
+                                state = State.Wandering;
+                            if (DistanceToAttack())
+                                state = State.Attacking;
+                            break;
+                        }
+                        case State.Wandering:
+                        {
+                            if (IsSeeingPlayer())
+                                state = State.Targeting;
+                            break;
+                        }
+                        case State.Retreating:
+                            _canTurn = false;
+                            break;
+                        case State.Dodging:
+                            SetDodge();
+                            break;
                     }
-                    else if(state == State.Wandering)
-                    { 
-                        if (IsSeeingPlayer())
-                            state = State.Targeting;
-                    }
-                    else if (state == State.Retreating)
-                    {
-                        _canTurn = false;
-                    }
-                    
-                    
+
+
                     pathTime += deltaTime;
                     
                     var waypoint = _path.corners[_pathIndex];
@@ -199,14 +262,11 @@ namespace Refactor.Entities.Modules
                     }
                     
                     return direction;
-                
-                case State.Dodging:
-                    break;
             }
             
             return Vector3.zero;
         }
-
+        
         private int GetRandomWanderingTime()
         {
             return Random.Range(2, 5);
@@ -266,6 +326,15 @@ namespace Refactor.Entities.Modules
                         _canTurn = true;
                     }
                     return;
+                
+                case State.Dodging:
+                    if (stateTime > _dodgeTime)
+                    {
+                        state = State.Targeting;
+                        stateTime = 0;
+                        _canTurn = true;
+                    }
+                    break;
             }
         }
         #endregion
@@ -282,6 +351,7 @@ namespace Refactor.Entities.Modules
         protected virtual void _OnReachTarget()
         {
             _path = null;
+         
             _NewWanderTarget();
         }
 
@@ -290,12 +360,10 @@ namespace Refactor.Entities.Modules
             Vector3 target;
             if (IsSeeingPlayer())
                 target = playerRef.position;
-            else if(state == State.Retreating)
+            else if(state == State.Retreating || state == State.Dodging)
                 target = entity.transform.position - (entity.transform.forward * _distanceBehind);
             else
                 target = wanderingStart + new Vector3(Random.Range(-3, 3), 1, Random.Range(-3, 3));
-
-            
             
             _DoPathTo(target);
         }
@@ -305,7 +373,7 @@ namespace Refactor.Entities.Modules
             return Vector3.Distance(playerRef.transform.position, entity.transform.position) < distanceToChasePlayer;
         }
 
-        protected virtual bool DistanceToAttack()
+        protected virtual bool DistanceToAttack()    
         {
             return Vector3.Distance(playerRef.transform.position, entity.transform.position) < distanceToAttack;
         }
