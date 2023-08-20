@@ -36,6 +36,7 @@ public class SkillManager : MonoBehaviour
     [SerializeField] private Image[] inGameSlots = new Image[3];
 
     private int _selectedSkill = -1;
+    private int _infoSkill = -1;
 
     private void Awake()
     {
@@ -50,6 +51,7 @@ public class SkillManager : MonoBehaviour
 
     public void UpdateInfo(int skill)
     {
+        if(_infoSkill >= 0) inventorySlots.ToList().Find(x => x.ID == _infoSkill).hover.enabled = false;
         skillName.text = skills.GetName(skill);
         skillPreview.clip = skills.GetPreview(skill);
         skillElement.text = skills.GetElement(skill) switch
@@ -60,6 +62,9 @@ public class SkillManager : MonoBehaviour
             _ => skillElement.text
         };
         skillDescription.text = skills.GetDescription(skill);
+        _infoSkill = skill;
+        
+        inventorySlots.ToList().Find(x => x.ID == skill).hover.enabled = true;
     }
 
     private void AddSkill(int skill)
