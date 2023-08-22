@@ -12,6 +12,7 @@ public class SkillData : ScriptableObject
     [TextArea(3, 10)]
     public string description;
     
+    [Space]
     [Header("Visuals")]
     public Animation animation;
     public Sprite icon;
