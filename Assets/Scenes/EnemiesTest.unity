@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.18028334, g: 0.2257134, b: 0.30692226, a: 1}
+  m_IndirectSpecularColor: {r: 0.18028352, g: 0.22571376, b: 0.30692244, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -1731,6 +1731,12 @@ Transform:
   m_Father: {fileID: 141406782}
   m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &808225142 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3521167435663035697, guid: 82a623b96aea47c4986141c7e88eecba,
+    type: 3}
+  m_PrefabInstance: {fileID: 1691746413}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &832575517
 GameObject:
   m_ObjectHideFlags: 0
@@ -2595,6 +2601,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1526624545595797904, guid: 82a623b96aea47c4986141c7e88eecba,
         type: 3}
+      propertyPath: managedReferences[2179848129062109185]._state
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1526624545595797904, guid: 82a623b96aea47c4986141c7e88eecba,
+        type: 3}
       propertyPath: managedReferences[2179848129062109185].entity
       value: 
       objectReference: {fileID: 1898543227}
@@ -2631,6 +2642,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1526624545595797904, guid: 82a623b96aea47c4986141c7e88eecba,
         type: 3}
+      propertyPath: managedReferences[2179848129062109185].dizzyTime
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 1526624545595797904, guid: 82a623b96aea47c4986141c7e88eecba,
+        type: 3}
       propertyPath: managedReferences[2179848129062109185].playerRef
       value: 
       objectReference: {fileID: 475066394}
@@ -2646,6 +2662,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1526624545595797904, guid: 82a623b96aea47c4986141c7e88eecba,
         type: 3}
+      propertyPath: managedReferences[2179848129062109185]._dodgeTime
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1526624545595797904, guid: 82a623b96aea47c4986141c7e88eecba,
+        type: 3}
       propertyPath: managedReferences[2179848129062109185].editorOpen
       value: 1
       objectReference: {fileID: 0}
@@ -2657,12 +2678,17 @@ PrefabInstance:
     - target: {fileID: 1526624545595797904, guid: 82a623b96aea47c4986141c7e88eecba,
         type: 3}
       propertyPath: managedReferences[5295485814535094273].editorOpen
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1526624545595797904, guid: 82a623b96aea47c4986141c7e88eecba,
         type: 3}
       propertyPath: managedReferences[5295486037513732097].editorOpen
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1526624545595797904, guid: 82a623b96aea47c4986141c7e88eecba,
+        type: 3}
+      propertyPath: managedReferences[2179848129062109185].dizzyBarMax
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 1526624545595797904, guid: 82a623b96aea47c4986141c7e88eecba,
         type: 3}
@@ -2708,6 +2734,11 @@ PrefabInstance:
         type: 3}
       propertyPath: managedReferences[2179848129062109185].attackCollDown
       value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1526624545595797904, guid: 82a623b96aea47c4986141c7e88eecba,
+        type: 3}
+      propertyPath: managedReferences[2179848129062109185].dizzyBarAmount
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1526624545595797904, guid: 82a623b96aea47c4986141c7e88eecba,
         type: 3}
@@ -2776,13 +2807,33 @@ PrefabInstance:
       objectReference: {fileID: 332024222}
     - target: {fileID: 1526624545595797904, guid: 82a623b96aea47c4986141c7e88eecba,
         type: 3}
+      propertyPath: managedReferences[2179848129062109185].dizzyBarCurrentValue
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 1526624545595797904, guid: 82a623b96aea47c4986141c7e88eecba,
+        type: 3}
       propertyPath: managedReferences[2179848129062109185].distanceToChasePlayer
       value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 1526624545595797904, guid: 82a623b96aea47c4986141c7e88eecba,
         type: 3}
+      propertyPath: managedReferences[2179848129062109185].dizzyBarAmountRecover
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1526624545595797904, guid: 82a623b96aea47c4986141c7e88eecba,
+        type: 3}
       propertyPath: managedReferences[5295485814535094273]._maxHealth.localValue
       value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 1526624545595797904, guid: 82a623b96aea47c4986141c7e88eecba,
+        type: 3}
+      propertyPath: managedReferences[2179848129062109185].dizzyBarAmountWhenDamage
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 1526624545595797904, guid: 82a623b96aea47c4986141c7e88eecba,
+        type: 3}
+      propertyPath: managedReferences[5295485814535094273].onHealthChange.m_PersistentCalls.m_Calls.Array.size
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1526624545595797904, guid: 82a623b96aea47c4986141c7e88eecba,
         type: 3}
@@ -2798,6 +2849,21 @@ PrefabInstance:
         type: 3}
       propertyPath: managedReferences[5295485814535094273].onDie.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
       value: Die
+      objectReference: {fileID: 0}
+    - target: {fileID: 1526624545595797904, guid: 82a623b96aea47c4986141c7e88eecba,
+        type: 3}
+      propertyPath: managedReferences[5295485814535094273].onHealthChange.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1526624545595797904, guid: 82a623b96aea47c4986141c7e88eecba,
+        type: 3}
+      propertyPath: managedReferences[5295485814535094273].onHealthChange.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 808225142}
+    - target: {fileID: 1526624545595797904, guid: 82a623b96aea47c4986141c7e88eecba,
+        type: 3}
+      propertyPath: managedReferences[5295485814535094273].onHealthChange.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 1526624545595797904, guid: 82a623b96aea47c4986141c7e88eecba,
         type: 3}
@@ -3474,7 +3540,7 @@ MonoBehaviour:
     type: 3}
   m_PrefabInstance: {fileID: 1691746413}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
+  m_GameObject: {fileID: 808225142}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ae0a1f4bf53740b48e2c83b5a3263225, type: 3}
