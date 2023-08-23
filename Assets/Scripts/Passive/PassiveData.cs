@@ -1,7 +1,10 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using Refactor.Data.Variables;
 using Unity.Mathematics;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 [CreateAssetMenu(fileName = "Passive", menuName = "RPG/Passive")]
 public class PassiveData : ScriptableObject
@@ -14,20 +17,21 @@ public class PassiveData : ScriptableObject
     [Space] [Header("Visuals")]
     public Sprite icon;
 
-    [Space] [Header("Values")] 
-    public PassiveType type;
-    [Range(0, 100)] public half percentage;
-    [Range(0, 60)] public uint time;
+    [Space] [Header("Values")]
+    [Range(0, 100)] public float modifier;
+    public Variable value;
 
-    public enum PassiveType
+    public void SetEnable(bool enable)
     {
-        AttackRange,
-        DashRange,
-        DeathRegen,
-        RegenKill,
-        MovementVelocity,
-        ElementalDamage,
-        ComboMultiplier
+        var defaultValue = ((FloatVariable)value).defaultValue;
+        var finalValue = defaultValue + (enable ? (defaultValue * modifier / 100) : 0);
+        ((FloatVariable)value).Value = finalValue;
+    }
+
+    private void OnValidate()
+    {
+        if (value as BoolVariable)
+            modifier = modifier > 50 ? 100 : 0;
     }
 
     /*

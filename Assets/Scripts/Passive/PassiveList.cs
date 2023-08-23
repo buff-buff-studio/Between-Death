@@ -18,7 +18,5 @@ public class PassiveList : ScriptableObject
     public Sprite GetIcon(int i) => passives[i].icon;
     
     //Values
-    public PassiveData.PassiveType GetType(int i) => passives[i].type;
-    public float GetPercentage(int i) => passives[i].percentage;
-    public int GetTime(int i) => (int)passives[i].time;
+    public float GetModifier(int i) => passives[i].modifier;
 }
