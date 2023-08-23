@@ -1,6 +1,7 @@
 using System;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.Serialization;
 #if UNITY_EDITOR
 using UnityEditor;
 #endif
@@ -60,12 +61,29 @@ namespace Refactor.Data.Variables
             }
         }
         
+        public T FinalValue
+        {
+            get => _finalValue == null && _finalValue == null ? _value : _finalValue;
+            set
+            {
+                if(_finalValue == null && value == null)
+                    return;
+
+                if(_finalValue != null && _finalValue.Equals(value))
+                    return;
+
+                _finalValue = value;
+            }
+        }
+        
         public UnityEvent<T> onValueChanged;
 
         [SerializeField]
         private T _value;
 
         public T defaultValue;
+
+        private T _finalValue;
         
         public bool shouldReset = true;
 
@@ -96,6 +114,7 @@ namespace Refactor.Data.Variables
             ValueHolder holder = new ValueHolder(default(T));
             JsonUtility.FromJsonOverwrite(json, holder);
             _value = holder.value;
+            _finalValue = _value;
         }
 
         public override object GetValue()

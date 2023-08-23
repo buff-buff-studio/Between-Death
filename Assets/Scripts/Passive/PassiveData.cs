@@ -23,17 +23,37 @@ public class PassiveData : ScriptableObject
 
     public void SetEnable(bool enable)
     {
-        var defaultValue = ((FloatVariable)value).defaultValue;
-        var finalValue = defaultValue + (enable ? (defaultValue * modifier / 100) : 0);
-        ((FloatVariable)value).Value = finalValue;
+        if(value as BoolVariable)
+        {
+            var defaultValue = ((BoolVariable)value).Value;
+            var finalValue = modifier > 50;
+            ((BoolVariable)value).FinalValue = enable ? finalValue : defaultValue;
+        }
+        else if (value as IntVariable)
+        {
+            var defaultValue = ((IntVariable)value).Value;
+            var finalValue = defaultValue + (enable ? (defaultValue * modifier / 100) : 0);
+            ((IntVariable)value).FinalValue = (int)finalValue;
+        }
+        else if (value as FloatVariable)
+        {
+            var defaultValue = ((FloatVariable)value).Value;
+            var finalValue = defaultValue + (enable ? (defaultValue * modifier / 100) : 0);
+            ((FloatVariable)value).FinalValue = finalValue;
+        }
     }
 
+#if UNITY_EDITOR
+    
     private void OnValidate()
     {
         if (value as BoolVariable)
             modifier = modifier > 50 ? 100 : 0;
+        else if (value as IntVariable)
+            modifier = (int)modifier;
     }
 
+#endif
     /*
      * death defy - regenera X% da vida ao morrer (1 vez por vida)
      * weapon range - aumenta alcance de todos os ataques básicos em X%

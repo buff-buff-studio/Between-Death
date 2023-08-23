@@ -1,18 +1,27 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using JetBrains.Annotations;
+using Refactor.Data;
 using UnityEngine;
 
 public class PassiveManager : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    public static PassiveManager instance;
+    
+    [Header("Passives")]
+    [NotNull] public PassiveList passives;
+
+    private void Awake()
     {
+        if (instance == null) instance = this;
+        else Destroy(gameObject);
         
+        passives ??= Resources.Load<PassiveList>("Passive/PassiveList");
     }
 
-    // Update is called once per frame
-    void Update()
+    public static void UpdateElement(Element element)
     {
-        
+        instance.passives.SetEnable(0,element == Element.Chaos);
     }
 }

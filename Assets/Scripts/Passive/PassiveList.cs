@@ -19,4 +19,5 @@ public class PassiveList : ScriptableObject
     
     //Values
     public float GetModifier(int i) => passives[i].modifier;
+    public void SetEnable(int i, bool enable) => passives[i].SetEnable(enable);
 }

@@ -15,7 +15,6 @@ public class SkillManager : MonoBehaviour
 {
     public static SkillManager instance;
     
-    [FormerlySerializedAs("Skills")]
     [Header("Skills")]
     [NotNull] public SkillList skills;
 

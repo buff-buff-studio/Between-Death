@@ -72,6 +72,7 @@ namespace Refactor.Props
     }
 }
 
+#if UNITY_EDITOR
 [CustomEditor(typeof(Interactible), true), CanEditMultipleObjects]
 public class InteractibleEditor : Editor
 {
@@ -371,3 +372,4 @@ public class InteractibleEditor : Editor
         }
     }
 }
+#endif
