@@ -21,7 +21,7 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: NewGridMat_VinesCorrupted
-  m_Shader: {fileID: -6465566751694194690, guid: 993e78f890ab5ea4d9808b550d4e3099,
+  m_Shader: {fileID: -6465566751694194690, guid: d21b20e62f486054992fd25c68e03b9a,
     type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
@@ -59,6 +59,10 @@ Material:
         m_Offset: {x: 0, y: 0}
     - _MainTex:
         m_Texture: {fileID: 2800000, guid: 6df3b52f61acc9e458f9e2874624580d, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _MaskTexture:
+        m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MetallicGlossMap:
@@ -105,6 +109,7 @@ Material:
     - _GlossMapScale: 1
     - _Glossiness: 0.085
     - _GlossyReflections: 1
+    - _GraduationScale: 0.3
     - _GridLineThickness: 0.05
     - _Lock_Off: 0
     - _Locked_Drop: 0.8
@@ -116,9 +121,12 @@ Material:
     - _Parallax: 0.02
     - _QueueControl: 0
     - _QueueOffset: 0
+    - _Scale: -4.34
+    - _SecondaryFadeInSpeed: 0.5
     - _SmoothnessTextureChannel: 0
     - _SpecularHighlights: 1
     - _SrcBlend: 1
+    - _Thickness: 0.005
     - _UVSec: 0
     - _ZWrite: 1
     - __dirty: 0
@@ -127,4 +135,6 @@ Material:
     - _Color: {r: 0.019607844, g: 0.2901961, b: 0.5686275, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
     - _GridColor: {r: 0, g: 0, b: 0, a: 0}
+    - _MainColor: {r: 0, g: 0, b: 0, a: 0}
+    - _SecondaryColor: {r: 0, g: 0, b: 0, a: 0}
   m_BuildTextureStacks: []
