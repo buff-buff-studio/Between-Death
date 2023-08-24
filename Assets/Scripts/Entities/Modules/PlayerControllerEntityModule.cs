@@ -113,8 +113,7 @@ namespace Refactor.Entities.Modules
                     animator.SetFloat("turning", 0);
                     entity.velocity.x = entity.velocity.z = 0;
                     return;
-                    break;
-                
+
                 case PlayerState.Default:
                     State__Default(deltaTime);
                     Handle__Dash();
@@ -358,7 +357,7 @@ namespace Refactor.Entities.Modules
             rigIdle.value = isMoving ? 0 : 1;
             rigLean.value = animWalking;
                 
-            var leanAngle = math.clamp(-deltaAngle, -20f, 20f);
+            var leanAngle = math.clamp(-deltaAngle, -10f, 10f);
             riggingLeanRotation.localEulerAngles = new Vector3(0, body.transform.eulerAngles.y, Mathf.LerpAngle(riggingLeanRotation.localEulerAngles.z, leanAngle, deltaTime * 4f));
             #endregion
         }

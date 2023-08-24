@@ -86,7 +86,7 @@ namespace Refactor.Entities
                 Destroy(gameObject, 3f);
                 return;
             }
-            
+
             var playerModule = GetModule<PlayerControllerEntityModule>();
             if (playerModule != null)
             {
@@ -95,11 +95,6 @@ namespace Refactor.Entities
                 playerModule.state = PlayerState.Dead;
                 StartCoroutine(_Respawn());
             }
-        }
-
-        private void OnControllerColliderHit(ControllerColliderHit hit)
-        {
-            Debug.Log(hit.gameObject);
         }
 
         private IEnumerator _Respawn()
