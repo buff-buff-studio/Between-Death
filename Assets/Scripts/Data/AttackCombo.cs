@@ -50,7 +50,7 @@ namespace Refactor.Data
 
         public void OnDoAttack(Entity entity, Attack attack)
         {
-            entity.StartCoroutine(_SmallDash(entity, 0.1f, 10f));
+            //entity.StartCoroutine(_SmallDash(entity, 0.1f, 10f));
         }
 
         private IEnumerator _SmallDash(Entity entity, float time, float dashSpeed)
