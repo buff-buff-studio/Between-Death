@@ -141,8 +141,8 @@ namespace Refactor.Entities.Modules
                         onAttackEnd.Invoke();
                     //Out of attack
                     entity.StartCoroutine(_EndAttacks());
-                    foreach (var v in attackTrails)
-                        v.emitting = false;
+                    //foreach (var v in attackTrails)
+                       // v.emitting = false;
                 }
                 else if (!hasDamaged && state.normalizedTime >= attack.damageTime)
                 {
@@ -183,7 +183,7 @@ namespace Refactor.Entities.Modules
                 if (inputOrder.Count <= 1)
                 {
                     combo.OnStart(entity);
-      
+                
                     var inputMove2 = IngameGameInput.InputMove;
                     var inputMove = new Vector3(inputMove2.x, 0, inputMove2.y).normalized;
                     if(_controllerEntity.useCameraView)
@@ -252,6 +252,7 @@ namespace Refactor.Entities.Modules
         
         public void OnPerformAttack(AttackCombo combo, AttackCombo.Attack attack)
         {
+            
             AudioSystem.PlaySound("attack").At(entity.transform.position);
 
             var index = Array.IndexOf(combo.attacks, attack);
@@ -271,12 +272,14 @@ namespace Refactor.Entities.Modules
             _currentAttack = attack;
             hasDamaged = false;
             combo.OnDoAttack(entity, attack);
-
+            
+            /*
             foreach (var v in attackTrails)
             {
                 v.emitting = true;
                 v.material.SetColor("_EmissionColor", entity.element.GetColor() * 10);
             }
+            */
         }
 
         public bool CheckRules(AttackCombo combo)
