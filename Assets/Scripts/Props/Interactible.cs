@@ -4,10 +4,13 @@ using System.Collections.Generic;
 using System.Linq;
 using JetBrains.Annotations;
 using Refactor.Props;
-using Unity.VisualScripting;
-using UnityEditor;
 using UnityEngine;
 using UnityEngine.Events;
+
+#if UNITY_EDITOR
+using UnityEditor;
+using Unity.VisualScripting;
+#endif
 
 namespace Refactor.Props
 {
@@ -72,6 +75,7 @@ namespace Refactor.Props
     }
 }
 
+#if UNITY_EDITOR
 [CustomEditor(typeof(Interactible), true), CanEditMultipleObjects]
 public class InteractibleEditor : Editor
 {
@@ -371,3 +375,4 @@ public class InteractibleEditor : Editor
         }
     }
 }
+#endif
