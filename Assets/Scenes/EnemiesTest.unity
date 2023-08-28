@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.18028352, g: 0.22571376, b: 0.30692244, a: 1}
+  m_IndirectSpecularColor: {r: 0.18028334, g: 0.2257134, b: 0.30692226, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -1731,6 +1731,52 @@ Transform:
   m_Father: {fileID: 141406782}
   m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &782672067
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 782672069}
+  - component: {fileID: 782672068}
+  m_Layer: 0
+  m_Name: EnemiesControler
+  m_TagString: EnemiesController
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &782672068
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 782672067}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ce142b8cf42a4db39f58f791ab07484a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  enemiesToSpawn: []
+  routineAttacking: 0
+--- !u!4 &782672069
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 782672067}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -0.3097043, y: -0.775311, z: -0.31688952}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 5
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &808225142 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 3521167435663035697, guid: 82a623b96aea47c4986141c7e88eecba,
@@ -2667,6 +2713,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1526624545595797904, guid: 82a623b96aea47c4986141c7e88eecba,
         type: 3}
+      propertyPath: managedReferences[2179848129062109185].controller
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 1526624545595797904, guid: 82a623b96aea47c4986141c7e88eecba,
+        type: 3}
       propertyPath: managedReferences[2179848129062109185].editorOpen
       value: 1
       objectReference: {fileID: 0}
@@ -2718,7 +2769,7 @@ PrefabInstance:
     - target: {fileID: 1526624545595797904, guid: 82a623b96aea47c4986141c7e88eecba,
         type: 3}
       propertyPath: managedReferences[2179848129062109185].chanceToDodge
-      value: 10
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 1526624545595797904, guid: 82a623b96aea47c4986141c7e88eecba,
         type: 3}
@@ -2748,12 +2799,17 @@ PrefabInstance:
     - target: {fileID: 1526624545595797904, guid: 82a623b96aea47c4986141c7e88eecba,
         type: 3}
       propertyPath: managedReferences[2179848129062109185].chanceToRetreat
-      value: 0
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 1526624545595797904, guid: 82a623b96aea47c4986141c7e88eecba,
         type: 3}
       propertyPath: managedReferences[2179848129062109185].chanceToRetrive
       value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 1526624545595797904, guid: 82a623b96aea47c4986141c7e88eecba,
+        type: 3}
+      propertyPath: managedReferences[2179848129062109185].isGoingToAttack
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1526624545595797904, guid: 82a623b96aea47c4986141c7e88eecba,
         type: 3}
@@ -2824,6 +2880,11 @@ PrefabInstance:
         type: 3}
       propertyPath: managedReferences[5295485814535094273]._maxHealth.localValue
       value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 1526624545595797904, guid: 82a623b96aea47c4986141c7e88eecba,
+        type: 3}
+      propertyPath: managedReferences[2179848129062109185].distanceToWaitForAttack
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1526624545595797904, guid: 82a623b96aea47c4986141c7e88eecba,
         type: 3}

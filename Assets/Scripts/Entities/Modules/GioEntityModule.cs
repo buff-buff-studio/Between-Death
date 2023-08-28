@@ -25,7 +25,8 @@ namespace Refactor.Entities.Modules
             Dodging,
             Dizzy,
             TakingDamage,
-            Dead
+            Dead,
+            WaitingToAttack
         }
 
         [Header("SETTINGS")] 
@@ -36,8 +37,7 @@ namespace Refactor.Entities.Modules
         public Animator animator;
         public Vector3 wanderingOrigin;
         [SerializeField]private Transform playerRef;
-        
-        
+
         [Header("STATE")] 
         [SerializeField]
         private State _state;
@@ -98,6 +98,16 @@ namespace Refactor.Entities.Modules
         private float dizzyBarAmountRecover;
         [SerializeField]
         private float dizzyTime = 3f;
+
+        [Header("STATE - WAITING TO ATTACK")] 
+        [SerializeField]
+        [Tooltip("Less than the distance to target player and more than the distance to attack (zero if will not wait for attack")]
+        private float distanceToWaitForAttack;
+        public bool isGoingToAttack;
+
+        [Header("Controller")] 
+        public EnemiesInSceneController controller;
+
         public override void OnEnable()
         {
             base.OnEnable();
@@ -114,6 +124,8 @@ namespace Refactor.Entities.Modules
 
             });
 
+            controller = controller ? controller : GameObject.FindWithTag("EnemiesController").GetComponent<EnemiesInSceneController>();
+            controller.AddEnemy(this);
         }
 
         public override void UpdateFrame(float deltaTime)
@@ -234,12 +246,19 @@ namespace Refactor.Entities.Modules
                 stateTime = 0;
                 state = State.Wandering;
             }
-                               
             if (DistanceToAttack())
             {
                 state = State.Attacking;
                 stateTime = 0;
                 Attack();
+            }  
+           
+            if(distanceToWaitForAttack <= 0) return;
+            if(isGoingToAttack) return; 
+            if (DistanceToWaitToAttack())
+            {
+                state = State.WaitingToAttack;
+                stateTime = 0;
             }
         }
         protected virtual void WanderingState()
@@ -268,7 +287,15 @@ namespace Refactor.Entities.Modules
                 entity.GetModule<CloneEntityModule>()?.Clone(0.25f);
             }
         }
-
+        
+        protected virtual void WaitingToAttack()
+        {
+            controller.StartRoutineAttacking();
+            
+            if (isGoingToAttack)
+                state = State.Targeting;
+            
+        }
         #endregion
         
         
@@ -279,9 +306,12 @@ namespace Refactor.Entities.Modules
             
             // damage animatio
             //state = State.TakingDamage;
+
+            animator.CrossFade("Reaction", 0.25f);
+            
             if(state == State.Dizzy) return;
             DecreaseDizzyBar();
-     
+            
          
         }
         
@@ -321,7 +351,7 @@ namespace Refactor.Entities.Modules
                     }
                     return Vector3.zero;
                 
-                case State.Targeting or State.Wandering or State.Retreating or State.Dodging:
+                case State.Targeting or State.Wandering or State.Retreating or State.Dodging or State.WaitingToAttack:
                     
                     if (_path == null|| _path.status == NavMeshPathStatus.PathInvalid)
                     {
@@ -352,6 +382,10 @@ namespace Refactor.Entities.Modules
                         case State.Dodging:
                             DodgeState();
                             break;
+                        case State.WaitingToAttack:
+                            
+                            return Vector3.zero;
+                            break;
                     }
 
                     
@@ -370,8 +404,6 @@ namespace Refactor.Entities.Modules
                     return direction;
        
             }
-            
-            
             
             return Vector3.zero;
         }
@@ -484,6 +516,11 @@ namespace Refactor.Entities.Modules
         protected virtual bool DistanceToAttack()    
         {
             return Vector3.Distance(playerRef.transform.position, entity.transform.position) < distanceToAttack;
+        }
+        
+        protected virtual bool DistanceToWaitToAttack()    
+        {
+            return Vector3.Distance(playerRef.transform.position, entity.transform.position) < distanceToWaitForAttack;
         }
         
         protected virtual void Attack()
