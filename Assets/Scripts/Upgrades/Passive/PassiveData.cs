@@ -1,22 +1,9 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using Refactor.Data.Variables;
-using Unity.Mathematics;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 [CreateAssetMenu(fileName = "Passive", menuName = "RPG/Passive")]
-public class PassiveData : ScriptableObject
+public class PassiveData : GenericItemData
 {
-    [Header("About")]
-    public string name;
-    [TextArea(3, 10)]
-    public string description;
-    
-    [Space] [Header("Visuals")]
-    public Sprite icon;
-
     [Space] [Header("Values")]
     [Range(0, 100)] public float modifier;
     public Variable value;

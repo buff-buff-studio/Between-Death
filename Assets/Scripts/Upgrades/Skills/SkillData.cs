@@ -1,21 +1,11 @@
-using System.Collections;
-using System.Collections.Generic;
 using Refactor.Data;
 using UnityEngine;
 using UnityEngine.Video;
 
 [CreateAssetMenu(fileName = "Skill", menuName = "RPG/Skill")]
-public class SkillData : ScriptableObject
+public class SkillData : GenericItemData
 {
-    [Header("About")]
-    public string name;
-    [TextArea(3, 10)]
-    public string description;
-    
-    [Space]
-    [Header("Visuals")]
     public Animation animation;
-    public Sprite icon;
     public VideoClip preview;
     
     [Space]
