@@ -23,8 +23,10 @@ public class PassiveManager : MonoBehaviour
     
     [Space]
     [Header("Slots")]
-    [SerializeField] private PassiveSlot[] inventorySlots = new PassiveSlot[6];
-    [SerializeField] private InputSlot[] equippedSlots = new InputSlot[3];
+    [SerializeField] private PassiveSlot[] inventorySlots = new PassiveSlot[9];
+    // 0 = Order
+    // 1 = Chaos
+    [SerializeField] private InputSlot[] equippedSlots = new InputSlot[2];
     
     private int _selectedPassive = -1;
     private int _infoPassive = -1;
@@ -37,9 +39,18 @@ public class PassiveManager : MonoBehaviour
         passives ??= Resources.Load<PassiveList>("Passive/PassiveList");
     }
 
-    public static void UpdateElement(Element element)
+    private void Start()
     {
-        instance.passives.SetEnable(0,element == Element.Chaos);
+        SetElements();
+    }
+    
+    public void SetElements(bool active = false) { foreach (var passive in passives.passives) passive.SetEnable(active); }
+
+    public void UpdateElement(Element element)
+    {
+        SetElements();
+        passives.SetEnable(equippedPassives[0],element == Element.Order);
+        passives.SetEnable(equippedPassives[1],element == Element.Chaos);
     }
     
     public void UpdateInfo(int skill)
