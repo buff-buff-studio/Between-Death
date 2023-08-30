@@ -121,7 +121,7 @@ namespace Refactor
             
             InputChangeElement.SetValue(canInput && canChangeElement && inputChangeElement.ReadValue<float>() > 0);
             InputDash.SetValue(canInput && canDash && inputDash.ReadValue<float>() > 0);
-            InputRunning.SetValue(canInput && canRun && inputRunning.ReadValue<float>() > 0);
+            InputRunning.SetValue(canInput && canRun && inputRunning.ReadValue<float>() == 0);
         }
     }
 }
