@@ -104,9 +104,12 @@ namespace Refactor.Entities.Modules
         [Tooltip("Less than the distance to target player and more than the distance to attack (zero if will not wait for attack")]
         private float distanceToWaitForAttack;
         public bool isGoingToAttack;
-
+        [SerializeField]
+        private float circleRadius;
         [Header("Controller")] 
         public EnemiesInSceneController controller;
+
+   
 
         public override void OnEnable()
         {
@@ -241,6 +244,7 @@ namespace Refactor.Entities.Modules
         }
         protected virtual void TargetingState()
         {
+            Debug.Log(IsSeeingPlayer());
             if (!IsSeeingPlayer())
             {
                 stateTime = 0;
@@ -254,7 +258,8 @@ namespace Refactor.Entities.Modules
             }  
            
             if(distanceToWaitForAttack <= 0) return;
-            if(isGoingToAttack) return; 
+            if(isGoingToAttack) return;
+            if(!controller.HasMoreThanOne()) return;
             if (DistanceToWaitToAttack())
             {
                 state = State.WaitingToAttack;
@@ -265,6 +270,8 @@ namespace Refactor.Entities.Modules
         {
             if (IsSeeingPlayer())
             {
+                _path.ClearCorners();
+                _pathIndex = 0;
                 state = State.Targeting;
                 stateTime = 0;
             }
@@ -290,8 +297,8 @@ namespace Refactor.Entities.Modules
         
         protected virtual void WaitingToAttack()
         {
-            controller.StartRoutineAttacking();
-            
+            controller.routineAttacking = true;
+
             if (isGoingToAttack)
                 state = State.Targeting;
             
@@ -374,6 +381,7 @@ namespace Refactor.Entities.Modules
                         case State.Wandering:
                         {
                             WanderingState();
+                            controller.RemoveEnemy(this);
                             break;
                         }
                         case State.Retreating:
@@ -383,7 +391,7 @@ namespace Refactor.Entities.Modules
                             DodgeState();
                             break;
                         case State.WaitingToAttack:
-                            
+                            WaitingToAttack();
                             return Vector3.zero;
                             break;
                     }
@@ -501,6 +509,12 @@ namespace Refactor.Entities.Modules
             else if (state == State.Retreating || state == State.Dodging)
             {
                 target = entity.transform.position - (entity.transform.forward * _distanceBehind);
+            } else if (state == State.WaitingToAttack)
+            {
+                Vector3 circlePos = playerRef.position + Random.insideUnitSphere * circleRadius;
+                NavMeshHit hit;
+                NavMesh.SamplePosition(circlePos, out hit, circleRadius, NavMesh.AllAreas);
+                target = hit.position;
             }
             else
                 target = wanderingStart + new Vector3(Random.Range(-3, 3), 1, Random.Range(-3, 3));
@@ -510,17 +524,17 @@ namespace Refactor.Entities.Modules
         
         protected virtual bool IsSeeingPlayer()
         {
-            return Vector3.Distance(playerRef.transform.position, entity.transform.position) < distanceToChasePlayer;
+            return Vector3.Distance(playerRef.transform.position, entity.transform.position) <= distanceToChasePlayer;
         }
 
         protected virtual bool DistanceToAttack()    
         {
-            return Vector3.Distance(playerRef.transform.position, entity.transform.position) < distanceToAttack;
+            return Vector3.Distance(playerRef.transform.position, entity.transform.position) <= distanceToAttack;
         }
         
         protected virtual bool DistanceToWaitToAttack()    
         {
-            return Vector3.Distance(playerRef.transform.position, entity.transform.position) < distanceToWaitForAttack;
+            return Vector3.Distance(playerRef.transform.position, entity.transform.position) <= distanceToWaitForAttack;
         }
         
         protected virtual void Attack()

@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace Refactor.Entities.Modules
 {
@@ -10,7 +11,8 @@ namespace Refactor.Entities.Modules
         [SerializeField]
         private List<GioEntityModule> enemiesToSpawn;
         private bool _hasSpawned;
-        private List<GioEntityModule> _enemiesInScene = new List<GioEntityModule>();
+        [FormerlySerializedAs("_enemiesInScene")] [SerializeField]
+        private List<GioEntityModule> enemiesInScene = new List<GioEntityModule>();
         private float time = 2;
         private float currentTime = 2;
         public bool routineAttacking;
@@ -28,8 +30,12 @@ namespace Refactor.Entities.Modules
 
         public void StartRoutineAttacking()
         {
-            if(routineAttacking)return;
-            routineAttacking = true;
+            if(!routineAttacking)return;
+            if (enemiesInScene.Count == 1)
+            {
+                routineAttacking = false;
+                NextEnemy();
+            }
             if (currentTime > time)
             {
                 currentTime = 0;
@@ -38,13 +44,20 @@ namespace Refactor.Entities.Modules
             currentTime += Time.fixedDeltaTime;
         }
 
+
+        public bool HasMoreThanOne()
+        {
+            return enemiesInScene.Count > 1;
+        }
+
         private void NextEnemy()
         {
             if (enemyAttacking != null)
                 enemyAttacking.isGoingToAttack = false;
 
-
-            enemyAttacking = _enemiesInScene[_currentIndex % _enemiesInScene.Count];
+            if(enemiesInScene.Count == 0) return;
+            
+            enemyAttacking = enemiesInScene[_currentIndex % enemiesInScene.Count];
             enemyAttacking.isGoingToAttack = true;
             _currentIndex++;
         }
@@ -63,7 +76,7 @@ namespace Refactor.Entities.Modules
 
         public void AddEnemy(GioEntityModule entity)
         {
-            _enemiesInScene.Add(entity);
+            enemiesInScene.Add(entity);
         }
 
         private void OnTriggerEnter(Collider other)
@@ -74,10 +87,10 @@ namespace Refactor.Entities.Modules
 
         public void RemoveEnemy(GioEntityModule entity)
         {
-            if(_enemiesInScene.Contains(entity))
-                _enemiesInScene.Remove(entity);
+            if(enemiesInScene.Contains(entity))
+                enemiesInScene.Remove(entity);
             
-            if(_enemiesInScene.Count == 0)
+            if(enemiesInScene.Count == 0)
                 NoMoreEnemies();
         }
         
