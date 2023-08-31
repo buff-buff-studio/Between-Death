@@ -17,6 +17,7 @@ namespace Refactor.Entities.Modules
         public override void OnEnable()
         {
             entity.onChangeElement.AddListener(OnChangeElement);
+            OnChangeElement();
         }
 
         public override void OnDisable()
