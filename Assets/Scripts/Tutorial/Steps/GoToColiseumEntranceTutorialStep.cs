@@ -6,6 +6,7 @@ namespace Refactor.Tutorial.Steps
 {
     public class GoToColiseumEntranceTutorialStep : DefaultTutorialStep
     {
+        /*
         public GameObject target;
         public Entity player;
         
@@ -43,5 +44,6 @@ namespace Refactor.Tutorial.Steps
             if (Vector3.Distance(player.transform.position, target.transform.position) < 2.5f)
                 controller.NextStep();
         }
+        */
     }
 }

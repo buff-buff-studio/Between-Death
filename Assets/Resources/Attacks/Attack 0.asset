@@ -9,15 +9,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 542740e6d20a7524381c118b689a71aa, type: 3}
-  m_Name: MouseSensibilityY
+  m_Script: {fileID: 11500000, guid: e4bad40b23e84c2688c92e14c7254093, type: 3}
+  m_Name: Attack 0
   m_EditorClassIdentifier: 
-  onChanged:
-    m_PersistentCalls:
-      m_Calls: []
-  onValueChanged:
-    m_PersistentCalls:
-      m_Calls: []
-  _value: 15
-  defaultValue: 15
-  shouldReset: 1
+  clipName: Attack 0
+  damage: 1
+  transitionTime: 0.1
+  damageTime: 0.5
+  nextAttackWindow: 0.8
+  keepStreakTime: 1
+  chainedStartTime: 0

@@ -81,7 +81,8 @@ namespace Refactor.Entities.Modules
         public Quaternion groundRotation;
         public LayerMask groundMask;
         
-        private PlayerAttackEntityModule _playerAttack;
+        //private PlayerAttackEntityModule _playerAttack;
+        private PlayerNewAttackEntityModule _playerAttack;
 
         public UnityEvent onPlayerJump;
         public UnityEvent onPlayerDash;
@@ -93,7 +94,7 @@ namespace Refactor.Entities.Modules
                 camera = Camera.main;
             
             posY = body.transform.position.y;
-            _playerAttack = entity.GetModule<PlayerAttackEntityModule>();
+            _playerAttack = entity.GetModule<PlayerNewAttackEntityModule>();
         }
 
         public override void OnDisable()
@@ -128,7 +129,7 @@ namespace Refactor.Entities.Modules
                     break;
                 
                 case PlayerState.Attacking:
-                    _playerAttack.HandleAttack();
+                    //_playerAttack.HandleAttack();
                     break;
             }
 
@@ -138,7 +139,7 @@ namespace Refactor.Entities.Modules
             }
             
             if(state is not PlayerState.Casting)
-                _playerAttack.PerformAttacks(state);
+                _playerAttack.HandleAttacks(state, deltaTime);
         }
         #endregion
 
