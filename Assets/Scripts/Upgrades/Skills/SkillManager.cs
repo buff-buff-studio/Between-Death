@@ -15,7 +15,6 @@ public class SkillManager : MonoBehaviour
 {
     public static SkillManager instance;
     
-    [FormerlySerializedAs("Skills")]
     [Header("Skills")]
     [NotNull] public SkillList skills;
 
@@ -31,8 +30,8 @@ public class SkillManager : MonoBehaviour
     
     [Space]
     [Header("Slots")]
-    [SerializeField] private SkillItem[] inventorySlots = new SkillItem[6];
-    [SerializeField] private SkillItem[] equippedSlots = new SkillItem[3];
+    [SerializeField] private SkillSlot[] inventorySlots = new SkillSlot[6];
+    [SerializeField] private InputSlot[] equippedSlots = new InputSlot[3];
     [SerializeField] private Image[] inGameSlots = new Image[3];
 
     private int _selectedSkill = -1;
@@ -97,7 +96,7 @@ public class SkillManager : MonoBehaviour
         var i = 0;
         foreach (var skill in inventorySkills)
         {
-            inventorySlots[i].UpdateSkill(skill);
+            inventorySlots[i].UpdateSlot(skill);
             i++;
         }
     }
@@ -107,20 +106,19 @@ public class SkillManager : MonoBehaviour
         var i = 0;
         foreach (var skill in equippedSkills)
         {
-            equippedSlots[i].UpdateSkill(skill);
-            //inGameSlots[i].sprite = skill >= 0 ? skills.GetIcon(skill) : null;
+            equippedSlots[i].UpdateSlot(skill);
             i++;
         }
     }
 
     public bool IsEquipped(int id)
     {
-        return equippedSkills.Contains((int)id);
+        return equippedSkills.Contains(id);
     }
 
     public bool InInventory(int id)
     {
-        return inventorySkills.Contains((int)id);
+        return inventorySkills.Contains(id);
     }
 
     public void Equip(int id, uint slot)
@@ -138,7 +136,7 @@ public class SkillManager : MonoBehaviour
 
     public void Select(int id)
     {
-        _selectedSkill = (int)id;
-        UpdateInfo((int)id);
+        _selectedSkill = id;
+        UpdateInfo(id);
     }
 }
