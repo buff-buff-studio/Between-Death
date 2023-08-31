@@ -111,13 +111,16 @@ namespace Refactor.Entities
             controller.enabled = true;
             yield return new WaitForSeconds(1f);
             
-            var attackModule = GetModule<PlayerAttackEntityModule>();
+            var attackModule = GetModule<PlayerNewAttackEntityModule>();
+            attackModule.LeaveAttack();
+            /*
             if (attackModule != null)
             {
                 foreach (var v in attackModule.attackTrails)
                     v.emitting = false;
                 StartCoroutine(attackModule._EndAttacks());
             }
+            */
 
             playerModule.state = PlayerState.Default;
         }

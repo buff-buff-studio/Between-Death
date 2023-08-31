@@ -12,9 +12,10 @@ namespace Refactor.Tutorial.Steps
 {
     public class ComboTutorialStep : DefaultTutorialStep
     {
+        /*
         public Entity player;
-        private PlayerAttackEntityModule _module;
-        public AttackCombo combo;
+        //private PlayerAttackEntityModule _module;
+        //public AttackCombo combo;
 
         public CanvasGroup displayGroup;
         public GameObject[] bindingDisplay;
@@ -25,7 +26,6 @@ namespace Refactor.Tutorial.Steps
         public override void OnBegin()
         {
             base.OnBegin();
-            
             input.DisableAllInput();
             input.canMoveCamera = true;
             input.canMove = true;
@@ -39,6 +39,7 @@ namespace Refactor.Tutorial.Steps
 
             _OnAttacKEnd();
             displayGroup.DOFade(1f, 0.5f);
+
         }
 
         private void _OnAttacKEnd()
@@ -99,6 +100,7 @@ namespace Refactor.Tutorial.Steps
         public override void OnEnd()
         {
             base.OnEnd();
+            /* 
             input.DisableAllInput();
             if (_module != null)
             {
@@ -108,5 +110,6 @@ namespace Refactor.Tutorial.Steps
             }
             displayGroup.DOFade(0f, 0.5f);
         }
+        */
     }
 }
