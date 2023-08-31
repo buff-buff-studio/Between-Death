@@ -228,8 +228,8 @@ namespace Refactor.Entities.Modules
         }
         protected virtual void AttackState()
         {
-            _path = null;
-                    
+            _path.ClearCorners();
+            _pathIndex = 0;
             if (stateTime >= attackCollDown && _attackEnded)
                 Attack();
 
@@ -268,10 +268,9 @@ namespace Refactor.Entities.Modules
         }
         protected virtual void WanderingState()
         {
+            Debug.LogWarning("WAndering");
             if (IsSeeingPlayer())
             {
-                _path.ClearCorners();
-                _pathIndex = 0;
                 state = State.Targeting;
                 stateTime = 0;
             }
@@ -392,7 +391,6 @@ namespace Refactor.Entities.Modules
                             break;
                         case State.WaitingToAttack:
                             WaitingToAttack();
-                            return Vector3.zero;
                             break;
                     }
 
@@ -433,6 +431,7 @@ namespace Refactor.Entities.Modules
         
         public void UpdatePathfinding(float deltaTime)
         {
+
             switch (state)
             {
                 case State.Idling:
@@ -504,7 +503,7 @@ namespace Refactor.Entities.Modules
         protected virtual void _NewWanderTarget()
         {
             Vector3 target;
-            if (IsSeeingPlayer() && state != State.Retreating)
+            if (IsSeeingPlayer())
                 target = playerRef.position;
             else if (state == State.Retreating || state == State.Dodging)
             {
