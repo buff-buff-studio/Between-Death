@@ -24,10 +24,6 @@ Material:
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
-    - _SampleTexture2D_01ede330a40c4c388ed89215bf2cc5a8_Texture_1:
-        m_Texture: {fileID: 2800000, guid: cb187fa1ca2b07645926cd0114356d1d, type: 3}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
     - _SampleTexture2D_01ede330a40c4c388ed89215bf2cc5a8_Texture_1_Texture2D:
         m_Texture: {fileID: 2800000, guid: cb187fa1ca2b07645926cd0114356d1d, type: 3}
         m_Scale: {x: 1, y: 1}
@@ -51,41 +47,41 @@ Material:
     - _CloudsMovementSpeed: 0.0001
     - _CloudsPosition: 0.02
     - _CloudsScale: 0.25
-    - _CloudsShadow: 0.3
-    - _CloudsSharpness: 1.29
+    - _CloudsShadow: 0.5
+    - _CloudsSharpness: 1.5
     - _CloudsSpeed: 0.005
     - _MoonExponent: 1
     - _MoonIntensity: 5
-    - _MoonRadiusA: 0.0034
-    - _MoonRadiusB: 0.0153
+    - _MoonRadiusA: 0
+    - _MoonRadiusB: 0.05
     - _QueueControl: 0
     - _QueueOffset: 0
-    - _Rain: 1
+    - _Rain: 0
     - _SkyGradientLevel: 1
     - _StarsDensity: 30
     - _StarsHorizonLine: 1
-    - _StarsOn: 1
+    - _StarsOn: 0
     - _StarsScale: 30
     - _StarsSpeed: 0.005
     - _SunExponent: 1
-    - _SunIntensity: 5
-    - _SunRadiusA: 0
-    - _SunRadiusB: 0.05
+    - _SunIntensity: 5.65
+    - _SunRadiusA: 0.0233
+    - _SunRadiusB: 0.0741
     - _SunsetGradientLevel: 1
     m_Colors:
-    - _CloudsDarkColor: {r: 0.1040406, g: 0.111614026, b: 0.13207549, a: 0}
-    - _CloudsLightColor: {r: 0.00008081258, g: 0.00008081258, b: 0.00008081258, a: 0}
-    - _MoonColor: {r: 0.57196844, g: 0.26170254, b: 0.3170627, a: 0}
-    - _NightSkyColor: {r: 0.11773574, g: 0.07760769, b: 0.1509434, a: 0}
-    - _RainyDarkCloudColor: {r: 0, g: 0, b: 0, a: 0}
-    - _RainyLightCloudColor: {r: 0, g: 0.04477434, b: 0.047169805, a: 0}
-    - _RainySkyGradientColorA: {r: 0.1614698, g: 0.07186322, b: 0.277, a: 1}
-    - _RainySkyGradientColorB: {r: 0.4716981, g: 0.3270737, b: 0.35558435, a: 1}
-    - _SkyGradientColorA: {r: 1, g: 1, b: 1, a: 1}
-    - _SkyGradientColorB: {r: 0.19797936, g: 0.021493427, b: 0.6509434, a: 1}
-    - _SkyGradientColorC: {r: 1, g: 0.49650347, b: 0, a: 1}
-    - _StarsColor: {r: 4.541206, g: 4.3467846, b: 3.2773795, a: 0}
-    - _SunColor: {r: 0.9980302, g: 1, b: 0.9103774, a: 0}
+    - _CloudsDarkColor: {r: 0.254717, g: 0.046858322, b: 0.07196517, a: 0}
+    - _CloudsLightColor: {r: 0.2639102, g: 0.18378428, b: 0.6603774, a: 0}
+    - _MoonColor: {r: 1.926306, g: 0.3180222, b: 0.3337695, a: 0}
+    - _NightSkyColor: {r: 0.11764706, g: 0.078431375, b: 0.14901961, a: 0}
+    - _RainyDarkCloudColor: {r: 0.28568885, g: 0.36044848, b: 0.5660378, a: 1}
+    - _RainyLightCloudColor: {r: 0.31572625, g: 0.34263262, b: 0.40566033, a: 1}
+    - _RainySkyGradientColorA: {r: 0.23740655, g: 0.4652562, b: 0.5188679, a: 1}
+    - _RainySkyGradientColorB: {r: 0.26517445, g: 0.5566038, b: 0.5566038, a: 1}
+    - _SkyGradientColorA: {r: 0.13207549, g: 0.008098972, b: 0.07008723, a: 1}
+    - _SkyGradientColorB: {r: 0.1766669, g: 0, b: 0.6320754, a: 1}
+    - _SkyGradientColorC: {r: 0.27450982, g: 0.25882354, b: 0.24705882, a: 1}
+    - _StarsColor: {r: 0.9528302, g: 0.920935, b: 0.6786668, a: 0}
+    - _SunColor: {r: 0.8962264, g: 0.23694237, b: 0, a: 0}
   m_BuildTextureStacks: []
 --- !u!114 &4480987955975397609
 MonoBehaviour:
