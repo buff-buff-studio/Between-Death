@@ -35,9 +35,12 @@ namespace Refactor.Props
 
         //Collider
         [SerializeField] private float distanceToInteract = 1f;
+        [SerializeField] protected bool state;
 
-        [Space(5f)] [Header("Callbacks")]
-        public UnityEvent onInteract;
+        [Space(5f)] [Header("Callbacks")] 
+        [SerializeField]
+        protected bool callOnEnable = false;
+        public UnityEvent<bool> onInteract;
         public Vector3 interactionPoint => interactionPointOffset != null ? interactionPointOffset.position : transform.position;
         
         //Editor Utilities
@@ -51,19 +54,45 @@ namespace Refactor.Props
         public float averageSize => (vectorSize.x + vectorSize.y + vectorSize.z) / 3f;
         public float interactSize => distanceToInteract / averageSize;
         public Vector3 worldSize => transform.lossyScale;
+        
+        private bool _canInteract;
 
         protected virtual void Start() { }
 
-        protected virtual void OnEnable() { }
+        protected virtual void OnEnable()
+        {
+            if(callOnEnable) onInteract.Invoke(state);
+        }
 
         protected virtual void OnDisable() { }
 
         protected void OnTriggerEnter(Collider col)
         {
             if (!col.CompareTag("Player")) return;
+
+            var distance = Vector3.Distance(transform.position, col.transform.position);
+            _canInteract = distanceToInteract >= distance;
+            InteractibleManager.instance.OnInteractibleEnter(this, distance, _canInteract);
+        }
+
+        private void OnTriggerExit(Collider col)
+        {
+            if (!col.CompareTag("Player")) return;
             
-            var distance = distanceToInteract >= Vector3.Distance(transform.position, col.transform.position);
-            
+            if (_canInteract)
+            {
+                _canInteract = false;
+                var distance = Vector3.Distance(transform.position, col.transform.position);
+                InteractibleManager.instance.OnInteractibleEnter(this, distance, false);
+            }
+            else InteractibleManager.instance.OnInteractibleExit(this);
+        }
+        
+        public void Interact()
+        {
+            state = !state;
+            onInteract.Invoke(state);
+            this.enabled = false;
         }
 
 #if UNITY_EDITOR
@@ -80,6 +109,7 @@ namespace Refactor.Props
 public class InteractibleEditor : Editor
 {
     private SerializedProperty _interactionPointOffset;
+    private SerializedProperty _state;
     private SerializedProperty _time;
     private SerializedProperty _distanceToInteract;
     private SerializedProperty _vectorSize;
@@ -87,11 +117,10 @@ public class InteractibleEditor : Editor
     private SerializedProperty _anchorX;
     private SerializedProperty _anchorY;
     private SerializedProperty _anchorZ;
-    private SerializedProperty _onInteract;
+    protected SerializedProperty _callOnEnable;
+    protected SerializedProperty _onInteract;
     
     private Vector3 _offset;
-    private List<string> animations = new List<string>();
-    private int anim;
     
     private Texture2D _interactionPointIcon;
     
@@ -100,11 +129,12 @@ public class InteractibleEditor : Editor
     private bool collider = true;
     private bool axis = false;
 
-    private void OnEnable()
+    protected virtual void OnEnable()
     {
         var target = (Interactible) this.target;
         
         _interactionPointOffset = serializedObject.FindProperty("interactionPointOffset");
+        _state = serializedObject.FindProperty("state");
         _time = serializedObject.FindProperty("time");
         _distanceToInteract = serializedObject.FindProperty("distanceToInteract");
         _vectorSize = serializedObject.FindProperty("vectorSize");
@@ -112,6 +142,7 @@ public class InteractibleEditor : Editor
         _anchorX = serializedObject.FindProperty("_anchorX");
         _anchorY = serializedObject.FindProperty("_anchorY");
         _anchorZ = serializedObject.FindProperty("_anchorZ");
+        _callOnEnable = serializedObject.FindProperty("callOnEnable");
         _onInteract = serializedObject.FindProperty("onInteract");
         
         if (target.TryGetComponent(out BoxCollider col))
@@ -141,10 +172,6 @@ public class InteractibleEditor : Editor
                 });
         }
         else if (target.TryGetComponent(out SphereCollider sphere)) _offset = sphere.center;
-        
-        animations.Clear();
-        var animationController = target.GetComponent<Animator>().runtimeAnimatorController;
-        foreach (var anim in animationController.animationClips) animations.Add(anim.name);
 
         _interactionPointIcon = Resources.Load<Texture2D>("Editor/InteractIcon");
     }
@@ -163,10 +190,8 @@ public class InteractibleEditor : Editor
 
         EditorGUILayout.Space(10f);
         AnchorAxisProperty();
-        
-        EditorGUILayout.Space(5f);
-        anim = EditorGUILayout.Popup("Animation", anim, animations.ToArray());
-        
+
+        EditorGUILayout.PropertyField(_callOnEnable);
         EditorGUILayout.PropertyField(_onInteract);
 
         serializedObject.ApplyModifiedProperties();
@@ -175,7 +200,7 @@ public class InteractibleEditor : Editor
         UpdateCollider();
     }
 
-    private void InteractProperty()
+    protected void InteractProperty()
     {
         interact = EditorGUILayout.BeginFoldoutHeaderGroup(interact,
             new GUIContent("Interaction", _interactionPointIcon, "Interaction Settings"));
@@ -183,12 +208,14 @@ public class InteractibleEditor : Editor
         {
             EditorGUILayout.Space(2f);
             EditorGUILayout.PropertyField(_interactionPointOffset, new GUIContent("Interaction Point"));
+            EditorGUILayout.PropertyField(_state);
             EditorGUILayout.PropertyField(_time);
         }
 
         EditorGUILayout.EndFoldoutHeaderGroup();
     }
-    private bool ColliderProperty(Interactible target)
+
+    protected bool ColliderProperty(Interactible target)
     {
         collider = EditorGUILayout.BeginFoldoutHeaderGroup(collider, new GUIContent("Collider ☼", "Collider Settings"));
         var typeChange = false;
@@ -230,7 +257,8 @@ public class InteractibleEditor : Editor
         EditorGUILayout.EndFoldoutHeaderGroup();
         return typeChange;
     }
-    private void AnchorAxisProperty()
+
+    protected void AnchorAxisProperty()
     {
         axis = EditorGUILayout.BeginFoldoutHeaderGroup(axis, new GUIContent("Anchor Preset", EditorUtilities.Center, "Anchor Axis Presets"));
         if (axis)
@@ -294,7 +322,7 @@ public class InteractibleEditor : Editor
         return axis;
     }
 
-    private void UpdateCollider()
+    protected void UpdateCollider()
     {
         var target = (Interactible) this.target;
         
@@ -357,7 +385,7 @@ public class InteractibleEditor : Editor
         return anchorCenter;
     }
 
-    private void ChangeColliderType()
+    protected void ChangeColliderType()
     {
         var target = (Interactible) this.target;
         

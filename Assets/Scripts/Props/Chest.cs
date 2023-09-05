@@ -33,7 +33,7 @@ namespace Refactor.Props
             onInteract.RemoveListener(Toggle);
         }
 
-        private void Toggle()
+        private void Toggle(bool stat)
         {
             state = !state;
             if (state)
