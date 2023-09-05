@@ -36,7 +36,7 @@ namespace Refactor.Entities.Modules
         public Transform body;
         public Animator animator;
         public Vector3 wanderingOrigin;
-        [SerializeField]private Transform playerRef;
+        [SerializeField] protected Transform playerRef;
 
         [Header("STATE")] 
         [SerializeField]
@@ -104,8 +104,7 @@ namespace Refactor.Entities.Modules
         [Tooltip("Less than the distance to target player and more than the distance to attack (zero if will not wait for attack")]
         private float distanceToWaitForAttack;
         public bool isGoingToAttack;
-        [SerializeField]
-        private float circleRadius;
+   
         [Header("Controller")] 
         public EnemiesInSceneController controller;
 
@@ -501,6 +500,11 @@ namespace Refactor.Entities.Modules
             _NewWanderTarget();
         }
 
+        protected virtual Vector3 WaitingToAttackNavMesh()
+        {
+            return Vector3.zero;
+        }
+
         protected virtual void _NewWanderTarget()
         {
             Debug.Log("New wander target");
@@ -509,35 +513,21 @@ namespace Refactor.Entities.Modules
             {
                 target = entity.transform.position - (entity.transform.forward * _distanceBehind);
                 
-            } else if (state == State.WaitingToAttack)
+            }else if (state == State.WaitingToAttack)
             {
-                NavMeshHit hit;
-                if (NavMesh.SamplePosition(GetPointInCircle(), out hit, 1, NavMesh.AllAreas))
-                {
-                    Debug.Log(hit.position);
-                    target = hit.position;
-                }
-                else
-                    _NewWanderTarget();
+                target = WaitingToAttackNavMesh();
             }
             else if (IsSeeingPlayer())
+            {
+                Debug.Log("Player");
                 target = playerRef.position;
+            }
             else
                 target = wanderingStart + new Vector3(Random.Range(-3, 3), 1, Random.Range(-3, 3));
             
             _DoPathTo(target);
         }
-        
-        private Vector3 GetPointInCircle()
-        {
-            var center = playerRef.position;
-            var radius = 4;
-            var angle = Random.Range(0f, 100f) * Math.PI * 2;
-            var x = center.x + Math.Cos(angle) * radius;
-            var z = center.y + Math.Sin(angle) * radius;
-            Debug.Log("Circle pos " + new Vector3((float)x, 1, (float)z));
-            return new Vector3((float)x, 1, (float)z);
-        }
+ 
         
         protected virtual bool IsSeeingPlayer()
         {
