@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections;
 using DG.Tweening;
 using Refactor.Data;
@@ -95,6 +95,11 @@ namespace Refactor.Entities
                 playerModule.state = PlayerState.Dead;
                 StartCoroutine(_Respawn());
             }
+        }
+
+        private void OnControllerColliderHit(ControllerColliderHit hit)
+        {
+           // Debug.Log(hit.gameObject);
         }
 
         private IEnumerator _Respawn()

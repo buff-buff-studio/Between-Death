@@ -8,20 +8,34 @@ using UnityEngine.AI;
 using Object = UnityEngine.Object;
 using Random = UnityEngine.Random;
 
+
 namespace Refactor.Entities.Modules
 {
     [Serializable]
-    public class EnemyControllerEntityModule : EntityModule
+    public enum EnemiesBaseStates
+    {
+        Wandering,
+        ChasingPlayer,
+        AttackingPlayer,
+        Retrieving
+    }
+
+    [Serializable]
+    public class NewEnemyControllerBase : EntityModule
     {
         [Header("SETTINGS")]
         public bool shouldWalk;
         public bool shouldAttack;
         public float attackDistance = 4f;
-        
+        public float attackDelay = 4f;
+        public float attackRange = 1.25f;
+
         [Header("REFERENCES")]
         public Animator animator;
         public Transform body;
         public Transform attackTarget;
+        
+        //tirar daq
         public GameObject hitParticlesPrefab;
         
         [Header("STATE - AI")]
@@ -34,6 +48,10 @@ namespace Refactor.Entities.Modules
         public Vector3 wanderingCenterPoint;
         public float wanderingRadius = 6;
 
+        private Coroutine _nextRoutine;
+        
+        #region IKVariables
+        
         [Header("SETTINGS - IK")]
         public float ikFootOffset = 0.005f;
         public float groundLeanWeight = 0.25f;
@@ -46,29 +64,13 @@ namespace Refactor.Entities.Modules
         public LayerMask groundMask;
         public float timeout = 10f;
 
-        public void NewTarget()
-        {
-            if (shouldAttack && Vector3.Distance(entity.transform.position, attackTarget.position) < attackDistance)
-            {
-                target = attackTarget.position;
-                RePath(true);
-            }
-            else
-            {
-                target = wanderingCenterPoint + Quaternion.Euler(0, Random.Range(0f, 360f), 0) * new Vector3(0, 0, wanderingRadius);
-                RePath(false);
-            }
-        }
+        #endregion
+        
+        #region State
 
-        public void RePath(bool isEnemy)
-        {
-            goingToAttack = isEnemy;
-            timeout = Random.Range(3f, 5f);
-            _path ??= new NavMeshPath();
-            
-            NavMesh.CalculatePath(entity.transform.position, target, NavMesh.AllAreas, _path);
-            _pathIndex = 0;
-        }
+        public EnemiesBaseStates State;
+
+        #endregion
         
         public override void OnEnable()
         {
@@ -77,10 +79,68 @@ namespace Refactor.Entities.Modules
             entity.onChangeElement.AddListener(OnChangeElement);
             NewTarget();
         }
-
+        
         public override void OnDisable()
         {
             entity.onChangeElement.RemoveListener(OnChangeElement);
+        }
+        
+        public void SetState(EnemiesBaseStates state)
+        {
+            State = state;
+        }
+        private IEnumerator _Next()
+        {
+            if (shouldAttack && IsSeeingPlayer())
+            {
+                NewTarget();
+            }
+            else
+            {
+                yield return new WaitForSeconds(Random.Range(2f, 4f));
+                NewTarget();
+            }
+        }
+
+        public void OnChangeElement()
+        {
+            var elm = entity.element;
+            if (elm == Element.None) return;
+            
+            entity.GetComponentInChildren<Renderer>().material.color = elm.GetColor();
+        }
+        
+        protected virtual bool IsSeeingPlayer() => Vector3.Distance(entity.transform.position, attackTarget.position) < attackDistance;
+        
+        protected virtual bool DistanceToAttack() => Vector3.Distance(entity.transform.position, attackTarget.position) < attackRange;
+        
+        public void RePath(bool isEnemy)
+        {
+            goingToAttack = isEnemy;
+            timeout = Random.Range(1f, 3f);
+            _path ??= new NavMeshPath();
+            
+            NavMesh.CalculatePath(entity.transform.position, target, NavMesh.AllAreas, _path);
+            _pathIndex = 0;
+        }
+        public void NewTarget()
+        {
+            // saw player
+            if (shouldAttack && IsSeeingPlayer())
+            {
+                Debug.Log("sawplayer");
+                State = EnemiesBaseStates.ChasingPlayer;
+                target = attackTarget.position;
+                RePath(true);
+            }
+            // wandering
+            else
+            {
+                Debug.Log("Wandering");
+                State = EnemiesBaseStates.Wandering;
+                target = wanderingCenterPoint + Quaternion.Euler(0, Random.Range(0f, 360f), 0) * new Vector3(0, 0, wanderingRadius);
+                RePath(false);
+            }
         }
 
         public override void UpdateFrame(float deltaTime)
@@ -90,7 +150,7 @@ namespace Refactor.Entities.Modules
                 entity.velocity.x = math.lerp(entity.velocity.x, 0, deltaTime * 8f);
                 entity.velocity.z = math.lerp(entity.velocity.z, 0, deltaTime * 8f);
             }
-
+            
             if (isAttacking)
             {
                 animator.SetFloat("turning", 0);
@@ -101,13 +161,12 @@ namespace Refactor.Entities.Modules
                 body.eulerAngles = new Vector3(0, Mathf.LerpAngle(body.eulerAngles.y, angle, deltaTime * 8f), 0);
                 return;
             }
-
+            
             var inputMove = UpdateWalk(deltaTime, out bool isRunning);
             if (goingToAttack)
             {
                 isRunning = Vector3.Distance(entity.transform.position, attackTarget.position) > attackDistance / 2f;
             }
-            
             var isMoving = inputMove.magnitude > 0.15f;
             var deltaAngle = 0f;
 
@@ -135,38 +194,77 @@ namespace Refactor.Entities.Modules
                 animator.CrossFade("Stop", 0.2f);
             #endregion
         }
-        
-        
         public Vector3 UpdateWalk(float deltaTime,out bool running)
         {
-            running = false;
             if ((timeout -= Time.deltaTime) <= 0)
             {
-                entity.StartCoroutine(_Next());
+                if (IsSeeingPlayer() && shouldAttack)
+                {
+                    NewTarget();
+                }
+            }
+            
+            
+            running = false;
+
+            switch (State)
+            {
+                case EnemiesBaseStates.Wandering:
+                    
+                    break;
+                case EnemiesBaseStates.ChasingPlayer:
+                    
+                    break;
+                case EnemiesBaseStates.AttackingPlayer:
+                    
+                    break;
+                case EnemiesBaseStates.Retrieving:
+                    
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
+            
+            
+            /*if ((timeout -= Time.deltaTime) <= 0)
+            {
+                Debug.LogWarning("next time out");
+                if(_nextRoutine !=null)
+                    entity.StopCoroutine(_nextRoutine);
+                _nextRoutine = entity.StartCoroutine(_Next());
                 _path = null;
                 return Vector3.zero;
-            }
-            if (!goingToAttack && shouldAttack &&
-                Vector3.Distance(entity.transform.position, attackTarget.position) < attackDistance)
+            }*/
+            /*if (!goingToAttack && shouldAttack && IsSeeingPlayer())
             {
+                Debug.Log("New Target");
                 NewTarget();
-            }
+            }*/
+            
+            // arrived at destination?
             
             if (shouldWalk && _path != null && _path.status is not NavMeshPathStatus.PathInvalid)
             {
+                Debug.Log("Arrived at destination");
                 if (_pathIndex >= _path.corners.Length)
                 {
-                    entity.StartCoroutine(_Next());
+                    if(_nextRoutine !=null)
+                        entity.StopCoroutine(_nextRoutine);
+                    
+                    _nextRoutine = entity.StartCoroutine(_Next());
                     _path = null;
                     return Vector3.zero;
                 }
-                
-                if (goingToAttack && Vector3.Distance(entity.transform.position, attackTarget.position) < 1.25f)
+
+                if (goingToAttack)
                 {
-                    entity.StartCoroutine(_Attack());
-                    return Vector3.zero;
+                    if (DistanceToAttack())
+                    {
+                        entity.StartCoroutine(_Attack());
+                        return Vector3.zero;
+                    }
                 }
-                
+
                 var waypoint = _path.corners[_pathIndex];
                 var delta = Utils.GetVectorXZ(waypoint) - Utils.GetVectorXZ(entity.transform.position);
                 var distance = delta.magnitude;
@@ -184,9 +282,10 @@ namespace Refactor.Entities.Modules
 
             return Vector3.zero;
         }
-
-        private IEnumerator _Attack()
+        protected virtual IEnumerator _Attack()
         {
+            Debug.Log("Attacking");
+            State = EnemiesBaseStates.AttackingPlayer;
             isAttacking = true;
             animator.CrossFade($"Attack {Random.Range(0, 3)}", 0.25f);
             yield return new WaitForSeconds(0.25f);
@@ -226,27 +325,6 @@ namespace Refactor.Entities.Modules
             }
         }
 
-        private IEnumerator _Next()
-        {
-            if (shouldAttack && Vector3.Distance(entity.transform.position, attackTarget.position) < attackDistance)
-            {
-                NewTarget();
-            }
-            else
-            {
-                yield return new WaitForSeconds(Random.Range(2f, 4f));
-                NewTarget();
-            }
-        }
-
-        public void OnChangeElement()
-        {
-            var elm = entity.element;
-            if (elm == Element.None) return;
-            
-            entity.GetComponentInChildren<Renderer>().material.color = elm.GetColor();
-        }
-        
         #region IK
         public void OnAnimatorIK(int layer)
         {
