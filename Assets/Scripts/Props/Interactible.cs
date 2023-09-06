@@ -36,6 +36,7 @@ namespace Refactor.Props
         //Collider
         [SerializeField] private float distanceToInteract = 1f;
         [SerializeField] protected bool state;
+        [SerializeField] public bool oneInteraction = true;
 
         [Space(5f)] [Header("Callbacks")] 
         [SerializeField]
@@ -54,53 +55,49 @@ namespace Refactor.Props
         public float averageSize => (vectorSize.x + vectorSize.y + vectorSize.z) / 3f;
         public float interactSize => distanceToInteract / averageSize;
         public Vector3 worldSize => transform.lossyScale;
-        
-        private bool _canInteract;
+
+        protected bool _canInteract = true;
+        private bool _distanceToInteract = false;
 
         protected virtual void Start() { }
 
         protected virtual void OnEnable()
         {
             if(callOnEnable) onInteract.Invoke(state);
+            _canInteract = true;
+            _distanceToInteract = false;
         }
 
         protected virtual void OnDisable() { }
 
         protected void OnTriggerEnter(Collider col)
         {
-            if (!col.CompareTag("Player")) return;
+            if (!col.CompareTag("Player") || !_canInteract) return;
 
             var distance = Vector3.Distance(transform.position, col.transform.position);
-            _canInteract = distanceToInteract >= distance;
-            InteractibleManager.instance.OnInteractibleEnter(this, distance, _canInteract);
+            _distanceToInteract = distanceToInteract >= distance;
+            InteractibleManager.instance.OnInteractibleEnter(this, distance, _distanceToInteract);
         }
 
         private void OnTriggerExit(Collider col)
         {
-            if (!col.CompareTag("Player")) return;
+            if (!col.CompareTag("Player") || !_canInteract) return;
             
-            if (_canInteract)
+            if (_distanceToInteract)
             {
-                _canInteract = false;
+                _distanceToInteract = false;
                 var distance = Vector3.Distance(transform.position, col.transform.position);
                 InteractibleManager.instance.OnInteractibleEnter(this, distance, false);
             }
             else InteractibleManager.instance.OnInteractibleExit(this);
         }
         
-        public void Interact()
+        public virtual void Interact()
         {
             state = !state;
             onInteract.Invoke(state);
-            this.enabled = false;
+            if(oneInteraction) _canInteract = false;
         }
-
-#if UNITY_EDITOR
-        private void OnValidate()
-        {
-            
-        }
-#endif
     }
 }
 
@@ -110,6 +107,7 @@ public class InteractibleEditor : Editor
 {
     private SerializedProperty _interactionPointOffset;
     private SerializedProperty _state;
+    private SerializedProperty _oneInteraction;
     private SerializedProperty _time;
     private SerializedProperty _distanceToInteract;
     private SerializedProperty _vectorSize;
@@ -135,6 +133,7 @@ public class InteractibleEditor : Editor
         
         _interactionPointOffset = serializedObject.FindProperty("interactionPointOffset");
         _state = serializedObject.FindProperty("state");
+        _oneInteraction = serializedObject.FindProperty("oneInteraction");
         _time = serializedObject.FindProperty("time");
         _distanceToInteract = serializedObject.FindProperty("distanceToInteract");
         _vectorSize = serializedObject.FindProperty("vectorSize");
@@ -209,6 +208,7 @@ public class InteractibleEditor : Editor
             EditorGUILayout.Space(2f);
             EditorGUILayout.PropertyField(_interactionPointOffset, new GUIContent("Interaction Point"));
             EditorGUILayout.PropertyField(_state);
+            EditorGUILayout.PropertyField(_oneInteraction);
             EditorGUILayout.PropertyField(_time);
         }
 

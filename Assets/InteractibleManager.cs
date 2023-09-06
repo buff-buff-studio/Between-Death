@@ -1,6 +1,8 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Refactor;
+using Refactor.Interface;
 using Refactor.Props;
 using UnityEngine;
 
@@ -9,7 +11,9 @@ public class InteractibleManager : MonoBehaviour
     public static InteractibleManager instance;
     
     [SerializeField] private RectTransform _interactibleIcon;
-    public Interactible interactibleObject;
+    [SerializeField] private Interactible interactibleObject;
+    [SerializeField] private IngameCanvas _ingameCanvas;
+    public InspectDoc documentInspect;
     private bool _canInteract;
     private float _distance;
 
@@ -44,15 +48,24 @@ public class InteractibleManager : MonoBehaviour
     private void OnInteract()
     {
         if (interactibleObject == null || _canInteract == false) return;
+        Debug.Log("Interact");
         interactibleObject.Interact();
+        if(interactibleObject.oneInteraction) _interactibleIcon.gameObject.SetActive(false);
         interactibleObject = null;
         _distance = 0;
+    }
+
+    public void OpenDocument(DocumentData doc)
+    {
+        _ingameCanvas.OpenDocumentWindow();
+        documentInspect._documentData = doc as DocumentText;
     }
     
     private void Update()
     {
         if (interactibleObject == null) return;
         
-        _interactibleIcon.position = Camera.main.WorldToScreenPoint(interactibleObject.transform.position);
+        _interactibleIcon.position = Camera.main.WorldToScreenPoint(interactibleObject.interactionPoint);
+        if(IngameGameInput.InputInteract.trigger) OnInteract();
     }
 }
