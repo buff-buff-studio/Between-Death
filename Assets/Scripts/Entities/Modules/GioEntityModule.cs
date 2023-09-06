@@ -24,7 +24,6 @@ namespace Refactor.Entities.Modules
             Retreating,
             Dodging,
             Dizzy,
-            TakingDamage,
             Dead,
             WaitingToAttack
         }
@@ -66,7 +65,7 @@ namespace Refactor.Entities.Modules
         [SerializeField] private float attackCollDown = 2f;
         [SerializeField]private float distanceToAttack = 1.25f;
         [SerializeField]private float distanceToChasePlayer = 6f;
-        private bool _attackEnded = true;   
+        protected bool _attackEnded = true;   
 
         [Header("STATE - RETREAT")] 
         [SerializeField]
@@ -102,9 +101,14 @@ namespace Refactor.Entities.Modules
         [Header("STATE - WAITING TO ATTACK")] 
         [SerializeField]
         [Tooltip("Less than the distance to target player and more than the distance to attack (zero if will not wait for attack")]
-        private float distanceToWaitForAttack;
+        protected float distanceToWaitForAttack;
         public bool isGoingToAttack;
-   
+        
+        [Header("STATE - RUNNING FROM PLAYER")] 
+        [SerializeField]
+        [Tooltip("Less than the distance to target player and more than the distance to attack (zero if will not wait for attack")]
+        protected float distanceToRun;
+
         [Header("Controller")] 
         public EnemiesInSceneController controller;
 
@@ -231,7 +235,6 @@ namespace Refactor.Entities.Modules
             _pathIndex = 0;
             if (stateTime >= attackCollDown && _attackEnded)
                 Attack();
-
         }
         protected virtual void IdleState()
         {
@@ -470,6 +473,7 @@ namespace Refactor.Entities.Modules
                         state = State.Targeting;
                         stateTime = 0;
                         _canTurn = true;
+                        _NewWanderTarget();
                     }
                     return;
                 
@@ -479,6 +483,7 @@ namespace Refactor.Entities.Modules
                         state = State.Targeting;
                         stateTime = 0;
                         _canTurn = true;
+                        _NewWanderTarget();
                     }
                     break;
             }
@@ -504,6 +509,16 @@ namespace Refactor.Entities.Modules
         {
             return Vector3.zero;
         }
+        protected virtual Vector3 WanderingPos()
+        {
+            return wanderingStart + new Vector3(Random.Range(-3, 3), 1, Random.Range(-3, 3));
+        }
+        
+        protected virtual Vector3 TargetPos()
+        {
+            return playerRef.position;
+        }
+
 
         protected virtual void _NewWanderTarget()
         {
@@ -512,18 +527,16 @@ namespace Refactor.Entities.Modules
             if (state == State.Retreating || state == State.Dodging)
             {
                 target = entity.transform.position - (entity.transform.forward * _distanceBehind);
-                
             }else if (state == State.WaitingToAttack)
             {
                 target = WaitingToAttackNavMesh();
             }
             else if (IsSeeingPlayer())
             {
-                Debug.Log("Player");
                 target = playerRef.position;
             }
             else
-                target = wanderingStart + new Vector3(Random.Range(-3, 3), 1, Random.Range(-3, 3));
+                target = WanderingPos();
             
             _DoPathTo(target);
         }
@@ -561,7 +574,7 @@ namespace Refactor.Entities.Modules
             }));
         }
         
-        private void ApplyDamageFor(float damage, float radius)
+        protected void ApplyDamageFor(float damage, float radius)
         {
             var p = entity.transform.position;
             var pos = p + Vector3.up;/* + _controllerEntity.body.rotation * attackOffset;*/
@@ -617,7 +630,7 @@ namespace Refactor.Entities.Modules
         }
         
         
-        private IEnumerator OnAnimationFinish(Action callback = null)
+        protected IEnumerator OnAnimationFinish(Action callback = null)
         {
             yield return new WaitForSeconds(0.2f);
 
