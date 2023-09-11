@@ -288,16 +288,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8fdf79e6215a482a9f2ff4c40c4acb16, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  radius: 1
+  interactionPointOffset: {fileID: 0}
   time: 0.5
+  distanceToInteract: 0
   onInteract:
     m_PersistentCalls:
       m_Calls: []
+  colliderType: 0
+  vectorSize: {x: 0, y: 0, z: 0}
+  _anchorX: 0
+  _anchorY: 0
+  _anchorZ: 0
   state: 0
-  arm: {fileID: 4908254061789971450}
-  eulerAnglesOff: {x: -30, y: 0, z: 0}
-  eulerAnglesOn: {x: 30, y: 0, z: 0}
-  armLerpSpeed: 10
   callOnEnable: 1
   onOn:
     m_PersistentCalls:

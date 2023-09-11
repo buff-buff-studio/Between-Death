@@ -104,14 +104,16 @@ namespace Refactor.Entities.Modules
         protected float distanceToWaitForAttack;
         public bool isGoingToAttack;
         
-        [Header("STATE - RUNNING FROM PLAYER")] 
+        /*[Header("STATE - RUNNING FROM PLAYER")] 
         [SerializeField]
         [Tooltip("Less than the distance to target player and more than the distance to attack (zero if will not wait for attack")]
-        protected float distanceToRun;
+        protected float distanceToRun;*/
 
         [Header("Controller")] 
         public EnemiesInSceneController controller;
 
+        [SerializeField]
+        private bool canRun = true;
    
 
         public override void OnEnable()
@@ -403,7 +405,7 @@ namespace Refactor.Entities.Modules
                     var distance = delta.magnitude;
                     var direction = delta / distance;
                     
-                    running = distance > runningDistance || state == State.Targeting;
+                    running = distance > runningDistance || state == State.Targeting && canRun;
                     if (distance < TARGET_DISTANCE_THRESHOLD) //Distance Threshold
                     {
                         _pathIndex++;
@@ -565,9 +567,9 @@ namespace Refactor.Entities.Modules
             
             entity.StartCoroutine(OnAnimationFinish(() =>
             {
-                _attackEnded = true;
                 stateTime = 0;
-
+                _attackEnded = true;
+                
                 if (!RandomBehaviour())
                     state = State.Targeting;
                 

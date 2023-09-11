@@ -7,6 +7,11 @@ namespace Refactor.Entities.Modules
     [Serializable]
     public class ClownEntity : GioEntityModule
     {
+        
+        [SerializeField]
+        private ProjectileController _controller;
+        [SerializeField]
+        private Transform shootPoint;
         protected virtual Vector3 WanderingPos()
         {
             return Vector3.zero;
@@ -14,7 +19,8 @@ namespace Refactor.Entities.Modules
 
         protected virtual Vector3 TargetPos()
         {
-            return playerRef.position;
+            Vector3 runTo = entity.transform.position + ((entity.transform.position - playerRef.position) * Random.Range(3f,6f));
+            return runTo;
         }
 
         protected override void WanderingState()
@@ -60,10 +66,12 @@ namespace Refactor.Entities.Modules
         
         protected override void Attack()
         {
+            Debug.Log("Attack");
             _attackEnded = false;
             animator.CrossFade($"Attack {Random.Range(0, 3)}", 0.25f);
-            ApplyDamageFor(1, 2);
-            
+
+            _controller.CreateObject(shootPoint.position, playerRef);
+
             entity.StartCoroutine(OnAnimationFinish(() =>
             {
                 _attackEnded = true;
@@ -71,7 +79,6 @@ namespace Refactor.Entities.Modules
 
                 if (!RandomBehaviour())
                     state = State.Targeting;
-                
             }));
         }
     }
