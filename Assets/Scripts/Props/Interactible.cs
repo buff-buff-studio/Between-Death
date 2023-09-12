@@ -76,7 +76,7 @@ namespace Refactor.Props
 
             var distance = Vector3.Distance(transform.position, col.transform.position);
             _distanceToInteract = distanceToInteract >= distance;
-            InteractibleManager.instance.OnInteractibleEnter(this, distance, _distanceToInteract);
+            InGameHUD.instance.OnInteractibleEnter(this, distance, _distanceToInteract);
         }
 
         private void OnTriggerExit(Collider col)
@@ -87,9 +87,9 @@ namespace Refactor.Props
             {
                 _distanceToInteract = false;
                 var distance = Vector3.Distance(transform.position, col.transform.position);
-                InteractibleManager.instance.OnInteractibleEnter(this, distance, false);
+                InGameHUD.instance.OnInteractibleEnter(this, distance, false);
             }
-            else InteractibleManager.instance.OnInteractibleExit(this);
+            else InGameHUD.instance.OnInteractibleExit(this);
         }
         
         public virtual void Interact()

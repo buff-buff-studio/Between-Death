@@ -28,6 +28,6 @@ public class DocumentData : ChestItem
     
     public override void OpenItem()
     {
-        InteractibleManager.instance.OpenDocument(this);
+        InGameHUD.instance.OpenDocument(this);
     }
 }

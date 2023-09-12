@@ -5,15 +5,26 @@ using Refactor;
 using Refactor.Interface;
 using Refactor.Props;
 using UnityEngine;
+using UnityEngine.Serialization;
 
-public class InteractibleManager : MonoBehaviour
+public class InGameHUD : MonoBehaviour
 {
-    public static InteractibleManager instance;
+    public static InGameHUD instance;
+
+    [Space]
+    [Header("Menu References")]
+    [SerializeField] private InGameMenu menu;
     
-    [SerializeField] private RectTransform _interactibleIcon;
+    [Space]
+    [Header("Pop-Up References")]
+    [SerializeField] private RectTransform popUpParent;
+    
+    [Space]
+    [Header("Interaction References")]
+    [SerializeField] private RectTransform interactibleIcon;
     [SerializeField] private Interactible interactibleObject;
-    [SerializeField] private IngameCanvas _ingameCanvas;
-    public InspectDoc documentInspect;
+
+    //Interaction References
     private bool _canInteract;
     private float _distance;
 
@@ -22,7 +33,15 @@ public class InteractibleManager : MonoBehaviour
         if(instance == null) instance = this;
         else Destroy(this);
         
-        _interactibleIcon.gameObject.SetActive(false);
+        interactibleIcon.gameObject.SetActive(false);
+    }
+    
+    private void Update()
+    {
+        if (interactibleObject == null) return;
+        
+        interactibleIcon.position = Camera.main.WorldToScreenPoint(interactibleObject.interactionPoint);
+        if(IngameGameInput.InputInteract.trigger) OnInteract();
     }
 
     public void OnInteractibleEnter(Interactible interactible, float distance, bool canInteract)
@@ -33,8 +52,8 @@ public class InteractibleManager : MonoBehaviour
         _canInteract = canInteract;
         interactibleObject = interactible;
         
-        _interactibleIcon.sizeDelta = _canInteract ? new Vector2(100, 100) : new Vector2(50, 50);
-        _interactibleIcon.gameObject.SetActive(true);
+        interactibleIcon.sizeDelta = _canInteract ? new Vector2(100, 100) : new Vector2(50, 50);
+        interactibleIcon.gameObject.SetActive(true);
     }
     
     public void OnInteractibleExit(Interactible interactible)
@@ -42,7 +61,7 @@ public class InteractibleManager : MonoBehaviour
         if (interactible != interactibleObject) return;
         
         interactibleObject = null;
-        _interactibleIcon.gameObject.SetActive(false);
+        interactibleIcon.gameObject.SetActive(false);
     }
 
     private void OnInteract()
@@ -50,22 +69,13 @@ public class InteractibleManager : MonoBehaviour
         if (interactibleObject == null || _canInteract == false) return;
         Debug.Log("Interact");
         interactibleObject.Interact();
-        if(interactibleObject.oneInteraction) _interactibleIcon.gameObject.SetActive(false);
+        if(interactibleObject.oneInteraction) interactibleIcon.gameObject.SetActive(false);
         interactibleObject = null;
         _distance = 0;
     }
 
     public void OpenDocument(DocumentData doc)
     {
-        _ingameCanvas.OpenDocumentWindow();
-        documentInspect._documentData = doc as DocumentText;
-    }
-    
-    private void Update()
-    {
-        if (interactibleObject == null) return;
-        
-        _interactibleIcon.position = Camera.main.WorldToScreenPoint(interactibleObject.interactionPoint);
-        if(IngameGameInput.InputInteract.trigger) OnInteract();
+        //documentInspect._documentData = doc as DocumentText;
     }
 }
