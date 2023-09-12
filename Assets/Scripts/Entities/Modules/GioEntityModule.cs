@@ -66,7 +66,7 @@ namespace Refactor.Entities.Modules
         [SerializeField]private float distanceToAttack = 1.25f;
         [SerializeField]private float distanceToChasePlayer = 6f;
         protected bool _attackEnded = true;   
-
+        public float timeSinceLastAttack = 0;
         [Header("STATE - RETREAT")] 
         [SerializeField]
         [Range(0,10)]
@@ -149,6 +149,7 @@ namespace Refactor.Entities.Modules
             
             #region Input
             stateTime += deltaTime;
+            timeSinceLastAttack += deltaTime;
             UpdatePathfinding(deltaTime);
             inputMove = GetWalkInput(deltaTime, out bool isRunning);
             var isMoving = inputMove.magnitude > 0.15f;
@@ -235,8 +236,18 @@ namespace Refactor.Entities.Modules
         {
             _path.ClearCorners();
             _pathIndex = 0;
-            if (stateTime >= attackCollDown && _attackEnded)
+
+            if (!DistanceToAttack())
+                state = State.Targeting;
+            
+            if (timeSinceLastAttack >= attackCollDown && _attackEnded)
+            {
+            
+                Debug.Log(stateTime);
+                Debug.Log(attackCollDown);
                 Attack();
+            }
+               
         }
         protected virtual void IdleState()
         {
@@ -258,7 +269,9 @@ namespace Refactor.Entities.Modules
             {
                 state = State.Attacking;
                 stateTime = 0;
-                Attack();
+                Debug.Log("Target - Attack");
+                if(timeSinceLastAttack >= attackCollDown)
+                    Attack();
             }  
            
             if(distanceToWaitForAttack <= 0) return;
@@ -562,16 +575,17 @@ namespace Refactor.Entities.Modules
         protected virtual void Attack()
         {
             _attackEnded = false;
+            timeSinceLastAttack = 0;
             animator.CrossFade($"Attack {Random.Range(0, 3)}", 0.25f);
             ApplyDamageFor(1, 2);
-            
+            Debug.Log("Attack");
             entity.StartCoroutine(OnAnimationFinish(() =>
             {
-                stateTime = 0;
-                _attackEnded = true;
-                
-                if (!RandomBehaviour())
-                    state = State.Targeting;
+                _attackEnded = true;    
+                Debug.Log("Attack finished");
+                RandomBehaviour();
+                /*if (!RandomBehaviour())
+                    state = State.Attacking;*/
                 
             }));
         }
