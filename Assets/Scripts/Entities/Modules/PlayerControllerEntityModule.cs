@@ -3,10 +3,20 @@ using System.Collections;
 using Refactor.Audio;
 using Refactor.Data;
 using Refactor.Misc;
-using Refactor.Tutorial;
 using Unity.Mathematics;
 using UnityEngine;
 using UnityEngine.Events;
+
+//Cool idea:
+//https://www.youtube.com/watch?v=JdT4ZSJ6rkA
+/*
+ * 1 - targeting (by camera)
+ * 2 - snaps to the entity (turns around if needed)
+ * 3 - slow effects
+ * 4 - combo
+ * 5 - skills
+ * 6 - swords
+ */
 
 namespace Refactor.Entities.Modules
 {
@@ -138,8 +148,8 @@ namespace Refactor.Entities.Modules
                 Handle__ChangeElement();
             }
             
-            if(state is not PlayerState.Casting)
-                _playerAttack.HandleAttacks(state, deltaTime);
+            //if(state is not PlayerState.Casting)
+            //    _playerAttack.HandleAttacks(state, deltaTime);
         }
         #endregion
 

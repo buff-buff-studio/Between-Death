@@ -78,6 +78,9 @@ namespace Refactor.Interface
         protected override void Update()
         {
             base.Update();
+
+            if (canvas == null)
+                return;
             
             if(CurrentControlScheme == ControlScheme.Desktop)
                 if(canvas.currentWindow == null || canvas.currentWindow is not SaveWindow)
