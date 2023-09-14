@@ -24,7 +24,6 @@ namespace Refactor.Entities.Modules
             Retreating,
             Dodging,
             Dizzy,
-            TakingDamage,
             Dead,
             WaitingToAttack
         }
@@ -66,8 +65,8 @@ namespace Refactor.Entities.Modules
         [SerializeField] private float attackCollDown = 2f;
         [SerializeField]private float distanceToAttack = 1.25f;
         [SerializeField]private float distanceToChasePlayer = 6f;
-        private bool _attackEnded = true;   
-
+        protected bool _attackEnded = true;   
+        public float timeSinceLastAttack = 0;
         [Header("STATE - RETREAT")] 
         [SerializeField]
         [Range(0,10)]
@@ -102,12 +101,19 @@ namespace Refactor.Entities.Modules
         [Header("STATE - WAITING TO ATTACK")] 
         [SerializeField]
         [Tooltip("Less than the distance to target player and more than the distance to attack (zero if will not wait for attack")]
-        private float distanceToWaitForAttack;
+        protected float distanceToWaitForAttack;
         public bool isGoingToAttack;
-   
+        
+        /*[Header("STATE - RUNNING FROM PLAYER")] 
+        [SerializeField]
+        [Tooltip("Less than the distance to target player and more than the distance to attack (zero if will not wait for attack")]
+        protected float distanceToRun;*/
+
         [Header("Controller")] 
         public EnemiesInSceneController controller;
 
+        [SerializeField]
+        private bool canRun = true;
    
 
         public override void OnEnable()
@@ -143,6 +149,7 @@ namespace Refactor.Entities.Modules
             
             #region Input
             stateTime += deltaTime;
+            timeSinceLastAttack += deltaTime;
             UpdatePathfinding(deltaTime);
             inputMove = GetWalkInput(deltaTime, out bool isRunning);
             var isMoving = inputMove.magnitude > 0.15f;
@@ -229,9 +236,18 @@ namespace Refactor.Entities.Modules
         {
             _path.ClearCorners();
             _pathIndex = 0;
-            if (stateTime >= attackCollDown && _attackEnded)
-                Attack();
 
+            if (!DistanceToAttack())
+                state = State.Targeting;
+            
+            if (timeSinceLastAttack >= attackCollDown && _attackEnded)
+            {
+            
+                Debug.Log(stateTime);
+                Debug.Log(attackCollDown);
+                Attack();
+            }
+               
         }
         protected virtual void IdleState()
         {
@@ -253,7 +269,9 @@ namespace Refactor.Entities.Modules
             {
                 state = State.Attacking;
                 stateTime = 0;
-                Attack();
+                Debug.Log("Target - Attack");
+                if(timeSinceLastAttack >= attackCollDown)
+                    Attack();
             }  
            
             if(distanceToWaitForAttack <= 0) return;
@@ -400,7 +418,7 @@ namespace Refactor.Entities.Modules
                     var distance = delta.magnitude;
                     var direction = delta / distance;
                     
-                    running = distance > runningDistance || state == State.Targeting;
+                    running = distance > runningDistance || state == State.Targeting && canRun;
                     if (distance < TARGET_DISTANCE_THRESHOLD) //Distance Threshold
                     {
                         _pathIndex++;
@@ -470,6 +488,7 @@ namespace Refactor.Entities.Modules
                         state = State.Targeting;
                         stateTime = 0;
                         _canTurn = true;
+                        _NewWanderTarget();
                     }
                     return;
                 
@@ -479,6 +498,7 @@ namespace Refactor.Entities.Modules
                         state = State.Targeting;
                         stateTime = 0;
                         _canTurn = true;
+                        _NewWanderTarget();
                     }
                     break;
             }
@@ -504,6 +524,16 @@ namespace Refactor.Entities.Modules
         {
             return Vector3.zero;
         }
+        protected virtual Vector3 WanderingPos()
+        {
+            return wanderingStart + new Vector3(Random.Range(-3, 3), 1, Random.Range(-3, 3));
+        }
+        
+        protected virtual Vector3 TargetPos()
+        {
+            return playerRef.position;
+        }
+
 
         protected virtual void _NewWanderTarget()
         {
@@ -512,18 +542,16 @@ namespace Refactor.Entities.Modules
             if (state == State.Retreating || state == State.Dodging)
             {
                 target = entity.transform.position - (entity.transform.forward * _distanceBehind);
-                
             }else if (state == State.WaitingToAttack)
             {
                 target = WaitingToAttackNavMesh();
             }
             else if (IsSeeingPlayer())
             {
-                Debug.Log("Player");
                 target = playerRef.position;
             }
             else
-                target = wanderingStart + new Vector3(Random.Range(-3, 3), 1, Random.Range(-3, 3));
+                target = WanderingPos();
             
             _DoPathTo(target);
         }
@@ -547,21 +575,22 @@ namespace Refactor.Entities.Modules
         protected virtual void Attack()
         {
             _attackEnded = false;
+            timeSinceLastAttack = 0;
             animator.CrossFade($"Attack {Random.Range(0, 3)}", 0.25f);
             ApplyDamageFor(1, 2);
-            
+            Debug.Log("Attack");
             entity.StartCoroutine(OnAnimationFinish(() =>
             {
-                _attackEnded = true;
-                stateTime = 0;
-
-                if (!RandomBehaviour())
-                    state = State.Targeting;
+                _attackEnded = true;    
+                Debug.Log("Attack finished");
+                RandomBehaviour();
+                /*if (!RandomBehaviour())
+                    state = State.Attacking;*/
                 
             }));
         }
         
-        private void ApplyDamageFor(float damage, float radius)
+        protected void ApplyDamageFor(float damage, float radius)
         {
             var p = entity.transform.position;
             var pos = p + Vector3.up;/* + _controllerEntity.body.rotation * attackOffset;*/
@@ -617,7 +646,7 @@ namespace Refactor.Entities.Modules
         }
         
         
-        private IEnumerator OnAnimationFinish(Action callback = null)
+        protected IEnumerator OnAnimationFinish(Action callback = null)
         {
             yield return new WaitForSeconds(0.2f);
 

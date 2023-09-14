@@ -62,8 +62,8 @@ namespace Refactor.Entities.Modules
                 
                 if (target.health > 0 && target is HealthEntityModule module)
                 {
-                    var e = module.entity;
-                    e.velocity = dir * 4f;
+                    //var e = module.entity;
+                    //e.velocity = dir * 4f;
                 }
                 
                 //onPlayerDamageVictim.Invoke(target, attack.damageCount);
@@ -76,6 +76,7 @@ namespace Refactor.Entities.Modules
         public void PerformAttack(bool resetStreak, bool chained)
         {
             AudioSystem.PlaySound("attack").At(entity.transform.position);
+            entity.velocity.x = entity.velocity.z = 0;
 
             if (resetStreak)
                 currentAttackState.currentAttackStreak = 0;

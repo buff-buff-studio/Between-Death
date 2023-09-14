@@ -78,7 +78,7 @@ namespace Refactor.Misc
                 math.cos(math.radians(Time.time * -72f)) * breathWeight);
 
             float turbulenceStrength = mag / maxPivotDistance * turbulence;
-            var tbb = Quaternion.Euler(0, 0, math.sin(Time.time * 16f) * turbulenceStrength);
+            var tbb = Quaternion.Euler(0, 0, math.sin(Time.time * 24f) * turbulenceStrength);
             
             t.rotation = Quaternion.Lerp(t.rotation, Quaternion.Euler(rotation.x, rotation.y, 0) * breath * tbb, rotationLerpSpeed * deltaTime);
             #endregion
