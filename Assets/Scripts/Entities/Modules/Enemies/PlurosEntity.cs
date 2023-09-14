@@ -9,7 +9,7 @@ namespace Refactor.Entities.Modules
     public class PlurosEntity : GioEntityModule
     {
         [SerializeField]
-        private float circleRadius;
+        private float circleRadius = 4;
         
         
         protected override Vector3 WaitingToAttackNavMesh()
@@ -20,17 +20,15 @@ namespace Refactor.Entities.Modules
                 Debug.Log(hit.position);
                 return hit.position;
             }
-            else
-            {
-                return WaitingToAttackNavMesh();
-            }
+
+            return WaitingToAttackNavMesh();
         }
         
                
         private Vector3 GetPointInCircle()
         {
             var center = playerRef.position;
-            var radius = 4;
+            var radius = circleRadius;
             var angle = Random.Range(0f, 100f) * Math.PI * 2;
             var x = center.x + Math.Cos(angle) * radius;
             var z = center.y + Math.Sin(angle) * radius;
