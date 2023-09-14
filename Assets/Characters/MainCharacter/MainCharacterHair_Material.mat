@@ -8,7 +8,8 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: MainCharacterHair_Material
-  m_Shader: {fileID: 4800000, guid: 80aa867ac363ac043847b06ad71604cd, type: 3}
+  m_Shader: {fileID: -6465566751694194690, guid: f2a5c6185db5539458c8f37a1077e531,
+    type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords: []
@@ -33,6 +34,10 @@ Material:
         m_Offset: {x: 0, y: 0}
     - _BumpMap:
         m_Texture: {fileID: 2800000, guid: f3d7ec3223911db47a37bda8c5f3d849, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _ColorMap:
+        m_Texture: {fileID: 2800000, guid: 904d147f2b169ba42af2e204e3610524, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _DetailAlbedoMap:
@@ -75,6 +80,10 @@ Material:
         m_Texture: {fileID: 2800000, guid: f3d7ec3223911db47a37bda8c5f3d849, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _NormalMap:
+        m_Texture: {fileID: 2800000, guid: f3d7ec3223911db47a37bda8c5f3d849, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _OPACITY_MAP:
         m_Texture: {fileID: 2800000, guid: 1abaa38d3ab396c4caf5852d66d5d73e, type: 3}
         m_Scale: {x: 1, y: 1}
@@ -83,8 +92,16 @@ Material:
         m_Texture: {fileID: 2800000, guid: 1abaa38d3ab396c4caf5852d66d5d73e, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _OpacityMap:
+        m_Texture: {fileID: 2800000, guid: 1abaa38d3ab396c4caf5852d66d5d73e, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _ParallaxMap:
         m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _RoughnessMap:
+        m_Texture: {fileID: 2800000, guid: 371f1f868f77b5f4b83de742464e9cd0, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _SPECULAR_COLOR_MAP:
@@ -119,6 +136,7 @@ Material:
     m_Floats:
     - Boolean_8A2B8817: 1
     - _AlphaClip: 0
+    - _AlphaThreshold: 0.3
     - _AlphaToMask: 0
     - _Blend: 0
     - _BlendModePreserveSpecular: 1
@@ -129,6 +147,8 @@ Material:
     - _Cutoff: 0.483
     - _DetailAlbedoMapScale: 1
     - _DetailNormalMapScale: 1
+    - _DitherLevel: 1.35
+    - _DitherTiling: 3
     - _DstBlend: 0
     - _DstBlendAlpha: 0
     - _EnvironmentReflections: 1
@@ -162,7 +182,7 @@ Material:
     - _ZWrite: 1
     m_Colors:
     - _BASE_COLOR: {r: 1, g: 1, b: 1, a: 0}
-    - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
+    - _BaseColor: {r: 1, g: 1, b: 1, a: 0}
     - _Color: {r: 1, g: 1, b: 1, a: 0.65882355}
     - _EMISSION_COLOR: {r: 0, g: 0, b: 0, a: 0}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
