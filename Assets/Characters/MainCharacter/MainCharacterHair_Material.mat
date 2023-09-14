@@ -16,7 +16,7 @@ Material:
   m_InvalidKeywords: []
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
-  m_DoubleSidedGI: 0
+  m_DoubleSidedGI: 1
   m_CustomRenderQueue: -1
   stringTagMap: {}
   disabledShaderPasses: []
@@ -136,11 +136,12 @@ Material:
     m_Floats:
     - Boolean_8A2B8817: 1
     - _AlphaClip: 0
-    - _AlphaThreshold: 0.3
+    - _AlphaThreshold: 0.427
     - _AlphaToMask: 0
     - _Blend: 0
     - _BlendModePreserveSpecular: 1
     - _BumpScale: 1
+    - _BumpStrength: 0.005
     - _ClearCoatMask: 0
     - _ClearCoatSmoothness: 0
     - _Cull: 0
@@ -148,13 +149,16 @@ Material:
     - _DetailAlbedoMapScale: 1
     - _DetailNormalMapScale: 1
     - _DitherLevel: 1.35
-    - _DitherTiling: 3
+    - _DitherTiling: 3.4
     - _DstBlend: 0
     - _DstBlendAlpha: 0
     - _EnvironmentReflections: 1
     - _GlossMapScale: 0
     - _Glossiness: 0
     - _GlossyReflections: 0
+    - _HashContrast: 0.33
+    - _HashFade: 0.25
+    - _HashScale: 2048
     - _METALNESS: 0
     - _Metallic: 0
     - _OPACITY: 1
@@ -164,6 +168,7 @@ Material:
     - _QueueControl: 0
     - _QueueOffset: 0
     - _ReceiveShadows: 1
+    - _Roughness: 0
     - _SPECULAR_IOR: 1.5
     - _SPECULAR_ROUGHNESS: 1
     - _Smoothness: 0.5
