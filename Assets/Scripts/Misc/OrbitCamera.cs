@@ -23,10 +23,10 @@ namespace Refactor.Misc
         public float collisionRadius = 3f;
         public float minDistance = 1f;
         public float breathWeight = 5f;
+        public float maxPivotDistance = 0.5f;
         
         [Header("STATE")]
         public Vector2 rotation;
-
         private Vector3 _targetItself;
 
         public void OnEnable()
@@ -69,12 +69,9 @@ namespace Refactor.Misc
             
             t.rotation = Quaternion.Lerp(t.rotation, Quaternion.Euler(rotation.x, rotation.y, 0) * breath, rotationLerpSpeed * deltaTime);
             Vector3 newTarget = target.position;
-            /*var point = new Vector3(targetPosition.x,
-                _targetItself.y = math.lerp(_targetItself.y, targetPosition.y, deltaTime * 2f)
-                , targetPosition.z) + offset; /*+ target.TransformVector(offset);*/
             Vector3 delta = newTarget - _targetItself;
             float mag = delta.magnitude;
-            _targetItself = newTarget - (mag > 0.5f ? delta.normalized * 0.5f : delta);
+            _targetItself = newTarget - (mag > maxPivotDistance ? delta.normalized * maxPivotDistance : delta);
             _targetItself = Vector3.Lerp(_targetItself, newTarget, deltaTime * 2f);
             Vector3 point = _targetItself + offset;
             #endregion
