@@ -3,10 +3,20 @@ using System.Collections;
 using Refactor.Audio;
 using Refactor.Data;
 using Refactor.Misc;
-using Refactor.Tutorial;
 using Unity.Mathematics;
 using UnityEngine;
 using UnityEngine.Events;
+
+//Cool idea:
+//https://www.youtube.com/watch?v=JdT4ZSJ6rkA
+/*
+ * 1 - targeting (by camera)
+ * 2 - snaps to the entity (turns around if needed)
+ * 3 - slow effects
+ * 4 - combo
+ * 5 - skills
+ * 6 - swords
+ */
 
 namespace Refactor.Entities.Modules
 {
@@ -90,6 +100,9 @@ namespace Refactor.Entities.Modules
         #region Callbacks
         public override void OnEnable()
         {
+            //Solve reload bug
+            state = PlayerState.Default;
+            
             if (camera == null)
                 camera = Camera.main;
             
@@ -138,13 +151,12 @@ namespace Refactor.Entities.Modules
                 Handle__ChangeElement();
             }
             
-            //if(state is not PlayerState.Casting)
-              //  _playerAttack.HandleAttacks(state, deltaTime);
+            if(state is not PlayerState.Casting and not PlayerState.Dashing && _playerAttack != null)
+                _playerAttack.HandleAttacks(state, deltaTime);
         }
         #endregion
 
         #region Handlers
-
         public void Handle__ChangeElement()
         {
             if (IngameGameInput.InputChangeElement.trigger && entity.isGrounded)
@@ -220,9 +232,16 @@ namespace Refactor.Entities.Modules
             body.eulerAngles = new Vector3(0,angle, 0);
             #endregion
             
+            animator.CrossFade("Dash", 0.25f);
+            const float delay = 0.2f;
+            yield return new WaitForSeconds(delay);
             entity.velocity.x = inputMove.x * dashSpeed;
             entity.velocity.z = inputMove.z * dashSpeed;
+                        
+            yield return new WaitForSeconds(dashDuration - delay);
 
+            
+            /*
             const int count = 4;
 
             for (var i = 1; i < count; i++)
@@ -232,8 +251,10 @@ namespace Refactor.Entities.Modules
             }
             
             yield return new WaitForSeconds(dashDuration / count);
+            */
             
             
+            animator.CrossFade("MainMovement", 0.5f);
             lastGrounded = Time.time;
             state = PlayerState.Default;
 

@@ -9,6 +9,7 @@ namespace Refactor.Misc
         public static float DeltaRot = 0;
         [Header("REFERENCES")]
         public Transform target;
+        public LayerMask collisionMask;
 
         public Value<float> sensitivityX = 50;
         public Value<float> sensitivityY = 50;
@@ -22,16 +23,17 @@ namespace Refactor.Misc
         public float collisionRadius = 3f;
         public float minDistance = 1f;
         public float breathWeight = 5f;
+        public float maxPivotDistance = 0.5f;
+        public float turbulence = 10f;
         
         [Header("STATE")]
         public Vector2 rotation;
-
-        private Vector3 _lastTarget;
+        private Vector3 _targetItself;
 
         public void OnEnable()
         {
             Cursor.lockState = CursorLockMode.Locked;
-            _lastTarget = target.transform.position;
+            _targetItself = target.transform.position;
         }
 
         private void OnDrawGizmos()
@@ -50,10 +52,9 @@ namespace Refactor.Misc
                 msModifier *= 0.25f;
 
             #region Input
-            
             if (Cursor.lockState == CursorLockMode.Locked || GameInput.CurrentControlScheme != GameInput.ControlScheme.Desktop)
             {
-                var senX = (invertX ? -1f : 1f) * math.clamp(sensitivityX.value/10f, 0f, 1f); 
+                var senX = (invertX ? 1f : -1f) * math.clamp(sensitivityX.value/10f, 0f, 1f); 
                 var senY = (invertY ? -1f : 1f) * math.clamp(sensitivityY.value/10f, 0f, 1f);
                 var mouseInput = IngameGameInput.InputCamera;
 
@@ -63,21 +64,27 @@ namespace Refactor.Misc
             }
             #endregion
 
+            #region Point Calculation
+            Vector3 newTarget = target.position;
+            Vector3 delta = newTarget - _targetItself;
+            float mag = delta.magnitude;
+            _targetItself = newTarget - (mag > maxPivotDistance ? delta.normalized * maxPivotDistance : delta);
+            _targetItself = Vector3.Lerp(_targetItself, newTarget, deltaTime * 2f);
+            Vector3 point = _targetItself + offset;
+            #endregion
+            
             #region Rotation
-
             var breath = Quaternion.Euler(math.sin(math.radians(Time.time * 80f)) * breathWeight, 0,
                 math.cos(math.radians(Time.time * -72f)) * breathWeight);
+
+            float turbulenceStrength = mag / maxPivotDistance * turbulence;
+            var tbb = Quaternion.Euler(0, 0, math.sin(Time.time * 24f) * turbulenceStrength);
             
-            t.rotation = Quaternion.Lerp(t.rotation, Quaternion.Euler(rotation.x, rotation.y, 0) * breath, rotationLerpSpeed * deltaTime);
-            var targetPosition = target.position;
-            var point = new Vector3(targetPosition.x,
-                _lastTarget.y = math.lerp(_lastTarget.y, targetPosition.y, deltaTime * 2f)
-                , targetPosition.z) + offset; /*+ target.TransformVector(offset);*/
-            _lastTarget = targetPosition;
+            t.rotation = Quaternion.Lerp(t.rotation, Quaternion.Euler(rotation.x, rotation.y, 0) * breath * tbb, rotationLerpSpeed * deltaTime);
             #endregion
 
             #region Collision
-            if (Physics.SphereCast(point, collisionRadius, -t.forward, out RaycastHit hit, d))
+            if (Physics.SphereCast(point, collisionRadius, -t.forward,  out RaycastHit hit, d, collisionMask))
             {
                 d = math.max(minDistance, hit.distance);
             }

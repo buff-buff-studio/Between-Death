@@ -9,6 +9,7 @@ namespace Refactor.Entities
         public Entity entity;
         public Animator animator;
         private PlayerControllerEntityModule _module;
+        public Vector3 position;
 
         private void OnEnable()
         {
@@ -27,7 +28,7 @@ namespace Refactor.Entities
             var lc = animator.transform.localPosition;
             lc.y = 0;
             entity.controller.Move(lc);
-            animator.transform.localPosition = Vector3.zero;
+            animator.transform.localPosition = position;
         }
     }
 }
