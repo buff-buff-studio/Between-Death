@@ -29,8 +29,11 @@ namespace Refactor.Entities.Modules
         public void OnChangeElement()
         {
             var elm = entity.element;
-            animator.SetLayerWeight(0, elm == Element.Order ? 1 : 0);
-            animator.SetLayerWeight(1, elm == Element.Order ? 0 : 1);
+            if (animator != null)
+            {
+                animator.SetLayerWeight(0, elm == Element.Order ? 1 : 0);
+                animator.SetLayerWeight(1, elm == Element.Order ? 0 : 1);
+            }
 
             if (leftSword != null && rightSword != null && superSword != null)
             {
