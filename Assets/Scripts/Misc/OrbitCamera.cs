@@ -24,6 +24,7 @@ namespace Refactor.Misc
         public float minDistance = 1f;
         public float breathWeight = 5f;
         public float maxPivotDistance = 0.5f;
+        public float turbulence = 10f;
         
         [Header("STATE")]
         public Vector2 rotation;
@@ -63,17 +64,23 @@ namespace Refactor.Misc
             }
             #endregion
 
-            #region Rotation
-            var breath = Quaternion.Euler(math.sin(math.radians(Time.time * 80f)) * breathWeight, 0,
-                math.cos(math.radians(Time.time * -72f)) * breathWeight);
-            
-            t.rotation = Quaternion.Lerp(t.rotation, Quaternion.Euler(rotation.x, rotation.y, 0) * breath, rotationLerpSpeed * deltaTime);
+            #region Point Calculation
             Vector3 newTarget = target.position;
             Vector3 delta = newTarget - _targetItself;
             float mag = delta.magnitude;
             _targetItself = newTarget - (mag > maxPivotDistance ? delta.normalized * maxPivotDistance : delta);
             _targetItself = Vector3.Lerp(_targetItself, newTarget, deltaTime * 2f);
             Vector3 point = _targetItself + offset;
+            #endregion
+            
+            #region Rotation
+            var breath = Quaternion.Euler(math.sin(math.radians(Time.time * 80f)) * breathWeight, 0,
+                math.cos(math.radians(Time.time * -72f)) * breathWeight);
+
+            float turbulenceStrength = mag / maxPivotDistance * turbulence;
+            var tbb = Quaternion.Euler(0, 0, math.sin(Time.time * 16f) * turbulenceStrength);
+            
+            t.rotation = Quaternion.Lerp(t.rotation, Quaternion.Euler(rotation.x, rotation.y, 0) * breath * tbb, rotationLerpSpeed * deltaTime);
             #endregion
 
             #region Collision

@@ -148,8 +148,8 @@ namespace Refactor.Entities.Modules
                 Handle__ChangeElement();
             }
             
-            //if(state is not PlayerState.Casting)
-            //    _playerAttack.HandleAttacks(state, deltaTime);
+            if(state is not PlayerState.Casting && _playerAttack != null)
+                _playerAttack.HandleAttacks(state, deltaTime);
         }
         #endregion
 

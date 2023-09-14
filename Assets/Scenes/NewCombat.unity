@@ -562,7 +562,8 @@ MonoBehaviour:
   collisionRadius: 0.5
   minDistance: 1
   breathWeight: 0.5
-  maxPivotDistance: 0.5
+  maxPivotDistance: 1
+  turbulence: 1
   rotation: {x: 0, y: 0}
 --- !u!114 &1001351226
 MonoBehaviour:
@@ -1627,7 +1628,7 @@ MonoBehaviour:
   - m_Rig: {fileID: 7181684504755744266}
     m_Active: 1
   - m_Rig: {fileID: 6109548640188856060}
-    m_Active: 1
+    m_Active: 0
   m_Effectors: []
 --- !u!114 &1459513246
 MonoBehaviour:
@@ -1643,6 +1644,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   entity: {fileID: 5341423232971765837}
   animator: {fileID: 420817449}
+  position: {x: 0, y: -0.08, z: 0}
 --- !u!1 &1547511026
 GameObject:
   m_ObjectHideFlags: 0
@@ -2520,6 +2522,7 @@ MonoBehaviour:
     - rid: 5295485814535094272
     - rid: 5295485814535094273
     - rid: 5295485939385630720
+    - rid: 191450586670432256
   controller: {fileID: 7596402276593464982}
   respawnPosition: {x: 0, y: 0, z: 0}
   isGrounded: 0
@@ -2533,6 +2536,27 @@ MonoBehaviour:
   references:
     version: 2
     RefIds:
+    - rid: 191450586670432256
+      type: {class: PlayerNewAttackEntityModule, ns: Refactor.Entities.Modules, asm: Assembly-CSharp}
+      data:
+        _enabled: 1
+        editorOpen: 1
+        entity: {fileID: 5341423232971765837}
+        attackRadius: 2
+        animator: {fileID: 420817449}
+        attacks:
+        - {fileID: 11400000, guid: 6185168d23286994a9194120ce00dffd, type: 2}
+        - {fileID: 11400000, guid: 46f9957df28a3bb4796d9fb32d8cec8f, type: 2}
+        - {fileID: 11400000, guid: 08e098bf5f6f038458590e0b83627776, type: 2}
+        - {fileID: 11400000, guid: 76835b38c3000fe4ca2ba784e04d50e4, type: 2}
+        hitParticlesPrefab: {fileID: 8256934238815781683, guid: 23589639f823a3047ace26eed3f36e32,
+          type: 3}
+        currentAttackState:
+          currentAttack: {fileID: 0}
+          currentAttackStreak: 0
+          canKeepStreak: 1
+          timeSinceLastAttack: 0
+          appliedDamage: 0
     - rid: 5295485631248728064
       type: {class: GravityEntityModule, ns: Refactor.Entities.Modules, asm: Assembly-CSharp}
       data:
@@ -2553,7 +2577,7 @@ MonoBehaviour:
       type: {class: PlayerControllerEntityModule, ns: Refactor.Entities.Modules, asm: Assembly-CSharp}
       data:
         _enabled: 1
-        editorOpen: 1
+        editorOpen: 0
         entity: {fileID: 5341423232971765837}
         animator: {fileID: 420817449}
         body: {fileID: 1459513147}
@@ -2564,7 +2588,7 @@ MonoBehaviour:
         rigIdle: {fileID: 7181684504755744266}
         rigLean: {fileID: 6109548640188856060}
         useCameraView: 1
-        ikFootOffset: -0.03
+        ikFootOffset: 0
         groundLeanWeight: 0.25
         dashDuration: 0.075
         dashSpeed: 25
@@ -2613,7 +2637,7 @@ MonoBehaviour:
       type: {class: ElementHandlerEntityModule, ns: Refactor.Entities.Modules, asm: Assembly-CSharp}
       data:
         _enabled: 1
-        editorOpen: 1
+        editorOpen: 0
         entity: {fileID: 5341423232971765837}
         animator: {fileID: 420817449}
         leftSword: {fileID: 1369790584102980431}
@@ -2656,7 +2680,7 @@ MonoBehaviour:
       type: {class: InteractionEntityModule, ns: Refactor.Entities.Modules, asm: Assembly-CSharp}
       data:
         _enabled: 1
-        editorOpen: 1
+        editorOpen: 0
         entity: {fileID: 5341423232971765837}
         interactionOffset: {x: 0, y: 0, z: 0}
         currentInteractible: {fileID: 0}
