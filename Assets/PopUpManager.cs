@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using Refactor;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
@@ -54,6 +55,9 @@ public class PopUpManager : MonoBehaviour
         
         parent.interactable = false;
         parent.blocksRaycasts = false;
+        
+        
+        IngameGameInput.CanInput = true;
     }
     
     public void OnClick()

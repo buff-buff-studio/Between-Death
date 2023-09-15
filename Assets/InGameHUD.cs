@@ -163,6 +163,7 @@ public class InGameHUD : MonoBehaviour
         if(interactibleObject.oneInteraction) interactibleIcon.gameObject.SetActive(false);
         interactibleObject = null;
         _distance = 0;
+        IngameGameInput.CanInput = false;
     }
 
     public void OpenDocument(DocumentData doc)

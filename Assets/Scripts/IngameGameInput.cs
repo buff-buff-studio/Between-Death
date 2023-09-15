@@ -29,7 +29,13 @@ namespace Refactor
         public static readonly InputBool InputRunning = new();
         
         [Header("SETTINGS")]
-        public bool canInput = true;
+        public static bool CanInput = true;
+
+        public bool canInput
+        {
+            get => CanInput;
+            set => CanInput = value;
+        }
 
         public bool canMove = true;
         public bool canInteract = true;
@@ -109,19 +115,19 @@ namespace Refactor
         {
             base.Update();
             
-            Cursor.lockState = canInput ? CursorLockMode.Locked : CursorLockMode.None;
+            Cursor.lockState = CanInput ? CursorLockMode.Locked : CursorLockMode.None;
             
-            InputInteract.SetValue(canInput && canInteract && inputInteract.ReadValue<float>() > 0);
-            InputMove = canInput && canMove ? inputMove.ReadValue<Vector2>() : Vector2.zero;
-            InputCamera = canInput && canMoveCamera ? -inputCamera.ReadValue<Vector2>() : Vector2.zero;
-            InputJump.SetValue(canInput && canJump && inputJump.ReadValue<float>() > 0);
+            InputInteract.SetValue(CanInput && canInteract && inputInteract.ReadValue<float>() > 0);
+            InputMove = CanInput && canMove ? inputMove.ReadValue<Vector2>() : Vector2.zero;
+            InputCamera = CanInput && canMoveCamera ? -inputCamera.ReadValue<Vector2>() : Vector2.zero;
+            InputJump.SetValue(CanInput && canJump && inputJump.ReadValue<float>() > 0);
             
-            InputAttack0.SetValue(canInput && canAttack0 && inputAttack0.ReadValue<float>() > 0);
-            InputAttack1.SetValue(canInput && canAttack1 && inputAttack1.ReadValue<float>() > 0);
+            InputAttack0.SetValue(CanInput && canAttack0 && inputAttack0.ReadValue<float>() > 0);
+            InputAttack1.SetValue(CanInput && canAttack1 && inputAttack1.ReadValue<float>() > 0);
             
-            InputChangeElement.SetValue(canInput && canChangeElement && inputChangeElement.ReadValue<float>() > 0);
-            InputDash.SetValue(canInput && canDash && inputDash.ReadValue<float>() > 0);
-            InputRunning.SetValue(canInput && canRun && inputRunning.ReadValue<float>() == 0);
+            InputChangeElement.SetValue(CanInput && canChangeElement && inputChangeElement.ReadValue<float>() > 0);
+            InputDash.SetValue(CanInput && canDash && inputDash.ReadValue<float>() > 0);
+            InputRunning.SetValue(CanInput && canRun && inputRunning.ReadValue<float>() == 0);
         }
     }
 }
