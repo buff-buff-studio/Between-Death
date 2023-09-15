@@ -62,7 +62,7 @@ namespace Refactor.Entities.Modules
         private int _pathTime;
 
         [Header("STATE - ATTACKING")] 
-        [SerializeField] private float attackCollDown = 2f;
+        [SerializeField] protected float attackCollDown = 2f;
         [SerializeField]private float distanceToAttack = 1.25f;
         [SerializeField]private float distanceToChasePlayer = 6f;
         protected bool _attackEnded = true;   
@@ -114,26 +114,27 @@ namespace Refactor.Entities.Modules
 
         [SerializeField]
         private bool canRun = true;
-   
 
+
+        private void Die()
+        {
+            isDead = true;
+            state = State.Dead;
+            animator.CrossFade("Die", 0.2f);
+        }
         public override void OnEnable()
         {
             base.OnEnable();
             wanderingStart = entity.transform.position;
             _pathTime = PathTime();
             _wanderingTime = WanderingTime();
-            playerRef =playerRef ? GameObject.FindWithTag("Player").transform : playerRef;
             entity.GetModule<HealthEntityModule>().onHealthChange.AddListener(OnEnemyTakeDamage);
-            entity.GetModule<HealthEntityModule>().onDie.AddListener(() =>
-            {
-                isDead = true;
-                state = State.Dead;
-                animator.CrossFade("Die", 0.2f);
-
-            });
+            entity.GetModule<HealthEntityModule>().onDie.AddListener(Die);
 
             controller = controller ? controller : GameObject.FindWithTag("EnemiesController").GetComponent<EnemiesInSceneController>();
             controller.AddEnemy(this);
+            playerRef =playerRef ? GameObject.FindWithTag("Player").transform : playerRef;
+        
         }
 
         public override void UpdateFrame(float deltaTime)
@@ -257,6 +258,13 @@ namespace Refactor.Entities.Modules
                 stateTime = 0;
             }
         }
+        protected virtual void OnDeadState()
+        {
+            if (stateTime >= 2)
+            {
+                // return object to pool
+            }
+        }
         protected virtual void TargetingState()
         {
             Debug.Log(IsSeeingPlayer());
@@ -330,7 +338,7 @@ namespace Refactor.Entities.Modules
             
             // damage animatio
             //state = State.TakingDamage;
-
+            Debug.Log("TakingDamage");
             animator.CrossFade("Reaction", 0.25f);
             
             if(state == State.Dizzy) return;
@@ -357,6 +365,9 @@ namespace Refactor.Entities.Modules
             pathTime += deltaTime;
             switch (state)
             {
+                case State.Dead:
+                    OnDeadState();
+                    return Vector3.zero;
                 case State.Attacking:
                     AttackState();
                     break;
@@ -548,7 +559,7 @@ namespace Refactor.Entities.Modules
             }
             else if (IsSeeingPlayer())
             {
-                target = playerRef.position;
+                target = TargetPos();
             }
             else
                 target = WanderingPos();

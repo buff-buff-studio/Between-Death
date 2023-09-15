@@ -8,7 +8,7 @@ namespace Refactor.Entities.Modules
         private List<Projectile> pool = new List<Projectile>();
         [SerializeField]
         private Projectile prefab;
-        
+
         public void CreateObject(Vector3 pos, Transform target)
         {
             Projectile obj = null;
@@ -26,6 +26,8 @@ namespace Refactor.Entities.Modules
             }
 
             obj.transform.position = pos;
+            obj.target = target;
+            obj.gameObject.SetActive(true);
         }
     }
 }

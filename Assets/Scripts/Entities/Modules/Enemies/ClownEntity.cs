@@ -12,14 +12,15 @@ namespace Refactor.Entities.Modules
         private ProjectileController _controller;
         [SerializeField]
         private Transform shootPoint;
-        protected virtual Vector3 WanderingPos()
+        protected override Vector3 WanderingPos()
         {
+            Debug.Log("Wandering");
             return Vector3.zero;
         }
 
-        protected virtual Vector3 TargetPos()
+        protected override Vector3 TargetPos()
         {
-            Vector3 runTo = entity.transform.position + ((entity.transform.position - playerRef.position) * Random.Range(3f,6f));
+            Vector3 runTo = playerRef.position + (playerRef.forward * Random.Range(3f,6f));
             return runTo;
         }
 
@@ -28,9 +29,13 @@ namespace Refactor.Entities.Modules
             Debug.LogWarning("WAndering");
             if (DistanceToAttack())
             {
-                state = State.Attacking;
-                stateTime = 0;
-                Attack();
+                if (timeSinceLastAttack >= attackCollDown && _attackEnded)
+                {
+                    state = State.Attacking;
+                    stateTime = 0;
+                    Attack();
+                }
+
             }
             if (IsSeeingPlayer())
             {
@@ -48,20 +53,14 @@ namespace Refactor.Entities.Modules
             }
             if (DistanceToAttack())
             {
-                state = State.Attacking;
-                stateTime = 0;
-                Attack();
+                if (timeSinceLastAttack >= attackCollDown && _attackEnded)
+                {
+                    state = State.Attacking;
+                    stateTime = 0;
+                    Attack();
+                }
             }  
-           
-            if(distanceToWaitForAttack <= 0) return;
-            if(isGoingToAttack) return;
-            if(!controller.HasMoreThanOne()) return;
-            if (DistanceToWaitToAttack())
-            {
-                state = State.WaitingToAttack;
-                _NewWanderTarget();
-                stateTime = 0;
-            }
+            
         }
         
         protected override void Attack()
@@ -69,7 +68,7 @@ namespace Refactor.Entities.Modules
             Debug.Log("Attack");
             _attackEnded = false;
             animator.CrossFade($"Attack {Random.Range(0, 3)}", 0.25f);
-
+            timeSinceLastAttack = 0;
             _controller.CreateObject(shootPoint.position, playerRef);
 
             entity.StartCoroutine(OnAnimationFinish(() =>
