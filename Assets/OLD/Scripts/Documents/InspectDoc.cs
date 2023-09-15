@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Threading;
+using Refactor;
 using Refactor.Interface;
 using TMPro;
 using Unity.VisualScripting;
@@ -35,8 +36,6 @@ public class InspectDoc : MonoBehaviour
     private PlayerInput _playerInput;
     private bool _resetRotation = false;
 
-    public CanvasGameInput inputs;
-
     private void Awake()
     {
         _ingameCanvas ??= FindObjectOfType<IngameCanvas>();
@@ -44,14 +43,13 @@ public class InspectDoc : MonoBehaviour
 
     private void Update()
     {
-        if(inputs.inputForth.triggered) SetTranscriptActive(!_transcriptPanel.activeSelf);
-        else if(inputs.inputForth.triggered) StartCoroutine(ResetRotation());
+        if(IngameGameInput.InputAttack1.trigger) SetTranscriptActive(!_transcriptPanel.activeSelf);
+        else if(IngameGameInput.InputRunning.trigger) StartCoroutine(ResetRotation());
+        else if(IngameGameInput.InputInteract.trigger) DocExit();
     }
 
     private void OnEnable()
     {
-        inputs.inputCancel.started += DocExit;
-        
         if(_nameText != null) _nameText.text = _documentData.documentName;
         if(_descriptionText != null) _descriptionText.text = _documentData._documentTranscript;
         
@@ -61,12 +59,7 @@ public class InspectDoc : MonoBehaviour
         SetTranscriptActive(false);
     }
 
-    private void OnDisable()
-    {
-        inputs.inputCancel.started -= DocExit;
-    }
-
-    public void DocExit(InputAction.CallbackContext ctx)
+    public void DocExit()
     {
         Debug.Log("DocExit");
         if (_transcriptPanel.activeSelf) SetTranscriptActive(false);

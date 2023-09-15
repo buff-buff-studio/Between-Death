@@ -192,7 +192,7 @@ RectTransform:
   - {fileID: 8295883833229481281}
   - {fileID: 2367657210552034590}
   - {fileID: 7525346918856749213}
-  - {fileID: 1539978242186287961}
+  - {fileID: 7338215098735651380}
   m_Father: {fileID: 5886134964562121524}
   m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -1997,7 +1997,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2341762929378142672}
   - component: {fileID: 4870586349787818978}
-  - component: {fileID: 3772924081906815687}
+  - component: {fileID: 7284043717750969857}
   - component: {fileID: 7255718190337290083}
   m_Layer: 5
   m_Name: PassiveMenu
@@ -2022,7 +2022,7 @@ RectTransform:
   - {fileID: 8709067151910850591}
   - {fileID: 3793108630774072358}
   m_Father: {fileID: 0}
-  m_RootOrder: -1
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
@@ -2037,36 +2037,18 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7383523643971283567}
   m_CullTransparentMesh: 1
---- !u!114 &3772924081906815687
-MonoBehaviour:
+--- !u!225 &7284043717750969857
+CanvasGroup:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7383523643971283567}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Material: {fileID: 0}
-  m_Color: {r: 0.009433985, g: 0.009433985, b: 0.009433985, a: 1}
-  m_RaycastTarget: 1
-  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
-  m_Maskable: 1
-  m_OnCullStateChanged:
-    m_PersistentCalls:
-      m_Calls: []
-  m_Sprite: {fileID: 0}
-  m_Type: 0
-  m_PreserveAspect: 0
-  m_FillCenter: 1
-  m_FillMethod: 4
-  m_FillAmount: 1
-  m_FillClockwise: 1
-  m_FillOrigin: 0
-  m_UseSpriteMesh: 0
-  m_PixelsPerUnitMultiplier: 1
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!114 &7255718190337290083
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2092,7 +2074,7 @@ MonoBehaviour:
   - {fileID: 7169654656354647435}
   - {fileID: 3496138257088531924}
   - {fileID: 8660487702711081047}
-  - {fileID: 1539978242186287962}
+  - {fileID: 8469528483703882494}
   equippedSlots:
   - {fileID: 6696881361755568702}
   - {fileID: 6281434023517992837}
@@ -3004,13 +2986,13 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 174628ab2f5fe3442bb2393fd2773424, type: 3}
---- !u!224 &1539978242186287961 stripped
+--- !u!224 &7338215098735651380 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 8109164121424130412, guid: 174628ab2f5fe3442bb2393fd2773424,
     type: 3}
   m_PrefabInstance: {fileID: 1539978242186287960}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &1539978242186287962 stripped
+--- !u!114 &8469528483703882494 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 6977999165412415910, guid: 174628ab2f5fe3442bb2393fd2773424,
     type: 3}

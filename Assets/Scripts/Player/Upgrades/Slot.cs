@@ -49,21 +49,21 @@ public class Slot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 
     protected virtual void Start()
     {
-        hover.enabled = false;
+        if (hover != null) hover.enabled = false;
         UpdateSlot(id);
     }
 
     public virtual void UpdateSlot() => UpdateSlot(ID);
     public virtual void UpdateSlot(int id) => this.id = id;
     
-    protected virtual void UpdateSlot(bool active, Sprite sprite, string text)
+    public virtual void UpdateSlot(bool active, Sprite sprite, string text)
     {
         gameObject.SetActive(active);
         this.sprite = sprite;
         this.text = text;
     }
 
-    public virtual void OnPointerEnter(PointerEventData eventData) => hover.enabled = true;
+    public virtual void OnPointerEnter(PointerEventData eventData) { if (hover != null) hover.enabled = true; }
     
-    public virtual void OnPointerExit(PointerEventData eventData) => hover.enabled = false;
+    public virtual void OnPointerExit(PointerEventData eventData) { if (hover != null) hover.enabled = false; }
 }

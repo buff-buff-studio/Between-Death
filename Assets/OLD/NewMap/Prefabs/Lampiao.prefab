@@ -160,8 +160,9 @@ GameObject:
   - component: {fileID: 1409546727097144105}
   - component: {fileID: 1438353912560990779}
   - component: {fileID: 1428863375535648073}
-  - component: {fileID: 1398705835712760955}
-  - component: {fileID: 7918557603956555036}
+  - component: {fileID: 1473980294643695247}
+  - component: {fileID: 2214451609159208204}
+  - component: {fileID: 3600032854779232185}
   m_Layer: 0
   m_Name: Lampiao
   m_TagString: Untagged
@@ -185,7 +186,7 @@ Transform:
   - {fileID: 5435793535533618781}
   - {fileID: 923767804146057722}
   m_Father: {fileID: 0}
-  m_RootOrder: -1
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: -90, y: 45, z: 0}
 --- !u!33 &1438353912560990779
 MeshFilter:
@@ -237,8 +238,58 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!65 &1398705835712760955
-BoxCollider:
+--- !u!114 &1473980294643695247
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1406819824501157873}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 730c10a57c59e7e49b957535e29865fb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  interactionPointOffset: {fileID: 923767804146057722}
+  time: 1
+  distanceToInteract: 1.14
+  state: 0
+  oneInteraction: 1
+  callOnEnable: 1
+  onInteract:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 7724357923686352220}
+        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+        m_MethodName: SetActive
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 885996998010705407}
+        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+        m_MethodName: SetActive
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  colliderType: 0
+  vectorSize: {x: 2.99, y: 2.99, z: 2.99}
+  _anchorX: 1
+  _anchorY: 1
+  _anchorZ: 1
+--- !u!135 &2214451609159208204
+SphereCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -256,85 +307,29 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 1.000001, y: 0.99798274, z: 0.9991754}
-  m_Center: {x: 0.0018851608, y: 0, z: 0.50041264}
---- !u!114 &7918557603956555036
-MonoBehaviour:
+  m_Radius: 7.4749994
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!135 &3600032854779232185
+SphereCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1406819824501157873}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
   m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8fdf79e6215a482a9f2ff4c40c4acb16, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  interactionPointOffset: {fileID: 923767804146057722}
-  time: 0
-  colliderType: 0
-  offset: {x: 0, y: 0, z: 0}
-  size: {x: 0, y: 0, z: 0}
-  editOnCollider: 0
-  onInteract:
-    m_PersistentCalls:
-      m_Calls: []
-  state: 0
-  callOnEnable: 1
-  onOn:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 885996998010705407}
-        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
-        m_MethodName: SetActive
-        m_Mode: 6
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 1
-        m_CallState: 2
-      - m_Target: {fileID: 7724357923686352220}
-        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
-        m_MethodName: SetActive
-        m_Mode: 6
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 1
-        m_CallState: 2
-  onOff:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 885996998010705407}
-        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
-        m_MethodName: SetActive
-        m_Mode: 6
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 7724357923686352220}
-        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
-        m_MethodName: SetActive
-        m_Mode: 6
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+  serializedVersion: 3
+  m_Radius: 2.8499997
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &7724357923686352220
 GameObject:
   m_ObjectHideFlags: 0

@@ -1,6 +1,7 @@
+using Refactor.Props;
 using UnityEngine;
 
-public class GenericItemData : ScriptableObject
+public class GenericItemData : ChestItem
 {
     [Header("About")]
     public string name;

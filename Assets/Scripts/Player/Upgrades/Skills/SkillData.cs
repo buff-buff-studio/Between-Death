@@ -31,4 +31,9 @@ public class SkillData : GenericItemData
         attack.damageTime = damageTime;
         return attack;
     }
+    
+    public override void OpenItem()
+    {
+        InGameHUD.instance.OpenSkill(this);
+    }
 }

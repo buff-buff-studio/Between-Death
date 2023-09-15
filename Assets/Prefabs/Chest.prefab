@@ -74,6 +74,8 @@ GameObject:
   - component: {fileID: 735256941434946681}
   - component: {fileID: 546247341711764690}
   - component: {fileID: 6683592733244976297}
+  - component: {fileID: 8045088534826214814}
+  - component: {fileID: 847812707234288069}
   m_Layer: 0
   m_Name: Chest
   m_TagString: Untagged
@@ -97,7 +99,7 @@ Transform:
   - {fileID: 4963374251148712632}
   - {fileID: 8786468598771911074}
   m_Father: {fileID: 0}
-  m_RootOrder: 6
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 254.313, z: 0}
 --- !u!95 &546247341711764690
 Animator:
@@ -134,17 +136,61 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   interactionPointOffset: {fileID: 8786468598771911074}
   time: 1
-  colliderType: 0
-  offset: {x: 0, y: 0, z: 0}
-  size: {x: 0, y: 0, z: 0}
-  editOnCollider: 0
+  distanceToInteract: 2.47
+  state: 0
+  oneInteraction: 1
+  callOnEnable: 0
   onInteract:
     m_PersistentCalls:
       m_Calls: []
-  state: 0
-  callOnEnable: 0
-  canReOpen: 1
+  colliderType: 0
+  vectorSize: {x: 2.99, y: 2.99, z: 2.99}
+  _anchorX: 0
+  _anchorY: 0
+  _anchorZ: 0
   openAnimationName: Open
+--- !u!135 &8045088534826214814
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2579976134746395421}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Radius: 0.9966662
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!135 &847812707234288069
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2579976134746395421}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Radius: 0.82333297
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &2708481201962060716
 GameObject:
   m_ObjectHideFlags: 0
@@ -293,7 +339,7 @@ SkinnedMeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: -7788077659611328746, guid: dceeb26e1a946e94fbe07f0fd1899fae, type: 3}
+  - {fileID: 2100000, guid: a2f6e5818b8c4dd4f85896613f14fa74, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0

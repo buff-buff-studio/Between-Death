@@ -118,8 +118,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 730c10a57c59e7e49b957535e29865fb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  radius: 1
+  interactionPointOffset: {fileID: 0}
   time: 0
+  distanceToInteract: 0
+  state: 0
+  oneInteraction: 1
+  callOnEnable: 0
   onInteract:
     m_PersistentCalls:
       m_Calls: []
+  colliderType: 0
+  vectorSize: {x: 0, y: 0, z: 0}
+  _anchorX: 0
+  _anchorY: 0
+  _anchorZ: 0
