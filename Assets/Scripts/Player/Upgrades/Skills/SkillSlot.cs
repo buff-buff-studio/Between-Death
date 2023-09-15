@@ -26,6 +26,12 @@ public class SkillSlot : Slot
         button.interactable = !SkillManager.instance.IsEquipped(id);
     }
     
+    public override void UpdateSlot(bool active, Sprite sprite, string text)
+    {
+        this.sprite = sprite; 
+        this.text = text;
+    }
+    
     public void OnClick()
     {
         SkillManager.instance.Select(ID);

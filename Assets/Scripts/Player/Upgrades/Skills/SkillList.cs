@@ -13,6 +13,7 @@ public class SkillList : ScriptableObject
     public SkillData Get(int i) => skills[i];
     
     //About
+    public int GetID(SkillData item) => skills.IndexOf(item);
     public string GetName(int i) => skills[i].name;
     public string GetDescription(int i) => skills[i].description;
     

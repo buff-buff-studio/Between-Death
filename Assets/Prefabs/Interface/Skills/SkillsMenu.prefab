@@ -980,7 +980,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7004049897705506195}
   - component: {fileID: 8739469002129046499}
-  - component: {fileID: 7370572932016941728}
+  - component: {fileID: 673675973644589392}
   - component: {fileID: 7395452301322442836}
   m_Layer: 5
   m_Name: SkillsMenu
@@ -1020,36 +1020,18 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4953190890773125769}
   m_CullTransparentMesh: 1
---- !u!114 &7370572932016941728
-MonoBehaviour:
+--- !u!225 &673675973644589392
+CanvasGroup:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4953190890773125769}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Material: {fileID: 0}
-  m_Color: {r: 0.009433985, g: 0.009433985, b: 0.009433985, a: 1}
-  m_RaycastTarget: 1
-  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
-  m_Maskable: 1
-  m_OnCullStateChanged:
-    m_PersistentCalls:
-      m_Calls: []
-  m_Sprite: {fileID: 0}
-  m_Type: 0
-  m_PreserveAspect: 0
-  m_FillCenter: 1
-  m_FillMethod: 4
-  m_FillAmount: 1
-  m_FillClockwise: 1
-  m_FillOrigin: 0
-  m_UseSpriteMesh: 0
-  m_PixelsPerUnitMultiplier: 1
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!114 &7395452301322442836
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1063,8 +1045,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   skills: {fileID: 11400000, guid: 698f7ee0efede234c8b5d429f961cd8a, type: 2}
-  inventorySkills: 000000000100000002000000030000000400000005000000
-  equippedSkills: ffffffffffffffffffffffff
+  inventoryData: {fileID: 0}
   skillName: {fileID: 6248601634868819838}
   skillPreview: {fileID: 7091962820515118010}
   skillElement: {fileID: 5069928416897710555}
@@ -1080,10 +1061,6 @@ MonoBehaviour:
   - {fileID: 6513919336523689512}
   - {fileID: 1417177149623596351}
   - {fileID: 9167713555693608640}
-  inGameSlots:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
 --- !u!1 &5409742657433108623
 GameObject:
   m_ObjectHideFlags: 0
@@ -2772,6 +2749,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: SkillItem (2)
       objectReference: {fileID: 0}
+    - target: {fileID: 6739136783672026092, guid: a0a2114d42fbe8b4684049635188aed4,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -3079,6 +3061,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: SkillItem (4)
       objectReference: {fileID: 0}
+    - target: {fileID: 6739136783672026092, guid: a0a2114d42fbe8b4684049635188aed4,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -3224,6 +3211,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: SkillItem (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 6739136783672026092, guid: a0a2114d42fbe8b4684049635188aed4,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -3537,6 +3529,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: SkillItem (5)
       objectReference: {fileID: 0}
+    - target: {fileID: 6739136783672026092, guid: a0a2114d42fbe8b4684049635188aed4,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -3823,6 +3820,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: SkillItem (3)
+      objectReference: {fileID: 0}
+    - target: {fileID: 6739136783672026092, guid: a0a2114d42fbe8b4684049635188aed4,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
