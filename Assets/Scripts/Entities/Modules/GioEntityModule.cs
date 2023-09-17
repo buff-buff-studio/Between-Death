@@ -54,9 +54,8 @@ namespace Refactor.Entities.Modules
         public Vector3 wanderingStart;
         public float stateTime = 0;
         
-        [Header("STATE - PATH")]
-        private NavMeshPath _path;
-        private int _pathIndex = 0;
+        [Header("STATE - PATH")] protected NavMeshPath _path;
+        protected int _pathIndex = 0;
         public float pathTime = 0;
         private int _wanderingTime;
         private int _pathTime;
@@ -88,15 +87,13 @@ namespace Refactor.Entities.Modules
 
         [Header("STATE - DIZZY")]
         [SerializeField]
-        private float dizzyBarMax;
-        [SerializeField]
-        private float dizzyBarCurrentValue;
+        protected float dizzyBarMax;
+        [SerializeField] protected float dizzyBarCurrentValue;
         [SerializeField]
         private float dizzyBarAmountWhenDamage;
         [SerializeField]
         private float dizzyBarAmountRecover;
-        [SerializeField]
-        private float dizzyTime = 3f;
+        [SerializeField] protected float dizzyTime = 3f;
 
         [Header("STATE - WAITING TO ATTACK")] 
         [SerializeField]
@@ -114,8 +111,7 @@ namespace Refactor.Entities.Modules
 
         [SerializeField]
         private bool canRun = true;
-
-
+        public bool willHaveOtherAttackAnimation;
         private void Die()
         {
             isDead = true;
@@ -133,8 +129,13 @@ namespace Refactor.Entities.Modules
 
             controller = controller ? controller : GameObject.FindWithTag("EnemiesController").GetComponent<EnemiesInSceneController>();
             controller.AddEnemy(this);
-            playerRef =playerRef ? GameObject.FindWithTag("Player").transform : playerRef;
+            playerRef =playerRef ? playerRef :GameObject.FindWithTag("Player").transform;
         
+        }
+
+        protected virtual float AttackAnimation()
+        {
+            return 0;
         }
 
         public override void UpdateFrame(float deltaTime)
@@ -199,6 +200,10 @@ namespace Refactor.Entities.Modules
                         break;
                     case State.Dodging:
                         y = -1;
+                        break;
+                    case State.Attacking:
+                        if (willHaveOtherAttackAnimation)
+                            y = AttackAnimation();
                         break;
                     default:
                         if (isRunning)
@@ -309,6 +314,18 @@ namespace Refactor.Entities.Modules
         {
             animator.CrossFade("Dizzy", 0.2f);
         }
+
+        protected virtual void OnDizzyState()
+        {
+            if (stateTime > dizzyTime)
+            {
+                stateTime = 0;
+                state = State.Targeting;
+                dizzyBarCurrentValue = dizzyBarMax;
+                animator.CrossFade("Stop", 0.2f);
+            }
+        }
+        
         private IEnumerator HandleDodgeCoroutine()
         {
             const int count = 4;
@@ -343,8 +360,7 @@ namespace Refactor.Entities.Modules
             
             if(state == State.Dizzy) return;
             DecreaseDizzyBar();
-            
-         
+
         }
         
         private void DecreaseDizzyBar()
@@ -368,25 +384,16 @@ namespace Refactor.Entities.Modules
                 case State.Dead:
                     OnDeadState();
                     return Vector3.zero;
-                case State.Attacking:
-                    AttackState();
-                    break;
-                
+        
                 case State.Idling:
                     IdleState();
                     return Vector3.zero;
                       
                 case State.Dizzy:
-                    if (stateTime > dizzyTime)
-                    {
-                        stateTime = 0;
-                        state = State.Targeting;
-                        dizzyBarCurrentValue = dizzyBarMax;
-                        animator.CrossFade("Stop", 0.2f);
-                    }
+                    OnDizzyState();
                     return Vector3.zero;
                 
-                case State.Targeting or State.Wandering or State.Retreating or State.Dodging or State.WaitingToAttack:
+                case State.Targeting or State.Wandering or State.Retreating or State.Dodging or State.WaitingToAttack or State.Attacking:
                     
                     if (_path == null|| _path.status == NavMeshPathStatus.PathInvalid)
                     {
@@ -420,6 +427,9 @@ namespace Refactor.Entities.Modules
                             break;
                         case State.WaitingToAttack:
                             WaitingToAttack();
+                            break;
+                        case State.Attacking:
+                            AttackState();
                             break;
                     }
 
@@ -545,11 +555,16 @@ namespace Refactor.Entities.Modules
             return playerRef.position;
         }
 
+        protected virtual Vector3 OnAttackPos()
+        {
+            return Vector3.zero;
+        }
 
+        protected Vector3 target;
         protected virtual void _NewWanderTarget()
         {
             Debug.Log("New wander target");
-            Vector3 target = Vector3.zero;
+            target = Vector3.zero;
             if (state == State.Retreating || state == State.Dodging)
             {
                 target = entity.transform.position - (entity.transform.forward * _distanceBehind);
@@ -557,11 +572,14 @@ namespace Refactor.Entities.Modules
             {
                 target = WaitingToAttackNavMesh();
             }
-            else if (IsSeeingPlayer())
+            else if (state == State.Attacking)
+            {
+                target = OnAttackPos();
+                
+            }else if (IsSeeingPlayer())
             {
                 target = TargetPos();
-            }
-            else
+            }else
                 target = WanderingPos();
             
             _DoPathTo(target);
@@ -632,7 +650,7 @@ namespace Refactor.Entities.Modules
         }
 
 
-        private float RandomNumber()
+        protected float RandomNumber()
         {
             return Random.Range(1f, 11f);
         }
