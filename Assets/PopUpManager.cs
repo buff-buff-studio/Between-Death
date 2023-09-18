@@ -41,7 +41,7 @@ public class PopUpManager : MonoBehaviour
         StartCoroutine(AutoHide());
     }
     
-    public void Hide()
+    public void Hide(bool canInput = true)
     {
         StopAllCoroutines();
         animator.Play("Close");
@@ -57,13 +57,13 @@ public class PopUpManager : MonoBehaviour
         parent.blocksRaycasts = false;
         
         
-        IngameGameInput.CanInput = true;
+        IngameGameInput.CanInput = canInput;
     }
     
     public void OnClick()
     {
         _onClickEvent?.Invoke();
-        Hide();
+        Hide(false);
     }
     
     public IEnumerator AutoHide()

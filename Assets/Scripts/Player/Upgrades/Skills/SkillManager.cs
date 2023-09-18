@@ -51,6 +51,13 @@ public class SkillManager : MonoBehaviour
         UpdateEquipped();
     }
 
+    public void UpdateSkillUI()
+    {
+        UpdateInfo();
+        UpdateEquipped();
+        UpdateInventory();
+    }
+
     public void UpdateInfo()
     {
         UpdateInfo(inventorySkills[0]);

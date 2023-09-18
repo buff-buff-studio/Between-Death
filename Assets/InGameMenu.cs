@@ -2,6 +2,8 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using Refactor;
+using Refactor.Interface;
+using Refactor.Interface.Windows;
 using UnityEngine;
 
 public class InGameMenu : MonoBehaviour
@@ -20,7 +22,8 @@ public class InGameMenu : MonoBehaviour
     [Space]
     [Header("Document References")]
     [SerializeField] private InspectDoc documentInspect;
-    
+
+    [SerializeField] private CanvasGameInput canvasGameInput;
     private CanvasGroup _canvasGroup => GetComponent<CanvasGroup>();
 
     private void Awake()
@@ -32,8 +35,9 @@ public class InGameMenu : MonoBehaviour
     private void Update()
     {
         if (_canvasGroup.alpha < 1) return;
-        if (IngameGameInput.InputDash.trigger)
+        if (canvasGameInput.inputConfirm.triggered)
         {
+            IngameGameInput.CanInput = true;
             Menu(false);
             SkillMenu(false);
             PassiveMenu(false);
@@ -44,6 +48,7 @@ public class InGameMenu : MonoBehaviour
     {
         Cursor.visible = active;
         Cursor.lockState = active ? CursorLockMode.None : CursorLockMode.Locked;
+        IngameGameInput.CanInput = !active;
         
         _canvasGroup.alpha = active ? 1 : 0;
         _canvasGroup.interactable = active;
@@ -53,7 +58,7 @@ public class InGameMenu : MonoBehaviour
     public void SkillMenu(bool active)
     {
         Menu(active);
-        skillManager.UpdateInfo();
+        skillManager.UpdateSkillUI();
         skill.alpha = active ? 1 : 0;
         skill.interactable = active;
         skill.blocksRaycasts = active;

@@ -63,7 +63,7 @@ public class Slot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
         this.text = text;
     }
 
-    public virtual void OnPointerEnter(PointerEventData eventData) { if (hover != null) hover.enabled = true; }
+    public virtual void OnPointerEnter(PointerEventData eventData) { if (hover != null && sprite != null) hover.enabled = true; }
     
     public virtual void OnPointerExit(PointerEventData eventData) { if (hover != null) hover.enabled = false; }
 }

@@ -20,7 +20,8 @@ public class InventoryData : ScriptableObject
     [Header("Documents")]
     [SerializeField] private List<int> unlockedDocuments;
     
-    public int GetEquippedSkill(int index) => equippedSkills.Count < index ? -1 : equippedSkills[index];
+    public int GetEquippedSkill(int index) => equippedSkills.Count < index+1 ? -1 : equippedSkills[index];
+    public int GetUnlockedSkill(int index) => unlockedSkills.Count < index+1 ? -1 : unlockedSkills[index];
     public int GetEquippedPassive(Element element) => element == Element.Order ? orderPassive : chaosPassive;
     
     public List<int> GetEquippedSkills => equippedSkills;

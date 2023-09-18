@@ -1,12 +1,13 @@
 using System;
 using Refactor.Interface;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace Refactor.Tutorial.Steps
 {
     public class WellDoneTutorialStep : DefaultTutorialStep
     {
-        public IngameCanvas ingameCanvas;
+        [FormerlySerializedAs("ingameCanvas")] public InGameCanvas inGameCanvas;
         public float time = 3f;
 
         public override void OnBegin()
@@ -18,7 +19,6 @@ namespace Refactor.Tutorial.Steps
         public override void OnEnd()
         {
             base.OnEnd();
-            ingameCanvas.QuitGame();
         }
         
         public void Update()

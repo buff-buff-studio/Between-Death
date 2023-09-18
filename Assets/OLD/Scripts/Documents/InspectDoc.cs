@@ -12,15 +12,17 @@ using UnityEngine.InputSystem;
 using UnityEngine.Rendering;
 using UnityEngine.Rendering.Universal;
 using UnityEngine.SceneManagement;
+using UnityEngine.Serialization;
 
 public class InspectDoc : MonoBehaviour
 {
     [Header("Data")]
     public DocumentText _documentData;
     
+    [FormerlySerializedAs("_ingameCanvas")]
     [Space]
     [Header("Objects")]
-    [SerializeField] private IngameCanvas _ingameCanvas;
+    [SerializeField] private InGameCanvas inGameCanvas;
     [SerializeField] private TextMeshProUGUI _nameText;
     [SerializeField] private TextMeshProUGUI _descriptionText;
     [SerializeField] private GameObject _transcriptButton;
@@ -38,7 +40,7 @@ public class InspectDoc : MonoBehaviour
 
     private void Awake()
     {
-        _ingameCanvas ??= FindObjectOfType<IngameCanvas>();
+        inGameCanvas ??= FindObjectOfType<InGameCanvas>();
     }
 
     private void Update()
@@ -63,7 +65,6 @@ public class InspectDoc : MonoBehaviour
     {
         Debug.Log("DocExit");
         if (_transcriptPanel.activeSelf) SetTranscriptActive(false);
-        else _ingameCanvas.CloseDocumentWindow();
     }
 
     public void SetTranscriptActive(bool active)
