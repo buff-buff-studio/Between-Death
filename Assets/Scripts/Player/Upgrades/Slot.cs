@@ -12,7 +12,8 @@ public class Slot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
     [Header("Visuals")]
     [SerializeField] private Image icon;
     [SerializeField] private TMPro.TextMeshProUGUI name;
-    
+
+    protected bool active = true;
     //TODO:: Remove after implementing the widget system.
     public Image hover;
     
@@ -59,11 +60,12 @@ public class Slot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
     public virtual void UpdateSlot(bool active, Sprite sprite, string text)
     {
         gameObject.SetActive(active);
+        this.active = active;
         this.sprite = sprite;
         this.text = text;
     }
 
-    public virtual void OnPointerEnter(PointerEventData eventData) { if (hover != null && sprite != null) hover.enabled = true; }
+    public virtual void OnPointerEnter(PointerEventData eventData) { if (hover != null && active) hover.enabled = true; }
     
     public virtual void OnPointerExit(PointerEventData eventData) { if (hover != null) hover.enabled = false; }
 }

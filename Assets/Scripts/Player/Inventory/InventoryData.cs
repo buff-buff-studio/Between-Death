@@ -43,6 +43,7 @@ public class InventoryData : ScriptableObject
     public void ChangeEquippedSkill(int index, int index2, int skillId)
     {
         if(!equippedSkills.Contains(skillId) || index > 2 || index2 > 2) return;
+
         equippedSkills[index2] = equippedSkills[index];
         equippedSkills[index] = skillId;
     }

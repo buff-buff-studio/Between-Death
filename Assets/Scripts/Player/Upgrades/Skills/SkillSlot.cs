@@ -28,13 +28,14 @@ public class SkillSlot : Slot
     
     public override void UpdateSlot(bool active, Sprite sprite, string text)
     {
-        this.sprite = sprite; 
-        this.text = text;
+        this.active = active;
+        this.sprite = active ? sprite : null;
+        this.text = active ? text : "";
     }
     
     public void OnClick()
     {
-        SkillManager.instance.Select(ID);
+        if(active) SkillManager.instance.Select(ID);
     }
 
 #if UNITY_EDITOR
@@ -45,7 +46,7 @@ public class SkillSlot : Slot
 #endif
     public override void OnPointerEnter(PointerEventData eventData)
     {
-        SkillManager.instance.UpdateInfo(ID);
+        if(active) SkillManager.instance.UpdateInfo(ID);
     }
 
     public override void OnPointerExit(PointerEventData eventData)

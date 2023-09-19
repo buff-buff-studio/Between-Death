@@ -34,6 +34,7 @@ public class SkillManager : MonoBehaviour
     [SerializeField] private SkillSlot[] inventorySlots = new SkillSlot[6];
     [SerializeField] private InputSlot[] equippedSlots = new InputSlot[3];
 
+    [SerializeField]
     private int _selectedSkill = -1;
     private int _infoSkill = -1;
 
@@ -60,7 +61,7 @@ public class SkillManager : MonoBehaviour
 
     public void UpdateInfo()
     {
-        UpdateInfo(inventorySkills[0]);
+        UpdateInfo(inventoryData.GetUnlockedSkill(0));
     }
 
     public void UpdateInfo(int skill)
@@ -100,8 +101,8 @@ public class SkillManager : MonoBehaviour
                 //find the index 
                 int oldSlot = equippedSkills.IndexOf(skill);
                 inventoryData.ChangeEquippedSkill((int)slot, oldSlot, skill);
-            }
-            inventoryData.SetEquippedSkill((int)slot,skill);
+            }else inventoryData.SetEquippedSkill((int)slot,skill);
+
             UpdateEquipped();
             UpdateInventory();
         }
