@@ -16,9 +16,10 @@ public class SkillManager : MonoBehaviour
     public static SkillManager instance;
     
     [Header("Skills")]
-    [NotNull] public SkillList skills;
 
     [SerializeField] private InventoryData inventoryData;
+
+    public SkillList skills => inventoryData.GetSkillList;
     private List<int> inventorySkills => inventoryData.GetUnlockedSkills;
     private List<int> equippedSkills => inventoryData.GetEquippedSkills;
     
@@ -43,7 +44,7 @@ public class SkillManager : MonoBehaviour
         if (instance == null) instance = this;
         else Destroy(gameObject);
         
-        skills ??= Resources.Load<SkillList>("Skills/SkillList");
+        inventoryData ??= Resources.Load<InventoryData>("Inventory");
     }
 
     private void OnEnable()

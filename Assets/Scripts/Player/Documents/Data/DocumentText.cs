@@ -12,6 +12,8 @@ public class DocumentText : DocumentData
     [SerializeField] internal DocumentTextData _documentText;
 
     public override object GetDocument => _documentText;
+    public string text => _documentText.documentText;
+    public TMP_FontAsset font => _documentText.documentFont;
     
     [Serializable]
     public struct DocumentTextData

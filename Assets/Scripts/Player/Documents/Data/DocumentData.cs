@@ -20,6 +20,7 @@ public class DocumentData : ChestItem
     public virtual DocumentType? documentType => null;
     
     public string documentName = "New Document";
+    public Sprite documentIcon;
     public string documentDescription = "Document Description";
     
     [SerializeField] [TextArea(3,20)] internal string _documentTranscript;

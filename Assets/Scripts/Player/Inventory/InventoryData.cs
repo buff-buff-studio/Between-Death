@@ -7,27 +7,35 @@ using UnityEngine;
 public class InventoryData : ScriptableObject
 {
     [Header("Skills")]
+    [SerializeField] private SkillList skillList;
     [SerializeField] private List<int> unlockedSkills = new List<int>(9);
     [SerializeField] private List<int> equippedSkills = new List<int>(3);
     
     [Space]
     [Header("Passives")]
+    [SerializeField] private PassiveList passiveList;
     [SerializeField] private List<int> unlockedPassives = new List<int>(9);
     [SerializeField] private int orderPassive;
     [SerializeField] private int chaosPassive;
     
     [Space]
     [Header("Documents")]
+    [SerializeField] private DocumentList documentList;
     [SerializeField] private List<int> unlockedDocuments;
     
+    public SkillList GetSkillList => skillList;
     public int GetEquippedSkill(int index) => equippedSkills.Count < index+1 ? -1 : equippedSkills[index];
     public int GetUnlockedSkill(int index) => unlockedSkills.Count < index+1 ? -1 : unlockedSkills[index];
-    public int GetEquippedPassive(Element element) => element == Element.Order ? orderPassive : chaosPassive;
-    
     public List<int> GetEquippedSkills => equippedSkills;
-    
     public List<int> GetUnlockedSkills => unlockedSkills;
+    
+    public PassiveList GetPassiveList => passiveList;
+    public int GetEquippedPassive(Element element) => element == Element.Order ? orderPassive : chaosPassive;
+    public int GetUnlockedPassive(int index) => unlockedPassives.Count < index+1 ? -1 : unlockedPassives[index];
     public List<int> GetUnlockedPassives => unlockedPassives;
+    
+    public DocumentList GetDocumentList => documentList;
+    public int GetUnlockedDocument(int index) => unlockedDocuments.Count < index+1 ? -1 : unlockedDocuments[index];
     public List<int> GetUnlockedDocuments => unlockedDocuments;
     
     public void AddUnlockedSkill(int skillId)
