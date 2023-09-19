@@ -14,6 +14,7 @@ public class DocumentManager : MonoBehaviour
     
     [SerializeField] private DocumentSlot documentSlotPrefab;
     [SerializeField] private Transform socumentSlotParent;
+    [SerializeField] private TextMeshProUGUI documentName;
     
     private List<int> _documentsSlots = new List<int>();
     public bool InInventory(int id) => _documentsSlots.Contains(id);
@@ -66,7 +67,8 @@ public class DocumentManager : MonoBehaviour
         }
         
         SetTranscript(false, documents.GetTranscript(id));
-        
+        documentName.text = documents.GetName(id);
+
         switch (documents.GetDocumentType(id))
         {
             case DocumentData.DocumentType.Text:
