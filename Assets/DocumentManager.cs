@@ -1,6 +1,8 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Refactor;
+using Refactor.Interface;
 using TMPro;
 using UnityEngine;
 
@@ -15,6 +17,7 @@ public class DocumentManager : MonoBehaviour
     [SerializeField] private DocumentSlot documentSlotPrefab;
     [SerializeField] private Transform socumentSlotParent;
     [SerializeField] private TextMeshProUGUI documentName;
+    [SerializeField] private CanvasGameInput canvasGameInput;
     
     private List<int> _documentsSlots = new List<int>();
     public bool InInventory(int id) => _documentsSlots.Contains(id);
@@ -28,8 +31,10 @@ public class DocumentManager : MonoBehaviour
 
     [SerializeField] private TextMeshPro textDocument;
     [SerializeField] private TextMeshProUGUI textTranscript;
+    [SerializeField] [Range(0,10)] private float dragSensitive = 1f;
     
     private int _currentDocument = -1;
+    private bool transcriptActive => transcriptView.activeSelf;
     
     private void Awake()
     {
@@ -42,6 +47,23 @@ public class DocumentManager : MonoBehaviour
     public void OnEnable()
     {
         UpdateInventory();
+        IngameGameInput.CanInput = false;
+    }
+
+    private void Update()
+    {
+        if(canvasGameInput.inputForth.triggered)
+            SetTranscript(!transcriptActive);
+        else if (canvasGameInput.inputMove.inProgress && !transcriptActive)
+            MoveDocument();
+    }
+
+    public void MoveDocument()
+    {
+        var xy = canvasGameInput.inputMove.ReadValue<Vector2>();
+        var x = -xy.x * dragSensitive;
+        var y = xy.y * dragSensitive;
+        viewParent.Rotate(new Vector3(y, x, 0), Space.Self);
     }
 
     public void UpdateInventory()
@@ -59,6 +81,8 @@ public class DocumentManager : MonoBehaviour
     
     public void UpdateDocumentUI(int id)
     {
+        if (id == _currentDocument) return;
+        
         if(objectView != null) Destroy(objectView);
         if (id < 0)
         {
@@ -67,6 +91,7 @@ public class DocumentManager : MonoBehaviour
         }
         
         SetTranscript(false, documents.GetTranscript(id));
+        viewParent.rotation = Quaternion.identity;
         documentName.text = documents.GetName(id);
 
         switch (documents.GetDocumentType(id))
