@@ -37,6 +37,7 @@ namespace Refactor
             set => CanInput = value;
         }
 
+        [Space]
         public bool canMove = true;
         public bool canInteract = true;
         public bool canMoveCamera = true;

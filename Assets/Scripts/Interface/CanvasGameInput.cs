@@ -36,7 +36,6 @@ namespace Refactor.Interface
         public float delaySecondInput = 0.5f;
 
         public float delayNextInputs = 0.125f;
-        public Canvas canvas;
         private readonly Dictionary<InterfaceAction, InterfaceActionState> _actionStates = new();
 
         [Header("INPUT")] 
@@ -79,12 +78,14 @@ namespace Refactor.Interface
         {
             base.Update();
 
+            /*
             if (canvas == null)
                 return;
             
             if(CurrentControlScheme == ControlScheme.Desktop)
                 if(canvas.currentWindow == null || canvas.currentWindow is not SaveWindow)
                     canvas.SetCurrentWidget(null);
+            */
             
             var readInputXY = inputMove.ReadValue<Vector2>();
             var readInputStart = inputStart.ReadValue<float>() > 0;
@@ -127,7 +128,7 @@ namespace Refactor.Interface
                 if (!(now > state.NextTime)) return;
                 state.NextTime = now + (state.Streak > 0 ? delayNextInputs : delaySecondInput);
                 state.Streak++;
-                canvas.CallAction(action);
+                //canvas.CallAction(action);
             }
             else
             {
@@ -157,10 +158,12 @@ namespace Refactor.Interface
                 state.NextTime = now + (state.Streak > 0 ? delayNextInputs : delaySecondInput);
                 state.Streak++;
                 
+                /*
                 if(isA) canvas.CallAction(a);
                 if(isB) canvas.CallAction(b);
                 if(isC) canvas.CallAction(c);
                 if(isD) canvas.CallAction(d);
+                */
             }
             else
             {
