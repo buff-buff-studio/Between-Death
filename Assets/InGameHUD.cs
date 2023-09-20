@@ -13,7 +13,7 @@ using UnityEngine;
 using UnityEngine.Serialization;
 using UnityEngine.UI;
 
-public class InGameHUD : MonoBehaviour
+public class InGameHUD : WindowManager
 {
     public static InGameHUD instance;
 
@@ -52,6 +52,8 @@ public class InGameHUD : MonoBehaviour
     [SerializeField] private InventoryData inventoryData;
     [SerializeField] private Entity player;
     [SerializeField] private CanvasGameInput canvasGameInput;
+    
+    private DocumentList documents => inventoryData.GetDocumentList;
     
     //Interaction References
     private bool _canInteract;
@@ -177,10 +179,10 @@ public class InGameHUD : MonoBehaviour
 
     public void OpenDocument(DocumentData doc)
     {
-        popUp.Show(doc.documentName, "Novo Documento Adquirido!", documentIcon);
+        popUp.Show(doc.documentName, "Novo Documento Adquirido!", documentIcon, () => { menu.DocumentMenu(true); });
 
         IngameGameInput.CanInput = false;
-        inventoryData.AddUnlockedDocument(doc.GetHashCode());
+        inventoryData.AddUnlockedDocument(documents.GetID(doc));
     }
 
     public void OpenSkill(SkillData skill)

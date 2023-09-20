@@ -6,9 +6,11 @@ using Refactor.Interface;
 using Refactor.Interface.Windows;
 using UnityEngine;
 
-public class InGameMenu : MonoBehaviour
+public class InGameMenu : WindowManager
 {
     public static InGameMenu instance;
+
+    [SerializeField] private WindowManager windowParent;
     
     [Header("Skills References")]
     [SerializeField] private SkillManager skillManager;
@@ -21,7 +23,7 @@ public class InGameMenu : MonoBehaviour
     
     [Space]
     [Header("Document References")]
-    [SerializeField] private InspectDoc documentInspect;
+    [SerializeField] private DocumentManager documentManager;
 
     [SerializeField] private CanvasGameInput canvasGameInput;
     private CanvasGroup _canvasGroup => GetComponent<CanvasGroup>();
@@ -34,13 +36,20 @@ public class InGameMenu : MonoBehaviour
 
     private void Update()
     {
-        if (_canvasGroup.alpha < 1) return;
-        if (canvasGameInput.inputConfirm.triggered)
+        if (!_active) return;
+        if (canvasGameInput.inputCancel.triggered)
         {
             IngameGameInput.CanInput = true;
-            Menu(false);
+            windowParent.SetWindow(0);
             SkillMenu(false);
             PassiveMenu(false);
+            DocumentMenu(false);
+        }else if (canvasGameInput.inputNext.triggered)
+        {
+            Next();
+        }else if (canvasGameInput.inputPrevious.triggered)
+        {
+            Previous();
         }
     }
 
@@ -50,25 +59,28 @@ public class InGameMenu : MonoBehaviour
         Cursor.lockState = active ? CursorLockMode.None : CursorLockMode.Locked;
         IngameGameInput.CanInput = !active;
         
-        _canvasGroup.alpha = active ? 1 : 0;
-        _canvasGroup.interactable = active;
-        _canvasGroup.blocksRaycasts = active;
+        if(active) windowParent.SetWindow(1);
+        else AllWindow(false);
     }
 
     public void SkillMenu(bool active)
     {
-        Menu(active);
-        skillManager.UpdateSkillUI();
-        skill.alpha = active ? 1 : 0;
-        skill.interactable = active;
-        skill.blocksRaycasts = active;
+        windowParent.SetWindow((uint)(active ? 1 : 0));
+        if(active) SetWindow("skill");
+        else AllWindow(false);
     }
     
     public void PassiveMenu(bool active)
     {
-        Menu(active);
-        passive.alpha = active ? 1 : 0;
-        passive.interactable = active;
-        passive.blocksRaycasts = active;
+        windowParent.SetWindow((uint)(active ? 1 : 0));
+        if(active) SetWindow("passive");
+        else AllWindow(false);
+    }
+
+    public void DocumentMenu(bool active)
+    {
+        windowParent.SetWindow((uint)(active ? 1 : 0));
+        if(active) SetWindow("document");
+        else AllWindow(false);
     }
 }

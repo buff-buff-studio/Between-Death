@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Refactor;
 using Refactor.Interface;
+using Refactor.Interface.Windows;
 using TMPro;
 using UnityEngine;
 
@@ -35,6 +36,7 @@ public class DocumentManager : MonoBehaviour
     
     private int _currentDocument = -1;
     private bool transcriptActive => transcriptView.activeSelf;
+    private WindowManager window => GetComponent<WindowManager>();
     
     private void Awake()
     {
@@ -52,6 +54,7 @@ public class DocumentManager : MonoBehaviour
 
     private void Update()
     {
+        if (!window._active) return;
         if(canvasGameInput.inputForth.triggered)
             SetTranscript(!transcriptActive);
         else if (canvasGameInput.inputMove.inProgress && !transcriptActive)

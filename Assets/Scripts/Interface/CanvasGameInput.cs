@@ -22,6 +22,9 @@ namespace Refactor.Interface
         
         ActionThird,
         ActionForth,
+        
+        Next,
+        Previous,
     }
     
     public class CanvasGameInput : GameInput
@@ -38,6 +41,8 @@ namespace Refactor.Interface
         public float delayNextInputs = 0.125f;
         private readonly Dictionary<InterfaceAction, InterfaceActionState> _actionStates = new();
 
+        public Canvas canvas;
+        
         [Header("INPUT")] 
         public InputAction inputStart;
         public InputAction inputMove;
@@ -46,6 +51,8 @@ namespace Refactor.Interface
         public InputAction inputTrigger;
         public InputAction inputThird;
         public InputAction inputForth;
+        public InputAction inputNext;
+        public InputAction inputPrevious;
         
         protected override void OnEnable()
         {
@@ -56,6 +63,8 @@ namespace Refactor.Interface
             inputThird.Enable();
             inputForth.Enable();
             inputStart.Enable();
+            inputNext.Enable();
+            inputPrevious.Enable();
             
             base.OnEnable();
         }
@@ -70,6 +79,8 @@ namespace Refactor.Interface
             inputThird.Disable();
             inputForth.Disable();
             inputStart.Disable();
+            inputNext.Disable();
+            inputPrevious.Disable();
             
             base.OnDisable();
         }
@@ -78,7 +89,7 @@ namespace Refactor.Interface
         {
             base.Update();
 
-            /*
+            
             if (canvas == null)
                 return;
             
@@ -86,6 +97,7 @@ namespace Refactor.Interface
                 if(canvas.currentWindow == null || canvas.currentWindow is not SaveWindow)
                     canvas.SetCurrentWidget(null);
             */
+            
             
             var readInputXY = inputMove.ReadValue<Vector2>();
             var readInputStart = inputStart.ReadValue<float>() > 0;
@@ -95,6 +107,9 @@ namespace Refactor.Interface
             
             var readInputThird = inputThird.ReadValue<float>() > 0;
             var readInputForth = inputForth.ReadValue<float>() > 0;
+            
+            var readInputNext = inputNext.ReadValue<float>() > 0;
+            var readInputPrevious = inputPrevious.ReadValue<float>() > 0;
             
             var now = Time.time;
 
@@ -110,6 +125,9 @@ namespace Refactor.Interface
             _HandleInput(readInputThird, InterfaceAction.ActionThird, now);
             _HandleInput(readInputForth, InterfaceAction.ActionForth, now);
             _HandleInput(readInputStart, InterfaceAction.Start, now);
+            
+            _HandleInput(readInputNext, InterfaceAction.Next, now);
+            _HandleInput(readInputPrevious, InterfaceAction.Previous, now);
         }
         
         
@@ -158,12 +176,12 @@ namespace Refactor.Interface
                 state.NextTime = now + (state.Streak > 0 ? delayNextInputs : delaySecondInput);
                 state.Streak++;
                 
-                /*
+                
                 if(isA) canvas.CallAction(a);
                 if(isB) canvas.CallAction(b);
                 if(isC) canvas.CallAction(c);
                 if(isD) canvas.CallAction(d);
-                */
+                
             }
             else
             {
