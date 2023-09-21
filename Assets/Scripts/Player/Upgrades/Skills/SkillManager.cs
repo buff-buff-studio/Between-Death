@@ -16,9 +16,10 @@ public class SkillManager : MonoBehaviour
     public static SkillManager instance;
     
     [Header("Skills")]
-    [NotNull] public SkillList skills;
 
     [SerializeField] private InventoryData inventoryData;
+
+    public SkillList skills => inventoryData.GetSkillList;
     private List<int> inventorySkills => inventoryData.GetUnlockedSkills;
     private List<int> equippedSkills => inventoryData.GetEquippedSkills;
     
@@ -34,6 +35,7 @@ public class SkillManager : MonoBehaviour
     [SerializeField] private SkillSlot[] inventorySlots = new SkillSlot[6];
     [SerializeField] private InputSlot[] equippedSlots = new InputSlot[3];
 
+    [SerializeField]
     private int _selectedSkill = -1;
     private int _infoSkill = -1;
 
@@ -42,7 +44,7 @@ public class SkillManager : MonoBehaviour
         if (instance == null) instance = this;
         else Destroy(gameObject);
         
-        skills ??= Resources.Load<SkillList>("Skills/SkillList");
+        inventoryData ??= Resources.Load<InventoryData>("Inventory");
     }
 
     private void OnEnable()
@@ -60,14 +62,22 @@ public class SkillManager : MonoBehaviour
 
     public void UpdateInfo()
     {
-        UpdateInfo(inventorySkills[0]);
+        UpdateInfo(inventoryData.GetUnlockedSkill(0));
     }
 
     public void UpdateInfo(int skill)
     {
-        if(skill < 0) return;
+        if(skill < 0)
+        {
+            skillName.text = "";
+            skillPreview.gameObject.SetActive(false);
+            skillElement.text = "";
+            skillDescription.text = "";
+            return;
+        }
         if (_infoSkill >= 0) inventorySlots.ToList().Find(x => x.ID == _infoSkill).hover.enabled = false;
         skillName.text = skills.GetName(skill);
+        skillPreview.gameObject.SetActive(true);
         skillPreview.clip = skills.GetPreview(skill);
         skillElement.text = skills.GetElement(skill) switch
         {
@@ -100,8 +110,8 @@ public class SkillManager : MonoBehaviour
                 //find the index 
                 int oldSlot = equippedSkills.IndexOf(skill);
                 inventoryData.ChangeEquippedSkill((int)slot, oldSlot, skill);
-            }
-            inventoryData.SetEquippedSkill((int)slot,skill);
+            }else inventoryData.SetEquippedSkill((int)slot,skill);
+
             UpdateEquipped();
             UpdateInventory();
         }

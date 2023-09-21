@@ -30,7 +30,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 0
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &4815472593131307393
 MonoBehaviour:
@@ -46,7 +46,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   delaySecondInput: 0.5
   delayNextInputs: 0.125
-  canvas: {fileID: 0}
   inputStart:
     m_Name: Input Start
     m_Type: 0
@@ -334,7 +333,72 @@ MonoBehaviour:
       m_Action: Input Forth
       m_Flags: 0
     m_Flags: 0
-  canInput: 1
+  inputNext:
+    m_Name: Input Next
+    m_Type: 0
+    m_ExpectedControlType: 
+    m_Id: cc26d8ce-c530-4868-97e7-d4447a458bb0
+    m_Processors: 
+    m_Interactions: 
+    m_SingletonActionBindings:
+    - m_Name: 
+      m_Id: 5060127d-d6b1-4e9e-945c-9b90e2be77d6
+      m_Path: <Gamepad>/rightShoulder
+      m_Interactions: 
+      m_Processors: 
+      m_Groups: 
+      m_Action: Input Next
+      m_Flags: 0
+    - m_Name: 
+      m_Id: cae14244-9c6c-4b47-9193-c0d7ddfd9525
+      m_Path: <Keyboard>/rightArrow
+      m_Interactions: 
+      m_Processors: 
+      m_Groups: 
+      m_Action: Input Next
+      m_Flags: 0
+    - m_Name: 
+      m_Id: b418eb37-6ab2-4d4b-833c-4c2c996605f7
+      m_Path: <Keyboard>/d
+      m_Interactions: 
+      m_Processors: 
+      m_Groups: 
+      m_Action: Input Next
+      m_Flags: 0
+    m_Flags: 0
+  inputPrevious:
+    m_Name: Input Previous
+    m_Type: 0
+    m_ExpectedControlType: 
+    m_Id: c2a98ffd-515a-4ce9-bc52-9ada8404a866
+    m_Processors: 
+    m_Interactions: 
+    m_SingletonActionBindings:
+    - m_Name: 
+      m_Id: 62ee1cf5-950e-4f3c-8650-c1219489d4fa
+      m_Path: <Gamepad>/leftShoulder
+      m_Interactions: 
+      m_Processors: 
+      m_Groups: 
+      m_Action: Input Previous
+      m_Flags: 0
+    - m_Name: 
+      m_Id: 25e1cea1-1ebf-4981-bd20-06b5d62dc561
+      m_Path: <Keyboard>/leftArrow
+      m_Interactions: 
+      m_Processors: 
+      m_Groups: 
+      m_Action: Input Previous
+      m_Flags: 0
+    - m_Name: 
+      m_Id: 69e9c6d4-2033-436c-b9f5-f8431d220607
+      m_Path: <Keyboard>/a
+      m_Interactions: 
+      m_Processors: 
+      m_Groups: 
+      m_Action: Input Previous
+      m_Flags: 0
+    m_Flags: 0
   canMove: 1
   canInteract: 1
   canMoveCamera: 1
