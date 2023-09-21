@@ -52,6 +52,7 @@ public class InGameHUD : WindowManager
     [SerializeField] private InventoryData inventoryData;
     [SerializeField] private Entity player;
     [SerializeField] private CanvasGameInput canvasGameInput;
+    [SerializeField] private Camera _camera;
     
     private DocumentList documents => inventoryData.GetDocumentList;
     
@@ -92,7 +93,7 @@ public class InGameHUD : WindowManager
         if (!_active) return;
         if (interactibleObject != null)
         {
-            interactibleIcon.position = Camera.main.WorldToScreenPoint(interactibleObject.interactionPoint);
+            interactibleIcon.position = _camera.WorldToScreenPoint(interactibleObject.interactionPoint);
             if (IngameGameInput.InputInteract.trigger) OnInteract();
         }
         else if(popUp.isOpen)
