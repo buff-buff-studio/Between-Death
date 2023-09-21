@@ -84,6 +84,12 @@ public class InGameHUD : WindowManager
 
     private void Update()
     {
+        if(canvasGameInput.inputStart.triggered)
+        {
+            menu.Menu(_active);
+        }
+
+        if (!_active) return;
         if (interactibleObject != null)
         {
             interactibleIcon.position = Camera.main.WorldToScreenPoint(interactibleObject.interactionPoint);
@@ -93,10 +99,6 @@ public class InGameHUD : WindowManager
         {
             if (canvasGameInput.inputCancel.triggered) popUp.OnClick();
             else if (canvasGameInput.inputConfirm.triggered) popUp.Hide();
-        }
-        else
-        {
-            if(canvasGameInput.inputStart.triggered) menu.SkillMenu(true);
         }
     }
     

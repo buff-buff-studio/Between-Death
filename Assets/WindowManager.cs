@@ -9,14 +9,15 @@ namespace Refactor.Interface.Windows
     {
         [Header("WINDOW")] 
         [SerializeField] private string tag = "window";
-        [SerializeField] private List<WindowManager> windows = new List<WindowManager>();
-        [SerializeField] private uint currentWindow = 0;
-        [SerializeField] private uint startWindow = 0;
+        [SerializeField] protected List<WindowManager> windows = new List<WindowManager>();
+        [SerializeField] protected uint currentWindow = 0;
+        [SerializeField] protected uint startWindow = 0;
         private CanvasGroup canvasGroup => GetComponent<CanvasGroup>();
+        public string Tag => tag;
         [HideInInspector]
         public bool _active;
 
-        private void OnEnable()
+        protected virtual void OnEnable()
         {
             AllWindow(false);
             SetWindow(startWindow);

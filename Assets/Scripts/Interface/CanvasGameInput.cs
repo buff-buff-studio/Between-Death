@@ -96,7 +96,6 @@ namespace Refactor.Interface
             if(CurrentControlScheme == ControlScheme.Desktop)
                 if(canvas.currentWindow == null || canvas.currentWindow is not SaveWindow)
                     canvas.SetCurrentWidget(null);
-            */
             
             
             var readInputXY = inputMove.ReadValue<Vector2>();

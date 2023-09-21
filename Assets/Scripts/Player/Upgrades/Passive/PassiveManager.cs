@@ -53,14 +53,20 @@ public class PassiveManager : MonoBehaviour
         passives.SetEnable(equippedPassives[1],element == Element.Chaos);
     }
     
-    public void UpdateInfo(int skill)
+    public void UpdateInfo(int passive)
     {
+        if(passive < 0)
+        {
+            passiveName.text = "";
+            passiveDescription.text = "";
+            return;
+        }
         if(_infoPassive >= 0) inventorySlots.ToList().Find(x => x.ID == _infoPassive).hover.enabled = false;
-        passiveName.text = passives.GetName(skill);
-        passiveDescription.text = passives.GetDescription(skill);
-        _infoPassive = skill;
+        passiveName.text = passives.GetName(passive);
+        passiveDescription.text = passives.GetDescription(passive);
+        _infoPassive = passive;
         
-        inventorySlots.ToList().Find(x => x.ID == skill).hover.enabled = true;
+        inventorySlots.ToList().Find(x => x.ID == passive).hover.enabled = true;
     }
     
     private void ChangeSlot(uint slot, int skill)

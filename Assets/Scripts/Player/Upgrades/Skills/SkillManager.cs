@@ -67,9 +67,17 @@ public class SkillManager : MonoBehaviour
 
     public void UpdateInfo(int skill)
     {
-        if(skill < 0) return;
+        if(skill < 0)
+        {
+            skillName.text = "";
+            skillPreview.gameObject.SetActive(false);
+            skillElement.text = "";
+            skillDescription.text = "";
+            return;
+        }
         if (_infoSkill >= 0) inventorySlots.ToList().Find(x => x.ID == _infoSkill).hover.enabled = false;
         skillName.text = skills.GetName(skill);
+        skillPreview.gameObject.SetActive(true);
         skillPreview.clip = skills.GetPreview(skill);
         skillElement.text = skills.GetElement(skill) switch
         {
