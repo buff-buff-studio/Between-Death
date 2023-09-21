@@ -12,7 +12,7 @@ namespace Refactor.Entities.Modules
         private bool onSpecialAttack;
         [Range(0, 10)]
         [SerializeField]
-        private float chanceToSpecialAttack;
+        private float chanceToSpecialAttack = 5;
         [SerializeField]
         private float timeOnSpecialAttack = 5;
         [SerializeField]
@@ -31,8 +31,7 @@ namespace Refactor.Entities.Modules
         {
             if (onSpecialAttack)
             {
-                Debug.Log(entity.transform.forward * 30);
-                return entity.transform.forward * 30;
+                return entity.transform.forward * 500;
             }
             return Vector3.zero;
         }     
@@ -67,10 +66,13 @@ namespace Refactor.Entities.Modules
 
             if (DistanceToSpecialAttack())
             {
-                state = State.Attacking;
-                stateTime = 0;
-                onSpecialAttack = true;
-                SpecialAttack();
+                if (Random.Range(0, 11) < chanceToSpecialAttack)
+                {
+                    state = State.Attacking;
+                    stateTime = 0;
+                    onSpecialAttack = true;
+                    SpecialAttack(); 
+                }
             }
             
             if (DistanceToAttack())
@@ -86,11 +88,11 @@ namespace Refactor.Entities.Modules
         {
             /*_path.ClearCorners();
             _pathIndex = 0;*/
-            Debug.Log(target);
+            Debug.Log("AttackState");
             
             if (onSpecialAttack)
             {
-                if (Physics.Raycast(entity.transform.position, entity.transform.forward, out RaycastHit hit, 1f, triggerlayer,
+                if (Physics.SphereCast(entity.transform.position, 20,entity.transform.forward, out RaycastHit hit, 1f, triggerlayer,
                         QueryTriggerInteraction.UseGlobal))
                 {
                     // set dizzy
@@ -99,14 +101,19 @@ namespace Refactor.Entities.Modules
                         ApplyDamageFor(1, 3);
                     }
                     state = State.Dizzy;
+                    DizzyState();
                     stateTime = 0;
                     onSpecialAttack = false;
                  
                 }
                 else if (stateTime >= timeOnSpecialAttack)
                 {
+                    Debug.Log("Finish");
                     state = State.Dizzy;
+                    DizzyState();
                     stateTime = 0;
+                    onSpecialAttack = false;
+                    return;
                     if (!DistanceToSpecialAttack())
                         state = State.Targeting;
                     
@@ -135,8 +142,9 @@ namespace Refactor.Entities.Modules
             }
         }
 
-        protected override void DizzyState()
+        protected override void OnDizzyState()
         {
+            
             if (stateTime > dizzyTime)
             {
                 stateTime = 0;

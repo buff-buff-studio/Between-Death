@@ -215,12 +215,15 @@ namespace Refactor.Entities.Modules
             }
             else
                 y = 0;
-            
 
-            animator.SetFloat("walking", math.lerp(animWalking, y, deltaTime * speed));
+            if (state != State.Dizzy)
+            {
+                animator.SetFloat("walking", math.lerp(animWalking, y, deltaTime * speed));
             
-            if((animWalking > 0.5f && Time.time > lastWalkingInput + 0.2f)) 
-                animator.CrossFade("Stop", 0.2f);
+                if((animWalking > 0.5f && Time.time > lastWalkingInput + 0.2f)) 
+                    animator.CrossFade("Stop", 0.2f);
+            }
+          
             #endregion
 
             dizzyBarCurrentValue += deltaTime * dizzyBarAmountRecover;
@@ -248,7 +251,6 @@ namespace Refactor.Entities.Modules
             
             if (timeSinceLastAttack >= attackCollDown && _attackEnded)
             {
-            
                 Debug.Log(stateTime);
                 Debug.Log(attackCollDown);
                 Attack();
@@ -312,6 +314,8 @@ namespace Refactor.Entities.Modules
         }
         protected virtual void DizzyState()
         {
+            /*_path.ClearCorners();
+            _pathIndex = 0;*/
             animator.CrossFade("Dizzy", 0.2f);
         }
 
