@@ -109,7 +109,11 @@ public class InGameMenu : WindowManager
     public void DocumentMenu(bool active)
     {
         windowParent.SetWindow((uint)(active ? 1 : 0));
-        if(active) SetWindow("document");
+        if(active)
+        {
+            SetWindow("document");
+            documentManager.UpdateInventory();
+        }
         else AllWindow(false);
     }
 }

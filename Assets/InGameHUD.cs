@@ -83,6 +83,11 @@ public class InGameHUD : WindowManager
         UpdateElement();
     }
 
+    private void OnEnable()
+    {
+        IngameGameInput.CanInput = true;
+    }
+
     private void Update()
     {
         if(canvasGameInput.inputStart.triggered)
