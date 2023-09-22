@@ -10,7 +10,7 @@ namespace Refactor.Entities.Modules
         private Rigidbody body;
         [SerializeField]
         private float velocity;
-        private Transform target;
+        public Transform target;
 
         private void Start()
         {
@@ -35,7 +35,6 @@ namespace Refactor.Entities.Modules
                 ApplyDamageFor(1, 2);
                 Deactivate();
             }
-          
         }
         
         protected void ApplyDamageFor(float damage, float radius)

@@ -54,15 +54,14 @@ namespace Refactor.Entities.Modules
         public Vector3 wanderingStart;
         public float stateTime = 0;
         
-        [Header("STATE - PATH")]
-        private NavMeshPath _path;
-        private int _pathIndex = 0;
+        [Header("STATE - PATH")] protected NavMeshPath _path;
+        protected int _pathIndex = 0;
         public float pathTime = 0;
         private int _wanderingTime;
         private int _pathTime;
 
         [Header("STATE - ATTACKING")] 
-        [SerializeField] private float attackCollDown = 2f;
+        [SerializeField] protected float attackCollDown = 2f;
         [SerializeField]private float distanceToAttack = 1.25f;
         [SerializeField]private float distanceToChasePlayer = 6f;
         protected bool _attackEnded = true;   
@@ -88,15 +87,13 @@ namespace Refactor.Entities.Modules
 
         [Header("STATE - DIZZY")]
         [SerializeField]
-        private float dizzyBarMax;
-        [SerializeField]
-        private float dizzyBarCurrentValue;
+        protected float dizzyBarMax;
+        [SerializeField] protected float dizzyBarCurrentValue;
         [SerializeField]
         private float dizzyBarAmountWhenDamage;
         [SerializeField]
         private float dizzyBarAmountRecover;
-        [SerializeField]
-        private float dizzyTime = 3f;
+        [SerializeField] protected float dizzyTime = 3f;
 
         [Header("STATE - WAITING TO ATTACK")] 
         [SerializeField]
@@ -114,26 +111,31 @@ namespace Refactor.Entities.Modules
 
         [SerializeField]
         private bool canRun = true;
-   
-
+        public bool willHaveOtherAttackAnimation;
+        private void Die()
+        {
+            isDead = true;
+            state = State.Dead;
+            animator.CrossFade("Die", 0.2f);
+        }
         public override void OnEnable()
         {
             base.OnEnable();
             wanderingStart = entity.transform.position;
             _pathTime = PathTime();
             _wanderingTime = WanderingTime();
-            playerRef =playerRef ? GameObject.FindWithTag("Player").transform : playerRef;
             entity.GetModule<HealthEntityModule>().onHealthChange.AddListener(OnEnemyTakeDamage);
-            entity.GetModule<HealthEntityModule>().onDie.AddListener(() =>
-            {
-                isDead = true;
-                state = State.Dead;
-                animator.CrossFade("Die", 0.2f);
-
-            });
+            entity.GetModule<HealthEntityModule>().onDie.AddListener(Die);
 
             controller = controller ? controller : GameObject.FindWithTag("EnemiesController").GetComponent<EnemiesInSceneController>();
             controller.AddEnemy(this);
+            playerRef =playerRef ? playerRef :GameObject.FindWithTag("Player").transform;
+        
+        }
+
+        protected virtual float AttackAnimation()
+        {
+            return 0;
         }
 
         public override void UpdateFrame(float deltaTime)
@@ -199,6 +201,10 @@ namespace Refactor.Entities.Modules
                     case State.Dodging:
                         y = -1;
                         break;
+                    case State.Attacking:
+                        if (willHaveOtherAttackAnimation)
+                            y = AttackAnimation();
+                        break;
                     default:
                         if (isRunning)
                             y = 1;
@@ -209,12 +215,15 @@ namespace Refactor.Entities.Modules
             }
             else
                 y = 0;
-            
 
-            animator.SetFloat("walking", math.lerp(animWalking, y, deltaTime * speed));
+            if (state != State.Dizzy)
+            {
+                animator.SetFloat("walking", math.lerp(animWalking, y, deltaTime * speed));
             
-            if((animWalking > 0.5f && Time.time > lastWalkingInput + 0.2f)) 
-                animator.CrossFade("Stop", 0.2f);
+                if((animWalking > 0.5f && Time.time > lastWalkingInput + 0.2f)) 
+                    animator.CrossFade("Stop", 0.2f);
+            }
+          
             #endregion
 
             dizzyBarCurrentValue += deltaTime * dizzyBarAmountRecover;
@@ -242,7 +251,6 @@ namespace Refactor.Entities.Modules
             
             if (timeSinceLastAttack >= attackCollDown && _attackEnded)
             {
-            
                 Debug.Log(stateTime);
                 Debug.Log(attackCollDown);
                 Attack();
@@ -255,6 +263,13 @@ namespace Refactor.Entities.Modules
             {
                 state = State.Targeting;
                 stateTime = 0;
+            }
+        }
+        protected virtual void OnDeadState()
+        {
+            if (stateTime >= 2)
+            {
+                // return object to pool
             }
         }
         protected virtual void TargetingState()
@@ -299,8 +314,22 @@ namespace Refactor.Entities.Modules
         }
         protected virtual void DizzyState()
         {
+            /*_path.ClearCorners();
+            _pathIndex = 0;*/
             animator.CrossFade("Dizzy", 0.2f);
         }
+
+        protected virtual void OnDizzyState()
+        {
+            if (stateTime > dizzyTime)
+            {
+                stateTime = 0;
+                state = State.Targeting;
+                dizzyBarCurrentValue = dizzyBarMax;
+                animator.CrossFade("Stop", 0.2f);
+            }
+        }
+        
         private IEnumerator HandleDodgeCoroutine()
         {
             const int count = 4;
@@ -330,13 +359,12 @@ namespace Refactor.Entities.Modules
             
             // damage animatio
             //state = State.TakingDamage;
-
+            Debug.Log("TakingDamage");
             animator.CrossFade("Reaction", 0.25f);
             
             if(state == State.Dizzy) return;
             DecreaseDizzyBar();
-            
-         
+
         }
         
         private void DecreaseDizzyBar()
@@ -357,25 +385,19 @@ namespace Refactor.Entities.Modules
             pathTime += deltaTime;
             switch (state)
             {
-                case State.Attacking:
-                    AttackState();
-                    break;
-                
+                case State.Dead:
+                    OnDeadState();
+                    return Vector3.zero;
+        
                 case State.Idling:
                     IdleState();
                     return Vector3.zero;
                       
                 case State.Dizzy:
-                    if (stateTime > dizzyTime)
-                    {
-                        stateTime = 0;
-                        state = State.Targeting;
-                        dizzyBarCurrentValue = dizzyBarMax;
-                        animator.CrossFade("Stop", 0.2f);
-                    }
+                    OnDizzyState();
                     return Vector3.zero;
                 
-                case State.Targeting or State.Wandering or State.Retreating or State.Dodging or State.WaitingToAttack:
+                case State.Targeting or State.Wandering or State.Retreating or State.Dodging or State.WaitingToAttack or State.Attacking:
                     
                     if (_path == null|| _path.status == NavMeshPathStatus.PathInvalid)
                     {
@@ -409,6 +431,9 @@ namespace Refactor.Entities.Modules
                             break;
                         case State.WaitingToAttack:
                             WaitingToAttack();
+                            break;
+                        case State.Attacking:
+                            AttackState();
                             break;
                     }
 
@@ -534,11 +559,16 @@ namespace Refactor.Entities.Modules
             return playerRef.position;
         }
 
+        protected virtual Vector3 OnAttackPos()
+        {
+            return Vector3.zero;
+        }
 
+        protected Vector3 target;
         protected virtual void _NewWanderTarget()
         {
             Debug.Log("New wander target");
-            Vector3 target = Vector3.zero;
+            target = Vector3.zero;
             if (state == State.Retreating || state == State.Dodging)
             {
                 target = entity.transform.position - (entity.transform.forward * _distanceBehind);
@@ -546,11 +576,14 @@ namespace Refactor.Entities.Modules
             {
                 target = WaitingToAttackNavMesh();
             }
-            else if (IsSeeingPlayer())
+            else if (state == State.Attacking)
             {
-                target = playerRef.position;
-            }
-            else
+                target = OnAttackPos();
+                
+            }else if (IsSeeingPlayer())
+            {
+                target = TargetPos();
+            }else
                 target = WanderingPos();
             
             _DoPathTo(target);
@@ -621,7 +654,7 @@ namespace Refactor.Entities.Modules
         }
 
 
-        private float RandomNumber()
+        protected float RandomNumber()
         {
             return Random.Range(1f, 11f);
         }
