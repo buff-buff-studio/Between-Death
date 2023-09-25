@@ -31,7 +31,7 @@ namespace Refactor.Entities.Modules
         {
             if (onSpecialAttack)
             {
-                return entity.transform.forward * 500;
+                return entity.transform.forward * 50;
             }
             return Vector3.zero;
         }     
@@ -49,7 +49,7 @@ namespace Refactor.Entities.Modules
             timeSinceLastAttack = 0;
             stateTime = 0;
             onSpecialAttack = true;
-            animator.CrossFade($"Attack {Random.Range(0, 3)}", 0.25f);
+          //  animator.CrossFade($"Attack {Random.Range(0, 3)}", 0.25f);
         }
         protected virtual bool DistanceToSpecialAttack()    
         {
@@ -63,8 +63,15 @@ namespace Refactor.Entities.Modules
                 stateTime = 0;
                 state = State.Wandering;
             }
-
-            if (DistanceToSpecialAttack())
+     
+            if (DistanceToAttack())
+            {
+                state = State.Attacking;
+                stateTime = 0;
+                Attack();
+                //  if(timeSinceLastAttack >= attackCollDown)
+             
+            }else if (DistanceToSpecialAttack())
             {
                 if (Random.Range(0, 11) < chanceToSpecialAttack)
                 {
@@ -74,15 +81,9 @@ namespace Refactor.Entities.Modules
                     SpecialAttack(); 
                 }
             }
-            
-            if (DistanceToAttack())
-            {
-                state = State.Attacking;
-                stateTime = 0;
-                if(timeSinceLastAttack >= attackCollDown)
-                    Attack();
-            }
+       
         }
+        
 
         protected override void AttackState()
         {
@@ -92,10 +93,11 @@ namespace Refactor.Entities.Modules
             
             if (onSpecialAttack)
             {
-                if (Physics.SphereCast(entity.transform.position, 20,entity.transform.forward, out RaycastHit hit, 1f, triggerlayer,
+                if (Physics.SphereCast(entity.transform.position, 20,entity.transform.forward, out RaycastHit hit, 20f, triggerlayer,
                         QueryTriggerInteraction.UseGlobal))
                 {
                     // set dizzy
+                    Debug.Log("HIT");
                     if (hit.transform.CompareTag("Player"))
                     {
                         ApplyDamageFor(1, 3);

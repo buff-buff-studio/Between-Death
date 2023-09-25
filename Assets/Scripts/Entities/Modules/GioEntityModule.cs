@@ -274,7 +274,6 @@ namespace Refactor.Entities.Modules
         }
         protected virtual void TargetingState()
         {
-            Debug.Log(IsSeeingPlayer());
             if (!IsSeeingPlayer())
             {
                 stateTime = 0;
@@ -399,17 +398,6 @@ namespace Refactor.Entities.Modules
                 
                 case State.Targeting or State.Wandering or State.Retreating or State.Dodging or State.WaitingToAttack or State.Attacking:
                     
-                    if (_path == null|| _path.status == NavMeshPathStatus.PathInvalid)
-                    {
-                        _NewWanderTarget();
-                        return Vector3.zero;
-                    }
-                    if (_pathIndex >= _path.corners.Length)
-                    {
-                        _OnReachTarget();
-                        return Vector3.zero;
-                    }
-
                     switch (state)
                     {
                         case State.Targeting:
@@ -436,7 +424,16 @@ namespace Refactor.Entities.Modules
                             AttackState();
                             break;
                     }
-
+                    if (_path == null|| _path.status == NavMeshPathStatus.PathInvalid)
+                    {
+                        _NewWanderTarget();
+                        return Vector3.zero;
+                    }
+                    if (_pathIndex >= _path.corners.Length)
+                    {
+                        _OnReachTarget();
+                        return Vector3.zero;
+                    }
                     
                     var waypoint = _path.corners[_pathIndex];
                     var delta = Utils.GetVectorXZ(waypoint) - Utils.GetVectorXZ(entity.transform.position);
@@ -487,9 +484,10 @@ namespace Refactor.Entities.Modules
                     return;
                 
                 case State.Wandering:
-                    if (pathTime > _pathTime)
+                    if (stateTime > _pathTime)
                     {
                         _NewWanderTarget();
+                        stateTime = 0;
                         _wanderingTime = WanderingTime();
                     }
                     
@@ -505,6 +503,11 @@ namespace Refactor.Entities.Modules
                     return;
                 
                 case State.Attacking:
+                    if (stateTime > _pathTime)
+                    {
+                        _NewWanderTarget();
+                    }
+
                     return;
                 
                 case State.Retreating:
