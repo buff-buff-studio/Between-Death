@@ -503,10 +503,10 @@ namespace Refactor.Entities.Modules
                     return;
                 
                 case State.Attacking:
-                    if (stateTime > _pathTime)
+                    /*if (stateTime > _pathTime)
                     {
                         _NewWanderTarget();
-                    }
+                    }*/
 
                     return;
                 
@@ -541,11 +541,18 @@ namespace Refactor.Entities.Modules
             _pathIndex = 0;
             pathTime = 0;
         }
+
+        protected virtual void OnReachTarget()
+        {
+            
+        }
         
         protected virtual void _OnReachTarget()
         {
+            OnReachTarget();
             _path = null;
             _NewWanderTarget();
+            Debug.Log("Reach Target");
         }
 
         protected virtual Vector3 WaitingToAttackNavMesh()
@@ -581,6 +588,7 @@ namespace Refactor.Entities.Modules
             }
             else if (state == State.Attacking)
             {
+                Debug.Log("TARGETING ATTACKING");
                 target = OnAttackPos();
                 
             }else if (IsSeeingPlayer())

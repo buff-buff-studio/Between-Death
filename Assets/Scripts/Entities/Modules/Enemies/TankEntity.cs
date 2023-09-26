@@ -12,7 +12,7 @@ namespace Refactor.Entities.Modules
         private bool onSpecialAttack;
         [Range(0, 10)]
         [SerializeField]
-        private float chanceToSpecialAttack = 5;
+        private float chanceToSpecialAttack = 3;
         [SerializeField]
         private float timeOnSpecialAttack = 5;
         [SerializeField]
@@ -29,16 +29,26 @@ namespace Refactor.Entities.Modules
         
         protected override Vector3 OnAttackPos()
         {
+            Debug.Log("onAttackPos");
             if (onSpecialAttack)
             {
-                return entity.transform.forward * 50;
+                return (playerRef.transform.position - entity.transform.position) * 500;
             }
             return Vector3.zero;
-        }     
+        }
+
+        protected override void OnReachTarget()
+        {
+            if (state == State.Attacking && onSpecialAttack)
+            {
+                SetDizzy();
+            }
+        }
         
         protected override void Attack()
         {
             _attackEnded = false;
+            onSpecialAttack = false;
             timeSinceLastAttack = 0;
             stateTime = 0;
             NormalAttack();
@@ -66,6 +76,7 @@ namespace Refactor.Entities.Modules
      
             if (DistanceToAttack())
             {
+                _NewWanderTarget();
                 state = State.Attacking;
                 stateTime = 0;
                 Attack();
@@ -75,6 +86,7 @@ namespace Refactor.Entities.Modules
             {
                 if (Random.Range(0, 11) < chanceToSpecialAttack)
                 {
+                    _NewWanderTarget();
                     state = State.Attacking;
                     stateTime = 0;
                     onSpecialAttack = true;
@@ -83,7 +95,14 @@ namespace Refactor.Entities.Modules
             }
        
         }
-        
+
+        private void SetDizzy()
+        {
+            state = State.Dizzy;
+            DizzyState();
+            stateTime = 0;
+            onSpecialAttack = false;
+        }
 
         protected override void AttackState()
         {
@@ -96,41 +115,15 @@ namespace Refactor.Entities.Modules
                 if (Physics.SphereCast(entity.transform.position, 20,entity.transform.forward, out RaycastHit hit, 20f, triggerlayer,
                         QueryTriggerInteraction.UseGlobal))
                 {
-                    // set dizzy
-                    Debug.Log("HIT");
-                    if (hit.transform.CompareTag("Player"))
-                    {
-                        ApplyDamageFor(1, 3);
-                    }
-                    state = State.Dizzy;
-                    DizzyState();
-                    stateTime = 0;
-                    onSpecialAttack = false;
-                 
+                    Debug.Log("Hit");
+                    ApplyDamageFor(1, 3);
+                    SetDizzy();
+
                 }
                 else if (stateTime >= timeOnSpecialAttack)
                 {
-                    Debug.Log("Finish");
-                    state = State.Dizzy;
-                    DizzyState();
-                    stateTime = 0;
-                    onSpecialAttack = false;
-                    return;
-                    if (!DistanceToSpecialAttack())
-                        state = State.Targeting;
-                    
-                    onSpecialAttack = false;
-                    if (DistanceToAttack())
-                    {
-                        _attackEnded = true;
-                        Attack();
-                    }
-                    else
-                    {
-                        stateTime = 0;
-                        onSpecialAttack = true;
-                        SpecialAttack();
-                    }
+                    ApplyDamageFor(1, 3);
+                    SetDizzy();
                 }
             }
             else
