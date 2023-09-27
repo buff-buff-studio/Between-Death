@@ -21,18 +21,28 @@ namespace Refactor.Entities.Modules
         private float damageRadius = 4;
 
         [SerializeField] private LayerMask triggerlayer;
+        [SerializeField] private Transform rayCastPlace;
+
+        private GameObject playerRefPos = null;
         
         protected override float AttackAnimation()
         {
             return 1.5f;
         }
-        
+
+        private void MoveObject(Vector3 pos)
+        {
+            if (playerRefPos == null)
+                playerRefPos = new GameObject();
+
+            playerRefPos.transform.position = pos;
+        }
         protected override Vector3 OnAttackPos()
         {
             Debug.Log("onAttackPos");
             if (onSpecialAttack)
             {
-                return (playerRef.transform.position - entity.transform.position) * 500;
+                return (playerRefPos.transform.position - entity.transform.position) * 500;
             }
             return Vector3.zero;
         }
@@ -56,6 +66,7 @@ namespace Refactor.Entities.Modules
         private void SpecialAttack()
         {
             _attackEnded = false;
+            MoveObject(playerRef.position);
             timeSinceLastAttack = 0;
             stateTime = 0;
             onSpecialAttack = true;
@@ -103,7 +114,7 @@ namespace Refactor.Entities.Modules
             stateTime = 0;
             onSpecialAttack = false;
         }
-
+        
         protected override void AttackState()
         {
             /*_path.ClearCorners();
@@ -112,7 +123,7 @@ namespace Refactor.Entities.Modules
             
             if (onSpecialAttack)
             {
-                if (Physics.SphereCast(entity.transform.position, 20,entity.transform.forward, out RaycastHit hit, 20f, triggerlayer,
+                if (Physics.SphereCast(rayCastPlace.transform.position, 2,entity.transform.forward, out RaycastHit hit, 0.8f, triggerlayer,
                         QueryTriggerInteraction.UseGlobal))
                 {
                     Debug.Log("Hit");
