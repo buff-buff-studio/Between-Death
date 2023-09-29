@@ -14,6 +14,9 @@ namespace Refactor.Misc
 
         public float Damage(float amount)
         {
+            if (health == 0)
+                return 0;
+            
             var a = math.min(health, amount);
 
             if (a > 0)

@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using DG.Tweening;
 using Refactor.Misc;
 using Unity.Mathematics;
 using UnityEngine;
@@ -36,6 +37,7 @@ namespace Refactor.Entities.Modules
         public Animator animator;
         public Vector3 wanderingOrigin;
         [SerializeField] protected Transform playerRef;
+        public Renderer[] renderers;
 
         [Header("STATE")] 
         [SerializeField]
@@ -117,6 +119,17 @@ namespace Refactor.Entities.Modules
             isDead = true;
             state = State.Dead;
             animator.CrossFade("Die", 0.2f);
+            entity.gameObject.layer = LayerMask.NameToLayer("Intangible");
+            entity.velocity.x = entity.velocity.z = 0;
+            GameObject.Destroy(entity.gameObject, 4f);
+
+            float f = 0;
+            DOTween.To(() => f, x => f = x, 1, 2f)
+                .OnUpdate(() => {
+                    foreach(var rend in renderers)
+                        rend.material.SetFloat(_Dissolve, f);
+                }).SetDelay(2f);
+            
         }
         public override void OnEnable()
         {
@@ -124,12 +137,13 @@ namespace Refactor.Entities.Modules
             wanderingStart = entity.transform.position;
             _pathTime = PathTime();
             _wanderingTime = WanderingTime();
-            entity.GetModule<HealthEntityModule>().onHealthChange.AddListener(OnEnemyTakeDamage);
-            entity.GetModule<HealthEntityModule>().onDie.AddListener(Die);
+            var hm = entity.GetModule<HealthEntityModule>();
+            hm.onHealthChange.AddListener(OnEnemyTakeDamage);
+            hm.onDie.AddListener(Die);
 
             controller = controller ? controller : GameObject.FindWithTag("EnemiesController").GetComponent<EnemiesInSceneController>();
             controller.AddEnemy(this);
-            playerRef =playerRef ? playerRef :GameObject.FindWithTag("Player").transform;
+            playerRef =playerRef ? playerRef : GameController.instance.player.transform;
         
         }
 
@@ -274,7 +288,7 @@ namespace Refactor.Entities.Modules
         }
         protected virtual void TargetingState()
         {
-            Debug.Log(IsSeeingPlayer());
+            //Debug.Log(IsSeeingPlayer());
             if (!IsSeeingPlayer())
             {
                 stateTime = 0;
@@ -337,7 +351,7 @@ namespace Refactor.Entities.Modules
             for (var i = 1; i < count; i++)
             {
                 yield return new WaitForSeconds(_dodgeTime / count);
-                entity.GetModule<CloneEntityModule>()?.Clone(0.25f);
+                //entity.GetModule<CloneEntityModule>()?.Clone(0.25f);
             }
         }
         
@@ -437,6 +451,11 @@ namespace Refactor.Entities.Modules
                             break;
                     }
 
+                    if (_pathIndex >= _path.corners.Length)
+                    {
+                        _OnReachTarget();
+                        return Vector3.zero;
+                    }
                     
                     var waypoint = _path.corners[_pathIndex];
                     var delta = Utils.GetVectorXZ(waypoint) - Utils.GetVectorXZ(entity.transform.position);
@@ -565,6 +584,8 @@ namespace Refactor.Entities.Modules
         }
 
         protected Vector3 target;
+        private static readonly int _Dissolve = Shader.PropertyToID("_Dissolve");
+
         protected virtual void _NewWanderTarget()
         {
             Debug.Log("New wander target");
@@ -645,8 +666,8 @@ namespace Refactor.Entities.Modules
                 
                 if (damageTarget.health > 0 && damageTarget is HealthEntityModule module)
                 {
-                    var e = module.entity;
-                    e.velocity = dir * 4f;
+                    //var e = module.entity;
+                    //e.velocity = dir * 4f;
                 }
                 /*var go = Object.Instantiate(hitParticlesPrefab, hPos, Quaternion.identity);
                 Object.Destroy(go, 2f);*/
