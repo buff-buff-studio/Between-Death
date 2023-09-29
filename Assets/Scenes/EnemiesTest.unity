@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.18028352, g: 0.22571376, b: 0.30692244, a: 1}
+  m_IndirectSpecularColor: {r: 0.18028334, g: 0.2257134, b: 0.30692226, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -6635,6 +6635,11 @@ PrefabInstance:
       objectReference: {fileID: 708250030}
     - target: {fileID: 5428277969326314024, guid: c3ce857199bb56c43849853449a7da30,
         type: 3}
+      propertyPath: managedReferences[2179848198282018816]._enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5428277969326314024, guid: c3ce857199bb56c43849853449a7da30,
+        type: 3}
       propertyPath: managedReferences[2428299320438292480]._enabled
       value: 1
       objectReference: {fileID: 0}
@@ -6831,7 +6836,7 @@ PrefabInstance:
     - target: {fileID: 5428277969326314024, guid: c3ce857199bb56c43849853449a7da30,
         type: 3}
       propertyPath: managedReferences[2428299320438292480].chanceToSpecialAttack
-      value: 10
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 5428277969326314024, guid: c3ce857199bb56c43849853449a7da30,
         type: 3}
@@ -6871,7 +6876,7 @@ PrefabInstance:
     - target: {fileID: 7973347997729255049, guid: c3ce857199bb56c43849853449a7da30,
         type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -8409,16 +8414,21 @@ PrefabInstance:
     - target: {fileID: 1047544326308976939, guid: 0fe64c66857e46c43a40e54ecf3b4a6d,
         type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3133304451232703882, guid: 0fe64c66857e46c43a40e54ecf3b4a6d,
         type: 3}
       propertyPath: _modules.editorOpen
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3133304451232703882, guid: 0fe64c66857e46c43a40e54ecf3b4a6d,
         type: 3}
       propertyPath: managedReferences[2428299030916235264].canRun
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3133304451232703882, guid: 0fe64c66857e46c43a40e54ecf3b4a6d,
+        type: 3}
+      propertyPath: managedReferences[2179848198282018816]._enabled
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3133304451232703882, guid: 0fe64c66857e46c43a40e54ecf3b4a6d,
@@ -9974,6 +9984,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5428277969326314024, guid: c3ce857199bb56c43849853449a7da30,
         type: 3}
+      propertyPath: managedReferences[2179848198282018816]._enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5428277969326314024, guid: c3ce857199bb56c43849853449a7da30,
+        type: 3}
       propertyPath: managedReferences[2179848129062109185].playerRef
       value: 
       objectReference: {fileID: 0}
@@ -9982,6 +9997,11 @@ PrefabInstance:
       propertyPath: managedReferences[2179848129062109185].controller
       value: 
       objectReference: {fileID: 782672068}
+    - target: {fileID: 5428277969326314024, guid: c3ce857199bb56c43849853449a7da30,
+        type: 3}
+      propertyPath: managedReferences[2179848129062109185].editorOpen
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5428277969326314024, guid: c3ce857199bb56c43849853449a7da30,
         type: 3}
       propertyPath: managedReferences[2179848198282018816].editorOpen
@@ -10138,6 +10158,11 @@ PrefabInstance:
     - target: {fileID: 5634362803300849209, guid: 1624a8b81b91cc44abe52942e182c075,
         type: 3}
       propertyPath: _modules.editorOpen
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5634362803300849209, guid: 1624a8b81b91cc44abe52942e182c075,
+        type: 3}
+      propertyPath: managedReferences[2179848198282018816]._enabled
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5634362803300849209, guid: 1624a8b81b91cc44abe52942e182c075,
@@ -10160,6 +10185,11 @@ PrefabInstance:
       propertyPath: managedReferences[2134308353207435264].shootPoint
       value: 
       objectReference: {fileID: 1655359957}
+    - target: {fileID: 5634362803300849209, guid: 1624a8b81b91cc44abe52942e182c075,
+        type: 3}
+      propertyPath: managedReferences[2179848198282018816].editorOpen
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 5634362803300849209, guid: 1624a8b81b91cc44abe52942e182c075,
         type: 3}
       propertyPath: managedReferences[2134308353207435264]._controller

@@ -329,17 +329,6 @@ namespace Refactor.Entities.Modules
             }
         }
         
-        private IEnumerator HandleDodgeCoroutine()
-        {
-            const int count = 4;
-
-            for (var i = 1; i < count; i++)
-            {
-                yield return new WaitForSeconds(_dodgeTime / count);
-                entity.GetModule<CloneEntityModule>()?.Clone(0.25f);
-            }
-        }
-        
         protected virtual void WaitingToAttack()
         {
             controller.routineAttacking = true;
@@ -681,7 +670,6 @@ namespace Refactor.Entities.Modules
             
             if (RandomNumber() <= chanceToDodge)
             {
-                entity.StartCoroutine(HandleDodgeCoroutine());
                 DodgeState();
                 return true;
             }

@@ -88,6 +88,7 @@ namespace Refactor.Entities.Modules
             if (DistanceToAttack())
             {
                 _NewWanderTarget();
+                onSpecialAttack = true;
                 state = State.Attacking;
                 stateTime = 0;
                 Attack();
