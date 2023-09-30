@@ -12,7 +12,7 @@ namespace Refactor.Entities.Modules
         private bool onSpecialAttack;
         [Range(0, 10)]
         [SerializeField]
-        private float chanceToSpecialAttack = 5;
+        private float chanceToSpecialAttack = 3;
         [SerializeField]
         private float timeOnSpecialAttack = 5;
         [SerializeField]
@@ -21,24 +21,44 @@ namespace Refactor.Entities.Modules
         private float damageRadius = 4;
 
         [SerializeField] private LayerMask triggerlayer;
+        [SerializeField] private Transform rayCastPlace;
+
+        private GameObject playerRefPos = null;
         
         protected override float AttackAnimation()
         {
             return 1.5f;
         }
-        
+
+        private void MoveObject(Vector3 pos)
+        {
+            if (playerRefPos == null)
+                playerRefPos = new GameObject();
+
+            playerRefPos.transform.position = pos;
+        }
         protected override Vector3 OnAttackPos()
         {
+            Debug.Log("onAttackPos");
             if (onSpecialAttack)
             {
-                return entity.transform.forward * 500;
+                return (playerRefPos.transform.position - entity.transform.position) * 500;
             }
             return Vector3.zero;
-        }     
+        }
+
+        protected override void OnReachTarget()
+        {
+            if (state == State.Attacking && onSpecialAttack)
+            {
+                SetDizzy();
+            }
+        }
         
         protected override void Attack()
         {
             _attackEnded = false;
+            onSpecialAttack = false;
             timeSinceLastAttack = 0;
             stateTime = 0;
             NormalAttack();
@@ -46,10 +66,11 @@ namespace Refactor.Entities.Modules
         private void SpecialAttack()
         {
             _attackEnded = false;
+            MoveObject(playerRef.position);
             timeSinceLastAttack = 0;
             stateTime = 0;
             onSpecialAttack = true;
-            animator.CrossFade($"Attack {Random.Range(0, 3)}", 0.25f);
+          //  animator.CrossFade($"Attack {Random.Range(0, 3)}", 0.25f);
         }
         protected virtual bool DistanceToSpecialAttack()    
         {
@@ -63,27 +84,38 @@ namespace Refactor.Entities.Modules
                 stateTime = 0;
                 state = State.Wandering;
             }
-
-            if (DistanceToSpecialAttack())
+     
+            if (DistanceToAttack())
+            {
+                _NewWanderTarget();
+                onSpecialAttack = true;
+                state = State.Attacking;
+                stateTime = 0;
+                Attack();
+                //  if(timeSinceLastAttack >= attackCollDown)
+             
+            }else if (DistanceToSpecialAttack())
             {
                 if (Random.Range(0, 11) < chanceToSpecialAttack)
                 {
+                    _NewWanderTarget();
                     state = State.Attacking;
                     stateTime = 0;
                     onSpecialAttack = true;
                     SpecialAttack(); 
                 }
             }
-            
-            if (DistanceToAttack())
-            {
-                state = State.Attacking;
-                stateTime = 0;
-                if(timeSinceLastAttack >= attackCollDown)
-                    Attack();
-            }
+       
         }
 
+        private void SetDizzy()
+        {
+            state = State.Dizzy;
+            DizzyState();
+            stateTime = 0;
+            onSpecialAttack = false;
+        }
+        
         protected override void AttackState()
         {
             /*_path.ClearCorners();
@@ -92,43 +124,18 @@ namespace Refactor.Entities.Modules
             
             if (onSpecialAttack)
             {
-                if (Physics.SphereCast(entity.transform.position, 20,entity.transform.forward, out RaycastHit hit, 1f, triggerlayer,
+                if (Physics.SphereCast(rayCastPlace.transform.position, 2,entity.transform.forward, out RaycastHit hit, 0.8f, triggerlayer,
                         QueryTriggerInteraction.UseGlobal))
                 {
-                    // set dizzy
-                    if (hit.transform.CompareTag("Player"))
-                    {
-                        ApplyDamageFor(1, 3);
-                    }
-                    state = State.Dizzy;
-                    DizzyState();
-                    stateTime = 0;
-                    onSpecialAttack = false;
-                 
+                    Debug.Log("Hit");
+                    ApplyDamageFor(1, 3);
+                    SetDizzy();
+
                 }
                 else if (stateTime >= timeOnSpecialAttack)
                 {
-                    Debug.Log("Finish");
-                    state = State.Dizzy;
-                    DizzyState();
-                    stateTime = 0;
-                    onSpecialAttack = false;
-                    return;
-                    if (!DistanceToSpecialAttack())
-                        state = State.Targeting;
-                    
-                    onSpecialAttack = false;
-                    if (DistanceToAttack())
-                    {
-                        _attackEnded = true;
-                        Attack();
-                    }
-                    else
-                    {
-                        stateTime = 0;
-                        onSpecialAttack = true;
-                        SpecialAttack();
-                    }
+                    ApplyDamageFor(1, 3);
+                    SetDizzy();
                 }
             }
             else

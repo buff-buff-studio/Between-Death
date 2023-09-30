@@ -305,7 +305,6 @@ namespace Refactor.Entities.Modules
         }
         protected virtual void TargetingState()
         {
-            //Debug.Log(IsSeeingPlayer());
             if (!IsSeeingPlayer())
             {
                 stateTime = 0;
@@ -358,17 +357,6 @@ namespace Refactor.Entities.Modules
                 state = State.Targeting;
                 dizzyBarCurrentValue = dizzyBarMax;
                 animator.CrossFade("Stop", 0.2f);
-            }
-        }
-        
-        private IEnumerator HandleDodgeCoroutine()
-        {
-            const int count = 4;
-
-            for (var i = 1; i < count; i++)
-            {
-                yield return new WaitForSeconds(_dodgeTime / count);
-                //entity.GetModule<CloneEntityModule>()?.Clone(0.25f);
             }
         }
         
@@ -430,17 +418,6 @@ namespace Refactor.Entities.Modules
                 
                 case State.Targeting or State.Wandering or State.Retreating or State.Dodging or State.WaitingToAttack or State.Attacking:
                     
-                    if (_path == null|| _path.status == NavMeshPathStatus.PathInvalid)
-                    {
-                        _NewWanderTarget();
-                        return Vector3.zero;
-                    }
-                    if (_pathIndex >= _path.corners.Length)
-                    {
-                        _OnReachTarget();
-                        return Vector3.zero;
-                    }
-
                     switch (state)
                     {
                         case State.Targeting:
@@ -467,7 +444,11 @@ namespace Refactor.Entities.Modules
                             AttackState();
                             break;
                     }
-
+                    if (_path == null|| _path.status == NavMeshPathStatus.PathInvalid)
+                    {
+                        _NewWanderTarget();
+                        return Vector3.zero;
+                    }
                     if (_pathIndex >= _path.corners.Length)
                     {
                         _OnReachTarget();
@@ -523,9 +504,10 @@ namespace Refactor.Entities.Modules
                     return;
                 
                 case State.Wandering:
-                    if (pathTime > _pathTime)
+                    if (stateTime > _pathTime)
                     {
                         _NewWanderTarget();
+                        stateTime = 0;
                         _wanderingTime = WanderingTime();
                     }
                     
@@ -541,6 +523,11 @@ namespace Refactor.Entities.Modules
                     return;
                 
                 case State.Attacking:
+                    /*if (stateTime > _pathTime)
+                    {
+                        _NewWanderTarget();
+                    }*/
+
                     return;
                 
                 case State.Retreating:
@@ -574,11 +561,18 @@ namespace Refactor.Entities.Modules
             _pathIndex = 0;
             pathTime = 0;
         }
+
+        protected virtual void OnReachTarget()
+        {
+            
+        }
         
         protected virtual void _OnReachTarget()
         {
+            OnReachTarget();
             _path = null;
             _NewWanderTarget();
+            Debug.Log("Reach Target");
         }
 
         protected virtual Vector3 WaitingToAttackNavMesh()
@@ -616,6 +610,7 @@ namespace Refactor.Entities.Modules
             }
             else if (state == State.Attacking)
             {
+                Debug.Log("TARGETING ATTACKING");
                 target = OnAttackPos();
                 
             }else if (IsSeeingPlayer())
@@ -708,7 +703,6 @@ namespace Refactor.Entities.Modules
             
             if (RandomNumber() <= chanceToDodge)
             {
-                entity.StartCoroutine(HandleDodgeCoroutine());
                 DodgeState();
                 return true;
             }
