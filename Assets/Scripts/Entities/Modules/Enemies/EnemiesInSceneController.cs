@@ -6,7 +6,7 @@ using UnityEngine.Serialization;
 
 namespace Refactor.Entities.Modules
 {
-    public class EnemiesInSceneController : MonoBehaviour
+    public class EnemiesInSceneController : Singleton<EnemiesInSceneController>
     {
         [SerializeField]
         private List<GioEntityModule> enemiesToSpawn;

@@ -14,8 +14,7 @@ namespace Refactor.Entities.Modules
     public class GioEntityModule : EntityModule
     {
         public const float TARGET_DISTANCE_THRESHOLD = 0.5f;
-        private bool isDead;
-        
+
         public enum State
         {  
             Idling, //Just waiting
@@ -38,6 +37,7 @@ namespace Refactor.Entities.Modules
         public Vector3 wanderingOrigin;
         [SerializeField] protected Transform playerRef;
         public Renderer[] renderers;
+        public Spawner spawner;
 
         [Header("STATE")] 
         [SerializeField]
@@ -116,12 +116,15 @@ namespace Refactor.Entities.Modules
         public bool willHaveOtherAttackAnimation;
         private void Die()
         {
-            isDead = true;
             state = State.Dead;
             animator.CrossFade("Die", 0.2f);
             entity.gameObject.layer = LayerMask.NameToLayer("Intangible");
             entity.velocity.x = entity.velocity.z = 0;
-            GameObject.Destroy(entity.gameObject, 4f);
+            
+            if(spawner == null)
+                GameObject.Destroy(entity.gameObject, 4f);
+            else
+                entity.StartCoroutine(_SpawnerRemove());
 
             float f = 0;
             DOTween.To(() => f, x => f = x, 1, 2f)
@@ -131,6 +134,13 @@ namespace Refactor.Entities.Modules
                 }).SetDelay(2f);
             
         }
+
+        private IEnumerator _SpawnerRemove()
+        {
+            yield return new WaitForSeconds(4f);
+            spawner.RemoveEntity(entity);
+        }
+        
         public override void OnEnable()
         {
             base.OnEnable();
@@ -141,10 +151,17 @@ namespace Refactor.Entities.Modules
             hm.onHealthChange.AddListener(OnEnemyTakeDamage);
             hm.onDie.AddListener(Die);
 
-            controller = controller ? controller : GameObject.FindWithTag("EnemiesController").GetComponent<EnemiesInSceneController>();
+            controller = EnemiesInSceneController.instance;
             controller.AddEnemy(this);
-            playerRef =playerRef ? playerRef : GameController.instance.player.transform;
-        
+            playerRef = GameController.instance.player.transform;
+            
+            //Respawn
+            foreach(var rend in renderers)
+                rend.material.SetFloat(_Dissolve, 0);
+            entity.gameObject.layer = LayerMask.NameToLayer("Default");
+            state = State.Idling;
+            var h = entity.GetModule<HealthEntityModule>() as IHealth;
+            h.RestoreLife();
         }
 
         protected virtual float AttackAnimation()
@@ -155,7 +172,7 @@ namespace Refactor.Entities.Modules
         public override void UpdateFrame(float deltaTime)
         {
             
-            if(isDead) return;
+            if(state == State.Dead) return;
             //Drag
             if (entity.isGrounded)
             {
@@ -394,7 +411,7 @@ namespace Refactor.Entities.Modules
          
             running = false;
             
-            if(isDead) return Vector3.zero;
+            if(state == State.Dead) return Vector3.zero;
             
             pathTime += deltaTime;
             switch (state)

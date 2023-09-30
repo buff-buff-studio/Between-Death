@@ -41,6 +41,12 @@ namespace Refactor.Misc
             return a;
         }
 
+        public void RestoreLife()
+        {
+            health = maxHealth;
+            OnHealthChange(health);
+        }
+
         protected GameObject ShowHealthDisplay(bool isDamage, float amount)
         {
             return null;
