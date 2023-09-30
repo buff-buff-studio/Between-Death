@@ -7,15 +7,22 @@ using UnityEngine.Events;
 
 namespace Refactor.Props
 {
+
+    [RequireComponent(typeof(Animator))]
     public class Lever : Interactible
     {
-        [Space]
-        public string activeAnimationName = "Active";
-        public string inactiveAnimationName = "Inactive";
+        private Animator animator;
+        [SerializeField] private string activeAnimationName = "Open";
+        [SerializeField] private string inactiveAnimationName = "Open";
 
         public UnityEvent onOn;
         public UnityEvent onOff;
-        
+
+        private void Awake()
+        {
+            TryGetComponent(out animator);
+        }
+
         protected override void OnEnable()
         {
             base.OnEnable();
@@ -52,6 +59,8 @@ namespace Refactor.Props
     {
         private SerializedProperty _activeAnimationName;
         private SerializedProperty _inactiveAnimationName;
+        private SerializedProperty _onOn;
+        private SerializedProperty _onOff;
         
         private List<string> animations = new List<string>();
         private int _activeIndex = 0;
@@ -59,26 +68,30 @@ namespace Refactor.Props
 
         protected override void OnEnable()
         {
-            var target = (Lever) this.target;
-            
-            _activeAnimationName = serializedObject.FindProperty("activeAnimationName");
-            _inactiveAnimationName = serializedObject.FindProperty("inactiveAnimationName");
-            
-            animations.Clear();
-            var animationController = target.GetComponent<Animator>().runtimeAnimatorController;
-            foreach (var anim in animationController.animationClips) animations.Add(anim.name);
-            _activeIndex = animations.IndexOf(_activeAnimationName.stringValue);
-            _inactiveIndex = animations.IndexOf(_inactiveAnimationName.stringValue);
-            
             base.OnEnable();
+
+            var lever = (Lever) this.target;
+
+            _activeAnimationName = serializedObject.FindProperty("openAnimationName");
+            _inactiveAnimationName = serializedObject.FindProperty("openAnimationName");
+            _onOn = serializedObject.FindProperty("onOn");
+            _onOff = serializedObject.FindProperty("onOff");
+
+            animations.Clear();
+            var animationController = lever.GetComponent<Animator>().runtimeAnimatorController;
+            foreach (var anim in animationController.animationClips) animations.Add(anim.name);
+            _activeIndex = animations.Exists(x => x == _activeAnimationName.stringValue) ? animations.IndexOf(_activeAnimationName.stringValue) : 0;
+            _inactiveIndex = animations.Exists(x => x == _inactiveAnimationName.stringValue) ? animations.IndexOf(_inactiveAnimationName.stringValue) : 0;
         }
 
         public override void OnInspectorGUI()
         {
             var target = (Interactible) this.target;
-            
+
             serializedObject.Update();
-            
+            if(!target.TryGetComponent(out Animator _))
+                EditorGUILayout.HelpBox("This component requires an Animator component", MessageType.Error);
+
             EditorGUILayout.Space(2f);
             InteractProperty();
 
@@ -87,18 +100,21 @@ namespace Refactor.Props
 
             EditorGUILayout.Space(10f);
             AnchorAxisProperty();
-            
+
             EditorGUILayout.Space(5f);
             _activeIndex = EditorGUILayout.Popup("Active Animation", _activeIndex, animations.ToArray());
             _activeAnimationName.stringValue = animations[_activeIndex];
             _inactiveIndex = EditorGUILayout.Popup("Inactive Animation", _inactiveIndex, animations.ToArray());
             _inactiveAnimationName.stringValue = animations[_inactiveIndex];
-            
+
+            EditorGUILayout.Space(5f);
             EditorGUILayout.PropertyField(_callOnEnable);
             EditorGUILayout.PropertyField(_onInteract);
+            EditorGUILayout.PropertyField(_onOn);
+            EditorGUILayout.PropertyField(_onOff);
 
             serializedObject.ApplyModifiedProperties();
-            
+
             if (typeChange) ChangeColliderType();
             UpdateCollider();
         }
