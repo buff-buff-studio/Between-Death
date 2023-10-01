@@ -4617,7 +4617,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 508757517583347338}
-  - component: {fileID: 3307061782640462095}
+  - component: {fileID: 8664459825421661051}
   m_Layer: 0
   m_Name: PortaoCastelo
   m_TagString: Untagged
@@ -4632,42 +4632,37 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7643146894618348861}
-  m_LocalRotation: {x: -0.70629245, y: -0.033925723, z: -0.033925723, w: 0.70629245}
-  m_LocalPosition: {x: 42.16989, y: 1.2500029, z: 95.2446}
-  m_LocalScale: {x: 8, y: 0.5, z: 16}
+  m_LocalRotation: {x: -0.70629245, y: -0.03392572, z: -0.03392572, w: 0.70629245}
+  m_LocalPosition: {x: 42.16989, y: 3.59, z: 95.2446}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 4213274353590944741}
   - {fileID: 4213274354161593338}
   m_Father: {fileID: 4212953665239230108}
   m_RootOrder: -1
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &3307061782640462095
-MonoBehaviour:
+  m_LocalEulerAnglesHint: {x: -90, y: 0, z: -5.5}
+--- !u!95 &8664459825421661051
+Animator:
+  serializedVersion: 5
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7643146894618348861}
   m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 730c10a57c59e7e49b957535e29865fb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  interactionPointOffset: {fileID: 4213274354161593338}
-  time: 0
-  distanceToInteract: 0
-  state: 0
-  oneInteraction: 1
-  callOnEnable: 0
-  onInteract:
-    m_PersistentCalls:
-      m_Calls: []
-  colliderType: 0
-  vectorSize: {x: 0, y: 0, z: 0}
-  _anchorX: 0
-  _anchorY: 0
-  _anchorZ: 0
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: a1d7975def043c145b77b49ef31acfd0, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1001 &4212953664976755595
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -5348,7 +5343,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1916851760937628, guid: 3315ee48ccc2bce4fa73c4b39288def4, type: 3}
       propertyPath: m_Name
-      value: PortaoCastelo
+      value: PortaoCastelo_2
       objectReference: {fileID: 0}
     - target: {fileID: 4474712263105832, guid: 3315ee48ccc2bce4fa73c4b39288def4, type: 3}
       propertyPath: m_RootOrder
@@ -5356,19 +5351,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4474712263105832, guid: 3315ee48ccc2bce4fa73c4b39288def4, type: 3}
       propertyPath: m_LocalScale.x
-      value: 1
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 4474712263105832, guid: 3315ee48ccc2bce4fa73c4b39288def4, type: 3}
       propertyPath: m_LocalScale.y
-      value: 1
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 4474712263105832, guid: 3315ee48ccc2bce4fa73c4b39288def4, type: 3}
       propertyPath: m_LocalScale.z
-      value: 1
+      value: 16
       objectReference: {fileID: 0}
     - target: {fileID: 4474712263105832, guid: 3315ee48ccc2bce4fa73c4b39288def4, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 4474712263105832, guid: 3315ee48ccc2bce4fa73c4b39288def4, type: 3}
       propertyPath: m_LocalPosition.y
@@ -5376,7 +5371,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4474712263105832, guid: 3315ee48ccc2bce4fa73c4b39288def4, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0
+      value: -2.339997
       objectReference: {fileID: 0}
     - target: {fileID: 4474712263105832, guid: 3315ee48ccc2bce4fa73c4b39288def4, type: 3}
       propertyPath: m_LocalRotation.w
@@ -5392,7 +5387,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4474712263105832, guid: 3315ee48ccc2bce4fa73c4b39288def4, type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0
+      value: -0.000000011175871
       objectReference: {fileID: 0}
     - target: {fileID: 4474712263105832, guid: 3315ee48ccc2bce4fa73c4b39288def4, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -62139,7 +62134,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1916851760937628, guid: 3315ee48ccc2bce4fa73c4b39288def4, type: 3}
       propertyPath: m_Name
-      value: PortaoCastelo
+      value: PortaoCastelo_1
       objectReference: {fileID: 0}
     - target: {fileID: 4474712263105832, guid: 3315ee48ccc2bce4fa73c4b39288def4, type: 3}
       propertyPath: m_RootOrder
@@ -62147,47 +62142,47 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4474712263105832, guid: 3315ee48ccc2bce4fa73c4b39288def4, type: 3}
       propertyPath: m_LocalScale.x
-      value: 1
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 4474712263105832, guid: 3315ee48ccc2bce4fa73c4b39288def4, type: 3}
       propertyPath: m_LocalScale.y
-      value: 1
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 4474712263105832, guid: 3315ee48ccc2bce4fa73c4b39288def4, type: 3}
       propertyPath: m_LocalScale.z
-      value: 1
+      value: 16
       objectReference: {fileID: 0}
     - target: {fileID: 4474712263105832, guid: 3315ee48ccc2bce4fa73c4b39288def4, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 1
+      value: -8.02
       objectReference: {fileID: 0}
     - target: {fileID: 4474712263105832, guid: 3315ee48ccc2bce4fa73c4b39288def4, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: 0.48
       objectReference: {fileID: 0}
     - target: {fileID: 4474712263105832, guid: 3315ee48ccc2bce4fa73c4b39288def4, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0
+      value: -2.34
       objectReference: {fileID: 0}
     - target: {fileID: 4474712263105832, guid: 3315ee48ccc2bce4fa73c4b39288def4, type: 3}
       propertyPath: m_LocalRotation.w
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4474712263105832, guid: 3315ee48ccc2bce4fa73c4b39288def4, type: 3}
       propertyPath: m_LocalRotation.x
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4474712263105832, guid: 3315ee48ccc2bce4fa73c4b39288def4, type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4474712263105832, guid: 3315ee48ccc2bce4fa73c4b39288def4, type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4474712263105832, guid: 3315ee48ccc2bce4fa73c4b39288def4, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
-      value: -90
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4474712263105832, guid: 3315ee48ccc2bce4fa73c4b39288def4, type: 3}
       propertyPath: m_LocalEulerAnglesHint.y
@@ -62195,7 +62190,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4474712263105832, guid: 3315ee48ccc2bce4fa73c4b39288def4, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
-      value: -5.5
+      value: 180
       objectReference: {fileID: 0}
     - target: {fileID: 23174869829645844, guid: 3315ee48ccc2bce4fa73c4b39288def4,
         type: 3}

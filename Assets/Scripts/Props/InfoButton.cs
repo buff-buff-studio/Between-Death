@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace Refactor.Props
 {
-    public class InfoButton : Interactible
+    public class InfoButton : Interactable
     {
         public Transform text;
         private Transform _camera;

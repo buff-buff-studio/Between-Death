@@ -3,6 +3,7 @@ using Refactor.Misc;
 using Refactor.Props;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.Serialization;
 using Object = UnityEngine.Object;
 
 namespace Refactor.Entities.Modules
@@ -11,10 +12,10 @@ namespace Refactor.Entities.Modules
     public class InteractionEntityModule : EntityModule
     {
         public Vector3 interactionOffset;
-        public Interactible currentInteractible;
+        [FormerlySerializedAs("currentInteractible")] public Interactable currentInteractable;
         public GameObject prefabInteractionDisplay;
         public InteractionDisplay interactionDisplay;
-        private Interactible _lastFrameInteractible;
+        private Interactable _lastFrameInteractable;
         
         [SerializeField, HideInInspector]
         public PlayerControllerEntityModule controllerEntityModule;
@@ -44,31 +45,31 @@ namespace Refactor.Entities.Modules
         {
             var canInteract = controllerEntityModule.state == PlayerState.Default && entity.isGrounded;
             
-            if (currentInteractible != null && canInteract)
+            if (currentInteractable != null && canInteract)
             {
                 interactionDisplay.gameObject.SetActive(true);
-                interactionDisplay.transform.position = currentInteractible.interactionPoint;
+                interactionDisplay.transform.position = currentInteractable.interactionPoint;
             }
             else
             {
                 interactionDisplay.gameObject.SetActive(false);
             }
 
-            Interactible frameInteractible = null;
+            Interactable frameInteractable = null;
 
             if (IngameGameInput.InputInteract.value)
             {
-                if (canInteract && currentInteractible != null && currentInteractible.enabled)
+                if (canInteract && currentInteractable != null && currentInteractable.enabled)
                 {
-                    frameInteractible = currentInteractible;
+                    frameInteractable = currentInteractable;
                 }
             }
             else
                 needToRestart = false;
 
-            if (frameInteractible == _lastFrameInteractible)
+            if (frameInteractable == _lastFrameInteractable)
             {
-                if (frameInteractible != null && !needToRestart)
+                if (frameInteractable != null && !needToRestart)
                 {
                     /*
                     if ((time += deltaTime) > frameInteractible.time)
@@ -87,7 +88,7 @@ namespace Refactor.Entities.Modules
             else
                 interactionDisplay.progress = time = 0;
             
-            _lastFrameInteractible = frameInteractible;
+            _lastFrameInteractable = frameInteractable;
         }
     }
 }

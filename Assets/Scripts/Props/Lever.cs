@@ -9,7 +9,7 @@ namespace Refactor.Props
 {
 
     [RequireComponent(typeof(Animator))]
-    public class Lever : Interactible
+    public class Lever : Interactable
     {
         private Animator animator;
         [SerializeField] private string activeAnimationName = "Open";
@@ -55,7 +55,7 @@ namespace Refactor.Props
     
 #if UNITY_EDITOR
     [CustomEditor(typeof(Lever), true), CanEditMultipleObjects]
-    public sealed class LeverEditor : InteractibleEditor
+    public sealed class LeverEditor : InteractableEditor
     {
         private SerializedProperty _activeAnimationName;
         private SerializedProperty _inactiveAnimationName;
@@ -72,8 +72,8 @@ namespace Refactor.Props
 
             var lever = (Lever) this.target;
 
-            _activeAnimationName = serializedObject.FindProperty("openAnimationName");
-            _inactiveAnimationName = serializedObject.FindProperty("openAnimationName");
+            _activeAnimationName = serializedObject.FindProperty("activeAnimationName");
+            _inactiveAnimationName = serializedObject.FindProperty("inactiveAnimationName");
             _onOn = serializedObject.FindProperty("onOn");
             _onOff = serializedObject.FindProperty("onOff");
 
@@ -86,7 +86,7 @@ namespace Refactor.Props
 
         public override void OnInspectorGUI()
         {
-            var target = (Interactible) this.target;
+            var target = (Interactable) this.target;
 
             serializedObject.Update();
             if(!target.TryGetComponent(out Animator _))

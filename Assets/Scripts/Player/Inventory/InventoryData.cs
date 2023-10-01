@@ -21,8 +21,16 @@ public class InventoryData : ScriptableObject
     [Space]
     [Header("Documents")]
     [SerializeField] private DocumentList documentList;
-    [SerializeField] private List<int> unlockedDocuments;
+    [SerializeField] private List<int> unlockedDocuments = new List<int>(9);
     
+    [Space]
+    [Header("Others")]
+    [SerializeField] private List<KeyData> keys;
+    
+    public bool HasKey(KeyData key) => keys.Contains(key);
+    public void AddKey(KeyData key) { if (!HasKey(key)) keys.Add(key); }
+    public void UseKey(KeyData key) { if (HasKey(key) && key.oneTimeUse) keys.Remove(key); }
+
     public SkillList GetSkillList => skillList;
     public int GetEquippedSkill(int index) => equippedSkills.Count < index+1 ? -1 : equippedSkills[index];
     public int GetUnlockedSkill(int index) => unlockedSkills.Count < index+1 ? -1 : unlockedSkills[index];
