@@ -56,7 +56,6 @@ public class InGameHUD : WindowManager
     
     private DocumentList documents => inventoryData.GetDocumentList;
     public bool HasKey(KeyData key) => inventoryData.HasKey(key);
-    public void AddKey(KeyData key) => inventoryData.AddKey(key);
     public void UseKey(KeyData key) => inventoryData.UseKey(key);
     
     //Interaction References
@@ -202,6 +201,14 @@ public class InGameHUD : WindowManager
 
         IngameGameInput.CanInput = false;
         inventoryData.AddUnlockedSkill(skills.GetID(skill));
+    }
+
+    public void OpenItem(KeyData item)
+    {
+        popUp.Show(item.name, item.description, item.icon, false, true);
+
+        IngameGameInput.CanInput = false;
+        inventoryData.AddKey(item);
     }
     
     #endregion

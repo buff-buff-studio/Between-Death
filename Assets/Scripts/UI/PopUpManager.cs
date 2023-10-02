@@ -13,6 +13,8 @@ public class PopUpManager : MonoBehaviour
     [SerializeField] private TextMeshProUGUI description;
     [SerializeField] private Image icon;
     [SerializeField] private int autoHideTime = 5;
+    [SerializeField] private GameObject confirmBtt;
+    [SerializeField] private GameObject cancelBtt;
 
     public bool isOpen = false;
     
@@ -39,6 +41,13 @@ public class PopUpManager : MonoBehaviour
         animator.Play("Open");
         StartCoroutine(OpenFade());
         StartCoroutine(AutoHide());
+    }
+
+    public void Show(string title, string description, Sprite icon, bool confirm, bool cancel)
+    {
+        Show(title, description, icon);
+        confirmBtt.SetActive(confirm);
+        cancelBtt.SetActive(cancel);
     }
     
     public void Hide(bool canInput = true)

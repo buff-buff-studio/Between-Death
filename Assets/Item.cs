@@ -27,7 +27,7 @@ namespace Refactor.Props
         {
             if(!isSceneItem)
             {
-                InGameHUD.instance.AddKey(key);
+                InGameHUD.instance.OpenItem(key);
                 base.Interact();
                 Destroy(gameObject);
             }
