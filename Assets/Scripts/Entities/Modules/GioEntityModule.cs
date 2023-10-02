@@ -95,7 +95,7 @@ namespace Refactor.Entities.Modules
         private float dizzyBarAmountWhenDamage;
         [SerializeField]
         private float dizzyBarAmountRecover;
-        [SerializeField] protected float dizzyTime = 3f;
+        [SerializeField] protected float dizzyTime = 2f;
 
         [Header("STATE - WAITING TO ATTACK")] 
         [SerializeField]
