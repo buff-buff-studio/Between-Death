@@ -18,6 +18,11 @@ namespace Refactor.Entities.Modules
             return Vector3.zero;
         }
 
+        public override void UpdateFrame(float deltaTime)
+        {
+            base.UpdateFrame(deltaTime);
+            shootPoint.LookAt(target);
+        }
         protected override Vector3 TargetPos()
         {
             Vector3 runTo = playerRef.position + (playerRef.forward * Random.Range(3f,6f));
@@ -63,14 +68,16 @@ namespace Refactor.Entities.Modules
             
         }
         
+        
+        
         protected override void Attack()
         {
             Debug.Log("Attack");
             _attackEnded = false;
             animator.CrossFade($"Attack {Random.Range(0, 3)}", 0.25f);
             timeSinceLastAttack = 0;
-            _controller.CreateObject(shootPoint.position, playerRef);
-
+            _controller.CreateObject(shootPoint.position, playerRef,shootPoint.transform.rotation);
+            
             entity.StartCoroutine(OnAnimationFinish(() =>
             {
                 _attackEnded = true;

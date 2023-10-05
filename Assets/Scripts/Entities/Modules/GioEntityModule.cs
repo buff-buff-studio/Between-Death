@@ -621,7 +621,8 @@ namespace Refactor.Entities.Modules
           
             if (target == Vector3.zero)
             {
-                _path.ClearCorners();
+                if (_path != null)
+                    _path.ClearCorners();
                 return;
             }
             
