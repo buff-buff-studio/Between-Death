@@ -2,7 +2,6 @@ using System;
 using DG.Tweening;
 using Refactor.Entities;
 using Refactor.Entities.Modules;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -22,8 +21,9 @@ namespace Refactor.Misc
             _camera = Camera.main!.transform;
             _module = entity.GetModule<HealthEntityModule>();
             _module.onHealthChange.AddListener(_OnChangeHealth);
-            _OnChangeHealth((_module as IHealth).health);
-            canvasGroup.alpha = 1f;
+            var hm = (_module as IHealth);
+            _OnChangeHealth(hm.health);
+            canvasGroup.alpha = Math.Abs(hm.health - hm.maxHealth) < 0.01f ? 0 : 1;
         }
 
         private void OnDisable()
@@ -46,8 +46,10 @@ namespace Refactor.Misc
 
             if (health < maxHealth)
             {
-                if(health == 0)
-                    canvasGroup.DOFade(0f, 0.5f);
+                //if(health == 0)
+                    canvasGroup.DOFade(health == 0 || Math.Abs(health - iHealth.maxHealth) < 0.01f ? 0f : 1f, 0.25f);
+                //else
+                    //canvasGroup.DOFade(1f, 0.5f);
 
                 healthBarImage.color = Color.yellow;
                 healthBarImage.DOColor(Color.red, 0.5f);

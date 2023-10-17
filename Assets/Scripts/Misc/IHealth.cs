@@ -14,6 +14,9 @@ namespace Refactor.Misc
 
         public float Damage(float amount)
         {
+            if (health == 0)
+                return 0;
+            
             var a = math.min(health, amount);
 
             if (a > 0)
@@ -36,6 +39,12 @@ namespace Refactor.Misc
             health = OnHealthChange(health + a);
             
             return a;
+        }
+
+        public void RestoreLife()
+        {
+            health = maxHealth;
+            OnHealthChange(health);
         }
 
         protected GameObject ShowHealthDisplay(bool isDamage, float amount)

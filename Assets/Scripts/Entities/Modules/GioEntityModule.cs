@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using DG.Tweening;
 using Refactor.Misc;
 using Unity.Mathematics;
 using UnityEngine;
@@ -13,8 +14,7 @@ namespace Refactor.Entities.Modules
     public class GioEntityModule : EntityModule
     {
         public const float TARGET_DISTANCE_THRESHOLD = 0.5f;
-        private bool isDead;
-        
+
         public enum State
         {  
             Idling, //Just waiting
@@ -36,6 +36,8 @@ namespace Refactor.Entities.Modules
         public Animator animator;
         public Vector3 wanderingOrigin;
         [SerializeField] protected Transform playerRef;
+        public Renderer[] renderers;
+        public Spawner spawner;
 
         [Header("STATE")] 
         [SerializeField]
@@ -114,23 +116,52 @@ namespace Refactor.Entities.Modules
         public bool willHaveOtherAttackAnimation;
         private void Die()
         {
-            isDead = true;
             state = State.Dead;
             animator.CrossFade("Die", 0.2f);
+            entity.gameObject.layer = LayerMask.NameToLayer("Intangible");
+            entity.velocity.x = entity.velocity.z = 0;
+            
+            if(spawner == null)
+                GameObject.Destroy(entity.gameObject, 4f);
+            else
+                entity.StartCoroutine(_SpawnerRemove());
+
+            float f = 0;
+            DOTween.To(() => f, x => f = x, 1, 2f)
+                .OnUpdate(() => {
+                    foreach(var rend in renderers)
+                        rend.material.SetFloat(_Dissolve, f);
+                }).SetDelay(2f);
+            
         }
+
+        private IEnumerator _SpawnerRemove()
+        {
+            yield return new WaitForSeconds(4f);
+            spawner.RemoveEntity(entity);
+        }
+        
         public override void OnEnable()
         {
             base.OnEnable();
             wanderingStart = entity.transform.position;
             _pathTime = PathTime();
             _wanderingTime = WanderingTime();
-            entity.GetModule<HealthEntityModule>().onHealthChange.AddListener(OnEnemyTakeDamage);
-            entity.GetModule<HealthEntityModule>().onDie.AddListener(Die);
+            var hm = entity.GetModule<HealthEntityModule>();
+            hm.onHealthChange.AddListener(OnEnemyTakeDamage);
+            hm.onDie.AddListener(Die);
 
-            controller = controller ? controller : GameObject.FindWithTag("EnemiesController").GetComponent<EnemiesInSceneController>();
+            controller = EnemiesInSceneController.instance;
             controller.AddEnemy(this);
-            playerRef =playerRef ? playerRef :GameObject.FindWithTag("Player").transform;
-        
+            playerRef = GameController.instance.player.transform;
+            
+            //Respawn
+            foreach(var rend in renderers)
+                rend.material.SetFloat(_Dissolve, 0);
+            entity.gameObject.layer = LayerMask.NameToLayer("Default");
+            state = State.Idling;
+            var h = entity.GetModule<HealthEntityModule>() as IHealth;
+            h.RestoreLife();
         }
 
         protected virtual float AttackAnimation()
@@ -141,7 +172,7 @@ namespace Refactor.Entities.Modules
         public override void UpdateFrame(float deltaTime)
         {
             
-            if(isDead) return;
+            if(state == State.Dead) return;
             //Drag
             if (entity.isGrounded)
             {
@@ -274,7 +305,6 @@ namespace Refactor.Entities.Modules
         }
         protected virtual void TargetingState()
         {
-            Debug.Log(IsSeeingPlayer());
             if (!IsSeeingPlayer())
             {
                 stateTime = 0;
@@ -330,17 +360,6 @@ namespace Refactor.Entities.Modules
             }
         }
         
-        private IEnumerator HandleDodgeCoroutine()
-        {
-            const int count = 4;
-
-            for (var i = 1; i < count; i++)
-            {
-                yield return new WaitForSeconds(_dodgeTime / count);
-                entity.GetModule<CloneEntityModule>()?.Clone(0.25f);
-            }
-        }
-        
         protected virtual void WaitingToAttack()
         {
             controller.routineAttacking = true;
@@ -380,7 +399,7 @@ namespace Refactor.Entities.Modules
          
             running = false;
             
-            if(isDead) return Vector3.zero;
+            if(state == State.Dead) return Vector3.zero;
             
             pathTime += deltaTime;
             switch (state)
@@ -399,17 +418,6 @@ namespace Refactor.Entities.Modules
                 
                 case State.Targeting or State.Wandering or State.Retreating or State.Dodging or State.WaitingToAttack or State.Attacking:
                     
-                    if (_path == null|| _path.status == NavMeshPathStatus.PathInvalid)
-                    {
-                        _NewWanderTarget();
-                        return Vector3.zero;
-                    }
-                    if (_pathIndex >= _path.corners.Length)
-                    {
-                        _OnReachTarget();
-                        return Vector3.zero;
-                    }
-
                     switch (state)
                     {
                         case State.Targeting:
@@ -436,7 +444,16 @@ namespace Refactor.Entities.Modules
                             AttackState();
                             break;
                     }
-
+                    if (_path == null|| _path.status == NavMeshPathStatus.PathInvalid)
+                    {
+                        _NewWanderTarget();
+                        return Vector3.zero;
+                    }
+                    if (_pathIndex >= _path.corners.Length)
+                    {
+                        _OnReachTarget();
+                        return Vector3.zero;
+                    }
                     
                     var waypoint = _path.corners[_pathIndex];
                     var delta = Utils.GetVectorXZ(waypoint) - Utils.GetVectorXZ(entity.transform.position);
@@ -487,9 +504,10 @@ namespace Refactor.Entities.Modules
                     return;
                 
                 case State.Wandering:
-                    if (pathTime > _pathTime)
+                    if (stateTime > _pathTime)
                     {
                         _NewWanderTarget();
+                        stateTime = 0;
                         _wanderingTime = WanderingTime();
                     }
                     
@@ -505,6 +523,11 @@ namespace Refactor.Entities.Modules
                     return;
                 
                 case State.Attacking:
+                    /*if (stateTime > _pathTime)
+                    {
+                        _NewWanderTarget();
+                    }*/
+
                     return;
                 
                 case State.Retreating:
@@ -538,11 +561,18 @@ namespace Refactor.Entities.Modules
             _pathIndex = 0;
             pathTime = 0;
         }
+
+        protected virtual void OnReachTarget()
+        {
+            
+        }
         
         protected virtual void _OnReachTarget()
         {
+            OnReachTarget();
             _path = null;
             _NewWanderTarget();
+            Debug.Log("Reach Target");
         }
 
         protected virtual Vector3 WaitingToAttackNavMesh()
@@ -565,6 +595,8 @@ namespace Refactor.Entities.Modules
         }
 
         protected Vector3 target;
+        private static readonly int _Dissolve = Shader.PropertyToID("_Dissolve");
+
         protected virtual void _NewWanderTarget()
         {
             Debug.Log("New wander target");
@@ -578,6 +610,7 @@ namespace Refactor.Entities.Modules
             }
             else if (state == State.Attacking)
             {
+                Debug.Log("TARGETING ATTACKING");
                 target = OnAttackPos();
                 
             }else if (IsSeeingPlayer())
@@ -645,8 +678,8 @@ namespace Refactor.Entities.Modules
                 
                 if (damageTarget.health > 0 && damageTarget is HealthEntityModule module)
                 {
-                    var e = module.entity;
-                    e.velocity = dir * 4f;
+                    //var e = module.entity;
+                    //e.velocity = dir * 4f;
                 }
                 /*var go = Object.Instantiate(hitParticlesPrefab, hPos, Quaternion.identity);
                 Object.Destroy(go, 2f);*/
@@ -670,7 +703,6 @@ namespace Refactor.Entities.Modules
             
             if (RandomNumber() <= chanceToDodge)
             {
-                entity.StartCoroutine(HandleDodgeCoroutine());
                 DodgeState();
                 return true;
             }

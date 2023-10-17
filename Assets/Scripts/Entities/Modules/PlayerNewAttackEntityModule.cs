@@ -1,9 +1,11 @@
 using System;
+using System.Collections.Generic;
 using Refactor.Audio;
 using Refactor.Data;
 using Refactor.Misc;
 using UnityEngine;
 using Object = UnityEngine.Object;
+using Random = UnityEngine.Random;
 
 namespace Refactor.Entities.Modules
 {
@@ -31,7 +33,8 @@ namespace Refactor.Entities.Modules
         [Header("STATE")] 
         public AttackState currentAttackState;
         private PlayerControllerEntityModule _controllerEntity;
-        
+        private float _targetAngle = 0;
+
         public override void OnEnable()
         {
             base.OnEnable();
@@ -48,25 +51,17 @@ namespace Refactor.Entities.Modules
             foreach (var target in HealthHelper.GetTargets(pos, attackRadius))
             {
                 if(!entity.element.CanDamage(target.GetElement())) continue;
-                //if(target.GetGameObject() == entity.gameObject) continue;
-
+                if (target.health == 0) continue;
+              
                 var delta = (target.GetGameObject().transform.position - p);
                 var dir = delta.normalized;
                 var dot = Vector3.Dot(fw, dir);
-                //if (dot < snapMinDot) continue;
+                if (dot < 0) continue;
                 
                 var hPos = (target.GetGameObject().transform.position + pos) / 2f;
                 
                 target.Damage(currentAttackState.currentAttack.damage);
                 AudioSystem.PlaySound("impact").At(hPos);
-                
-                if (target.health > 0 && target is HealthEntityModule module)
-                {
-                    //var e = module.entity;
-                    //e.velocity = dir * 4f;
-                }
-                
-                //onPlayerDamageVictim.Invoke(target, attack.damageCount);
                 
                 var go = Object.Instantiate(hitParticlesPrefab, hPos, Quaternion.identity);
                 Object.Destroy(go, 2f);
@@ -89,6 +84,51 @@ namespace Refactor.Entities.Modules
             
             currentAttackState.timeSinceLastAttack = 0;
             currentAttackState.appliedDamage = false;
+
+            DoSnap();
+        }
+        
+        public void DoSnap()
+        {
+            var p = entity.transform.position;
+            var fw = _controllerEntity.body.forward;
+            
+            var pos = p + Vector3.up + fw;
+            var body = _controllerEntity.body;
+
+            Camera cam = Camera.main!;
+            _targetAngle = cam.transform.eulerAngles.y;
+
+            IHealth snapTarget = null;
+            float snapGreatest = 0;
+                
+            foreach (var target in HealthHelper.GetTargets(pos, attackRadius))
+            {
+                if(!entity.element.CanDamage(target.GetElement())) continue;
+                if (target.health == 0) continue;
+                
+                var delta = (target.GetGameObject().transform.position - p);
+                var dir = delta.normalized;
+                var dot = Vector3.Dot(fw, dir);
+                
+                if(dot < 0)
+                    continue;
+                
+                if(snapTarget == null || dot > snapGreatest)
+                {
+                    snapTarget = target;
+                    snapGreatest = dot;
+                }
+            }
+
+            if (snapTarget != null)
+            {
+                var delta = (snapTarget.GetGameObject().transform.position - p);
+                var dir = delta.normalized;
+   
+                float angle = Vector3.SignedAngle(Vector3.forward, new Vector3(dir.x, 0, dir.z), Vector3.up);
+                body.eulerAngles = new Vector3(0, angle, 0);
+            }
         }
         
         public void HandleAttacks(PlayerState state, float deltaTime)
@@ -98,6 +138,9 @@ namespace Refactor.Entities.Modules
             
             if (state == PlayerState.Attacking)
             {
+                var body = _controllerEntity.body;
+                body.eulerAngles = new Vector3(0, Mathf.LerpAngle(body.eulerAngles.y, _targetAngle, deltaTime * 8f), 0);
+            
                 var animState = animator.GetCurrentAnimatorStateInfo(0);
 
                 if (animState.IsName(currentAttackState.currentAttack.clipName))

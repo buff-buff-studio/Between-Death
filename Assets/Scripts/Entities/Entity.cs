@@ -76,17 +76,6 @@ namespace Refactor.Entities
 
         public void Die()
         {
-            var entityModule = GetModule<EnemyControllerEntityModule>();
-            if (entityModule != null)
-            {
-                gameObject.layer = LayerMask.NameToLayer("Intangible");
-                entityModule.animator.CrossFade("Die", 0.2f);
-                velocity.x = velocity.z = 0;
-                RemoveModule(entityModule);
-                Destroy(gameObject, 3f);
-                return;
-            }
-
             var playerModule = GetModule<PlayerControllerEntityModule>();
             if (playerModule != null)
             {
@@ -96,12 +85,7 @@ namespace Refactor.Entities
                 StartCoroutine(_Respawn());
             }
         }
-
-        private void OnControllerColliderHit(ControllerColliderHit hit)
-        {
-           // Debug.Log(hit.gameObject);
-        }
-
+        
         private IEnumerator _Respawn()
         {
             yield return new WaitForSeconds(2f);
