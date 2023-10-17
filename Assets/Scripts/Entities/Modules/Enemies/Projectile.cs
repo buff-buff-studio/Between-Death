@@ -12,7 +12,7 @@ namespace Refactor.Entities.Modules
         private float velocity;
         public Transform target;
 
-        private void Start()
+        private void OnEnable()
         {
             Invoke(nameof(Deactivate), 5);
         }
@@ -20,7 +20,7 @@ namespace Refactor.Entities.Modules
         private void Update()
         {
             body.velocity = (transform.forward * (velocity * Time.deltaTime));
-            transform.LookAt(target);
+
         }
 
         private void Deactivate()

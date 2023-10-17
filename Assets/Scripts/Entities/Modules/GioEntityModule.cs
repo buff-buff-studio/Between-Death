@@ -95,7 +95,7 @@ namespace Refactor.Entities.Modules
         private float dizzyBarAmountWhenDamage;
         [SerializeField]
         private float dizzyBarAmountRecover;
-        [SerializeField] protected float dizzyTime = 3f;
+        [SerializeField] protected float dizzyTime = 2f;
 
         [Header("STATE - WAITING TO ATTACK")] 
         [SerializeField]
@@ -556,6 +556,7 @@ namespace Refactor.Entities.Modules
         #region Utils
         protected virtual void _DoPathTo(Vector3 target)
         {
+          
             _path ??= new NavMeshPath();
             NavMesh.CalculatePath(entity.transform.position, target, NavMesh.AllAreas, _path);
             _pathIndex = 0;
@@ -599,7 +600,6 @@ namespace Refactor.Entities.Modules
 
         protected virtual void _NewWanderTarget()
         {
-            Debug.Log("New wander target");
             target = Vector3.zero;
             if (state == State.Retreating || state == State.Dodging)
             {
@@ -618,25 +618,25 @@ namespace Refactor.Entities.Modules
                 target = TargetPos();
             }else
                 target = WanderingPos();
+          
+            if (target == Vector3.zero)
+            {
+                if (_path != null)
+                    _path.ClearCorners();
+                return;
+            }
             
             _DoPathTo(target);
         }
  
         
-        protected virtual bool IsSeeingPlayer()
-        {
-            return Vector3.Distance(playerRef.transform.position, entity.transform.position) <= distanceToChasePlayer;
-        }
+        protected virtual bool IsSeeingPlayer() => Vector3.Distance(playerRef.transform.position, entity.transform.position) <= distanceToChasePlayer;
 
-        protected virtual bool DistanceToAttack()    
-        {
-            return Vector3.Distance(playerRef.transform.position, entity.transform.position) <= distanceToAttack;
-        }
+        protected virtual bool DistanceToAttack() => Vector3.Distance(playerRef.transform.position, entity.transform.position) <= distanceToAttack;
         
-        protected virtual bool DistanceToWaitToAttack()    
-        {
-            return Vector3.Distance(playerRef.transform.position, entity.transform.position) <= distanceToWaitForAttack;
-        }
+        
+        protected virtual bool DistanceToWaitToAttack() => Vector3.Distance(playerRef.transform.position, entity.transform.position) <= distanceToWaitForAttack;
+        
         
         protected virtual void Attack()
         {
