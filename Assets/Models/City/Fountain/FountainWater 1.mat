@@ -1,0 +1,77 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &-6160999917680571090
+MonoBehaviour:
+  m_ObjectHideFlags: 11
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0353a89b1f911e48b9e16bdc9f2e058, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  version: 7
+--- !u!21 &2100000
+Material:
+  serializedVersion: 8
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: FountainWater 1
+  m_Shader: {fileID: -6465566751694194690, guid: a1c591aa22f880c48bc267eaa7c1f113,
+    type: 3}
+  m_Parent: {fileID: 0}
+  m_ModifiedSerializedProperties: 0
+  m_ValidKeywords: []
+  m_InvalidKeywords: []
+  m_LightmapFlags: 2
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_LockedProperties: 
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - _MainNormal:
+        m_Texture: {fileID: 2800000, guid: be20d4964ed09284bb586f2b1db9e021, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _SecondaryNormal:
+        m_Texture: {fileID: 2800000, guid: 980f55b55620a6d49b36a4dcc425174c, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _SecondaryTexture:
+        m_Texture: {fileID: 2800000, guid: 05d6271c986ae1f4fa94ad6131b0ffdd, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - unity_Lightmaps:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - unity_LightmapsInd:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - unity_ShadowMasks:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Ints: []
+    m_Floats:
+    - _Depth: 10
+    - _NormalStrength: 0.5
+    - _QueueControl: 0
+    - _QueueOffset: 0
+    - _Strength: 2
+    - _TextureTiling: 2
+    m_Colors:
+    - _DeepSecWaterColor: {r: 1.4980392, g: 0.024764966, b: 0, a: 1}
+    - _DeepWaterColor: {r: 1, g: 0.3330518, b: 0, a: 1}
+    - _ShallowWaterColor: {r: 1, g: 0, b: 0.029037476, a: 1}
+    - _Tiling: {r: 5, g: 5, b: 0, a: 0}
+  m_BuildTextureStacks: []

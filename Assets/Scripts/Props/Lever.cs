@@ -47,9 +47,15 @@ namespace Refactor.Props
         public void Toggle(bool state)
         {
             if (this.state)
+            {
+                animator.Play(activeAnimationName);
                 onOn.Invoke();
+            }
             else
+            {
+                animator.Play(inactiveAnimationName);
                 onOff.Invoke();
+            }
         }
     }
     

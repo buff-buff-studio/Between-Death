@@ -97,6 +97,31 @@ MonoBehaviour:
   gain:
     m_OverrideState: 1
     m_Value: {x: 0.94504166, y: 0.9394331, z: 1, w: 0}
+--- !u!114 &-105105192270113716
+MonoBehaviour:
+  m_ObjectHideFlags: 3
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 29fa0085f50d5e54f8144f766051a691, type: 3}
+  m_Name: FilmGrain
+  m_EditorClassIdentifier: 
+  active: 1
+  type:
+    m_OverrideState: 1
+    m_Value: 1
+  intensity:
+    m_OverrideState: 1
+    m_Value: 0.165
+  response:
+    m_OverrideState: 1
+    m_Value: 0.522
+  texture:
+    m_OverrideState: 0
+    m_Value: {fileID: 0}
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -116,6 +141,8 @@ MonoBehaviour:
   - {fileID: 4084381876253697855}
   - {fileID: 8501743935038116721}
   - {fileID: -1848119531890254502}
+  - {fileID: 7017312435832253833}
+  - {fileID: -105105192270113716}
 --- !u!114 &849379129802519247
 MonoBehaviour:
   m_ObjectHideFlags: 3
@@ -181,6 +208,34 @@ MonoBehaviour:
   clamp:
     m_OverrideState: 0
     m_Value: 0.05
+--- !u!114 &7017312435832253833
+MonoBehaviour:
+  m_ObjectHideFlags: 3
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 66f335fb1ffd8684294ad653bf1c7564, type: 3}
+  m_Name: ColorAdjustments
+  m_EditorClassIdentifier: 
+  active: 1
+  postExposure:
+    m_OverrideState: 1
+    m_Value: 0.5
+  contrast:
+    m_OverrideState: 1
+    m_Value: -1
+  colorFilter:
+    m_OverrideState: 0
+    m_Value: {r: 1, g: 1, b: 1, a: 1}
+  hueShift:
+    m_OverrideState: 0
+    m_Value: 180
+  saturation:
+    m_OverrideState: 1
+    m_Value: -15
 --- !u!114 &8501743935038116721
 MonoBehaviour:
   m_ObjectHideFlags: 3
@@ -199,10 +254,10 @@ MonoBehaviour:
     m_Value: 1
   gaussianStart:
     m_OverrideState: 1
-    m_Value: 10
+    m_Value: 30
   gaussianEnd:
     m_OverrideState: 1
-    m_Value: 50
+    m_Value: 70
   gaussianMaxRadius:
     m_OverrideState: 1
     m_Value: 1.5
