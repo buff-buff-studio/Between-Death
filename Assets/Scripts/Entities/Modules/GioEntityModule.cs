@@ -25,6 +25,7 @@ namespace Refactor.Entities.Modules
             Dodging,
             Dizzy,
             Dead,
+            Special,
             WaitingToAttack
         }
 
@@ -114,6 +115,7 @@ namespace Refactor.Entities.Modules
         [SerializeField]
         private bool canRun = true;
         public bool willHaveOtherAttackAnimation;
+      
         private void Die()
         {
             state = State.Dead;
@@ -140,14 +142,15 @@ namespace Refactor.Entities.Modules
             yield return new WaitForSeconds(4f);
             spawner.RemoveEntity(entity);
         }
-        
+
+        protected HealthEntityModule hm;
         public override void OnEnable()
         {
             base.OnEnable();
             wanderingStart = entity.transform.position;
             _pathTime = PathTime();
             _wanderingTime = WanderingTime();
-            var hm = entity.GetModule<HealthEntityModule>();
+            hm = entity.GetModule<HealthEntityModule>();
             hm.onHealthChange.AddListener(OnEnemyTakeDamage);
             hm.onDie.AddListener(Die);
 
