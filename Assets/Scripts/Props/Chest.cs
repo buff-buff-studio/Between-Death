@@ -7,7 +7,7 @@ using UnityEngine.Events;
 namespace Refactor.Props
 {
     [RequireComponent(typeof(Animator))]
-    public class Chest : Interactible
+    public class Chest : Interactable
     {
         private Animator animator;
         [SerializeField] private ChestItem _item;
@@ -57,7 +57,7 @@ namespace Refactor.Props
     
 #if UNITY_EDITOR
     [CustomEditor(typeof(Chest), true), CanEditMultipleObjects]
-    public sealed class ChestEditor : InteractibleEditor
+    public sealed class ChestEditor : InteractableEditor
     {
         private SerializedProperty _item;
         private SerializedProperty _openAnimationName;
@@ -82,7 +82,7 @@ namespace Refactor.Props
 
         public override void OnInspectorGUI()
         {
-            var target = (Interactible) this.target;
+            var target = (Interactable) this.target;
             
             serializedObject.Update();
             if(!target.TryGetComponent(out Animator _))
