@@ -40,7 +40,7 @@ public class InGameHUD : WindowManager
     [Space]
     [Header("INTERACTION")]
     [SerializeField] private RectTransform interactibleIcon;
-    [SerializeField] private Interactible interactibleObject;
+    [FormerlySerializedAs("interactibleObject")] [SerializeField] private Interactable interactableObject;
 
     [Space]
     [Header("MENU")]
@@ -55,6 +55,8 @@ public class InGameHUD : WindowManager
     [SerializeField] private Camera _camera;
     
     private DocumentList documents => inventoryData.GetDocumentList;
+    public bool HasKey(KeyData key) => inventoryData.HasKey(key);
+    public void UseKey(KeyData key) => inventoryData.UseKey(key);
     
     //Interaction References
     private bool _canInteract;
@@ -96,9 +98,9 @@ public class InGameHUD : WindowManager
         }
 
         if (!_active) return;
-        if (interactibleObject != null)
+        if (interactableObject != null)
         {
-            interactibleIcon.position = _camera.WorldToScreenPoint(interactibleObject.interactionPoint);
+            interactibleIcon.position = _camera.WorldToScreenPoint(interactableObject.interactionPoint);
             if (IngameGameInput.InputInteract.trigger) OnInteract();
         }
         else if(popUp.isOpen)
@@ -151,36 +153,36 @@ public class InGameHUD : WindowManager
 
     #region Interaction
 
-    public void OnInteractibleEnter(Interactible interactible, float distance, bool canInteract)
+    public void OnInteractibleEnter(Interactable interactable, float distance, bool canInteract)
     {
-        if (interactible != interactibleObject && distance <= _distance) return;
+        if (interactable != interactableObject && distance <= _distance) return;
         
         _distance = distance;
         _canInteract = canInteract;
-        interactibleObject = interactible;
+        interactableObject = interactable;
         
         interactibleIcon.sizeDelta = _canInteract ? new Vector2(100, 100) : new Vector2(50, 50);
         interactibleIcon.gameObject.SetActive(true);
     }
     
-    public void OnInteractibleExit(Interactible interactible)
+    public void OnInteractibleExit(Interactable interactable)
     {
-        if (interactible != interactibleObject) return;
+        if (interactable != interactableObject) return;
         
-        interactibleObject = null;
+        interactableObject = null;
         interactibleIcon.gameObject.SetActive(false);
         _distance = 0;
     }
 
     private void OnInteract()
     {
-        if (interactibleObject == null || _canInteract == false) return;
+        if (interactableObject == null || _canInteract == false) return;
         Debug.Log("Interact");
-        interactibleObject.Interact();
-        if(interactibleObject.oneInteraction)
+        interactableObject.Interact();
+        if(interactableObject.oneInteraction)
         {
             interactibleIcon.gameObject.SetActive(false);
-            interactibleObject = null;
+            interactableObject = null;
             _distance = 0;
         }
     }
@@ -199,6 +201,14 @@ public class InGameHUD : WindowManager
 
         IngameGameInput.CanInput = false;
         inventoryData.AddUnlockedSkill(skills.GetID(skill));
+    }
+
+    public void OpenItem(KeyData item)
+    {
+        popUp.Show(item.name, item.description, item.icon, false, true);
+
+        IngameGameInput.CanInput = false;
+        inventoryData.AddKey(item);
     }
     
     #endregion

@@ -39,11 +39,12 @@ namespace Refactor.Entities.Modules
         }
         protected override Vector3 OnAttackPos()
         {
-            Debug.Log("onAttackPos");
+         
             if (onSpecialAttack)
             {
                 return (playerRefPos.transform.position - entity.transform.position) * 500;
             }
+            Debug.Log("onAttackPos");
             return Vector3.zero;
         }
 
@@ -61,6 +62,8 @@ namespace Refactor.Entities.Modules
             onSpecialAttack = false;
             timeSinceLastAttack = 0;
             stateTime = 0;
+            Debug.Log("NORMAL ATTACK");
+            _NewWanderTarget();
             NormalAttack();
         }
         private void SpecialAttack()
@@ -92,9 +95,12 @@ namespace Refactor.Entities.Modules
                 state = State.Attacking;
                 stateTime = 0;
                 Attack();
+                return;
                 //  if(timeSinceLastAttack >= attackCollDown)
              
-            }else if (DistanceToSpecialAttack())
+            }
+            
+            if (DistanceToSpecialAttack())
             {
                 if (Random.Range(0, 11) < chanceToSpecialAttack)
                 {
