@@ -19,17 +19,12 @@ public class Boss : GioEntityModule
     private Entity spawnObject;
 
     private int currentCountOfTrees = 0;
-    public override void OnEnable()
-    {
-        base.OnEnable();
-        
-        spawnObject.GetModule<HealthEntityModule>().onDie.AddListener(OnKillTree);
-
-    }
-
+    
 
     public void OnKillTree()
     {
+        
+        Debug.Log("OnKillTree");
         currentCountOfTrees--;
 
         if (currentCountOfTrees <= 0)
@@ -38,7 +33,7 @@ public class Boss : GioEntityModule
         }
     }
     
-    public virtual void OnEnemyTakeDamage(float amount)
+    public override void OnEnemyTakeDamage(float amount)
     {
         //state = State.TakingDamage;
         Debug.Log("TakingDamage");
@@ -67,8 +62,9 @@ public class Boss : GioEntityModule
         currentCountOfTrees = amountToSpawn;
         for (int i = 0; i < amountToSpawn; i++)
         {
-            var pos = RandomPoint(entity.transform.position, 100);
+            var pos = RandomPoint(entity.transform.position, 50);
             var e = GameObject.Instantiate(spawnObject, pos,Quaternion.identity);
+            e.GetModule<HealthEntityModule>().onDie.AddListener(OnKillTree);
             var randomElement = Random.Range(1, 3);
             e.element = (Element)randomElement;
         }

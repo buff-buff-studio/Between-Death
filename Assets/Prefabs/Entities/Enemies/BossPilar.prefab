@@ -26,7 +26,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2882035193854715414}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0.586, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -61,7 +61,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 31321ba15b8f8eb4c954353edc038b1d, type: 2}
+  - {fileID: 2100000, guid: 02742c2d78fc03b4099f5601ef47d2d6, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -92,8 +92,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 213502975031218841}
-  - component: {fileID: 550833354816842793}
   - component: {fileID: 7765680074615346410}
+  - component: {fileID: 5918935451570715907}
   m_Layer: 0
   m_Name: BossPilar
   m_TagString: Untagged
@@ -115,56 +115,8 @@ Transform:
   m_Children:
   - {fileID: 3332640471521002949}
   m_Father: {fileID: 0}
-  m_RootOrder: 6
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &550833354816842793
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3527169710141198474}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ae0a1f4bf53740b48e2c83b5a3263225, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _modules:
-    editorOpen: 1
-    _modules:
-    - rid: 485504078988181504
-  controller: {fileID: 0}
-  respawnPosition: {x: 0, y: 0, z: 0}
-  isGrounded: 0
-  velocity: {x: 0, y: 0, z: 0}
-  _element:
-    localValue: 1
-    variable: {fileID: 0}
-  onChangeElement:
-    m_PersistentCalls:
-      m_Calls: []
-  references:
-    version: 2
-    RefIds:
-    - rid: 485504078988181504
-      type: {class: HealthEntityModule, ns: Refactor.Entities.Modules, asm: Assembly-CSharp}
-      data:
-        _enabled: 1
-        editorOpen: 1
-        entity: {fileID: 550833354816842793}
-        prefabHealthIndicator: {fileID: 0}
-        _health:
-          localValue: 0
-          variable: {fileID: 0}
-        _maxHealth:
-          localValue: 0
-          variable: {fileID: 0}
-        onDie:
-          m_PersistentCalls:
-            m_Calls: []
-        onHealthChange:
-          m_PersistentCalls:
-            m_Calls: []
 --- !u!143 &7765680074615346410
 CharacterController:
   m_ObjectHideFlags: 0
@@ -185,9 +137,61 @@ CharacterController:
   m_Enabled: 1
   serializedVersion: 3
   m_Height: 2
-  m_Radius: 0.5
+  m_Radius: 0.95
   m_SlopeLimit: 45
   m_StepOffset: 0.3
   m_SkinWidth: 0.08
   m_MinMoveDistance: 0.001
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Center: {x: 0, y: 0.65, z: 0}
+--- !u!114 &5918935451570715907
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3527169710141198474}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 78a676c4dbf7a234483df4f40200ed4e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _modules:
+    editorOpen: 1
+    _modules:
+    - rid: 7454174776778031104
+  controller: {fileID: 0}
+  respawnPosition: {x: 0, y: 0, z: 0}
+  isGrounded: 0
+  velocity: {x: 0, y: 0, z: 0}
+  _element:
+    localValue: 1
+    variable: {fileID: 0}
+  onChangeElement:
+    m_PersistentCalls:
+      m_Calls: []
+  mat: {fileID: 1686514176755164132}
+  elementsMaterial:
+  - {fileID: 2100000, guid: 0943907f37d879547b59f57e1ce9d9bb, type: 2}
+  - {fileID: 2100000, guid: 4394450d911687c44a02eef42712dbe9, type: 2}
+  references:
+    version: 2
+    RefIds:
+    - rid: 7454174776778031104
+      type: {class: HealthEntityModule, ns: Refactor.Entities.Modules, asm: Assembly-CSharp}
+      data:
+        _enabled: 1
+        editorOpen: 1
+        entity: {fileID: 5918935451570715907}
+        prefabHealthIndicator: {fileID: 0}
+        _health:
+          localValue: 1
+          variable: {fileID: 0}
+        _maxHealth:
+          localValue: 10
+          variable: {fileID: 0}
+        onDie:
+          m_PersistentCalls:
+            m_Calls: []
+        onHealthChange:
+          m_PersistentCalls:
+            m_Calls: []
