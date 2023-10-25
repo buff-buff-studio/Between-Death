@@ -277,8 +277,12 @@ namespace Refactor.Entities.Modules
         }
         protected virtual void AttackState()
         {
-            _path.ClearCorners();
-            _pathIndex = 0;
+            if (_path != null)
+            {
+                _path.ClearCorners();
+                _pathIndex = 0;
+            }
+          
 
             if (!DistanceToAttack())
                 state = State.Targeting;
@@ -289,6 +293,17 @@ namespace Refactor.Entities.Modules
                 Debug.Log(attackCollDown);
                 Attack();
             }
+               
+        }
+        
+        protected virtual void Special()
+        {
+            if (_path != null)
+            {
+                _path.ClearCorners();
+                _pathIndex = 0;
+            }
+            
                
         }
         protected virtual void IdleState()
@@ -419,7 +434,7 @@ namespace Refactor.Entities.Modules
                     OnDizzyState();
                     return Vector3.zero;
                 
-                case State.Targeting or State.Wandering or State.Retreating or State.Dodging or State.WaitingToAttack or State.Attacking:
+                case State.Targeting or State.Wandering or State.Retreating or State.Dodging or State.WaitingToAttack or State.Attacking or State.Special:
                     
                     switch (state)
                     {
@@ -445,6 +460,9 @@ namespace Refactor.Entities.Modules
                             break;
                         case State.Attacking:
                             AttackState();
+                            break;
+                        case State.Special:
+                            Special();
                             break;
                     }
                     if (_path == null|| _path.status == NavMeshPathStatus.PathInvalid)
@@ -592,6 +610,12 @@ namespace Refactor.Entities.Modules
         {
             return playerRef.position;
         }
+        
+        protected virtual Vector3 SpecialPos()
+        {
+            return Vector3.zero;
+        }
+
 
         protected virtual Vector3 OnAttackPos()
         {
@@ -616,12 +640,14 @@ namespace Refactor.Entities.Modules
                 Debug.Log("TARGETING ATTACKING");
                 target = OnAttackPos();
                 
+            }else if (state == State.Special)
+            {
+                target = SpecialPos();
             }else if (IsSeeingPlayer())
             {
                 target = TargetPos();
             }else
                 target = WanderingPos();
-          
             if (target == Vector3.zero)
             {
                 if (_path != null)
