@@ -48,12 +48,15 @@ public class Boss : GioEntityModule
        ihm.Heal(Time.deltaTime * healSpeed);
 
        if (hm._health >= hm._maxHealth)
+       {
            BackToState();
+       }
        
     }
     public override void OnEnemyTakeDamage(float amount)
     {
         //state = State.TakingDamage;
+        if(state == State.Special) return;
         Debug.Log("TakingDamage");
         animator.CrossFade("Reaction", 0.25f);
         
@@ -82,6 +85,7 @@ public class Boss : GioEntityModule
 
     private void BackToState()
     {
+        if(!hasSpawnedTrees) return;
         hasSpawnedTrees = false;
         ClearSpecial();
         state = State.Targeting;
@@ -110,7 +114,6 @@ public class Boss : GioEntityModule
     public override void UpdateFrame(float deltaTime)
     {
         base.UpdateFrame(deltaTime);
-        Debug.Log(hm._health.value);
         if (Input.GetKeyDown(KeyCode.B))
             SpawnSpecial();
         
@@ -126,7 +129,12 @@ public class Boss : GioEntityModule
     private void ClearSpecial()
     {
         foreach (var t in trees)
-            GameObject.Destroy(t.gameObject);
+        {
+            if(t.gameObject)
+                GameObject.Destroy(t.gameObject);
+        }
+            
+        
         
         trees.Clear();
     }
