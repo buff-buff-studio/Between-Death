@@ -26,6 +26,7 @@ namespace Refactor.Entities.Modules
         Jumping,
         Dashing,
         Attacking,
+        UsingSkill,
         Casting,
         Dead
     }
@@ -139,6 +140,9 @@ namespace Refactor.Entities.Modules
                 
                 case PlayerState.Dashing:
                     entity.velocity.y = 0;
+                    break;
+                
+                case PlayerState.UsingSkill:
                     break;
                 
                 case PlayerState.Attacking:
@@ -283,13 +287,17 @@ namespace Refactor.Entities.Modules
                 body.eulerAngles = new Vector3(0,
                     Mathf.LerpAngle(body.eulerAngles.y, angle, deltaTime * 2f), 0);
 
-                entity.velocity.x = math.lerp(entity.velocity.x, inputMove.x * airMoveSpeed, deltaTime * 4f);
-                entity.velocity.z = math.lerp(entity.velocity.z, inputMove.z * airMoveSpeed, deltaTime * 4f);
+                entity.velocity.x = math.lerp(entity.velocity.x, inputMove.x * airMoveSpeed, deltaTime * 12f);
+                entity.velocity.z = math.lerp(entity.velocity.z, inputMove.z * airMoveSpeed, deltaTime * 12f);
             }
             #endregion
 
             if (entity.isGrounded)
+            {
+                entity.velocity.x /= 2;
+                entity.velocity.z /= 2;
                 state = PlayerState.Default;
+            }
 
             animator.SetBool("grounded", entity.isGrounded);
         }
@@ -310,7 +318,7 @@ namespace Refactor.Entities.Modules
                 {
                     animator.CrossFade("JumpingUp", 0.1f);
                     var v = animator.velocity;
-                    entity.velocity = new Vector3(v.x, entity.velocity.y, v.z);
+                    entity.velocity = new Vector3(0, entity.velocity.y, 0);
                     state = PlayerState.Jumping;
                 }
                 else if (lastGrounded < Time.time - 0.25f)
