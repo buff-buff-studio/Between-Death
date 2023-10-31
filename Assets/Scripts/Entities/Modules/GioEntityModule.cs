@@ -289,8 +289,6 @@ namespace Refactor.Entities.Modules
             
             if (timeSinceLastAttack >= attackCollDown && _attackEnded)
             {
-                Debug.Log(stateTime);
-                Debug.Log(attackCollDown);
                 Attack();
             }
                

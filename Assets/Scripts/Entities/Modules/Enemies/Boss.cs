@@ -86,6 +86,7 @@ public class Boss : GioEntityModule
     private void BackToState()
     {
         if(!hasSpawnedTrees) return;
+        Debug.Log("BackToState");
         hasSpawnedTrees = false;
         ClearSpecial();
         state = State.Targeting;
@@ -130,8 +131,10 @@ public class Boss : GioEntityModule
     {
         foreach (var t in trees)
         {
+            if (t == null) continue;
             if(t.gameObject)
                 GameObject.Destroy(t.gameObject);
+
         }
             
         
