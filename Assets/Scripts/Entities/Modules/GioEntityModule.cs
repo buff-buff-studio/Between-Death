@@ -347,7 +347,6 @@ namespace Refactor.Entities.Modules
         }
         protected virtual void WanderingState()
         {
-            Debug.LogWarning("WAndering");
             if (IsSeeingPlayer())
             {
                 state = State.Targeting;
@@ -396,6 +395,12 @@ namespace Refactor.Entities.Modules
             //state = State.TakingDamage;
             Debug.Log("TakingDamage");
             animator.CrossFade("Reaction", 0.25f);
+
+            if (state == State.Retreating)
+            {
+                state = State.Attacking;
+                stateTime = 0;
+            }
             
             if(state == State.Dizzy) return;
             DecreaseDizzyBar();

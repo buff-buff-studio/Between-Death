@@ -13,8 +13,9 @@ using Random = UnityEngine.Random;
 [Serializable]
 public class Boss : GioEntityModule
 {
-    private int amountOfStages = 3;
+    private float amountOfStages = 3;
     private int amountToSpawn = 10;
+    private int amountToSpawnEnemies = 2;
     private int range = 10;
     private List<Entity> trees = new List<Entity>();
     [SerializeField]
@@ -25,6 +26,16 @@ public class Boss : GioEntityModule
     private float healSpeed;
 
     private bool hasSpawnedTrees;
+    [SerializeField]
+    private List<GameObject> enemiesToSpawn = new List<GameObject>();
+
+    private int currentStage = 1;
+
+    private float[] currentHealthStage = new float[3];
+
+    private float heathDif;
+    
+    //private List<GioEntityModule> currentEntities = new List<GioEntityModule>();
 
     public void OnKillTree()
     {
@@ -40,6 +51,25 @@ public class Boss : GioEntityModule
         return Vector3.zero;
     }
 
+    public override void OnEnable()
+    {
+        base.OnEnable();
+        SetHealth();
+    }
+
+    private void SetHealth()
+    {
+        var before = 0;
+        var healthAux = hm._health.value - 2;
+        heathDif = healthAux / amountOfStages;
+        for (int i = 0; i < amountOfStages; i++)
+        {
+            Debug.Log("a");
+            currentHealthStage[i] = healthAux - heathDif;
+            healthAux = currentHealthStage[i];
+        }
+    }
+    
     protected override void Special()
     {
        base.Special();
@@ -57,10 +87,11 @@ public class Boss : GioEntityModule
     {
         //state = State.TakingDamage;
         if(state == State.Special) return;
+        if(currentStage > amountOfStages) return;
         Debug.Log("TakingDamage");
         animator.CrossFade("Reaction", 0.25f);
         
-        if (Math.Abs ((hm._health % amountOfStages) - 0) < 1)
+        if (Math.Abs ((hm._health - currentHealthStage[currentStage-1]) ) < 1)
         {
             state = State.Special;
             hm.enabled = false;
@@ -73,10 +104,10 @@ public class Boss : GioEntityModule
     {
        base.TargetingState();
        
-        
-       if (Math.Abs ((hm._health % amountOfStages) - 0) < 1)
+       if (Math.Abs ((hm._health - currentHealthStage[currentStage-1]) ) < 1)
        {
            state = State.Special;
+         
            hm.enabled = false;
            stateTime = 0;
            SpawnSpecial();
@@ -100,6 +131,7 @@ public class Boss : GioEntityModule
     {
         if(hasSpawnedTrees) return;
         hasSpawnedTrees = true;
+        currentStage++;
         currentCountOfTrees = amountToSpawn;
         for (int i = 0; i < amountToSpawn; i++)
         {
@@ -109,6 +141,13 @@ public class Boss : GioEntityModule
             trees.Add(e);
             var randomElement = Random.Range(1, 3);
             e.element = (Element)randomElement;
+        }
+
+        amountToSpawnEnemies *= currentStage;
+        for (int i = 0; i < amountToSpawnEnemies; i++)
+        {
+            var pos = RandomPoint(entity.transform.position, range);
+            GameObject.Instantiate(enemiesToSpawn[Random.Range(0,enemiesToSpawn.Count)], pos,Quaternion.identity);
         }
     }
 
@@ -134,11 +173,10 @@ public class Boss : GioEntityModule
             if (t == null) continue;
             if(t.gameObject)
                 GameObject.Destroy(t.gameObject);
-
         }
-            
-        
-        
+
+
+      //  currentEntities.Clear();
         trees.Clear();
     }
 }
