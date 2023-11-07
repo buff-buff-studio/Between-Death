@@ -269,11 +269,7 @@ namespace Refactor.Entities.Modules
         protected virtual void DodgeState()
         {
             state = State.Dodging;
-            /*entity.velocity.x = inputMove.x * dodgeSpeed;
-            entity.velocity.y = 0.2f;
-            entity.velocity.z = inputMove.z * -dodgeSpeed;*/
             _canTurn = false;
-            //stateTime = 0;
         }
         protected virtual void AttackState()
         {
@@ -400,6 +396,18 @@ namespace Refactor.Entities.Modules
             {
                 state = State.Attacking;
                 stateTime = 0;
+            }
+
+            if (Random.Range(0, 10) < 4)
+            {
+                stateTime = 0;
+                DodgeState();
+            }
+            
+            if (Random.Range(0, 10) < 3)
+            {
+                state = State.Attacking;
+                state = 0;
             }
             
             if(state == State.Dizzy) return;

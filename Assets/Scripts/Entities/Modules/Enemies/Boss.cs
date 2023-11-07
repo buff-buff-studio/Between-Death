@@ -136,28 +136,22 @@ public class Boss : GioEntityModule
         for (int i = 0; i < amountToSpawn; i++)
         {
             var pos = RandomPoint(entity.transform.position, range);
-            var e = GameObject.Instantiate(spawnObject, pos,Quaternion.identity);
+            var e = GameObject.Instantiate(spawnObject, pos, Quaternion.identity);
             e.GetModule<HealthEntityModule>().onDie.AddListener(OnKillTree);
             trees.Add(e);
-            var randomElement = Random.Range(1, 3);
-            e.element = (Element)randomElement;
+            e.element = entity.element;
         }
 
         amountToSpawnEnemies *= currentStage;
+        
         for (int i = 0; i < amountToSpawnEnemies; i++)
         {
             var pos = RandomPoint(entity.transform.position, range);
-            GameObject.Instantiate(enemiesToSpawn[Random.Range(0,enemiesToSpawn.Count)], pos,Quaternion.identity);
+            var e = GameObject.Instantiate(enemiesToSpawn[Random.Range(0,enemiesToSpawn.Count)], pos,Quaternion.identity);
+            e.GetComponent<Entity>().element = entity.element;
         }
     }
-
-    public override void UpdateFrame(float deltaTime)
-    {
-        base.UpdateFrame(deltaTime);
-        if (Input.GetKeyDown(KeyCode.B))
-            SpawnSpecial();
-        
-    }
+    
 
     private Vector3 RandomPoint(Vector3 center, float range)
     {
@@ -174,9 +168,7 @@ public class Boss : GioEntityModule
             if(t.gameObject)
                 GameObject.Destroy(t.gameObject);
         }
-
-
-      //  currentEntities.Clear();
+        //  currentEntities.Clear();
         trees.Clear();
     }
 }
