@@ -84,6 +84,7 @@ namespace Refactor.Entities.Modules
         public float posY;
         public float lastGrounded;
         public float lastWalkingInput;
+        public float timeSinceLastAttack = 1000f;
 
         [Header("STATE - IK")]
         public float pelvisOffset;
@@ -97,6 +98,8 @@ namespace Refactor.Entities.Modules
 
         public UnityEvent onPlayerJump;
         public UnityEvent onPlayerDash;
+        public UnityEvent onEnterAttackState;
+        public UnityEvent onLeaveAttackState;
 
         #region Callbacks
         public override void OnEnable()
@@ -121,6 +124,8 @@ namespace Refactor.Entities.Modules
 
         public override void UpdateFrame(float deltaTime)
         {
+            UpdateAttackTimer(timeSinceLastAttack + deltaTime);
+        
             switch (state)
             {
                 case PlayerState.Dead:
@@ -390,6 +395,17 @@ namespace Refactor.Entities.Modules
             var leanAngle = math.clamp(-deltaAngle, -10f, 10f);
             riggingLeanRotation.localEulerAngles = new Vector3(0, body.transform.eulerAngles.y, Mathf.LerpAngle(riggingLeanRotation.localEulerAngles.z, leanAngle, deltaTime * 4f));
             #endregion
+        }
+        
+        public void UpdateAttackTimer(float newTime)
+        {
+            if (newTime < 4 && timeSinceLastAttack >= 4)
+                onEnterAttackState.Invoke();
+            
+            if (newTime >= 4 && timeSinceLastAttack < 4)
+                onLeaveAttackState.Invoke();
+
+            timeSinceLastAttack = newTime;
         }
         #endregion
 

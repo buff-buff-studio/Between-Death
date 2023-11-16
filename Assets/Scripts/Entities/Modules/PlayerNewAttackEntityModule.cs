@@ -85,6 +85,8 @@ namespace Refactor.Entities.Modules
             currentAttackState.timeSinceLastAttack = 0;
             currentAttackState.appliedDamage = false;
 
+            _controllerEntity.UpdateAttackTimer(0);
+
             DoSnap();
         }
         
