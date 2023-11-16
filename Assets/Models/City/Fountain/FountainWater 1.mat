@@ -37,6 +37,14 @@ Material:
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
+    - _DisplacementTexture:
+        m_Texture: {fileID: 2800000, guid: cb187fa1ca2b07645926cd0114356d1d, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _HeightTexture:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _MainNormal:
         m_Texture: {fileID: 2800000, guid: be20d4964ed09284bb586f2b1db9e021, type: 3}
         m_Scale: {x: 1, y: 1}
@@ -64,6 +72,7 @@ Material:
     m_Ints: []
     m_Floats:
     - _Depth: 10
+    - _DisplacementValue: 0.75
     - _NormalStrength: 0.5
     - _QueueControl: 0
     - _QueueOffset: 0
