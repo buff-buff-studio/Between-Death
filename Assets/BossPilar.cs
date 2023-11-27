@@ -15,7 +15,7 @@ public class BossPilar : Entity
     [SerializeField]
     private Material[] elementsMaterial = new Material[2];
 
-    
+   
     
     public override void OnEnable()
     {

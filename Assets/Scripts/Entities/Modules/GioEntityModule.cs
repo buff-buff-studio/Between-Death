@@ -69,6 +69,8 @@ namespace Refactor.Entities.Modules
         [SerializeField]private float distanceToChasePlayer = 6f;
         protected bool _attackEnded = true;   
         public float timeSinceLastAttack = 0;
+        protected float attackDamage = 5f;
+        
         [Header("STATE - RETREAT")] 
         [SerializeField]
         [Range(0,10)]
@@ -115,6 +117,10 @@ namespace Refactor.Entities.Modules
         [SerializeField]
         private bool canRun = true;
         public bool willHaveOtherAttackAnimation;
+
+        [Header("Aniamtions")] 
+        [SerializeField]
+        private int animationLayer;
       
         private void Die()
         {
@@ -165,6 +171,8 @@ namespace Refactor.Entities.Modules
             state = State.Idling;
             var h = entity.GetModule<HealthEntityModule>() as IHealth;
             h.RestoreLife();
+            animator.SetLayerWeight(animationLayer,1);
+            
         }
 
         protected virtual float AttackAnimation()
@@ -683,7 +691,7 @@ namespace Refactor.Entities.Modules
             _attackEnded = false;
             timeSinceLastAttack = 0;
             animator.CrossFade($"Attack {Random.Range(0, 3)}", 0.25f);
-            ApplyDamageFor(1, 2);
+            ApplyDamageFor(attackDamage, 2);
             Debug.Log("Attack");
             entity.StartCoroutine(OnAnimationFinish(() =>
             {
@@ -751,10 +759,10 @@ namespace Refactor.Entities.Modules
         }
         
         
-        protected IEnumerator OnAnimationFinish(Action callback = null)
+        protected IEnumerator OnAnimationFinish(Action callback = null, float delay = 0)
         {
             yield return new WaitForSeconds(0.2f);
-
+            yield return new WaitForSeconds(delay);
             yield return new WaitUntil(() =>animator.GetCurrentAnimatorStateInfo(0).normalizedTime > 0.9f);
             
             callback?.Invoke();

@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.18028334, g: 0.2257134, b: 0.30692226, a: 1}
+  m_IndirectSpecularColor: {r: 0.18028378, g: 0.22571412, b: 0.30692285, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -662,7 +662,7 @@ MonoBehaviour:
       type: {class: GravityEntityModule, ns: Refactor.Entities.Modules, asm: Assembly-CSharp}
       data:
         _enabled: 1
-        editorOpen: 0
+        editorOpen: 1
         entity: {fileID: 128145935}
         gravityForce: 20
         finalVelocity: -30
@@ -6239,7 +6239,7 @@ PrefabInstance:
     - target: {fileID: 1047544326308976939, guid: 0fe64c66857e46c43a40e54ecf3b4a6d,
         type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3133304451232703882, guid: 0fe64c66857e46c43a40e54ecf3b4a6d,
         type: 3}
@@ -6271,6 +6271,11 @@ PrefabInstance:
       propertyPath: managedReferences[485504078988181505].body
       value: 
       objectReference: {fileID: 2045308419}
+    - target: {fileID: 3133304451232703882, guid: 0fe64c66857e46c43a40e54ecf3b4a6d,
+        type: 3}
+      propertyPath: managedReferences[485504078988181505].layer
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3133304451232703882, guid: 0fe64c66857e46c43a40e54ecf3b4a6d,
         type: 3}
       propertyPath: managedReferences[485504078988181505]._state
@@ -6365,7 +6370,7 @@ PrefabInstance:
     - target: {fileID: 3133304451232703882, guid: 0fe64c66857e46c43a40e54ecf3b4a6d,
         type: 3}
       propertyPath: managedReferences[5295485814535094273].editorOpen
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3133304451232703882, guid: 0fe64c66857e46c43a40e54ecf3b4a6d,
         type: 3}
@@ -6375,6 +6380,11 @@ PrefabInstance:
     - target: {fileID: 3133304451232703882, guid: 0fe64c66857e46c43a40e54ecf3b4a6d,
         type: 3}
       propertyPath: managedReferences[485504078988181505].chanceToDodge
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3133304451232703882, guid: 0fe64c66857e46c43a40e54ecf3b4a6d,
+        type: 3}
+      propertyPath: managedReferences[485504078988181505].animationLayer
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3133304451232703882, guid: 0fe64c66857e46c43a40e54ecf3b4a6d,
@@ -6522,7 +6532,7 @@ PrefabInstance:
     - target: {fileID: 7004191862686074230, guid: 0fe64c66857e46c43a40e54ecf3b4a6d,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 2.308
+      value: 10.03
       objectReference: {fileID: 0}
     - target: {fileID: 7004191862686074230, guid: 0fe64c66857e46c43a40e54ecf3b4a6d,
         type: 3}
@@ -6532,7 +6542,7 @@ PrefabInstance:
     - target: {fileID: 7004191862686074230, guid: 0fe64c66857e46c43a40e54ecf3b4a6d,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: -2.93
+      value: 7.36
       objectReference: {fileID: 0}
     - target: {fileID: 7004191862686074230, guid: 0fe64c66857e46c43a40e54ecf3b4a6d,
         type: 3}
@@ -8667,17 +8677,17 @@ PrefabInstance:
     - target: {fileID: 3332380857552175405, guid: 937a60720fa43744f8a3690bfac9192c,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 2.25
+      value: 8.91
       objectReference: {fileID: 0}
     - target: {fileID: 3332380857552175405, guid: 937a60720fa43744f8a3690bfac9192c,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 1.25
+      value: 0.44
       objectReference: {fileID: 0}
     - target: {fileID: 3332380857552175405, guid: 937a60720fa43744f8a3690bfac9192c,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: -3.31
+      value: 5.38
       objectReference: {fileID: 0}
     - target: {fileID: 3332380857552175405, guid: 937a60720fa43744f8a3690bfac9192c,
         type: 3}
@@ -8722,7 +8732,7 @@ PrefabInstance:
     - target: {fileID: 4721107060316380528, guid: 937a60720fa43744f8a3690bfac9192c,
         type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7239156057891693009, guid: 937a60720fa43744f8a3690bfac9192c,
         type: 3}
@@ -8734,6 +8744,11 @@ PrefabInstance:
       propertyPath: managedReferences[2428299320438292480].controller
       value: 
       objectReference: {fileID: 782672068}
+    - target: {fileID: 7239156057891693009, guid: 937a60720fa43744f8a3690bfac9192c,
+        type: 3}
+      propertyPath: managedReferences[2428299320438292480].animationLayer
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 7239156057891693009, guid: 937a60720fa43744f8a3690bfac9192c,
         type: 3}
       propertyPath: managedReferences[2428299320438292480].attackCollDown
