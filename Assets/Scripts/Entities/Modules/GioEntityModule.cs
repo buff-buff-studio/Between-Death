@@ -25,6 +25,7 @@ namespace Refactor.Entities.Modules
             Dodging,
             Dizzy,
             Dead,
+            Special,
             WaitingToAttack
         }
 
@@ -68,6 +69,8 @@ namespace Refactor.Entities.Modules
         [SerializeField]private float distanceToChasePlayer = 6f;
         protected bool _attackEnded = true;   
         public float timeSinceLastAttack = 0;
+        protected float attackDamage = 5f;
+        
         [Header("STATE - RETREAT")] 
         [SerializeField]
         [Range(0,10)]
@@ -114,6 +117,11 @@ namespace Refactor.Entities.Modules
         [SerializeField]
         private bool canRun = true;
         public bool willHaveOtherAttackAnimation;
+
+        [Header("Aniamtions")] 
+        [SerializeField]
+        private int animationLayer;
+      
         private void Die()
         {
             state = State.Dead;
@@ -140,14 +148,15 @@ namespace Refactor.Entities.Modules
             yield return new WaitForSeconds(4f);
             spawner.RemoveEntity(entity);
         }
-        
+
+        protected HealthEntityModule hm;
         public override void OnEnable()
         {
             base.OnEnable();
             wanderingStart = entity.transform.position;
             _pathTime = PathTime();
             _wanderingTime = WanderingTime();
-            var hm = entity.GetModule<HealthEntityModule>();
+            hm = entity.GetModule<HealthEntityModule>();
             hm.onHealthChange.AddListener(OnEnemyTakeDamage);
             hm.onDie.AddListener(Die);
 
@@ -162,6 +171,8 @@ namespace Refactor.Entities.Modules
             state = State.Idling;
             var h = entity.GetModule<HealthEntityModule>() as IHealth;
             h.RestoreLife();
+            animator.SetLayerWeight(animationLayer,1);
+            
         }
 
         protected virtual float AttackAnimation()
@@ -266,26 +277,35 @@ namespace Refactor.Entities.Modules
         protected virtual void DodgeState()
         {
             state = State.Dodging;
-            /*entity.velocity.x = inputMove.x * dodgeSpeed;
-            entity.velocity.y = 0.2f;
-            entity.velocity.z = inputMove.z * -dodgeSpeed;*/
             _canTurn = false;
-            //stateTime = 0;
         }
         protected virtual void AttackState()
         {
-            _path.ClearCorners();
-            _pathIndex = 0;
+            if (_path != null)
+            {
+                _path.ClearCorners();
+                _pathIndex = 0;
+            }
+          
 
             if (!DistanceToAttack())
                 state = State.Targeting;
             
             if (timeSinceLastAttack >= attackCollDown && _attackEnded)
             {
-                Debug.Log(stateTime);
-                Debug.Log(attackCollDown);
                 Attack();
             }
+               
+        }
+        
+        protected virtual void Special()
+        {
+            if (_path != null)
+            {
+                _path.ClearCorners();
+                _pathIndex = 0;
+            }
+            
                
         }
         protected virtual void IdleState()
@@ -331,7 +351,6 @@ namespace Refactor.Entities.Modules
         }
         protected virtual void WanderingState()
         {
-            Debug.LogWarning("WAndering");
             if (IsSeeingPlayer())
             {
                 state = State.Targeting;
@@ -380,6 +399,24 @@ namespace Refactor.Entities.Modules
             //state = State.TakingDamage;
             Debug.Log("TakingDamage");
             animator.CrossFade("Reaction", 0.25f);
+
+            if (state == State.Retreating)
+            {
+                state = State.Attacking;
+                stateTime = 0;
+            }
+
+            if (Random.Range(0, 10) < 4)
+            {
+                stateTime = 0;
+                DodgeState();
+            }
+            
+            if (Random.Range(0, 10) < 3)
+            {
+                state = State.Attacking;
+                state = 0;
+            }
             
             if(state == State.Dizzy) return;
             DecreaseDizzyBar();
@@ -416,7 +453,7 @@ namespace Refactor.Entities.Modules
                     OnDizzyState();
                     return Vector3.zero;
                 
-                case State.Targeting or State.Wandering or State.Retreating or State.Dodging or State.WaitingToAttack or State.Attacking:
+                case State.Targeting or State.Wandering or State.Retreating or State.Dodging or State.WaitingToAttack or State.Attacking or State.Special:
                     
                     switch (state)
                     {
@@ -442,6 +479,9 @@ namespace Refactor.Entities.Modules
                             break;
                         case State.Attacking:
                             AttackState();
+                            break;
+                        case State.Special:
+                            Special();
                             break;
                     }
                     if (_path == null|| _path.status == NavMeshPathStatus.PathInvalid)
@@ -589,6 +629,12 @@ namespace Refactor.Entities.Modules
         {
             return playerRef.position;
         }
+        
+        protected virtual Vector3 SpecialPos()
+        {
+            return Vector3.zero;
+        }
+
 
         protected virtual Vector3 OnAttackPos()
         {
@@ -613,12 +659,14 @@ namespace Refactor.Entities.Modules
                 Debug.Log("TARGETING ATTACKING");
                 target = OnAttackPos();
                 
+            }else if (state == State.Special)
+            {
+                target = SpecialPos();
             }else if (IsSeeingPlayer())
             {
                 target = TargetPos();
             }else
                 target = WanderingPos();
-          
             if (target == Vector3.zero)
             {
                 if (_path != null)
@@ -643,7 +691,7 @@ namespace Refactor.Entities.Modules
             _attackEnded = false;
             timeSinceLastAttack = 0;
             animator.CrossFade($"Attack {Random.Range(0, 3)}", 0.25f);
-            ApplyDamageFor(1, 2);
+            ApplyDamageFor(attackDamage, 2);
             Debug.Log("Attack");
             entity.StartCoroutine(OnAnimationFinish(() =>
             {
@@ -711,10 +759,10 @@ namespace Refactor.Entities.Modules
         }
         
         
-        protected IEnumerator OnAnimationFinish(Action callback = null)
+        protected IEnumerator OnAnimationFinish(Action callback = null, float delay = 0)
         {
             yield return new WaitForSeconds(0.2f);
-
+            yield return new WaitForSeconds(delay);
             yield return new WaitUntil(() =>animator.GetCurrentAnimatorStateInfo(0).normalizedTime > 0.9f);
             
             callback?.Invoke();

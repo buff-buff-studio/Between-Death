@@ -818,7 +818,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1011758163882079258}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 2.25, y: 1.25, z: -5.75}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -869,7 +869,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _modules:
-    editorOpen: 0
+    editorOpen: 1
     _modules:
     - rid: 5295485631248728064
     - rid: 5295485665509638144
@@ -901,12 +901,14 @@ MonoBehaviour:
         animator: {fileID: 6175091291642382106}
         wanderingOrigin: {x: 0, y: 0, z: 0}
         playerRef: {fileID: 0}
+        renderers: []
+        spawner: {fileID: 0}
         _state: 0
         lastWalkingInput: 0
         wanderingStart: {x: 0, y: 0, z: 0}
         stateTime: 0
         pathTime: 0
-        attackCollDown: 2
+        attackCollDown: 0.8
         distanceToAttack: 1.25
         distanceToChasePlayer: 10
         timeSinceLastAttack: 0

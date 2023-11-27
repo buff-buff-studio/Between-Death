@@ -25,10 +25,10 @@ namespace Refactor.Entities.Modules
 
         private GameObject playerRefPos = null;
         
-        protected override float AttackAnimation()
+        /*protected override float AttackAnimation()
         {
             return 1.5f;
-        }
+        }*/
 
         private void MoveObject(Vector3 pos)
         {
@@ -39,7 +39,6 @@ namespace Refactor.Entities.Modules
         }
         protected override Vector3 OnAttackPos()
         {
-         
             if (onSpecialAttack)
             {
                 return (playerRefPos.transform.position - entity.transform.position) * 500;
@@ -73,6 +72,8 @@ namespace Refactor.Entities.Modules
             timeSinceLastAttack = 0;
             stateTime = 0;
             onSpecialAttack = true;
+            animator.CrossFade("RushAttackIN", 0.1f);
+      
           //  animator.CrossFade($"Attack {Random.Range(0, 3)}", 0.25f);
         }
         protected virtual bool DistanceToSpecialAttack()    
@@ -119,7 +120,12 @@ namespace Refactor.Entities.Modules
             state = State.Dizzy;
             DizzyState();
             stateTime = 0;
-            onSpecialAttack = false;
+
+            if (onSpecialAttack)
+            {
+                animator.SetTrigger("rushAttackOut");
+                onSpecialAttack = false;
+            }
         }
         
         protected override void AttackState()
@@ -133,14 +139,13 @@ namespace Refactor.Entities.Modules
                 if (Physics.SphereCast(rayCastPlace.transform.position, 2,entity.transform.forward, out RaycastHit hit, 0.8f, triggerlayer,
                         QueryTriggerInteraction.UseGlobal))
                 {
-                    Debug.Log("Hit");
-                    ApplyDamageFor(1, 3);
+                    ApplyDamageFor(attackDamage * 2, 3);
                     SetDizzy();
 
                 }
                 else if (stateTime >= timeOnSpecialAttack)
                 {
-                    ApplyDamageFor(1, 3);
+                    ApplyDamageFor(attackDamage * 2, 3);
                     SetDizzy();
                 }
             }
@@ -181,7 +186,7 @@ namespace Refactor.Entities.Modules
         {
             animator.CrossFade($"Attack {Random.Range(0, 3)}", 0.25f);
 
-            ApplyDamageFor(1, damageRadius);
+            ApplyDamageFor(attackDamage, damageRadius);
             Debug.Log("Attack");
             entity.StartCoroutine(OnAnimationFinish(() =>
             {

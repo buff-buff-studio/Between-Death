@@ -17,10 +17,10 @@ namespace Refactor.Entities.Modules
             Invoke(nameof(Deactivate), 5);
         }
 
-        private void Update()
+        private void FixedUpdate()
         {
             body.velocity = (transform.forward * (velocity * Time.deltaTime));
-
+            transform.LookAt(target);
         }
 
         private void Deactivate()

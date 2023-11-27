@@ -4,10 +4,9 @@ namespace Refactor.Data
 {
     public enum Element
     {
-        None,
-        
-        Order,
-        Chaos
+        None = 0,
+        Order = 1,
+        Chaos = 2
     }
 
     public static class ElementExtensions

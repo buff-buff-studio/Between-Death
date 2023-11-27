@@ -18,9 +18,9 @@ namespace Refactor.Entities.Modules
 
         [Header("STATE")] 
         [SerializeField] 
-        private Value<float> _health = 0;
+        public Value<float> _health = 0;
         [SerializeField]
-        private Value<float> _maxHealth = 10;
+        public Value<float> _maxHealth = 10;
         
         [Header("EVENTS")]
         public UnityEvent onDie;

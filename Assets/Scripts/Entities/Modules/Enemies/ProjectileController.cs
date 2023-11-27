@@ -9,7 +9,7 @@ namespace Refactor.Entities.Modules
         [SerializeField]
         private Projectile prefab;
 
-        public void CreateObject(Vector3 pos, Transform target,Quaternion rotation)
+        public void CreateObject(Vector3 pos, Transform target, Quaternion rotation)
         {
             Projectile obj = null;
 

@@ -25,7 +25,7 @@ namespace Refactor.Entities.Modules
         }
         protected override Vector3 TargetPos()
         {
-            Vector3 runTo = playerRef.position + (playerRef.forward * Random.Range(3f,6f));
+            Vector3 runTo = (playerRef.position - entity.transform.position) * Random.Range(3f,6f);
             return runTo;
         }
 
