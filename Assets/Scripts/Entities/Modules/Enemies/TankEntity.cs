@@ -195,7 +195,7 @@ namespace Refactor.Entities.Modules
                 RandomBehaviour();
                 /*if (!RandomBehaviour())
                     state = State.Attacking;*/
-            }));
+            },0.5f));
         }
     }
 }
