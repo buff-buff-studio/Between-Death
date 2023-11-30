@@ -5,6 +5,7 @@ using Refactor.Misc;
 using Unity.Mathematics;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.Rendering.Universal;
 using UnityEngine.Serialization;
 using Random = UnityEngine.Random;
 
@@ -200,7 +201,6 @@ namespace Refactor.Entities.Modules
             inputMove = GetWalkInput(deltaTime, out bool isRunning);
             var isMoving = inputMove.magnitude > 0.15f;
             var deltaAngle = 0f;
-            Debug.Log(inputMove);
             #endregion
 
             #region Rotation
@@ -368,6 +368,7 @@ namespace Refactor.Entities.Modules
         {
             /*_path.ClearCorners();
             _pathIndex = 0;*/
+            Debug.Log("DizzyState");
             animator.CrossFade("Dizzy", 0.2f);
         }
 
@@ -415,7 +416,7 @@ namespace Refactor.Entities.Modules
                 DodgeState();
             }
             
-            if (Random.Range(0, 10) < 3)
+            if (Random.Range(0, 10) < 5)
             {
                 state = State.Attacking;
                 state = 0;
@@ -599,7 +600,7 @@ namespace Refactor.Entities.Modules
         #region Utils
         protected virtual void _DoPathTo(Vector3 target)
         {
-          
+            
             _path ??= new NavMeshPath();
             NavMesh.CalculatePath(entity.transform.position, target, NavMesh.AllAreas, _path);
             _pathIndex = 0;
@@ -613,7 +614,7 @@ namespace Refactor.Entities.Modules
         
         protected virtual void _OnReachTarget()
         {
-            OnReachTarget();
+        //    OnReachTarget();
             _path = null;
             _NewWanderTarget();
             Debug.Log("Reach Target");
@@ -625,11 +626,14 @@ namespace Refactor.Entities.Modules
         }
         protected virtual Vector3 WanderingPos()
         {
+            Debug.Log("WanderingPos");
             return wanderingStart + new Vector3(Random.Range(-3, 3), 1, Random.Range(-3, 3));
+            
         }
         
         protected virtual Vector3 TargetPos()
         {
+            Debug.Log("WanderingPos");
             return playerRef.position;
         }
         
@@ -672,6 +676,7 @@ namespace Refactor.Entities.Modules
                 target = WanderingPos();
             if (target == Vector3.zero)
             {
+                Debug.Log("Target is not");
                 if (_path != null)
                     _path.ClearCorners();
                 return;
