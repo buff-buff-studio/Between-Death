@@ -67,6 +67,11 @@ namespace Refactor.Entities.Modules
         [Header("REFERENCES - RIGS")] 
         public LerpRig rigIdle;
         public LerpRig rigLean;
+
+        [Header("REFERENCES - CASTING")] 
+        public Material chaosSword;
+        public Material orderSword;
+        public ParticleSystem castingEffect;
         
         [Header("SETTINGS")] 
         public bool useCameraView;
@@ -210,10 +215,26 @@ namespace Refactor.Entities.Modules
                     entity.element = elm;
                     state = PlayerState.Default;
                 }
-    
-                entity.StartCoroutine(Coroutine());
-                entity.StartCoroutine(LerpSword(0.5f, 0.75f));
                 
+                IEnumerator CastingEffect(float duration, bool inv)
+                {
+                    float time = 0;
+                    while (time <= duration)
+                    {
+                        float f = inv ? (1.0f - time / duration) : (time/duration); 
+                        
+                        chaosSword.SetFloat("_dissolve", f);
+                        orderSword.SetFloat("_dissolve", 1 - f);
+                        
+                        
+                        yield return null;
+                        time += Time.deltaTime;
+                    }
+                }
+                
+                entity.StartCoroutine(Coroutine());
+                //entity.StartCoroutine(CastingEffect(0.5f, elm == Element.Order));
+                entity.StartCoroutine(LerpSword(0.5f, 0.75f));
             }
         }
         
