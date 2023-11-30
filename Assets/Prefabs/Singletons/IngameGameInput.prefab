@@ -46,6 +46,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   delaySecondInput: 0.5
   delayNextInputs: 0.125
+  canvas: {fileID: 0}
   inputStart:
     m_Name: Input Start
     m_Type: 0
@@ -397,6 +398,23 @@ MonoBehaviour:
       m_Processors: 
       m_Groups: 
       m_Action: Input Previous
+      m_Flags: 0
+    m_Flags: 0
+  inputInventory:
+    m_Name: Input Inventory
+    m_Type: 0
+    m_ExpectedControlType: 
+    m_Id: 856833cd-abfb-4e66-a945-fb9194b2e57f
+    m_Processors: 
+    m_Interactions: 
+    m_SingletonActionBindings:
+    - m_Name: 
+      m_Id: 5dc88394-e334-4566-91ae-edcf45e2f24d
+      m_Path: <Keyboard>/i
+      m_Interactions: 
+      m_Processors: 
+      m_Groups: 
+      m_Action: Input Inventory
       m_Flags: 0
     m_Flags: 0
   canMove: 1

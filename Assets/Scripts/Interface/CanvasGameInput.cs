@@ -53,6 +53,7 @@ namespace Refactor.Interface
         public InputAction inputForth;
         public InputAction inputNext;
         public InputAction inputPrevious;
+        public InputAction inputInventory;
         
         protected override void OnEnable()
         {
@@ -65,6 +66,7 @@ namespace Refactor.Interface
             inputStart.Enable();
             inputNext.Enable();
             inputPrevious.Enable();
+            inputInventory.Enable();
             
             base.OnEnable();
         }
@@ -81,6 +83,7 @@ namespace Refactor.Interface
             inputStart.Disable();
             inputNext.Disable();
             inputPrevious.Disable();
+            inputInventory.Disable();
             
             base.OnDisable();
         }
@@ -109,7 +112,7 @@ namespace Refactor.Interface
             
             var readInputNext = inputNext.ReadValue<float>() > 0;
             var readInputPrevious = inputPrevious.ReadValue<float>() > 0;
-            
+
             var now = Time.time;
 
             _HandleInputXY(readInputXY, InterfaceAction.MoveRight, InterfaceAction.MoveLeft, InterfaceAction.MoveUp,
