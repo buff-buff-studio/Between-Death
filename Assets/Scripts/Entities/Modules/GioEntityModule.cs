@@ -62,7 +62,7 @@ namespace Refactor.Entities.Modules
         protected int _pathIndex = 0;
         public float pathTime = 0;
         private int _wanderingTime;
-        private int _pathTime;
+        private float _pathTime;
 
         [Header("STATE - ATTACKING")] 
         [SerializeField] protected float attackCollDown = 2f;
@@ -263,10 +263,10 @@ namespace Refactor.Entities.Modules
 
             if (state != State.Dizzy)
             {
-                animator.SetFloat("walking", math.lerp(animWalking, y, deltaTime * speed));
+                animator.SetFloat(Walking, math.lerp(animWalking, y, deltaTime * speed));
             
-                if((animWalking > 0.5f && Time.time > lastWalkingInput + 0.2f)) 
-                    animator.CrossFade("Stop", 0.2f);
+                /*if((animWalking > 0.5f && Time.time > lastWalkingInput + 0.2f)) 
+                    animator.CrossFade("Stop", 0.2f);*/
             }
           
             #endregion
@@ -342,8 +342,8 @@ namespace Refactor.Entities.Modules
                     Attack();
             }  
            
-           // if(distanceToWaitForAttack <= 0) return;
-         //   if(isGoingToAttack) return;
+            // if(distanceToWaitForAttack <= 0) return;
+            //   if(isGoingToAttack) return;
             if(!controller.HasMoreThanOne()) return;
             /*if (DistanceToWaitToAttack())
             {
@@ -368,7 +368,7 @@ namespace Refactor.Entities.Modules
         {
             /*_path.ClearCorners();
             _pathIndex = 0;*/
-            Debug.Log("DizzyState");
+            Debug.Log("Dizzy");
             animator.CrossFade("Dizzy", 0.2f);
         }
 
@@ -432,7 +432,10 @@ namespace Refactor.Entities.Modules
             dizzyBarCurrentValue -= dizzyBarAmountWhenDamage;
 
             if (dizzyBarCurrentValue <= 0)
+            {
+                Debug.Log("Bar");
                 DizzyState();
+            }
             
         }
         public Vector3 GetWalkInput(float deltaTime, out bool running)
@@ -528,10 +531,16 @@ namespace Refactor.Entities.Modules
             return Random.Range(8, 15);
         }
         
-        private int PathTime()
+        private float PathTime()
         {
-            return Random.Range(2, 4);
+            return Random.Range(1, 3f);
         }
+        
+        private float PathTimeTarget()
+        {
+            return Random.Range(0.2f, 0.5f);
+        }
+        
         
         public void UpdatePathfinding(float deltaTime)
         {
@@ -564,6 +573,12 @@ namespace Refactor.Entities.Modules
                     return;
                 
                 case State.Targeting:
+                    if (stateTime > _pathTime)
+                    {
+                        _NewWanderTarget();
+                        stateTime = 0;
+                        _pathTime = PathTimeTarget();
+                    }
                     return;
                 
                 case State.Attacking:
@@ -600,7 +615,6 @@ namespace Refactor.Entities.Modules
         #region Utils
         protected virtual void _DoPathTo(Vector3 target)
         {
-            
             _path ??= new NavMeshPath();
             NavMesh.CalculatePath(entity.transform.position, target, NavMesh.AllAreas, _path);
             _pathIndex = 0;
@@ -650,6 +664,7 @@ namespace Refactor.Entities.Modules
 
         protected Vector3 target;
         private static readonly int _Dissolve = Shader.PropertyToID("_Dissolve");
+        private static readonly int Walking = Animator.StringToHash("walking");
 
         protected virtual void _NewWanderTarget()
         {

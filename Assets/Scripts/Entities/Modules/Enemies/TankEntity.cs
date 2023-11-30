@@ -117,6 +117,7 @@ namespace Refactor.Entities.Modules
 
         private void SetDizzy()
         {
+            
             state = State.Dizzy;
             DizzyState();
             stateTime = 0;
