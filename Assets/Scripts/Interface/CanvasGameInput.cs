@@ -145,7 +145,7 @@ namespace Refactor.Interface
                 if (!(now > state.NextTime)) return;
                 state.NextTime = now + (state.Streak > 0 ? delayNextInputs : delaySecondInput);
                 state.Streak++;
-                //canvas.CallAction(action);
+                canvas.CallAction(action);
             }
             else
             {

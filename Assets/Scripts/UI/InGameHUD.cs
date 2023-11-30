@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using DG.Tweening;
 using Refactor;
 using Refactor.Data;
 using Refactor.Entities;
@@ -44,6 +45,7 @@ public class InGameHUD : WindowManager
 
     [Space]
     [Header("MENU")]
+    [SerializeField] private Window quitDialogWindow;
     [SerializeField] private InGameMenu menu;
     
     [Space]
@@ -89,13 +91,48 @@ public class InGameHUD : WindowManager
     {
         IngameGameInput.CanInput = true;
     }
+    
+    public void QuitGame()
+    {
+        Debug.Log("aaaa");
+        quitDialogWindow.GetComponent<CanvasGroup>().DOFade(0, 0.5f);
+        StartCoroutine(_QuitGame());
+    }
+
+    private IEnumerator _QuitGame()
+    {
+        yield return new WaitForSeconds(1f);
+        LoadingScreen.LoadScene("Scenes/Menu");
+    }
+
+    public void CloseQuitGame()
+    {
+        quitDialogWindow.Close();
+        StartCoroutine(_CloseQuitGame());
+    }
+        
+    private IEnumerator _CloseQuitGame()
+    {
+        yield return new WaitForSeconds(0.5f);
+        (canvasGameInput as IngameGameInput)!.canInput = true;
+        Debug.Log("back");
+    }
 
     private void Update()
     {
+        if(canvasGameInput.inputStart.triggered && (canvasGameInput as IngameGameInput)!.canInput)
+        {
+            quitDialogWindow.Open();
+            (canvasGameInput as IngameGameInput)!.canInput = false;
+            return;
+        }
+        
+        /*
         if(canvasGameInput.inputStart.triggered)
         {
             menu.Menu(_active);
         }
+        */
 
         if (!_active) return;
         if (interactableObject != null)
