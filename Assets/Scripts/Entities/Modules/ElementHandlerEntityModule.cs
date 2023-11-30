@@ -29,19 +29,30 @@ namespace Refactor.Entities.Modules
         public void OnChangeElement()
         {
             var elm = entity.element;
+            HandleChangeStart(elm);
+            HandleChangeEnd(elm);
+        }
+
+        public void HandleChangeStart(Element elm)
+        {
             if (animator != null)
             {
                 animator.SetLayerWeight(0, elm == Element.Order ? 1 : 0);
                 animator.SetLayerWeight(1, elm == Element.Order ? 0 : 1);
             }
+            
+            
+        }
 
+        public void HandleChangeEnd(Element elm)
+        {
             if (leftSword != null && rightSword != null && superSword != null)
             {
                 leftSword.SetActive(elm == Element.Chaos);
                 rightSword.SetActive(elm == Element.Chaos);
                 superSword.SetActive(elm == Element.Order);
             }
-
+            
             playerRenderer.material.color = elm.GetColor();
         }
     }
