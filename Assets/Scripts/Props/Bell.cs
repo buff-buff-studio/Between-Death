@@ -30,6 +30,11 @@ namespace Refactor.Props
         [SerializeField]
         private uint ordersToWin = 3;
 
+        private void OnEnable()
+        {
+            material.SetFloat(Dissolve, 0);
+        }
+
         public void ClimbTheBell()
         {
             state = true;
@@ -46,8 +51,6 @@ namespace Refactor.Props
 
             ClimbTheBell();
             StartCoroutine(BellDissolve(true));
-            
-            player.respawnPosition = respawnPosition;
             
             for (var i = 0; i < enemyCount; i++)
             {
