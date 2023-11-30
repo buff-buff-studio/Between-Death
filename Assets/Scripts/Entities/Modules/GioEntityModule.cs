@@ -328,11 +328,11 @@ namespace Refactor.Entities.Modules
         }
         protected virtual void TargetingState()
         {
-            if (!IsSeeingPlayer())
+            /*if (!IsSeeingPlayer())
             {
                 stateTime = 0;
                 state = State.Wandering;
-            }
+            }*/
             if (DistanceToAttack())
             {
                 state = State.Attacking;
