@@ -226,7 +226,6 @@ namespace Refactor.Entities.Modules
                         chaosSword.SetFloat("_dissolve", f);
                         orderSword.SetFloat("_dissolve", 1 - f);
                         
-                        
                         yield return null;
                         time += Time.deltaTime;
                     }
