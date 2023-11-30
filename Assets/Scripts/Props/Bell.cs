@@ -10,8 +10,8 @@ namespace Refactor.Props
 {
     public class Bell : MonoBehaviour
     {
-        public Vector3 topPosition = new(0, 10, 40);
-        public Vector3 bottomPosition = new Vector3(0, 0, 40);
+        public Material material;
+        public float dissolvingTime = 2f;
 
         public bool state = false;
         
@@ -21,7 +21,20 @@ namespace Refactor.Props
         public Entity player;
         
         public List<Entity> aliveEnemies = new List<Entity>();
-        
+        private static readonly int Dissolve = Shader.PropertyToID("_Dissolve");
+
+        [SerializeField]
+        private SkillData skill;
+        [SerializeField]
+        private uint ordersEnemies = 0;
+        [SerializeField]
+        private uint ordersToWin = 3;
+
+        private void OnEnable()
+        {
+            material.SetFloat(Dissolve, 0);
+        }
+
         public void ClimbTheBell()
         {
             state = true;
@@ -30,31 +43,49 @@ namespace Refactor.Props
         public void Update()
         {
             var deltaTime = Time.deltaTime;
-            var targetPos = state ? topPosition : bottomPosition;
-            transform.position = Vector3.Lerp(transform.position, targetPos, deltaTime);
         }
 
         public void SpawnEnemies()
         {
+            if (state) return;
+
             ClimbTheBell();
-            
-            player.respawnPosition = respawnPosition;
+            StartCoroutine(BellDissolve(true));
             
             for (var i = 0; i < enemyCount; i++)
             {
-                var pos = bottomPosition + Vector3.up + Quaternion.Euler(0, i * 360f / enemyCount, 0) * new Vector3(0, 0, 10);
+                var pos = transform.position + Vector3.up + Quaternion.Euler(0, i * 360f / enemyCount, 0) * new Vector3(0, 0, 10);
                 var go = Instantiate(enemiesPrefabs[i % enemiesPrefabs.Length], pos, Quaternion.identity);
                 var entity = go.GetComponent<Entity>();
-                var module = entity.GetModule<EnemyControllerEntityModule>();
-                module.shouldAttack = true;
-                module.attackDistance = 10f;
-                module.attackTarget = player.transform;
-                module.wanderingCenterPoint = bottomPosition + Vector3.up;
-                module.NewTarget();
+
                 aliveEnemies.Add(entity);
                 
                 entity.GetModule<HealthEntityModule>().onDie.AddListener(() => OnEnemyDie(entity));
             }
+
+            if (ordersEnemies == 0)
+            {
+                GameController.instance.player.GetModule<HealthEntityModule>().onDie.RemoveListener(OnPlayerDie);
+                GameController.instance.player.GetModule<HealthEntityModule>().onDie.AddListener(OnPlayerDie);
+            }
+
+            ordersEnemies++;
+        }
+
+        public IEnumerator BellDissolve(bool dissolve)
+        {
+            var time = 0f;
+            var startColor = !dissolve ? 1f : 0f;
+            var endColor = dissolve ? 1f : 0f;
+
+            if(!dissolve) foreach (var col in GetComponents<Collider>()) col.enabled = true;
+            while (time < dissolvingTime)
+            {
+                time += Time.deltaTime;
+                material.SetFloat(Dissolve, Mathf.Lerp(startColor, endColor, time / dissolvingTime));
+                yield return null;
+            }
+            if(dissolve) foreach (var col in GetComponents<Collider>()) col.enabled = false;
         }
         
         public void OnEnemyDie(Entity e)
@@ -63,7 +94,20 @@ namespace Refactor.Props
             aliveEnemies.Remove(e);
             
             if(aliveEnemies.Count == 0)
+            {
                 StartCoroutine(_OnAllDied());
+                StartCoroutine(BellDissolve(false));
+                if(ordersEnemies >= ordersToWin)
+                {
+                    InGameHUD.instance.OpenSkill(skill);
+                    ordersEnemies = 0;
+                }
+            }
+        }
+
+        private void OnPlayerDie()
+        {
+            StartCoroutine(_OnAllDied());
         }
 
         private IEnumerator _OnAllDied()
