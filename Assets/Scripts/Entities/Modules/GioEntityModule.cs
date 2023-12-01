@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using DG.Tweening;
+using Refactor.Data;
 using Refactor.Misc;
 using Unity.Mathematics;
 using UnityEngine;
@@ -172,6 +173,13 @@ namespace Refactor.Entities.Modules
             h.RestoreLife();
             animator.SetLayerWeight(animationLayer,1);
             
+            entity.onChangeElement.AddListener(UpdateElementColor);
+            UpdateElementColor();
+        }
+        
+        public override void OnDisable()
+        {
+            entity.onChangeElement.RemoveListener(UpdateElementColor);
         }
 
         protected virtual float AttackAnimation()
@@ -644,6 +652,7 @@ namespace Refactor.Entities.Modules
 
         protected Vector3 target;
         private static readonly int _Dissolve = Shader.PropertyToID("_Dissolve");
+        private static readonly int _OrderChaos = Shader.PropertyToID("_Order_Chaos");
 
         protected virtual void _NewWanderTarget()
         {
@@ -759,7 +768,15 @@ namespace Refactor.Entities.Modules
             return false;
         }
         
-        
+        private void UpdateElementColor()
+        {
+            foreach (var renderer in renderers)
+            {
+                if(renderer.material.HasFloat(_OrderChaos))
+                    renderer.material.SetFloat(_OrderChaos, entity.element == Element.Chaos ? 1 : 0);
+            }
+        }
+
         protected IEnumerator OnAnimationFinish(Action callback = null, float delay = 0)
         {
             yield return new WaitForSeconds(0.2f);
