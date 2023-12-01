@@ -129,7 +129,7 @@ public class InGameHUD : WindowManager
             return;
         }
         
-        if(canvasGameInput.inputInventory.triggered)
+        if(canvasGameInput.inputInventory.triggered && canvasGameInput.canMenu)
         {
             menu.Menu(_active);
         }

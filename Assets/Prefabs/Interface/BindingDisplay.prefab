@@ -28,7 +28,7 @@ RectTransform:
   m_GameObject: {fileID: 528390605390061597}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 1.5, y: 1.5, z: 1.5}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 5566317031080229416}
@@ -92,7 +92,7 @@ MonoBehaviour:
   m_IgnoreLayout: 0
   m_MinWidth: -1
   m_MinHeight: -1
-  m_PreferredWidth: 40
+  m_PreferredWidth: 50
   m_PreferredHeight: -1
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
@@ -368,7 +368,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   displayImage: {fileID: 716268665027053592}
   displayName: {fileID: 4598331791165878927}
-  palette: {fileID: 11400000, guid: fee602988722f9c4b994a891e7edb3c0, type: 2}
-  actions: {fileID: -944628639613478452, guid: 9744747a38476334fbfc13d7136e4ae6, type: 3}
-  actionName: Fire
+  spritePalette:
+    desktop: {fileID: 0}
+    gamepad: {fileID: 0}
+    xbox: {fileID: 0}
+    playstation: {fileID: 0}
   actionDisplayName: input.ui.back

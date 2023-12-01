@@ -29,14 +29,16 @@ namespace Refactor.Tutorial.Steps
 
             for (var i = 0; i < count; i++)
             {
-                var pos = center + Quaternion.Euler(0, i * 360f / count, 0) * new Vector3(0, 0, radius);
+                var pos = center + Quaternion.Euler(0, i * 360f / count + 15, 0) * new Vector3(0, 0, radius);
                 var go = Instantiate(enemiesPrefabs[i % enemiesPrefabs.Length], pos, Quaternion.identity);
                 var entity = go.GetComponent<Entity>();
+                /*
                 var module = entity.GetModule<EnemyControllerEntityModule>();
                 module.shouldAttack = true;
                 module.attackTarget = player.transform;
                 module.wanderingCenterPoint = center;
                 module.NewTarget();
+                */
                 aliveEnemies.Add(entity);
                 
                 entity.GetModule<HealthEntityModule>().onDie.AddListener(() => OnEnemyDie(entity));
