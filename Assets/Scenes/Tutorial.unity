@@ -3471,6 +3471,7 @@ MonoBehaviour:
   collisionMask:
     serializedVersion: 2
     m_Bits: 257
+  input: {fileID: 0}
   sensitivityX:
     localValue: 50
     variable: {fileID: 11400000, guid: f38783548cd7ffc40970a7f67dba568d, type: 2}
@@ -3492,6 +3493,13 @@ MonoBehaviour:
   maxPivotDistance: 1
   turbulence: 0.5
   rotation: {x: 0, y: 0}
+  haveCinematic: 0
+  targetCinematic: {fileID: 0}
+  targetPlayer: {fileID: 0}
+  hudCanvas: {fileID: 0}
+  FOV: {x: 60, y: 4}
+  timeToCinematic: 1
+  cinematicSpeed: 1
 --- !u!114 &71007928
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -75859,7 +75867,7 @@ PrefabInstance:
     - target: {fileID: 8670785808687861094, guid: dd37eb103f4c8de499ead1202c7fa12e,
         type: 3}
       propertyPath: currentStepIndex
-      value: -1
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 8670785808687861094, guid: dd37eb103f4c8de499ead1202c7fa12e,
         type: 3}
