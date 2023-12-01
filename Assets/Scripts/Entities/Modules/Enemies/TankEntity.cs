@@ -117,6 +117,7 @@ namespace Refactor.Entities.Modules
 
         private void SetDizzy()
         {
+            
             state = State.Dizzy;
             DizzyState();
             stateTime = 0;
@@ -195,7 +196,7 @@ namespace Refactor.Entities.Modules
                 RandomBehaviour();
                 /*if (!RandomBehaviour())
                     state = State.Attacking;*/
-            }));
+            },0.5f));
         }
     }
 }

@@ -34,12 +34,12 @@ namespace Refactor.Entities.Modules
             if (enemiesInScene.Count == 1)
             {
                 routineAttacking = false;
-                NextEnemy();
+           //     NextEnemy();
             }
             if (currentTime > time)
             {
                 currentTime = 0;
-                NextEnemy();
+          //      NextEnemy();
             }
             currentTime += Time.fixedDeltaTime;
         }
@@ -50,7 +50,7 @@ namespace Refactor.Entities.Modules
             return enemiesInScene.Count > 1;
         }
 
-        private void NextEnemy()
+        /*private void NextEnemy()
         {
             if (enemyAttacking != null)
                 enemyAttacking.isGoingToAttack = false;
@@ -60,7 +60,7 @@ namespace Refactor.Entities.Modules
             enemyAttacking = enemiesInScene[_currentIndex % enemiesInScene.Count];
             enemyAttacking.isGoingToAttack = true;
             _currentIndex++;
-        }
+        }*/
 
         public void NoMoreEnemies()
         {

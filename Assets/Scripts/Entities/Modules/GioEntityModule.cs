@@ -5,6 +5,7 @@ using Refactor.Misc;
 using Unity.Mathematics;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.Rendering.Universal;
 using UnityEngine.Serialization;
 using Random = UnityEngine.Random;
 
@@ -61,7 +62,7 @@ namespace Refactor.Entities.Modules
         protected int _pathIndex = 0;
         public float pathTime = 0;
         private int _wanderingTime;
-        private int _pathTime;
+        private float _pathTime;
 
         [Header("STATE - ATTACKING")] 
         [SerializeField] protected float attackCollDown = 2f;
@@ -100,11 +101,13 @@ namespace Refactor.Entities.Modules
         private float dizzyBarAmountRecover;
         [SerializeField] protected float dizzyTime = 2f;
 
+        /*
         [Header("STATE - WAITING TO ATTACK")] 
         [SerializeField]
         [Tooltip("Less than the distance to target player and more than the distance to attack (zero if will not wait for attack")]
         protected float distanceToWaitForAttack;
         public bool isGoingToAttack;
+        */
         
         /*[Header("STATE - RUNNING FROM PLAYER")] 
         [SerializeField]
@@ -260,10 +263,10 @@ namespace Refactor.Entities.Modules
 
             if (state != State.Dizzy)
             {
-                animator.SetFloat("walking", math.lerp(animWalking, y, deltaTime * speed));
+                animator.SetFloat(Walking, math.lerp(animWalking, y, deltaTime * speed));
             
-                if((animWalking > 0.5f && Time.time > lastWalkingInput + 0.2f)) 
-                    animator.CrossFade("Stop", 0.2f);
+                /*if((animWalking > 0.5f && Time.time > lastWalkingInput + 0.2f)) 
+                    animator.CrossFade("Stop", 0.2f);*/
             }
           
             #endregion
@@ -325,11 +328,11 @@ namespace Refactor.Entities.Modules
         }
         protected virtual void TargetingState()
         {
-            if (!IsSeeingPlayer())
+            /*if (!IsSeeingPlayer())
             {
                 stateTime = 0;
                 state = State.Wandering;
-            }
+            }*/
             if (DistanceToAttack())
             {
                 state = State.Attacking;
@@ -339,15 +342,15 @@ namespace Refactor.Entities.Modules
                     Attack();
             }  
            
-            if(distanceToWaitForAttack <= 0) return;
-            if(isGoingToAttack) return;
+            // if(distanceToWaitForAttack <= 0) return;
+            //   if(isGoingToAttack) return;
             if(!controller.HasMoreThanOne()) return;
-            if (DistanceToWaitToAttack())
+            /*if (DistanceToWaitToAttack())
             {
                 state = State.WaitingToAttack;
                 _NewWanderTarget();
                 stateTime = 0;
-            }
+            }*/
         }
         protected virtual void WanderingState()
         {
@@ -365,6 +368,7 @@ namespace Refactor.Entities.Modules
         {
             /*_path.ClearCorners();
             _pathIndex = 0;*/
+            Debug.Log("Dizzy");
             animator.CrossFade("Dizzy", 0.2f);
         }
 
@@ -383,8 +387,8 @@ namespace Refactor.Entities.Modules
         {
             controller.routineAttacking = true;
 
-            if (isGoingToAttack)
-                state = State.Targeting;
+          //  if (isGoingToAttack)
+          ///     state = State.Targeting;
             
         }
         #endregion
@@ -412,7 +416,7 @@ namespace Refactor.Entities.Modules
                 DodgeState();
             }
             
-            if (Random.Range(0, 10) < 3)
+            if (Random.Range(0, 10) < 5)
             {
                 state = State.Attacking;
                 state = 0;
@@ -428,7 +432,10 @@ namespace Refactor.Entities.Modules
             dizzyBarCurrentValue -= dizzyBarAmountWhenDamage;
 
             if (dizzyBarCurrentValue <= 0)
+            {
+                Debug.Log("Bar");
                 DizzyState();
+            }
             
         }
         public Vector3 GetWalkInput(float deltaTime, out bool running)
@@ -524,10 +531,16 @@ namespace Refactor.Entities.Modules
             return Random.Range(8, 15);
         }
         
-        private int PathTime()
+        private float PathTime()
         {
-            return Random.Range(2, 4);
+            return Random.Range(1, 3f);
         }
+        
+        private float PathTimeTarget()
+        {
+            return Random.Range(0.2f, 0.5f);
+        }
+        
         
         public void UpdatePathfinding(float deltaTime)
         {
@@ -560,6 +573,12 @@ namespace Refactor.Entities.Modules
                     return;
                 
                 case State.Targeting:
+                    if (stateTime > _pathTime)
+                    {
+                        _NewWanderTarget();
+                        stateTime = 0;
+                        _pathTime = PathTimeTarget();
+                    }
                     return;
                 
                 case State.Attacking:
@@ -596,7 +615,6 @@ namespace Refactor.Entities.Modules
         #region Utils
         protected virtual void _DoPathTo(Vector3 target)
         {
-          
             _path ??= new NavMeshPath();
             NavMesh.CalculatePath(entity.transform.position, target, NavMesh.AllAreas, _path);
             _pathIndex = 0;
@@ -610,7 +628,7 @@ namespace Refactor.Entities.Modules
         
         protected virtual void _OnReachTarget()
         {
-            OnReachTarget();
+        //    OnReachTarget();
             _path = null;
             _NewWanderTarget();
             Debug.Log("Reach Target");
@@ -622,11 +640,14 @@ namespace Refactor.Entities.Modules
         }
         protected virtual Vector3 WanderingPos()
         {
+            Debug.Log("WanderingPos");
             return wanderingStart + new Vector3(Random.Range(-3, 3), 1, Random.Range(-3, 3));
+            
         }
         
         protected virtual Vector3 TargetPos()
         {
+            Debug.Log("WanderingPos");
             return playerRef.position;
         }
         
@@ -643,6 +664,7 @@ namespace Refactor.Entities.Modules
 
         protected Vector3 target;
         private static readonly int _Dissolve = Shader.PropertyToID("_Dissolve");
+        private static readonly int Walking = Animator.StringToHash("walking");
 
         protected virtual void _NewWanderTarget()
         {
@@ -669,6 +691,7 @@ namespace Refactor.Entities.Modules
                 target = WanderingPos();
             if (target == Vector3.zero)
             {
+                Debug.Log("Target is not");
                 if (_path != null)
                     _path.ClearCorners();
                 return;
@@ -683,7 +706,7 @@ namespace Refactor.Entities.Modules
         protected virtual bool DistanceToAttack() => Vector3.Distance(playerRef.transform.position, entity.transform.position) <= distanceToAttack;
         
         
-        protected virtual bool DistanceToWaitToAttack() => Vector3.Distance(playerRef.transform.position, entity.transform.position) <= distanceToWaitForAttack;
+       // protected virtual bool DistanceToWaitToAttack() => Vector3.Distance(playerRef.transform.position, entity.transform.position) <= distanceToWaitForAttack;
         
         
         protected virtual void Attack()
