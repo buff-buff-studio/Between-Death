@@ -8,6 +8,7 @@ namespace Refactor.Tutorial.Steps
         public GameObject[] obstacles;
 
         public bool canChangeElement = false;
+        public GameObject[] activateOnBegin;
 
         public override void OnBegin()
         {
@@ -24,6 +25,9 @@ namespace Refactor.Tutorial.Steps
             controller.ShowBindingDisplay(canChangeElement ? "change_element" : "attackL");
 
             foreach (var o in obstacles)
+                o.SetActive(true);
+
+            foreach (var o in activateOnBegin)
                 o.SetActive(true);
         }
         

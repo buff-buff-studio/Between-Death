@@ -1,6 +1,8 @@
 using System;
 using System.Collections;
 using DG.Tweening;
+using Refactor.Data;
+using Refactor.Data.Variables;
 using Refactor.I18n;
 using Refactor.Interface;
 using TMPro;
@@ -26,12 +28,14 @@ namespace Refactor.Tutorial
         public TMP_Text tutorialBoxTitle;
         public TMP_Text tutorialBoxContent;
         public IngameGameInput input;
+        public ElementVariable varElement;
 
         public TutorialStep currentStep =>
             currentStepIndex >= 0 && currentStepIndex < steps.Length ? steps[currentStepIndex] : null;
 
         private void Awake()
         {
+            varElement.Value = Element.Order;
             steps = GetComponentsInChildren<TutorialStep>();
             foreach (var step in steps)
                 step.controller = this;

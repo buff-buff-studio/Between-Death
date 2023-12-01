@@ -51,6 +51,8 @@ namespace Refactor
         public bool canAttack1 = true;
         public bool canDash = true;
         public bool canSlow = true;
+        public bool canSkill = true;
+        
         
         [Header("GAME INPUT")]
         public InputAction inputInteract;
@@ -77,6 +79,8 @@ namespace Refactor
             canAttack1 = false;
             canDash = false;
             canSlow = false;
+            canSkill = false;
+            canMenu = false;
         }
         
         public void EnableAllInput()
@@ -90,6 +94,8 @@ namespace Refactor
             canAttack1 = true;
             canDash = true;
             canSlow = true;
+            canSkill = true;
+            canMenu = true;
         }
 
         protected override void OnEnable()
@@ -144,9 +150,9 @@ namespace Refactor
             InputDash.SetValue(CanInput && canDash && inputDash.ReadValue<float>() > 0);
             InputSlowing.SetValue(CanInput && canSlow && inputRunning.ReadValue<float>() > 0);
             
-            InputSkill0.SetValue(CanInput && inputSkill0.ReadValue<float>() > 0);
-            InputSkill1.SetValue(CanInput && inputSkill1.ReadValue<float>() > 0);
-            InputSkill2.SetValue(CanInput && inputSkill2.ReadValue<float>() > 0);
+            InputSkill0.SetValue(CanInput && canSkill && inputSkill0.ReadValue<float>() > 0);
+            InputSkill1.SetValue(CanInput && canSkill && inputSkill1.ReadValue<float>() > 0);
+            InputSkill2.SetValue(CanInput && canSkill && inputSkill2.ReadValue<float>() > 0);
         }
     }
 }
