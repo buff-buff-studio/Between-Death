@@ -4,6 +4,7 @@ using Refactor.Audio;
 using Refactor.Data;
 using Refactor.Misc;
 using UnityEngine;
+using UnityEngine.Events;
 using Object = UnityEngine.Object;
 using Random = UnityEngine.Random;
 
@@ -36,6 +37,8 @@ namespace Refactor.Entities.Modules
         public AttackState currentAttackState;
         private PlayerControllerEntityModule _controllerEntity;
         private float _targetAngle = 0;
+
+        public UnityEvent<int> onUseSkill;
 
         public override void OnEnable()
         {
@@ -189,16 +192,19 @@ namespace Refactor.Entities.Modules
                         {
                             SkillData data = skillList.Get(inventoryData.GetEquippedSkill(0));
                             PerformSkill(data, true);
+                            onUseSkill.Invoke(0);
                         }
                         else if (IngameGameInput.InputSkill1.trigger)
                         {
                             SkillData data = skillList.Get(inventoryData.GetEquippedSkill(1));
                             PerformSkill(data, true);
+                            onUseSkill.Invoke(1);
                         }
                         else if (IngameGameInput.InputSkill2.trigger)
                         {
                             SkillData data = skillList.Get(inventoryData.GetEquippedSkill(2));
                             PerformSkill(data, true);
+                            onUseSkill.Invoke(2);
                         }
                         else if (attack)
                         {
@@ -219,16 +225,19 @@ namespace Refactor.Entities.Modules
                 {
                     SkillData data = skillList.Get(inventoryData.GetEquippedSkill(0));
                     PerformSkill(data, false);
+                    onUseSkill.Invoke(0);
                 }
                 else if (IngameGameInput.InputSkill1.trigger)
                 {
                     SkillData data = skillList.Get(inventoryData.GetEquippedSkill(1));
                     PerformSkill(data, false);
+                    onUseSkill.Invoke(1);
                 }
                 else if (IngameGameInput.InputSkill2.trigger)
                 {
                     SkillData data = skillList.Get(inventoryData.GetEquippedSkill(2));
                     PerformSkill(data, false);
+                    onUseSkill.Invoke(2);
                 }
                 else if (attack)
                 {

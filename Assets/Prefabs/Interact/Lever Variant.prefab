@@ -133,12 +133,12 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 2100000, guid: 8849c1069a23fc04c94cf2340601f3b6, type: 2}
+      objectReference: {fileID: 2100000, guid: 6ed0c0d2d5313ee42b7772fa817b2f82, type: 2}
     - target: {fileID: -2501824535582918382, guid: 1b49011bc98d633439390e6831c2991f,
         type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 2100000, guid: bd6b71adba4fe4140a2b5cf9a211e3d7, type: 2}
+      objectReference: {fileID: 2100000, guid: 6ed0c0d2d5313ee42b7772fa817b2f82, type: 2}
     - target: {fileID: -773741081878111881, guid: 1b49011bc98d633439390e6831c2991f,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -168,12 +168,12 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 2100000, guid: bd6b71adba4fe4140a2b5cf9a211e3d7, type: 2}
+      objectReference: {fileID: 2100000, guid: 6ed0c0d2d5313ee42b7772fa817b2f82, type: 2}
     - target: {fileID: 8032750206264916975, guid: 1b49011bc98d633439390e6831c2991f,
         type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 2100000, guid: 8477df41ee694f24b84612fbb3a1756e, type: 2}
+      objectReference: {fileID: 2100000, guid: 6ed0c0d2d5313ee42b7772fa817b2f82, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects:
@@ -190,10 +190,6 @@ PrefabInstance:
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 5163650664203227897}
-    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 1b49011bc98d633439390e6831c2991f,
-        type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 0}
     - targetCorrespondingSourceObject: {fileID: -3133498875991405556, guid: 1b49011bc98d633439390e6831c2991f,
         type: 3}
       insertIndex: -1
@@ -240,15 +236,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   interactionPointOffset: {fileID: 6650047210992600310}
   time: 0
-  colliderType: 0
-  offset: {x: 0, y: 0, z: 0}
-  size: {x: 0, y: 0, z: 0}
-  editOnCollider: 0
+  distanceToInteract: 0
+  state: 0
+  oneInteraction: 1
+  callOnEnable: 0
   onInteract:
     m_PersistentCalls:
       m_Calls: []
-  state: 0
-  callOnEnable: 0
+  colliderType: 0
+  vectorSize: {x: 0, y: 0, z: 0}
+  _anchorX: 0
+  _anchorY: 0
+  _anchorZ: 0
+  activeAnimationName: Lever_Open
+  inactiveAnimationName: Lever_Open
   onOn:
     m_PersistentCalls:
       m_Calls: []

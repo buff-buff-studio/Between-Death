@@ -20,6 +20,10 @@ input
         interact=Interact
         run=Walk Slowly
         pause=Pause
+        skill_0=Skill A
+        skill_1=Skill B
+        skill_2=Skill C
+        inventory=Inventory
     document
         highlight=Highlight
 ui
@@ -67,7 +71,7 @@ ui
             0=Use the right element on each situation to complete your challenges
             1=You can perform multiple hits in a row to increase the damage
             2=You can find mysterious documents along the map
-            3=You can perform dashes to escape while in the <color=#ffdd00>Chaos</color> mode
+            3=You can perform dashes to escape while in the <color=#ff5555>Chaos</color> mode
             4=This game still in development, but we hope you enjoy it :)
         scene
             game_playground=Game World
@@ -118,22 +122,25 @@ tutorial
         content=Use your sword to break the <color=#ffff55>OBSTACLES</color> to open your way to the coliseum arena!
     barriers2
         title=Tear it down!
-        content=While you're in <color=#5555ff>ORDER</color> element, you can only destroy and attack <color=#ffff22>CHAOS</color> targets!
+        content=While you're in <color=#5555ff>ORDER</color> element, you can only destroy and attack <color=#ff5555>CHAOS</color> targets!
     change_element
         title=Switching sides
-        content=Sometimes you will need to switch elements to defeat enemies/obstacles. Switch to the <color=#ffff22>CHAOS</color> element!
+        content=Sometimes you will need to switch elements to defeat enemies/obstacles. Switch to the <color=#ff5555>CHAOS</color> element!
     barriers3
         title=Full power!!!!
         content=Now you can destroy all the obstacles in your way. Switch the element when needed
     dash
         title=Reach the bell
-        content=While using the <color=#ffff22>CHAOS</color> element you can perform dashes. Use dash to reach the <color=#ff00ff>BELL</color> on the center of the Coliseum
+        content=While using the <color=#ff5555>CHAOS</color> element you can perform dashes. Use dash to reach the <color=#ff00ff>BELL</color> on the center of the Coliseum
     bell
         title=It's ringing!?
         content=Hit the <color=#ff00ff>BELL</color> to start a new enemy wave
-    combo
+    skill
         title=Before the battle
-        content=WAIT! WAIT! You need to learn to do combos first. Use sequential attacks to deal more damage! 
+        content=WAIT! WAIT! You need to learn to use skills first. Use skills to deal more damage! Use all the 3 skills
+    menu
+        title=Inventory
+        content=Remember, you can always open the inventory to see your skills and other stuff. Open your inventory
     defeat
         title=Ready for battle (Again)?
         content=Defeat all the enemies to free the Coliseum

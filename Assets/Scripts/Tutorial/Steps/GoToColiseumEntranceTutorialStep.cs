@@ -6,9 +6,9 @@ namespace Refactor.Tutorial.Steps
 {
     public class GoToColiseumEntranceTutorialStep : DefaultTutorialStep
     {
-        /*
         public GameObject target;
         public Entity player;
+        public float preRadius = 0f;
         
         public override void OnBegin()
         {
@@ -17,7 +17,7 @@ namespace Refactor.Tutorial.Steps
             input.DisableAllInput();
             input.canMoveCamera = true;
             input.canMove = true;
-            input.canRun = true;
+            input.canSlow = true;
             input.canJump = true;
 
             controller.ShowBindingDisplay("");
@@ -25,7 +25,8 @@ namespace Refactor.Tutorial.Steps
             
             controller.ShowTargetMarker(target.transform.position, Color.magenta);
 
-            player.GetModule<PlayerAttackEntityModule>().attackRadius = 8f;
+            preRadius = player.GetModule<PlayerNewAttackEntityModule>().attackRadius;
+            player.GetModule<PlayerNewAttackEntityModule>().attackRadius = 8f;
         }
         
         public override void OnEnd()
@@ -36,6 +37,8 @@ namespace Refactor.Tutorial.Steps
             
             target.gameObject.SetActive(false);
             controller.CloseTargetMarker();
+
+            player.GetModule<PlayerNewAttackEntityModule>().attackRadius = preRadius;
         }
 
         private void FixedUpdate()
@@ -44,6 +47,5 @@ namespace Refactor.Tutorial.Steps
             if (Vector3.Distance(player.transform.position, target.transform.position) < 2.5f)
                 controller.NextStep();
         }
-        */
     }
 }

@@ -20,6 +20,10 @@ input
         interact=Interagir
         run=Andar Devagar
         pause=Pause
+        skill_0=Skill A
+        skill_1=Skill B
+        skill_2=Skill C
+        inventory=Inventário
     document
         highlight=Destacar
 ui
@@ -67,7 +71,7 @@ ui
             0=Use o elemento certo em cada situação para superar seus desafios
             1=Você pode dar vários golpes em sequências para aumentar a eficácia
             2=É possível encontrar documentos misteriosos pelo mapa
-            3=No modo <color=#ffdd00>Chaos</color> você consegue dar dashs para fugir
+            3=No modo <color=#ff5555>Caos</color> você consegue dar dashs para fugir
             4=O jogo está em desenvolvimento, espero que gostem :)
         scene
             game_playground=Mundo de Jogo
@@ -97,12 +101,12 @@ tutorial
     to_end_combo=Para completar o combo
     camera
         title=Controlando a câmera
-        content=Você pode rotacionar a câmera para olhar ao redo. Rotacione a câmera por <color=#ffaa00>400 GRAUS</color>
+        content=Você pode rotacionar a câmera para olhar ao redor. Rotacione a câmera por <color=#ffaa00>400 GRAUS</color>
     walk
         title=Movimentos básicos
         content=Enquanto usa a câmera para apontar para uma direção, você consegue chegar a um <color=#ff00ff>DESTINO</color>
     run
-        title=Andando: Indo Devagar
+        title=Indo Ali
         content=Você pode segurar o botão de "andar" para andar mais devagar. Ande por <color=#ffaa00>15 METROS</color>
     interact
         title=Interagindo com o mundo
@@ -118,22 +122,25 @@ tutorial
         content=Você pode usar sua espada para destruir <color=#ffff55>OBSTÁCULOS</color> para abrir caminho para a arena do Coliseu!
     barriers2
         title=Detone tudo!
-        content=Enquanto você está no elemento <color=#5555ff>ORDEM</color>, você só consegue atacar alvos do elemento <color=#ffff22>CAOS</color>!
+        content=Enquanto você está no elemento <color=#5555ff>ORDEM</color>, você só consegue atacar alvos do elemento <color=#ff5555>CAOS</color>!
     change_element
         title=Mudando de lado
-        content=Algumas vezes você precisa de trocar de lado para destruir obstáculos/inimigos. Troque para o elemento <color=#ffff22>CAOS</color>!
+        content=Algumas vezes você precisa de trocar de lado para destruir obstáculos/inimigos. Troque para o elemento <color=#ff5555>CAOS</color>!
     barriers3
         title=Força total!!!!
         content=Agora você consegue destruir todos os obstáculos no seu caminho. Troque de elemento quando for necessário
     dash
         title=Alcance o sino
-        content=Enquanto usa o elemento <color=#ffff22>CAOS</color> você consegue dar dashes. Use dashes para alcançar o <color=#ff00ff>SINO</color> no centro do Coliseu
+        content=Enquanto usa o elemento <color=#ff5555>CAOS</color> você consegue dar dashes. Use dashes para alcançar o <color=#ff00ff>SINO</color> no centro do Coliseu
     bell
         title=Está tocando!?
         content=Toque o <color=#ff00ff>SINO</color> para começar uma nova onda de inimigos
-    combo
+    skill
         title=Antes da batalha
-        content=Espere! Espera! Você precisa aprender a dar combos primeiro. Use ataques sequenciais para dar mais dano! 
+        content=Espere! Espera! Você precisa aprender a usar suas habilidades primeiro. Use as skills para dar mais dano! Use todas as 3 skills! 
+    menu
+        title=Inventário
+        content=Lembre-se, você sempre pode abrir o inventário para ver suas skills e outras coisas. Abra seu inventário
     defeat
         title=Pronto pra batalha (Novamente)?
         content=Vença todos os inimigos para libertar o Coliseu!

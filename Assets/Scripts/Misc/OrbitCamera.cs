@@ -1,4 +1,5 @@
-﻿using Refactor.Data.Variables;
+﻿using System.Collections;
+using Refactor.Data.Variables;
 using Unity.Mathematics;
 using UnityEngine;
 
@@ -10,6 +11,7 @@ namespace Refactor.Misc
         [Header("REFERENCES")]
         public Transform target;
         public LayerMask collisionMask;
+        public IngameGameInput input;
 
         public Value<float> sensitivityX = 50;
         public Value<float> sensitivityY = 50;
@@ -25,15 +27,28 @@ namespace Refactor.Misc
         public float breathWeight = 5f;
         public float maxPivotDistance = 0.5f;
         public float turbulence = 10f;
-        
+
         [Header("STATE")]
         public Vector2 rotation;
         private Vector3 _targetItself;
 
+        [Header("CINEMATIC")]
+        public bool haveCinematic = false;
+        public Transform targetCinematic, targetPlayer;
+        public CanvasGroup hudCanvas;
+        [Tooltip("X: Normal, Y: Cinematic")]
+        public Vector2 FOV = new Vector2(60, 4);
+        public float timeToCinematic = 1f;
+        public float cinematicSpeed = 1f;
+
+        private Camera _camera;
+
         public void OnEnable()
         {
             Cursor.lockState = CursorLockMode.Locked;
-            _targetItself = target.transform.position;
+            _camera ??= GetComponent<Camera>();
+            _targetItself = target.position;
+            if(haveCinematic) StartCoroutine(CinematicAnimator());
         }
 
         private void OnDrawGizmos()
@@ -44,6 +59,8 @@ namespace Refactor.Misc
 
         public void Update()
         {
+            if(haveCinematic) return;
+
             var deltaTime = Time.deltaTime;
             var t = transform;
             var d = distance;
@@ -93,6 +110,33 @@ namespace Refactor.Misc
             #region Position
             t.position = point - d * t.forward;
             #endregion
+        }
+
+        public void LookAtCinematic()
+        {
+            _camera.fieldOfView = FOV.y;
+            _camera.transform.LookAt(targetCinematic);
+        }
+
+        public IEnumerator CinematicAnimator()
+        {
+            yield return new WaitForSeconds(timeToCinematic);
+            var time = 0f;
+            var start = targetCinematic.position;
+            var end = targetPlayer.position;
+            hudCanvas.alpha = 0;
+            while (time < cinematicSpeed)
+            {
+                time += Time.deltaTime;
+                targetCinematic.position = Vector3.Lerp(start, end, time/cinematicSpeed);
+                _camera.fieldOfView = Mathf.Lerp(FOV.y, FOV.x, time/cinematicSpeed);
+                hudCanvas.alpha = Mathf.Lerp(-1, 1, time/cinematicSpeed);
+                _camera.transform.LookAt(targetCinematic);
+                yield return null;
+            }
+            _targetItself = targetCinematic.position;
+            input.EnableAllInput();
+            haveCinematic = false;
         }
     }
 }

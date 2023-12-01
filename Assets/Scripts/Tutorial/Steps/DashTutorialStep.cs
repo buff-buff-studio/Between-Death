@@ -50,7 +50,7 @@ namespace Refactor.Tutorial.Steps
         private void FixedUpdate()
         {
             if (!isCurrent) return;
-            if (Vector3.Distance(player.transform.position, target.transform.position) < 3.5f)
+            if (Vector3.Distance(player.transform.position, target.transform.position) < 5f)
                 controller.NextStep();
         }
     }

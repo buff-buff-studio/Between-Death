@@ -24,6 +24,7 @@ namespace Refactor.Tutorial.Steps
         
         public override void OnEnd()
         {
+            Debug.Log("ENDED");
             base.OnEnd();
             controller.ShowBindingDisplay("");
             input.DisableAllInput();
