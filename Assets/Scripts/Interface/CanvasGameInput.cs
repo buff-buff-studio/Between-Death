@@ -54,6 +54,7 @@ namespace Refactor.Interface
         public InputAction inputNext;
         public InputAction inputPrevious;
         public InputAction inputInventory;
+        public bool canMenu = true;
         
         protected override void OnEnable()
         {

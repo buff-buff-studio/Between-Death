@@ -7,7 +7,7 @@ namespace Refactor.Tutorial.Steps
 {
     public class WellDoneTutorialStep : DefaultTutorialStep
     {
-        [FormerlySerializedAs("ingameCanvas")] public InGameCanvas inGameCanvas;
+        public InGameHUD inGameHUD;
         public float time = 3f;
 
         public override void OnBegin()
@@ -26,6 +26,8 @@ namespace Refactor.Tutorial.Steps
             if (!isCurrent) return;
             if ((time -= Time.deltaTime) <= 0)
                 controller.NextStep();
+            
+            inGameHUD.QuitGame();
         }
     }
 }

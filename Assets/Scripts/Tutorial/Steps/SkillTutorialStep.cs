@@ -10,8 +10,47 @@ using UnityEngine.UI;
 
 namespace Refactor.Tutorial.Steps
 {
-    public class ComboTutorialStep : DefaultTutorialStep
+    public class SkillTutorialStep : DefaultTutorialStep
     {
+        public Entity player;
+        private PlayerNewAttackEntityModule _module;
+        public CanvasGroup displayGroup;
+        public bool[] used = { false, false, false };
+        public GameObject skillPanel;
+        
+        public override void OnBegin()
+        {
+            base.OnBegin();
+            input.DisableAllInput();
+            input.canMoveCamera = true;
+            input.canMove = true;
+            input.canSkill = true;
+
+            _module = player.GetModule<PlayerNewAttackEntityModule>();
+            _module.onUseSkill.AddListener(OnUseSkill);
+            
+            skillPanel.gameObject.SetActive(true);
+            
+            displayGroup.DOFade(1f, 0.5f);
+        }
+
+        private void OnUseSkill(int index)
+        {
+            used[index] = true;
+            if (used[0] && used[1] && used[2])
+            {
+                controller.NextStep();
+            }
+        }
+
+        public override void OnEnd()
+        {
+            base.OnEnd();
+            input.DisableAllInput();
+            _module.onUseSkill.RemoveListener(OnUseSkill);
+            displayGroup.DOFade(0f, 0.5f);
+        }
+        
         /*
         public Entity player;
         //private PlayerAttackEntityModule _module;

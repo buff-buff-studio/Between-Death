@@ -6,6 +6,7 @@ using Refactor.Interface;
 using Refactor.Interface.Windows;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class InGameMenu : WindowManager
 {
@@ -34,6 +35,7 @@ public class InGameMenu : WindowManager
 
     [SerializeField] private CanvasGameInput canvasGameInput;
     private CanvasGroup _canvasGroup => GetComponent<CanvasGroup>();
+    public UnityEvent<bool> onChangeMenuOpen;
 
     private void Awake()
     {
@@ -80,11 +82,13 @@ public class InGameMenu : WindowManager
         {
             SetWindow(startWindow);
             windowParent.SetWindow(1);
+            onChangeMenuOpen.Invoke(true);
         }
         else
         {
             AllWindow(false);
             windowParent.SetWindow(0);
+            onChangeMenuOpen.Invoke(false);
         }
     }
 
