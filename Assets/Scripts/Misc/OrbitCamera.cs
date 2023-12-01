@@ -34,7 +34,7 @@ namespace Refactor.Misc
 
         [Header("CINEMATIC")]
         public bool haveCinematic = false;
-        public Transform targetCinematic, targetPlayer;
+        public Transform targetCinematic, targetPlayer, camBasePos;
         public CanvasGroup hudCanvas;
         [Tooltip("X: Normal, Y: Cinematic")]
         public Vector2 FOV = new Vector2(60, 4);
@@ -47,6 +47,8 @@ namespace Refactor.Misc
         {
             Cursor.lockState = CursorLockMode.Locked;
             _camera ??= GetComponent<Camera>();
+            _camera.transform.position = camBasePos.position;
+            _camera.transform.rotation = camBasePos.rotation;
             _targetItself = target.position;
             if(haveCinematic) StartCoroutine(CinematicAnimator());
         }
@@ -61,6 +63,11 @@ namespace Refactor.Misc
         {
             if(haveCinematic) return;
 
+            CameraMovement();
+        }
+
+        private void CameraMovement()
+        {
             var deltaTime = Time.deltaTime;
             var t = transform;
             var d = distance;
@@ -69,46 +76,57 @@ namespace Refactor.Misc
                 msModifier *= 0.25f;
 
             #region Input
+
             if (Cursor.lockState == CursorLockMode.Locked || GameInput.CurrentControlScheme != GameInput.ControlScheme.Desktop)
             {
-                var senX = (invertX ? 1f : -1f) * math.clamp(sensitivityX.value/10f, 0f, 1f); 
-                var senY = (invertY ? -1f : 1f) * math.clamp(sensitivityY.value/10f, 0f, 1f);
+                var senX = (invertX ? 1f : -1f) * math.clamp(sensitivityX.value / 10f, 0f, 1f);
+                var senY = (invertY ? -1f : 1f) * math.clamp(sensitivityY.value / 10f, 0f, 1f);
                 var mouseInput = IngameGameInput.InputCamera;
 
                 DeltaRot += math.abs(mouseInput.x * senX * msModifier) + math.abs(mouseInput.y * senY * msModifier);
                 rotation.y += mouseInput.x * senX * msModifier;
                 rotation.x = math.clamp(rotation.x + mouseInput.y * senY * msModifier, -89f, 89f);
             }
+
             #endregion
 
             #region Point Calculation
+
             Vector3 newTarget = target.position;
             Vector3 delta = newTarget - _targetItself;
             float mag = delta.magnitude;
             _targetItself = newTarget - (mag > maxPivotDistance ? delta.normalized * maxPivotDistance : delta);
             _targetItself = Vector3.Lerp(_targetItself, newTarget, deltaTime * 2f);
             Vector3 point = _targetItself + offset;
+
             #endregion
-            
+
             #region Rotation
+
             var breath = Quaternion.Euler(math.sin(math.radians(Time.time * 80f)) * breathWeight, 0,
                 math.cos(math.radians(Time.time * -72f)) * breathWeight);
 
             float turbulenceStrength = mag / maxPivotDistance * turbulence;
             var tbb = Quaternion.Euler(0, 0, math.sin(Time.time * 24f) * turbulenceStrength);
-            
-            t.rotation = Quaternion.Lerp(t.rotation, Quaternion.Euler(rotation.x, rotation.y, 0) * breath * tbb, rotationLerpSpeed * deltaTime);
+
+            t.rotation = Quaternion.Lerp(t.rotation, Quaternion.Euler(rotation.x, rotation.y, 0) * breath * tbb,
+                rotationLerpSpeed * deltaTime);
+
             #endregion
 
             #region Collision
-            if (Physics.SphereCast(point, collisionRadius, -t.forward,  out RaycastHit hit, d, collisionMask))
+
+            if (Physics.SphereCast(point, collisionRadius, -t.forward, out RaycastHit hit, d, collisionMask))
             {
                 d = math.max(minDistance, hit.distance);
             }
+
             #endregion
 
             #region Position
+
             t.position = point - d * t.forward;
+
             #endregion
         }
 
