@@ -151,6 +151,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   target: {fileID: 0}
+  collisionMask:
+    serializedVersion: 2
+    m_Bits: 0
+  input: {fileID: 0}
   sensitivityX:
     localValue: 50
     variable: {fileID: 11400000, guid: f38783548cd7ffc40970a7f67dba568d, type: 2}
@@ -169,4 +173,13 @@ MonoBehaviour:
   collisionRadius: 0.5
   minDistance: 1
   breathWeight: 0.5
+  maxPivotDistance: 0.5
+  turbulence: 10
   rotation: {x: 0, y: 0}
+  haveCinematic: 0
+  targetCinematic: {fileID: 0}
+  targetPlayer: {fileID: 0}
+  hudCanvas: {fileID: 0}
+  FOV: {x: 60, y: 4}
+  timeToCinematic: 1
+  cinematicSpeed: 1

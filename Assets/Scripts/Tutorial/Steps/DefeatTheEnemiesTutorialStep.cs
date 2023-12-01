@@ -25,7 +25,7 @@ namespace Refactor.Tutorial.Steps
             input.EnableAllInput();
             
             controller.ShowBindingDisplay("defeat_enemies");
-            player.respawnPosition = respawnPosition;
+            player.respawnPosition.position = respawnPosition;
 
             for (var i = 0; i < count; i++)
             {
