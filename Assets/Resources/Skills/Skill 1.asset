@@ -15,11 +15,12 @@ MonoBehaviour:
   name: Slash of Chaos
   description: "Efetue um r\xE1pido ataque \xE0 sua frente e logo ap\xF3s realiza
     uma esquiva para a dire\xE7\xE3o contr\xE1ria."
-  animation: {fileID: 0}
   icon: {fileID: -505721482, guid: d63e7a3d5b2b0ea4a84f38685f049eb2, type: 3}
   preview: {fileID: 32900000, guid: ab301a3eb7f3d3a4ea0cb973bc9576f7, type: 3}
   element: 2
+  cooldown: 5
+  actualCooldown: 0
+  clipName: Attack 1
   damage: 0
-  knockback: 0
-  duration: 0
-  cooldown: 0
+  transitionTime: 0.1
+  damageTime: 0.5

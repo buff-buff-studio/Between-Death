@@ -47,6 +47,7 @@ public class InGameHUD : WindowManager
     [Header("MENU")]
     [SerializeField] private Window quitDialogWindow;
     [SerializeField] private InGameMenu menu;
+    [SerializeField] private GameObject skillDash;
     
     [Space]
     [Header("OTHERS")]
@@ -82,8 +83,7 @@ public class InGameHUD : WindowManager
             UpdateLife(h, hlt.maxHealth);
         });
         
-        
-        UpdateSkillSlots();
+        //UpdateSkillSlots();
         UpdateElement();
     }
 
@@ -120,6 +120,8 @@ public class InGameHUD : WindowManager
 
     private void Update()
     {
+        UpdateSkillSlots();
+        
         if(canvasGameInput.inputStart.triggered && (canvasGameInput as IngameGameInput)!.canInput)
         {
             quitDialogWindow.Open();
@@ -168,11 +170,15 @@ public class InGameHUD : WindowManager
     {
         for (int i = 0; i < skillSlots.Length; i++)
         {
+           
             var s = equippedSkills[i];
-            if(s >= 0)
-                skillSlots[i].UpdateSlot(true, skills.GetIcon(s), skills.GetName(s));
+            if (s >= 0)
+            {
+                var skill = skills.skills[s];
+                skillSlots[i].UpdateSlot(true, skill.icon, skill.name, skill.actualCooldown / skill.cooldown);
+            }
             else
-                skillSlots[i].UpdateSlot(false, null, "");
+                skillSlots[i].UpdateSlot(false, null, "", 0);
         }
     }
 
@@ -184,6 +190,8 @@ public class InGameHUD : WindowManager
             Element.Order => orderIcon,
             _ => elementIcon.sprite
         };
+        
+        skillDash.SetActive(player.element == Element.Chaos);
     }
 
     #region Interaction

@@ -22,11 +22,11 @@ public class SkillSlot : Slot
         
         UpdateSlot(SkillManager.instance.InInventory(id),
             SkillManager.instance.skills.GetIcon(id),
-            SkillManager.instance.skills.GetName(id));
+            SkillManager.instance.skills.GetName(id), 0);
         button.interactable = !SkillManager.instance.IsEquipped(id);
     }
     
-    public override void UpdateSlot(bool active, Sprite sprite, string text)
+    public override void UpdateSlot(bool active, Sprite sprite, string text, float cooldown)
     {
         this.active = active;
         this.sprite = active ? sprite : null;
