@@ -106,6 +106,9 @@ namespace Refactor.Entities.Modules
         public UnityEvent onEnterAttackState;
         public UnityEvent onLeaveAttackState;
 
+        public ParticleSystem[] particlesChaos;
+        public ParticleSystem[] particlesOrder;
+
         #region Callbacks
         public override void OnEnable()
         {
@@ -208,12 +211,20 @@ namespace Refactor.Entities.Modules
 
                 IEnumerator Coroutine()
                 {
+                    foreach (var particleSystem in particlesChaos)
+                    {
+                        particleSystem.Play();
+                    }
                     module.HandleChangeStart(elm);
                     yield return new WaitForSeconds(0.5f);
                     module.HandleChangeEnd(elm);
                     yield return new WaitForSeconds(0.75f);
                     entity.element = elm;
                     state = PlayerState.Default;
+                    foreach (var particleSystem in particlesChaos)
+                    {
+                        particleSystem.Stop();
+                    }
                 }
                 
                 IEnumerator CastingEffect(float duration, bool inv)
@@ -354,7 +365,7 @@ namespace Refactor.Entities.Modules
                     entity.velocity = new Vector3(0, entity.velocity.y, 0);
                     state = PlayerState.Jumping;
                 }
-                else if (lastGrounded < Time.time - 0.25f)
+                else if (lastGrounded < Time.time - 0.5f)
                 {
                     animator.CrossFade("Jumping", 0.1f);
                     state = PlayerState.Jumping;
