@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 0.9
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.121406436, g: 0.15154229, b: 0.17798032, a: 0.9}
+  m_IndirectSpecularColor: {r: 0.89999914, g: 0, b: 0.89999914, a: 0.9}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -2735,6 +2735,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_AnchoredPosition.y
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6415938251254982100, guid: afdfd80710020ee419634d1e29da7538,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -0.000061035156
       objectReference: {fileID: 0}
     - target: {fileID: 6820456908458764286, guid: afdfd80710020ee419634d1e29da7538,
         type: 3}
@@ -15919,7 +15924,7 @@ MonoBehaviour:
       type: {class: PlayerNewAttackEntityModule, ns: Refactor.Entities.Modules, asm: Assembly-CSharp}
       data:
         _enabled: 1
-        editorOpen: 0
+        editorOpen: 1
         entity: {fileID: 687310954}
         attackRadius: 2
         animator: {fileID: 1799131884}
@@ -15930,6 +15935,9 @@ MonoBehaviour:
         - {fileID: 11400000, guid: 76835b38c3000fe4ca2ba784e04d50e4, type: 2}
         hitParticlesPrefab: {fileID: 8256934238815781683, guid: 23589639f823a3047ace26eed3f36e32,
           type: 3}
+        inventoryData: {fileID: 11400000, guid: e18d86ba9eafb6a49b0ee95fad06554e,
+          type: 2}
+        skillList: {fileID: 11400000, guid: 698f7ee0efede234c8b5d429f961cd8a, type: 2}
         currentAttackState:
           currentAttack: {fileID: 0}
           currentAttackStreak: 0
@@ -15966,6 +15974,9 @@ MonoBehaviour:
         riggingLeanRotation: {fileID: 551203598}
         rigIdle: {fileID: 1639854471}
         rigLean: {fileID: 894449604}
+        chaosSword: {fileID: 0}
+        orderSword: {fileID: 0}
+        castingEffect: {fileID: 0}
         useCameraView: 1
         ikFootOffset: 0.015
         groundLeanWeight: 0.25
@@ -18159,7 +18170,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e3c430f382484144e925c097c2d33cfe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Weight: 1
+  m_Weight: 0
   m_Data:
     m_ConstrainedObject: {fileID: 1799131876}
     m_SourceObjects:
@@ -25938,7 +25949,7 @@ PrefabInstance:
         type: 3}
       propertyPath: canvas
       value: 
-      objectReference: {fileID: 627541023}
+      objectReference: {fileID: 1327167739}
     - target: {fileID: 4815472593131307393, guid: d391012ab3dd7cc4c94b132523cba5ff,
         type: 3}
       propertyPath: inputNext.m_Id
@@ -31303,6 +31314,18 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 1310548949}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1327167739 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7412402476177473390, guid: afdfd80710020ee419634d1e29da7538,
+    type: 3}
+  m_PrefabInstance: {fileID: 65926311}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2a0ef3c9b3e34b87bbf644b03dabe46b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1327836009 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 7320260413427841738, guid: afdfd80710020ee419634d1e29da7538,
@@ -33535,7 +33558,9 @@ MonoBehaviour:
   popUp: {fileID: 0}
   interactibleIcon: {fileID: 0}
   interactableObject: {fileID: 0}
+  quitDialogWindow: {fileID: 0}
   menu: {fileID: 0}
+  skillDash: {fileID: 0}
   documentIcon: {fileID: 0}
   inventoryData: {fileID: 0}
   player: {fileID: 0}
@@ -44073,7 +44098,7 @@ PrefabInstance:
         type: 3}
       insertIndex: 0
       addedObject: {fileID: 1112277151}
-    - targetCorrespondingSourceObject: {fileID: -1431820416841916353, guid: d0e57e48fa6e457428c3f65ed974128d,
+    - targetCorrespondingSourceObject: {fileID: 5782995547908069131, guid: d0e57e48fa6e457428c3f65ed974128d,
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 1913973978}
