@@ -71,8 +71,7 @@ namespace Refactor.Entities.Modules
         [Header("REFERENCES - CASTING")] 
         public Material chaosSword;
         public Material orderSword;
-        public ParticleSystem castingEffect;
-        
+
         [Header("SETTINGS")] 
         public bool useCameraView;
         public float ikFootOffset = 0.005f;
@@ -181,8 +180,8 @@ namespace Refactor.Entities.Modules
                 entity.velocity = Vector3.zero;
                 
                 state = PlayerState.Casting;
-                animator.CrossFade("Casting", 0.1f);
-
+                
+                /*
                 IEnumerator LerpSword(float timeIn, float timeOut)
                 {
                     var color = new Color(1f, 1f, 1f, 1f) * 3f;
@@ -205,25 +204,48 @@ namespace Refactor.Entities.Modules
 
                     swordMaterial.SetColor("_EmissionColor", color);
                 }
+                */
                 
                 ElementHandlerEntityModule module = entity.GetModule<ElementHandlerEntityModule>();
                 Element elm = (entity.element is Element.Chaos) ? Element.Order : Element.Chaos;
 
                 IEnumerator Coroutine()
                 {
-                    foreach (var particleSystem in particlesChaos)
+                    if (elm == Element.Chaos)
                     {
-                        particleSystem.Play();
+                        foreach (var particleSystem in particlesChaos)
+                        {
+                            particleSystem.Play();
+                        }
                     }
+                    else
+                    {
+                        foreach (var particleSystem in particlesOrder)
+                        {
+                            particleSystem.Play();
+                        }
+                    }
+                    
+                    animator.CrossFade("Casting", 0.1f);
                     module.HandleChangeStart(elm);
-                    yield return new WaitForSeconds(0.5f);
+                    yield return new WaitForSeconds(0.4f);
                     module.HandleChangeEnd(elm);
                     yield return new WaitForSeconds(0.75f);
                     entity.element = elm;
                     state = PlayerState.Default;
-                    foreach (var particleSystem in particlesChaos)
+                    if (elm == Element.Chaos)
                     {
-                        particleSystem.Stop();
+                        foreach (var particleSystem in particlesChaos)
+                        {
+                            particleSystem.Stop();
+                        }
+                    }
+                    else
+                    {
+                        foreach (var particleSystem in particlesOrder)
+                        {
+                            particleSystem.Stop();
+                        }
                     }
                 }
                 
@@ -244,7 +266,7 @@ namespace Refactor.Entities.Modules
                 
                 entity.StartCoroutine(Coroutine());
                 //entity.StartCoroutine(CastingEffect(0.5f, elm == Element.Order));
-                entity.StartCoroutine(LerpSword(0.5f, 0.75f));
+                //entity.StartCoroutine(LerpSword(0.5f, 0.75f));
             }
         }
         
