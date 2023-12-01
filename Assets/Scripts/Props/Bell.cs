@@ -51,10 +51,10 @@ namespace Refactor.Props
 
             ClimbTheBell();
             StartCoroutine(BellDissolve(true));
-            
-            for (var i = 0; i < enemyCount; i++)
+            var enCount = (enemyCount * (ordersEnemies + 1));
+            for (var i = 0; i < enCount; i++)
             {
-                var pos = transform.position + Vector3.up + Quaternion.Euler(0, i * 360f / enemyCount, 0) * new Vector3(0, 0, 10);
+                var pos = transform.position + Vector3.up + Quaternion.Euler(0, i * 360f / enCount, 0) * new Vector3(0, 0, 10);
                 var go = Instantiate(enemiesPrefabs[i % enemiesPrefabs.Length], pos, Quaternion.identity);
                 var entity = go.GetComponent<Entity>();
 
