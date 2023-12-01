@@ -47,7 +47,7 @@ public class InspectDoc : MonoBehaviour
     private void Update()
     {
         if(IngameGameInput.InputAttack1.trigger) SetTranscriptActive(!_transcriptPanel.activeSelf);
-        else if(IngameGameInput.InputRunning.trigger) StartCoroutine(ResetRotation());
+        else if(IngameGameInput.InputSlowing.trigger) StartCoroutine(ResetRotation());
         else if(IngameGameInput.InputInteract.trigger) DocExit();
     }
 

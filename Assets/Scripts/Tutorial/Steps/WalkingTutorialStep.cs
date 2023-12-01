@@ -16,7 +16,7 @@ namespace Refactor.Tutorial.Steps
             input.DisableAllInput();
             input.canMoveCamera = true;
             input.canMove = true;
-            
+
             controller.ShowBindingDisplay("move");
             target.SetActive(true);
             

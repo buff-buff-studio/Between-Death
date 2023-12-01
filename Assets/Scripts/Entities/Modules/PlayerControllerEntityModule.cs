@@ -400,7 +400,7 @@ namespace Refactor.Entities.Modules
             var inputMove = new Vector3(inputMove2.x, 0, inputMove2.y).normalized;
             if(useCameraView)
                 inputMove = Quaternion.Euler(0, camera.transform.eulerAngles.y, 0) * inputMove;
-            var inputRunning = IngameGameInput.InputRunning;
+            var inputRunning = IngameGameInput.InputSlowing;
             var inputJumping = IngameGameInput.InputJump;
             #endregion
 
@@ -443,7 +443,7 @@ namespace Refactor.Entities.Modules
             #region Animations
             var animWalking = animator.GetFloat("walking");
             animator.SetFloat("turning", math.lerp(animator.GetFloat("turning"), math.clamp(math.abs(deltaAngle) < 25f ? 0 : deltaAngle/30f, -1f, 1f), deltaTime * 8f));
-            animator.SetFloat("walking", math.lerp(animWalking, isMoving ? (inputRunning.value ? 1 : 0.5f) : 0, deltaTime * 2f));
+            animator.SetFloat("walking", math.lerp(animWalking, isMoving ? (inputRunning.value ? 0.5f : 1f) : 0, deltaTime * 2f));
             
             if((animWalking > 0.5f && Time.time > lastWalkingInput + 0.2f)) 
                 animator.CrossFade("Stop", 0.2f);

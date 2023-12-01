@@ -16,7 +16,7 @@ namespace Refactor.Tutorial.Steps
             input.DisableAllInput();
             input.canMoveCamera = true;
             input.canMove = true;
-            input.canRun = true;
+            input.canSlow = true;
             input.canJump = true;
             input.canAttack0 = true;
             input.canChangeElement = canChangeElement;

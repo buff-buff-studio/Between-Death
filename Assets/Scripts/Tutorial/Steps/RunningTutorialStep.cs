@@ -20,7 +20,7 @@ namespace Refactor.Tutorial.Steps
             input.DisableAllInput();
             input.canMoveCamera = true;
             input.canMove = true;
-            input.canRun = true;
+            input.canSlow = true;
 
             controller.ShowBindingDisplay("run");
 
@@ -39,7 +39,7 @@ namespace Refactor.Tutorial.Steps
         {
             if (!isCurrent) return;
             
-            if (IngameGameInput.InputRunning.value)
+            if (IngameGameInput.InputSlowing.value)
                 distance += player.controller.velocity.magnitude * Time.fixedDeltaTime;
 
             runningDistanceLabel.text = $"{distance:F1}m";
