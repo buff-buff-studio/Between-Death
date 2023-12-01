@@ -11,6 +11,7 @@ namespace Refactor.Misc
         [Header("REFERENCES")]
         public Transform target;
         public LayerMask collisionMask;
+        public IngameGameInput input;
 
         public Value<float> sensitivityX = 50;
         public Value<float> sensitivityY = 50;
@@ -34,6 +35,7 @@ namespace Refactor.Misc
         [Header("CINEMATIC")]
         public bool haveCinematic = false;
         public Transform targetCinematic, targetPlayer;
+        public CanvasGroup hudCanvas;
         [Tooltip("X: Normal, Y: Cinematic")]
         public Vector2 FOV = new Vector2(60, 4);
         public float timeToCinematic = 1f;
@@ -110,21 +112,30 @@ namespace Refactor.Misc
             #endregion
         }
 
+        public void LookAtCinematic()
+        {
+            _camera.fieldOfView = FOV.y;
+            _camera.transform.LookAt(targetCinematic);
+        }
+
         public IEnumerator CinematicAnimator()
         {
             yield return new WaitForSeconds(timeToCinematic);
             var time = 0f;
             var start = targetCinematic.position;
             var end = targetPlayer.position;
+            hudCanvas.alpha = 0;
             while (time < cinematicSpeed)
             {
                 time += Time.deltaTime;
                 targetCinematic.position = Vector3.Lerp(start, end, time/cinematicSpeed);
                 _camera.fieldOfView = Mathf.Lerp(FOV.y, FOV.x, time/cinematicSpeed);
+                hudCanvas.alpha = Mathf.Lerp(-1, 1, time/cinematicSpeed);
                 _camera.transform.LookAt(targetCinematic);
                 yield return null;
             }
             _targetItself = targetCinematic.position;
+            input.EnableAllInput();
             haveCinematic = false;
         }
     }
