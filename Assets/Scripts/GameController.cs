@@ -3,6 +3,7 @@ using Refactor.Data.Variables;
 using Refactor.Entities;
 using Refactor.Entities.Modules;
 using Refactor.Interface;
+using Refactor.Misc;
 using Refactor.Props;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -15,6 +16,7 @@ namespace Refactor
     {
         [Header("REFERENCES")]
         public Entity player;
+        public OrbitCamera camera;
         public Variable[] toReset;
         
         private InteractionEntityModule _interactionPlayerModule;
