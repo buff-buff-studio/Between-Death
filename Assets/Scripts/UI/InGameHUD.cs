@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using DG.Tweening;
 using Refactor;
 using Refactor.Data;
 using Refactor.Entities;
@@ -44,7 +45,9 @@ public class InGameHUD : WindowManager
 
     [Space]
     [Header("MENU")]
+    [SerializeField] private Window quitDialogWindow;
     [SerializeField] private InGameMenu menu;
+    [SerializeField] private GameObject skillDash;
     
     [Space]
     [Header("OTHERS")]
@@ -80,8 +83,7 @@ public class InGameHUD : WindowManager
             UpdateLife(h, hlt.maxHealth);
         });
         
-        
-        UpdateSkillSlots();
+        //UpdateSkillSlots();
         UpdateElement();
     }
 
@@ -89,10 +91,45 @@ public class InGameHUD : WindowManager
     {
         IngameGameInput.CanInput = true;
     }
+    
+    public void QuitGame()
+    {
+        Debug.Log("aaaa");
+        quitDialogWindow.GetComponent<CanvasGroup>().DOFade(0, 0.5f);
+        StartCoroutine(_QuitGame());
+    }
+
+    private IEnumerator _QuitGame()
+    {
+        yield return new WaitForSeconds(1f);
+        LoadingScreen.LoadScene("Scenes/Menu");
+    }
+
+    public void CloseQuitGame()
+    {
+        quitDialogWindow.Close();
+        StartCoroutine(_CloseQuitGame());
+    }
+        
+    private IEnumerator _CloseQuitGame()
+    {
+        yield return new WaitForSeconds(0.5f);
+        (canvasGameInput as IngameGameInput)!.canInput = true;
+        Debug.Log("back");
+    }
 
     private void Update()
     {
-        if(canvasGameInput.inputStart.triggered)
+        UpdateSkillSlots();
+        
+        if(canvasGameInput.inputStart.triggered && (canvasGameInput as IngameGameInput)!.canInput)
+        {
+            quitDialogWindow.Open();
+            (canvasGameInput as IngameGameInput)!.canInput = false;
+            return;
+        }
+        
+        if(canvasGameInput.inputInventory.triggered)
         {
             menu.Menu(_active);
         }
@@ -133,11 +170,15 @@ public class InGameHUD : WindowManager
     {
         for (int i = 0; i < skillSlots.Length; i++)
         {
+           
             var s = equippedSkills[i];
-            if(s >= 0)
-                skillSlots[i].UpdateSlot(true, skills.GetIcon(s), skills.GetName(s));
+            if (s >= 0)
+            {
+                var skill = skills.skills[s];
+                skillSlots[i].UpdateSlot(true, skill.icon, skill.name, skill.actualCooldown / skill.cooldown);
+            }
             else
-                skillSlots[i].UpdateSlot(false, null, "");
+                skillSlots[i].UpdateSlot(false, null, "", 0);
         }
     }
 
@@ -149,6 +190,8 @@ public class InGameHUD : WindowManager
             Element.Order => orderIcon,
             _ => elementIcon.sprite
         };
+        
+        skillDash.SetActive(player.element == Element.Chaos);
     }
 
     #region Interaction

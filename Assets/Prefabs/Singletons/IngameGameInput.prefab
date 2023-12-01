@@ -30,7 +30,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 4
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &4815472593131307393
 MonoBehaviour:
@@ -46,6 +46,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   delaySecondInput: 0.5
   delayNextInputs: 0.125
+  canvas: {fileID: 0}
   inputStart:
     m_Name: Input Start
     m_Type: 0
@@ -399,6 +400,31 @@ MonoBehaviour:
       m_Action: Input Previous
       m_Flags: 0
     m_Flags: 0
+  inputInventory:
+    m_Name: Input Inventory
+    m_Type: 0
+    m_ExpectedControlType: 
+    m_Id: 856833cd-abfb-4e66-a945-fb9194b2e57f
+    m_Processors: 
+    m_Interactions: 
+    m_SingletonActionBindings:
+    - m_Name: 
+      m_Id: 5dc88394-e334-4566-91ae-edcf45e2f24d
+      m_Path: <Keyboard>/i
+      m_Interactions: 
+      m_Processors: 
+      m_Groups: 
+      m_Action: Input Inventory
+      m_Flags: 0
+    - m_Name: 
+      m_Id: 39a18d56-144e-4148-b481-aef2a8644c0e
+      m_Path: <Gamepad>/select
+      m_Interactions: 
+      m_Processors: 
+      m_Groups: 
+      m_Action: Input Inventory
+      m_Flags: 0
+    m_Flags: 0
   canMove: 1
   canInteract: 1
   canMoveCamera: 1
@@ -418,7 +444,7 @@ MonoBehaviour:
     m_SingletonActionBindings:
     - m_Name: 
       m_Id: 2093d043-81af-4f28-8a95-d96a7d9e8fab
-      m_Path: <Keyboard>/i
+      m_Path: <Keyboard>/f
       m_Interactions: 
       m_Processors: 
       m_Groups: 
@@ -426,7 +452,7 @@ MonoBehaviour:
       m_Flags: 0
     - m_Name: 
       m_Id: 1d08f842-1d16-4c32-bae6-a5931e301159
-      m_Path: <Gamepad>/buttonEast
+      m_Path: <Gamepad>/buttonNorth
       m_Interactions: 
       m_Processors: 
       m_Groups: 
@@ -476,7 +502,7 @@ MonoBehaviour:
       m_Flags: 0
     - m_Name: 
       m_Id: e7cd94a0-b8fe-4657-a9fd-5c7f9f082756
-      m_Path: <Gamepad>/buttonNorth
+      m_Path: <Gamepad>/buttonSouth
       m_Interactions: 
       m_Processors: 
       m_Groups: 
@@ -493,7 +519,7 @@ MonoBehaviour:
     m_SingletonActionBindings:
     - m_Name: 
       m_Id: 203f81c4-cf93-4029-b5ae-7d7babebe72f
-      m_Path: <Keyboard>/e
+      m_Path: <Keyboard>/tab
       m_Interactions: 
       m_Processors: 
       m_Groups: 
@@ -501,14 +527,6 @@ MonoBehaviour:
       m_Flags: 0
     - m_Name: 
       m_Id: 3719bed1-a581-4fe2-bb8a-555c0304f680
-      m_Path: <Gamepad>/leftTrigger
-      m_Interactions: 
-      m_Processors: 
-      m_Groups: 
-      m_Action: Input Change Element
-      m_Flags: 0
-    - m_Name: 
-      m_Id: b5130d15-00ac-4140-bebe-4a820430ebab
       m_Path: <Gamepad>/rightTrigger
       m_Interactions: 
       m_Processors: 
@@ -559,7 +577,7 @@ MonoBehaviour:
       m_Flags: 0
     - m_Name: 
       m_Id: 7b71e090-2024-48ff-b9ae-c0572925b9c0
-      m_Path: <Gamepad>/leftShoulder
+      m_Path: <Gamepad>/buttonNorth
       m_Interactions: 
       m_Processors: 
       m_Groups: 
@@ -576,7 +594,7 @@ MonoBehaviour:
     m_SingletonActionBindings:
     - m_Name: 
       m_Id: 3a500f4a-f2be-4842-bf4f-87825e36a78e
-      m_Path: <Keyboard>/q
+      m_Path: <Keyboard>/shift
       m_Interactions: 
       m_Processors: 
       m_Groups: 
@@ -584,7 +602,7 @@ MonoBehaviour:
       m_Flags: 0
     - m_Name: 
       m_Id: fe51134a-c45d-4e57-ac79-f4dc671329c0
-      m_Path: <Gamepad>/buttonSouth
+      m_Path: <Gamepad>/buttonEast
       m_Interactions: 
       m_Processors: 
       m_Groups: 
@@ -600,14 +618,6 @@ MonoBehaviour:
     m_Interactions: 
     m_SingletonActionBindings:
     - m_Name: 
-      m_Id: 2d3fab54-853e-46a4-b9de-25c20594a45d
-      m_Path: <Keyboard>/leftShift
-      m_Interactions: 
-      m_Processors: 
-      m_Groups: 
-      m_Action: Input Running
-      m_Flags: 0
-    - m_Name: 
       m_Id: 2be26848-c04c-4f5a-a42e-4ab449ab7f85
       m_Path: <Keyboard>/leftCtrl
       m_Interactions: 
@@ -622,5 +632,80 @@ MonoBehaviour:
       m_Processors: 
       m_Groups: 
       m_Action: Input Running
+      m_Flags: 0
+    m_Flags: 0
+  inputSkill0:
+    m_Name: Input Skill 0
+    m_Type: 0
+    m_ExpectedControlType: 
+    m_Id: 265dbcf9-583b-4a29-b761-ad0753b682aa
+    m_Processors: 
+    m_Interactions: 
+    m_SingletonActionBindings:
+    - m_Name: 
+      m_Id: 2eba5945-c589-46a1-a3c0-366ee4318f8c
+      m_Path: <Keyboard>/q
+      m_Interactions: 
+      m_Processors: 
+      m_Groups: 
+      m_Action: Input Skill 0
+      m_Flags: 0
+    - m_Name: 
+      m_Id: c825a40e-3347-4362-8a08-571522f06482
+      m_Path: <Gamepad>/leftShoulder
+      m_Interactions: 
+      m_Processors: 
+      m_Groups: 
+      m_Action: Input Skill 0
+      m_Flags: 0
+    m_Flags: 0
+  inputSkill1:
+    m_Name: Input Skill 1
+    m_Type: 0
+    m_ExpectedControlType: 
+    m_Id: 6f518f72-87c7-4fa0-bd45-07b5dbe43328
+    m_Processors: 
+    m_Interactions: 
+    m_SingletonActionBindings:
+    - m_Name: 
+      m_Id: 7921704a-41b2-4207-b9ac-ac1bb5dfc6e2
+      m_Path: <Keyboard>/e
+      m_Interactions: 
+      m_Processors: 
+      m_Groups: 
+      m_Action: Input Skill 1
+      m_Flags: 0
+    - m_Name: 
+      m_Id: 853f99a9-d2ef-42f4-b2da-2dcf56341378
+      m_Path: <Gamepad>/rightShoulder
+      m_Interactions: 
+      m_Processors: 
+      m_Groups: 
+      m_Action: Input Skill 1
+      m_Flags: 0
+    m_Flags: 0
+  inputSkill2:
+    m_Name: Input Skill 2
+    m_Type: 0
+    m_ExpectedControlType: 
+    m_Id: 87adfa8b-aaf2-4ee1-90a4-78043ea2fe58
+    m_Processors: 
+    m_Interactions: 
+    m_SingletonActionBindings:
+    - m_Name: 
+      m_Id: d88c60ad-7f78-4391-b083-461a8167b2c0
+      m_Path: <Keyboard>/r
+      m_Interactions: 
+      m_Processors: 
+      m_Groups: 
+      m_Action: Input Skill 2
+      m_Flags: 0
+    - m_Name: 
+      m_Id: 9cec5dc7-8941-44cc-8b6e-92c7132c77ff
+      m_Path: <Gamepad>/leftTrigger
+      m_Interactions: 
+      m_Processors: 
+      m_Groups: 
+      m_Action: Input Skill 2
       m_Flags: 0
     m_Flags: 0

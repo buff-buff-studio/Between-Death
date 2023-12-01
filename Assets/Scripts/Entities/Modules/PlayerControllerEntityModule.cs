@@ -67,6 +67,11 @@ namespace Refactor.Entities.Modules
         [Header("REFERENCES - RIGS")] 
         public LerpRig rigIdle;
         public LerpRig rigLean;
+
+        [Header("REFERENCES - CASTING")] 
+        public Material chaosSword;
+        public Material orderSword;
+        public ParticleSystem castingEffect;
         
         [Header("SETTINGS")] 
         public bool useCameraView;
@@ -198,18 +203,40 @@ namespace Refactor.Entities.Modules
                     swordMaterial.SetColor("_EmissionColor", color);
                 }
                 
+                ElementHandlerEntityModule module = entity.GetModule<ElementHandlerEntityModule>();
+                Element elm = (entity.element is Element.Chaos) ? Element.Order : Element.Chaos;
+
                 IEnumerator Coroutine()
                 {
+                    module.HandleChangeStart(elm);
                     yield return new WaitForSeconds(0.5f);
-                    entity.element = (entity.element is Element.Chaos) ? Element.Order : Element.Chaos;
+                    module.HandleChangeEnd(elm);
                     yield return new WaitForSeconds(0.75f);
+                    entity.element = elm;
                     state = PlayerState.Default;
                 }
-
+                
+                IEnumerator CastingEffect(float duration, bool inv)
+                {
+                    float time = 0;
+                    while (time <= duration)
+                    {
+                        float f = inv ? (1.0f - time / duration) : (time/duration); 
+                        
+                        chaosSword.SetFloat("_dissolve", f);
+                        orderSword.SetFloat("_dissolve", 1 - f);
+                        
+                        yield return null;
+                        time += Time.deltaTime;
+                    }
+                }
+                
                 entity.StartCoroutine(Coroutine());
+                //entity.StartCoroutine(CastingEffect(0.5f, elm == Element.Order));
                 entity.StartCoroutine(LerpSword(0.5f, 0.75f));
             }
         }
+        
         
         public void Handle__Dash()
         {
@@ -303,6 +330,7 @@ namespace Refactor.Entities.Modules
                 entity.velocity.z /= 2;
                 state = PlayerState.Default;
             }
+            
 
             animator.SetBool("grounded", entity.isGrounded);
         }

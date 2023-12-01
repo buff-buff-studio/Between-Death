@@ -27,6 +27,10 @@ namespace Refactor
         public static readonly InputBool InputAttack1 = new();
         public static readonly InputBool InputDash = new();
         public static readonly InputBool InputRunning = new();
+
+        public static readonly InputBool InputSkill0 = new();
+        public static readonly InputBool InputSkill1 = new();
+        public static readonly InputBool InputSkill2 = new();
         
         [Header("SETTINGS")]
         public static bool CanInput = true;
@@ -57,6 +61,10 @@ namespace Refactor
         public InputAction inputAttack1;
         public InputAction inputDash;
         public InputAction inputRunning;
+        
+        public InputAction inputSkill0;
+        public InputAction inputSkill1;
+        public InputAction inputSkill2;
 
         public void DisableAllInput()
         { 
@@ -96,6 +104,9 @@ namespace Refactor
             inputChangeElement.Enable();
             inputDash.Enable();
             inputRunning.Enable();
+            inputSkill0.Enable();
+            inputSkill1.Enable();
+            inputSkill2.Enable();
         }
 
         protected override void OnDisable()
@@ -110,6 +121,9 @@ namespace Refactor
             inputChangeElement.Disable();
             inputDash.Disable();
             inputRunning.Disable();
+            inputSkill0.Disable();
+            inputSkill1.Disable();
+            inputSkill2.Enable();
         }
 
         protected override void Update()
@@ -129,6 +143,10 @@ namespace Refactor
             InputChangeElement.SetValue(CanInput && canChangeElement && inputChangeElement.ReadValue<float>() > 0);
             InputDash.SetValue(CanInput && canDash && inputDash.ReadValue<float>() > 0);
             InputRunning.SetValue(CanInput && canRun && inputRunning.ReadValue<float>() == 0);
+            
+            InputSkill0.SetValue(CanInput && inputSkill0.ReadValue<float>() > 0);
+            InputSkill1.SetValue(CanInput && inputSkill1.ReadValue<float>() > 0);
+            InputSkill2.SetValue(CanInput && inputSkill2.ReadValue<float>() > 0);
         }
     }
 }

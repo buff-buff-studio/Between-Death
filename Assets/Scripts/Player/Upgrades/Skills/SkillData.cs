@@ -11,8 +11,10 @@ public class SkillData : GenericItemData
     [Space]
     [Header("Values")]
     public Element element;
-    [Range(0,60f)] [Tooltip("Cooldown in seconds")]
     public float cooldown;
+
+    [Header("Cooldown")]
+    public float actualCooldown = 0;
     
     [Header("Attack")]
     public string clipName;
@@ -29,6 +31,7 @@ public class SkillData : GenericItemData
         attack.damage = damage;
         attack.transitionTime = transitionTime;
         attack.damageTime = damageTime;
+        attack.nextAttackWindow = 0.9f;
         return attack;
     }
     

@@ -23,9 +23,5 @@ public class SkillList : ScriptableObject
     
     //Values
     public Element GetElement(int i) => skills[i].element;
-    public float GetCooldown(int i) => skills[i].cooldown;
-    public float GetDamage(int i) => skills[i].damage;
-    public Attack GetAttack(int i) => skills[i].GetAttack();
-    
     public bool IsElement(int i, Element element) => skills[i].element == element;
 }

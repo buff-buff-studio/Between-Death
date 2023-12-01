@@ -29,6 +29,8 @@ namespace Refactor.Entities.Modules
         public Animator animator;
         public Attack[] attacks;
         public GameObject hitParticlesPrefab;
+        public InventoryData inventoryData;
+        public SkillList skillList;
 
         [Header("STATE")] 
         public AttackState currentAttackState;
@@ -40,13 +42,22 @@ namespace Refactor.Entities.Modules
             base.OnEnable();
             _controllerEntity = entity.GetModule<PlayerControllerEntityModule>();
         }
+
+        public override void UpdatePhysics(float deltaTime)
+        {
+            foreach (var skill in skillList.skills)
+            {
+                skill.actualCooldown -= deltaTime;
+                if (skill.actualCooldown < 0)
+                    skill.actualCooldown = 0;
+            }
+        }
         
         public void ApplyDamage()
         {
             var p = entity.transform.position;
             var fw = _controllerEntity.body.forward;
-            
-            var pos = p + Vector3.up + fw;/* + _controllerEntity.body.rotation * attackOffset;*/
+            var pos = p + Vector3.up + fw;
             
             foreach (var target in HealthHelper.GetTargets(pos, attackRadius))
             {
@@ -67,16 +78,33 @@ namespace Refactor.Entities.Modules
                 Object.Destroy(go, 2f);
             }
         }
+
+        public void PerformSkill(SkillData skill, bool chained)
+        {
+            if (skill == null) 
+                return;
+            if (skill.actualCooldown > 0)
+                return;
+            
+            entity.velocity.x = entity.velocity.z = 0;
+            PerformAttack(chained, skill.GetAttack());
+            skill.actualCooldown = skill.cooldown;
+        }
         
         public void PerformAttack(bool resetStreak, bool chained)
         {
-            AudioSystem.PlaySound("attack").At(entity.transform.position);
-            entity.velocity.x = entity.velocity.z = 0;
-
             if (resetStreak)
                 currentAttackState.currentAttackStreak = 0;
-                
-            currentAttackState.currentAttack = attacks[currentAttackState.currentAttackStreak%attacks.Length];
+
+            PerformAttack(chained, attacks[currentAttackState.currentAttackStreak % attacks.Length]);
+        }
+
+        public void PerformAttack(bool chained, Attack attack)
+        {
+            AudioSystem.PlaySound("attack").At(entity.transform.position);
+            entity.velocity.x = entity.velocity.z = 0;
+            
+            currentAttackState.currentAttack = attack;
             currentAttackState.currentAttackStreak++;
                 
             animator.CrossFade(currentAttackState.currentAttack.clipName, currentAttackState.currentAttack.transitionTime, -1, chained ? currentAttackState.currentAttack.chainedStartTime : 0);
@@ -152,12 +180,34 @@ namespace Refactor.Entities.Modules
                         currentAttackState.appliedDamage = true;
                         ApplyDamage();
                     }
-                    
-                    if (attack && animState.normalizedTime >= currentAttackState.currentAttack.nextAttackWindow)
+
+                    bool rightWindow = animState.normalizedTime >= currentAttackState.currentAttack.nextAttackWindow;
+
+                    if (rightWindow)
                     {
-                        PerformAttack(false, true);
+                        if (IngameGameInput.InputSkill0.trigger)
+                        {
+                            SkillData data = skillList.Get(inventoryData.GetEquippedSkill(0));
+                            PerformSkill(data, true);
+                        }
+                        else if (IngameGameInput.InputSkill1.trigger)
+                        {
+                            SkillData data = skillList.Get(inventoryData.GetEquippedSkill(1));
+                            PerformSkill(data, true);
+                        }
+                        else if (IngameGameInput.InputSkill2.trigger)
+                        {
+                            SkillData data = skillList.Get(inventoryData.GetEquippedSkill(2));
+                            PerformSkill(data, true);
+                        }
+                        else if (attack)
+                        {
+                            PerformAttack(false, true);
+                        }
                     }
-                    else if (animState.normalizedTime > 0.9f)
+                    
+
+                    if (animState.normalizedTime > 0.9f)
                     {
                         LeaveAttack();
                     }
@@ -165,9 +215,26 @@ namespace Refactor.Entities.Modules
             }
             else
             {
-                if (attack)
+                if (IngameGameInput.InputSkill0.trigger)
+                {
+                    SkillData data = skillList.Get(inventoryData.GetEquippedSkill(0));
+                    PerformSkill(data, false);
+                }
+                else if (IngameGameInput.InputSkill1.trigger)
+                {
+                    SkillData data = skillList.Get(inventoryData.GetEquippedSkill(1));
+                    PerformSkill(data, false);
+                }
+                else if (IngameGameInput.InputSkill2.trigger)
+                {
+                    SkillData data = skillList.Get(inventoryData.GetEquippedSkill(2));
+                    PerformSkill(data, false);
+                }
+                else if (attack)
+                {
                     PerformAttack(!currentAttackState.canKeepStreak, false);
-
+                }
+ 
                 if (currentAttackState.currentAttack != null && currentAttackState.timeSinceLastAttack > currentAttackState.currentAttack.keepStreakTime)
                     currentAttackState.canKeepStreak = false;
             }

@@ -12,6 +12,7 @@ public class Slot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
     [Header("Visuals")]
     [SerializeField] private Image icon;
     [SerializeField] private TMPro.TextMeshProUGUI name;
+    [SerializeField] private Image cooldownIcon;
 
     protected bool active = true;
     //TODO:: Remove after implementing the widget system.
@@ -57,12 +58,14 @@ public class Slot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
     public virtual void UpdateSlot() => UpdateSlot(ID);
     public virtual void UpdateSlot(int id) => this.id = id;
     
-    public virtual void UpdateSlot(bool active, Sprite sprite, string text)
+    public virtual void UpdateSlot(bool active, Sprite sprite, string text, float cooldown)
     {
         gameObject.SetActive(active);
         this.active = active;
         this.sprite = sprite;
         this.text = text;
+        if(this.cooldownIcon != null)
+            this.cooldownIcon.fillAmount = cooldown;
     }
 
     public virtual void OnPointerEnter(PointerEventData eventData) { if (hover != null && active) hover.enabled = true; }

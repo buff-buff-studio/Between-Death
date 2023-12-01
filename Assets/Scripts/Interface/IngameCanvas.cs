@@ -14,16 +14,5 @@ namespace Refactor.Interface
     public class InGameCanvas : Canvas
     {
         public IngameGameInput ingameGameInput;
-
-        public override void CallAction(InterfaceAction action)
-        {
-            if (action is InterfaceAction.Start && ingameGameInput.canInput)
-            {
-                ingameGameInput.canInput = false;
-                return;
-            }
-            
-            base.CallAction(action);
-        }
     }
 }

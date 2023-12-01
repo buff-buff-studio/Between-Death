@@ -21,7 +21,7 @@ public class PassiveSlot : Slot
         
         UpdateSlot(true,
             PassiveManager.instance.passives.GetIcon(id),
-            PassiveManager.instance.passives.GetName(id));
+            PassiveManager.instance.passives.GetName(id), 0);
         button.interactable = !PassiveManager.instance.IsEquipped(id);
     }
     
