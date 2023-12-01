@@ -162,8 +162,7 @@ namespace Refactor.Entities.Modules
 
             controller = EnemiesInSceneController.instance;
             controller.AddEnemy(this);
-            playerRef = GameController.instance.player.transform;
-            
+    
             //Respawn
             foreach(var rend in renderers)
                 rend.material.SetFloat(_Dissolve, 0);
@@ -182,6 +181,8 @@ namespace Refactor.Entities.Modules
 
         public override void UpdateFrame(float deltaTime)
         {
+            if(playerRef == null)
+                playerRef = GameController.instance.player.transform;
             
             if(state == State.Dead) return;
             //Drag
