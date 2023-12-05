@@ -353,7 +353,7 @@ namespace Refactor.Entities.Modules
            
             // if(distanceToWaitForAttack <= 0) return;
             //   if(isGoingToAttack) return;
-            if(!controller.HasMoreThanOne()) return;
+           // if(!controller.HasMoreThanOne()) return;
             /*if (DistanceToWaitToAttack())
             {
                 state = State.WaitingToAttack;
@@ -481,7 +481,7 @@ namespace Refactor.Entities.Modules
                         case State.Wandering:
                         {
                             WanderingState();
-                            controller.RemoveEnemy(this);
+                           // controller.RemoveEnemy(this);
                             break;
                         }
                         case State.Retreating:
