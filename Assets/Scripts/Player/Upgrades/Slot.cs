@@ -38,7 +38,7 @@ public class Slot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
         get => name.text;
         set
         {
-            if (name == null) return;
+            if (name == null || value == null) return;
             name.text = value;
         }
     }

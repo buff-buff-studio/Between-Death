@@ -14,14 +14,14 @@ public class SkillList : ScriptableObject
     
     //About
     public int GetID(SkillData item) => skills.IndexOf(item);
-    public string GetName(int i) => skills[i].name;
-    public string GetDescription(int i) => skills[i].description;
+    public string GetName(int i) => i < 0 ? "" : skills[i].name;
+    public string GetDescription(int i) => i < 0 ? "" : skills[i].description;
     
     //Visuals
-    public Sprite GetIcon(int i) => skills[i].icon;
-    public VideoClip GetPreview(int i) => skills[i].preview;
+    public Sprite GetIcon(int i) => i < 0 ? null : skills[i].icon;
+    public VideoClip GetPreview(int i) => i < 0 ? null : skills[i].preview;
     
     //Values
-    public Element GetElement(int i) => skills[i].element;
+    public Element GetElement(int i) => i < 0 ? Element.None : skills[i].element;
     public bool IsElement(int i, Element element) => skills[i].element == element;
 }

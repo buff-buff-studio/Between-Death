@@ -25,6 +25,7 @@ public class InputSlot : Slot
     {
         base.UpdateSlot(id);
         button.interactable = true;
+        text = SkillManager.instance.skills.GetName(id);
 
         if (id < 0)
         {
