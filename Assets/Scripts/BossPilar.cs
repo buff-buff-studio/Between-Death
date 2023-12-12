@@ -15,7 +15,10 @@ public class BossPilar : Entity
     [SerializeField]
     private Material[] elementsMaterial = new Material[2];
 
-   
+    private static readonly int OrderChaos = Shader.PropertyToID("_Order_Chaos");
+    [SerializeField]
+    private ParticleSystem particleSystem;
+    
     
     public override void OnEnable()
     {
@@ -38,6 +41,8 @@ public class BossPilar : Entity
 
     private void OnChangeElement()
     {
-        mat.material = elementsMaterial[element == Element.Chaos ? 0 : 1];
+        mat.material.SetFloat(OrderChaos,element == Element.Chaos ? 1 : 0);
+        ParticleSystem.MainModule settings = particleSystem.main;
+        settings.startColor = new ParticleSystem.MinMaxGradient( element == Element.Chaos ? Color.red : Color.blue );
     }
 }

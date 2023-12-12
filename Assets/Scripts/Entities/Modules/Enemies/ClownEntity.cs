@@ -12,11 +12,11 @@ namespace Refactor.Entities.Modules
         private ProjectileController _controller;
         [SerializeField]
         private Transform shootPoint;
-        protected override Vector3 WanderingPos()
+        /*protected override Vector3 WanderingPos()
         {
             Debug.Log("Wandering");
             return Vector3.zero;
-        }
+        }*/
 
         public override void UpdateFrame(float deltaTime)
         {
