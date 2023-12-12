@@ -78,9 +78,7 @@ public class Boss : GioEntityModule
        ihm.Heal(Time.deltaTime * healSpeed);
 
        if (hm._health >= hm._maxHealth)
-       {
            BackToState();
-       }
        
     }
     public override void OnEnemyTakeDamage(float amount)
@@ -91,8 +89,9 @@ public class Boss : GioEntityModule
         Debug.Log("TakingDamage");
         animator.CrossFade("Reaction", 0.25f);
         
-        if (Math.Abs ((hm._health - currentHealthStage[currentStage-1]) ) < 1)
+        if (hm._health < currentHealthStage[currentStage-1])
         {
+            Debug.Log("StateSpecial");
             state = State.Special;
             hm.enabled = false;
             stateTime = 0;

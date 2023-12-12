@@ -350,7 +350,7 @@ namespace Refactor.Entities.Modules
                 if(timeSinceLastAttack >= attackCollDown)
                     Attack();
             }  
-           
+          
             // if(distanceToWaitForAttack <= 0) return;
             //   if(isGoingToAttack) return;
            // if(!controller.HasMoreThanOne()) return;
@@ -532,7 +532,7 @@ namespace Refactor.Entities.Modules
         
         private int GetRandomWanderingTime()
         {
-            return Random.Range(2, 5);
+            return Random.Range(2, 4);
         }
         
         private int WanderingTime()
@@ -547,7 +547,7 @@ namespace Refactor.Entities.Modules
         
         private float PathTimeTarget()
         {
-            return Random.Range(0.2f, 0.5f);
+            return Random.Range(0.1f, 0.4f);
         }
         
         
@@ -566,7 +566,7 @@ namespace Refactor.Entities.Modules
                     return;
                 
                 case State.Wandering:
-                    if (stateTime > _pathTime)
+                    if (stateTime > _wanderingTime)
                     {
                         _NewWanderTarget();
                         stateTime = 0;
