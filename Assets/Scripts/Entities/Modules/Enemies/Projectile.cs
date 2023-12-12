@@ -11,7 +11,8 @@ namespace Refactor.Entities.Modules
         [SerializeField]
         private float velocity;
         public Transform target;
-
+        [SerializeField]
+        private float damage = 15;
         private void OnEnable()
         {
             Invoke(nameof(Deactivate), 5);
@@ -32,7 +33,7 @@ namespace Refactor.Entities.Modules
         {
             if (other.CompareTag("Player"))
             {
-                ApplyDamageFor(1, 2);
+                ApplyDamageFor(damage, 2);
                 Deactivate();
             }
         }
