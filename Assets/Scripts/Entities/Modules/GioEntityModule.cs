@@ -190,8 +190,37 @@ namespace Refactor.Entities.Modules
             return 0;
         }
 
+        private float time = 3f;
+        private float currentTime = 0.0f;
+        private float distanceToCulling = 100;
+        private float distanceToMove = 80;
+        private bool isEnabled = true;
         public override void UpdateFrame(float deltaTime)
         {
+            currentTime += Time.deltaTime;
+            if (currentTime > time)
+            {
+                currentTime = 0;
+                var dist = Vector3.Distance(entity.transform.position, playerRef.transform.position);
+                Debug.Log(dist);
+                if (dist > distanceToCulling)
+                {
+                    isEnabled = false;
+                    entity.transform.GetChild(0).gameObject.SetActive(false);
+                }
+                else
+                {
+                    entity.transform.GetChild(0).gameObject.SetActive(true);
+                  
+                    if(dist < distanceToMove)
+                        isEnabled = true;
+                    else
+                        isEnabled = false;
+                    
+                }
+            }
+            
+            if(!isEnabled) return;
             if(playerRef == null)
                 playerRef = GameController.instance.player.transform;
             
@@ -449,7 +478,12 @@ namespace Refactor.Entities.Modules
         }
         public Vector3 GetWalkInput(float deltaTime, out bool running)
         {
-         
+            if(!isEnabled)
+            {
+                running = false;
+                return Vector3.zero;
+            }
+
             running = false;
             
             if(state == State.Dead) return Vector3.zero;
@@ -532,12 +566,12 @@ namespace Refactor.Entities.Modules
         
         private int GetRandomWanderingTime()
         {
-            return Random.Range(2, 4);
+            return Random.Range(4, 6);
         }
         
         private int WanderingTime()
         {
-            return Random.Range(8, 15);
+            return Random.Range(7, 10);
         }
         
         private float PathTime()
@@ -553,7 +587,7 @@ namespace Refactor.Entities.Modules
         
         public void UpdatePathfinding(float deltaTime)
         {
-
+            if(!enabled)return;
             switch (state)
             {
                 case State.Idling:
@@ -561,7 +595,7 @@ namespace Refactor.Entities.Modules
                     {
                         state = State.Wandering;
                         stateTime = 0;
-                        _pathTime = PathTime();
+                        _pathTime = WanderingTime();
                     }
                     return;
                 
@@ -577,7 +611,7 @@ namespace Refactor.Entities.Modules
                     {
                         state = State.Idling;
                         stateTime = 0;
-                        _pathTime = PathTime();
+                        _pathTime = WanderingTime();
                     }
                     return;
                 
