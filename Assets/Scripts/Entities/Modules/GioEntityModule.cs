@@ -77,7 +77,7 @@ namespace Refactor.Entities.Modules
         [SerializeField]
         [Range(0,10)]
         private float chanceToRetreat = 5;
-        private bool _canTurn = true;
+        protected bool _canTurn = true;
         [SerializeField]
         private float _retreatTime = 4f;
         private float _distanceBehind = 8;
