@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using Refactor;
+using Refactor.Data.Variables;
 using Refactor.Misc;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -11,18 +12,32 @@ using UnityEngine.Video;
 public class CinematicController : MonoBehaviour
 {
     public VideoPlayer videoPlayer;
+    public RawImage rawImage;
     public CanvasGroup canvasGroup;
     public OrbitCamera camera;
     public IngameGameInput input;
 
-    public bool haveCinematic = true;
+    public BoolVariable haveCinematic;
 
-    private void Start()
+    private void Awake()
     {
-        if (haveCinematic)
+        if (haveCinematic.Value)
         {
             camera.enabled = false;
             canvasGroup.alpha = 1;
+        }
+        else
+        {
+            rawImage.enabled = false;
+            camera.enabled = false;
+            canvasGroup.alpha = 1;
+        }
+    }
+
+    private void Start()
+    {
+        if (haveCinematic.Value)
+        {
             input.DisableAllInput();
             input.inputConfirm.started += OnInputConfirmOnperformed;
             input.inputInteract.started += OnInputCancelOnperformed;
@@ -30,11 +45,8 @@ public class CinematicController : MonoBehaviour
         }
         else
         {
-            gameObject.SetActive(false);
-
-            input.EnableAllInput();
-            camera.haveCinematic = false;
-            camera.enabled = true;
+            input.DisableAllInput();
+            StartCoroutine(FadeOut());
         }
     }
 
@@ -52,7 +64,7 @@ public class CinematicController : MonoBehaviour
         input.inputJump.started -= OnInputConfirmOnperformed;
         input.inputInteract.started -= OnInputCancelOnperformed;
 
-        haveCinematic = false;
+        haveCinematic.Value = false;
         camera.LookAtCinematic();
         camera.hudCanvas.alpha = 0;
 
@@ -61,7 +73,7 @@ public class CinematicController : MonoBehaviour
         while (time < timeEnd)
         {
             time += Time.deltaTime;
-            canvasGroup.alpha = 1-(time / timeEnd);
+            canvasGroup.alpha = 1 - (time / timeEnd);
             yield return null;
         }
 
