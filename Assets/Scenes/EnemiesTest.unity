@@ -993,6 +993,12 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!95 &146065807 stripped
+Animator:
+  m_CorrespondingSourceObject: {fileID: 4054555567845198533, guid: 937a60720fa43744f8a3690bfac9192c,
+    type: 3}
+  m_PrefabInstance: {fileID: 3089569184516623049}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &175765613
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2548,6 +2554,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 557822439006981569, guid: 8df7ca7a3455ebd4288c95ef9851d014,
         type: 3}
+      propertyPath: _modules.editorOpen
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 557822439006981569, guid: 8df7ca7a3455ebd4288c95ef9851d014,
+        type: 3}
       propertyPath: managedReferences[2179848129062109185].playerRef
       value: 
       objectReference: {fileID: 773599190}
@@ -2555,6 +2566,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: EnemyOrder VariantRosemar (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 1011758163882079258, guid: 8df7ca7a3455ebd4288c95ef9851d014,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4308016697729821299, guid: 8df7ca7a3455ebd4288c95ef9851d014,
         type: 3}
@@ -2628,6 +2644,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d7585d2c05b04c79a896630c7b66d10b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &1252611978 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6427654210918207428, guid: 9acec470fae0cdd47a060201c215ac7e,
+    type: 3}
+  m_PrefabInstance: {fileID: 681677410203959125}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1269288937
 GameObject:
   m_ObjectHideFlags: 0
@@ -2854,7 +2876,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1477831796
 Transform:
   m_ObjectHideFlags: 0
@@ -3608,6 +3630,20 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 681677410203959125}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1979204611
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1252611978}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8d748bba84d5460fa7b1e6478e4bb63a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  anim: {fileID: 2119154069}
+  layer: 2
 --- !u!1 &1988543402
 GameObject:
   m_ObjectHideFlags: 0
@@ -3992,6 +4028,26 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 2073524425}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &2109557611 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4721107060316380528, guid: 937a60720fa43744f8a3690bfac9192c,
+    type: 3}
+  m_PrefabInstance: {fileID: 3089569184516623049}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &2109557614
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2109557611}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8d748bba84d5460fa7b1e6478e4bb63a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  anim: {fileID: 146065807}
+  layer: 1
 --- !u!1001 &2116729868
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -4004,6 +4060,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: EnemyOrder VariantPluros (2)
+      objectReference: {fileID: 0}
+    - target: {fileID: 1047544326308976939, guid: 0fe64c66857e46c43a40e54ecf3b4a6d,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3133304451232703882, guid: 0fe64c66857e46c43a40e54ecf3b4a6d,
+        type: 3}
+      propertyPath: _modules.editorOpen
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3133304451232703882, guid: 0fe64c66857e46c43a40e54ecf3b4a6d,
         type: 3}
@@ -4075,6 +4141,12 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0fe64c66857e46c43a40e54ecf3b4a6d, type: 3}
+--- !u!95 &2119154069 stripped
+Animator:
+  m_CorrespondingSourceObject: {fileID: 2144147609178988712, guid: 9acec470fae0cdd47a060201c215ac7e,
+    type: 3}
+  m_PrefabInstance: {fileID: 681677410203959125}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &2143983482
 GameObject:
   m_ObjectHideFlags: 0
@@ -4339,6 +4411,16 @@ PrefabInstance:
       propertyPath: m_Name
       value: EnemyOrder Boss
       objectReference: {fileID: 0}
+    - target: {fileID: 6427654210918207428, guid: 9acec470fae0cdd47a060201c215ac7e,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8989614477383938917, guid: 9acec470fae0cdd47a060201c215ac7e,
+        type: 3}
+      propertyPath: _modules.editorOpen
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8989614477383938917, guid: 9acec470fae0cdd47a060201c215ac7e,
         type: 3}
       propertyPath: managedReferences[485504078988181505].playerRef
@@ -4347,7 +4429,11 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 6427654210918207428, guid: 9acec470fae0cdd47a060201c215ac7e,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1979204611}
   m_SourcePrefab: {fileID: 100100000, guid: 9acec470fae0cdd47a060201c215ac7e, type: 3}
 --- !u!1001 &1027950365118398490
 PrefabInstance:
@@ -4728,10 +4814,20 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4055936997492612057, guid: 937a60720fa43744f8a3690bfac9192c,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 2.29
+      objectReference: {fileID: 0}
     - target: {fileID: 4721107060316380528, guid: 937a60720fa43744f8a3690bfac9192c,
         type: 3}
       propertyPath: m_Name
       value: EnemyOrder Tank
+      objectReference: {fileID: 0}
+    - target: {fileID: 4721107060316380528, guid: 937a60720fa43744f8a3690bfac9192c,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7239156057891693009, guid: 937a60720fa43744f8a3690bfac9192c,
         type: 3}
@@ -4743,10 +4839,34 @@ PrefabInstance:
       propertyPath: managedReferences[2428299320438292480].controller
       value: 
       objectReference: {fileID: 782672068}
+    - target: {fileID: 7239156057891693009, guid: 937a60720fa43744f8a3690bfac9192c,
+        type: 3}
+      propertyPath: managedReferences[2428299320438292480].damageRadius
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 7239156057891693009, guid: 937a60720fa43744f8a3690bfac9192c,
+        type: 3}
+      propertyPath: managedReferences[2428299320438292480].distanceToAttack
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7239156057891693009, guid: 937a60720fa43744f8a3690bfac9192c,
+        type: 3}
+      propertyPath: managedReferences[2428299320438292480].timeOnSpecialAttack
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 7239156057891693009, guid: 937a60720fa43744f8a3690bfac9192c,
+        type: 3}
+      propertyPath: managedReferences[2428299320438292480].distanceToSpecialAttack
+      value: 11
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 4721107060316380528, guid: 937a60720fa43744f8a3690bfac9192c,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 2109557614}
   m_SourcePrefab: {fileID: 100100000, guid: 937a60720fa43744f8a3690bfac9192c, type: 3}
 --- !u!1001 &3107641875711494079
 PrefabInstance:
@@ -6028,6 +6148,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5634362803300849209, guid: 1624a8b81b91cc44abe52942e182c075,
         type: 3}
+      propertyPath: _modules.editorOpen
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5634362803300849209, guid: 1624a8b81b91cc44abe52942e182c075,
+        type: 3}
       propertyPath: managedReferences[2134308353207435264].playerRef
       value: 
       objectReference: {fileID: 773599190}
@@ -6040,6 +6165,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: EnemyOrder VariantPalhaco
+      objectReference: {fileID: 0}
+    - target: {fileID: 7765152239371725464, guid: 1624a8b81b91cc44abe52942e182c075,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

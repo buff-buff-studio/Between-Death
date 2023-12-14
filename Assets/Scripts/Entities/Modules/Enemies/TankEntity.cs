@@ -24,12 +24,13 @@ namespace Refactor.Entities.Modules
         [SerializeField] private Transform rayCastPlace;
 
         private GameObject playerRefPos = null;
-        
+        private static readonly int RushAttackOut = Animator.StringToHash("rushAttackOut");
+
         /*protected override float AttackAnimation()
         {
             return 1.5f;
         }*/
-
+        
         private void MoveObject(Vector3 pos)
         {
             if (playerRefPos == null)
@@ -87,15 +88,25 @@ namespace Refactor.Entities.Modules
             {
                 stateTime = 0;
                 state = State.Wandering;
+                if (_path != null)
+                {
+                    _path.ClearCorners();
+                    _pathIndex = 0;
+                }
             }
      
             if (DistanceToAttack())
             {
                 _NewWanderTarget();
                 onSpecialAttack = true;
-                state = State.Attacking;
+               state = State.Attacking;
                 stateTime = 0;
                 Attack();
+                if (_path != null)
+                {
+                    _path.ClearCorners();
+                    _pathIndex = 0;
+                }
                 return;
                 //  if(timeSinceLastAttack >= attackCollDown)
              
@@ -106,9 +117,16 @@ namespace Refactor.Entities.Modules
                 if (Random.Range(0, 11) < chanceToSpecialAttack)
                 {
                     _NewWanderTarget();
+                    onSpecialAttack = true;
+                    Debug.Log("Special attack");
+                    if (_path != null)
+                    {
+                        _path.ClearCorners();
+                        _pathIndex = 0;
+                    }
                     state = State.Attacking;
                     stateTime = 0;
-                    onSpecialAttack = true;
+                    
                     SpecialAttack(); 
                 }
             }
@@ -119,15 +137,17 @@ namespace Refactor.Entities.Modules
         {
             
             state = State.Dizzy;
+            
             DizzyState();
             stateTime = 0;
-
-            if (onSpecialAttack)
+            onSpecialAttack = false;
+            /*if (onSpecialAttack)
             {
                 animator.SetTrigger("rushAttackOut");
                 onSpecialAttack = false;
-            }
+            }*/
         }
+        
         
         protected override void AttackState()
         {
@@ -140,9 +160,12 @@ namespace Refactor.Entities.Modules
                 if (Physics.SphereCast(rayCastPlace.transform.position, 2,entity.transform.forward, out RaycastHit hit, 0.8f, triggerlayer,
                         QueryTriggerInteraction.UseGlobal))
                 {
-                    ApplyDamageFor(attackDamage * 2, 3);
-                    SetDizzy();
-
+                    if (hit.transform.CompareTag("Player"))
+                    {
+                        ApplyDamageFor(attackDamage * 2, 3);
+                        SetDizzy();
+                    }
+                    
                 }
                 else if (stateTime >= timeOnSpecialAttack)
                 {
@@ -169,6 +192,8 @@ namespace Refactor.Entities.Modules
                 stateTime = 0;
                 if (DistanceToAttack())
                 {
+                    Debug.Log("Distance to attack");
+                    onSpecialAttack = false;
                     stateTime = 0;
                     Attack();
                 }
@@ -176,10 +201,20 @@ namespace Refactor.Entities.Modules
                 {
                     stateTime = 0;
                     state = State.Targeting;
+                    if (_path != null)
+                    {
+                        _path.ClearCorners();
+                        _pathIndex = 0;
+                    }
                 }
-                state = State.Targeting;
+                //  state = State.Targeting;
                 dizzyBarCurrentValue = dizzyBarMax;
                 animator.CrossFade("Stop", 0.2f);
+                if (_path != null)
+                {
+                    _path.ClearCorners();
+                    _pathIndex = 0;
+                }
             }
         }
 
