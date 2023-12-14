@@ -12,11 +12,18 @@ namespace Refactor.Props
     public class Lever : Interactable
     {
         private Animator animator;
+
+        public bool haveHandle;
+        public bool HaveHandle {set => haveHandle = value;}
+        public UnityEvent onTriggerNoHandle;
+
         [SerializeField] private string activeAnimationName = "Open";
         [SerializeField] private string inactiveAnimationName = "Open";
 
         public UnityEvent onOn;
         public UnityEvent onOff;
+
+        public bool startState;
 
         private void Awake()
         {
@@ -25,6 +32,7 @@ namespace Refactor.Props
 
         protected override void OnEnable()
         {
+            startState = state;
             base.OnEnable();
 
             onInteract.AddListener(Toggle);
@@ -46,7 +54,12 @@ namespace Refactor.Props
 
         public void Toggle(bool state)
         {
-            if (this.state)
+            if(!haveHandle)
+            {
+                onTriggerNoHandle.Invoke();
+                this.state = startState;
+            }
+            else if (this.state)
             {
                 animator.Play(activeAnimationName);
                 onOn.Invoke();
@@ -67,7 +80,9 @@ namespace Refactor.Props
         private SerializedProperty _inactiveAnimationName;
         private SerializedProperty _onOn;
         private SerializedProperty _onOff;
-        
+        private SerializedProperty _onTriggerNoHandle;
+        private SerializedProperty _haveHandle;
+
         private List<string> animations = new List<string>();
         private int _activeIndex = 0;
         private int _inactiveIndex = 0;
@@ -82,6 +97,8 @@ namespace Refactor.Props
             _inactiveAnimationName = serializedObject.FindProperty("inactiveAnimationName");
             _onOn = serializedObject.FindProperty("onOn");
             _onOff = serializedObject.FindProperty("onOff");
+            _onTriggerNoHandle = serializedObject.FindProperty("onTriggerNoHandle");
+            _haveHandle = serializedObject.FindProperty("haveHandle");
 
             animations.Clear();
             var animationController = lever.GetComponent<Animator>().runtimeAnimatorController;
@@ -118,6 +135,8 @@ namespace Refactor.Props
             EditorGUILayout.PropertyField(_onInteract);
             EditorGUILayout.PropertyField(_onOn);
             EditorGUILayout.PropertyField(_onOff);
+            EditorGUILayout.PropertyField(_onTriggerNoHandle);
+            EditorGUILayout.PropertyField(_haveHandle);
 
             serializedObject.ApplyModifiedProperties();
 

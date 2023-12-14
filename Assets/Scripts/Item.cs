@@ -11,6 +11,9 @@ namespace Refactor.Props
         [SerializeField] private KeyData key;
         [SerializeField] private bool isSceneItem = false;
 
+        [Tooltip("Call only if the Interactable type is Scene Item")]
+        public UnityEvent OnDontHaveKey;
+
         protected override void OnEnable()
         {
             base.OnEnable();
@@ -34,8 +37,12 @@ namespace Refactor.Props
             else if(key != null && InGameHUD.instance.HasKey(key))
             {
                 InGameHUD.instance.UseKey(key);
+                Debug.Log("Item used");
                 base.Interact();
                 SetEnabled(false);
+            }else
+            {
+                OnDontHaveKey.Invoke();
             }
         }
     }
@@ -46,6 +53,7 @@ namespace Refactor.Props
     {
         private SerializedProperty _key;
         private SerializedProperty _isSceneItem;
+        private SerializedProperty _onDontHaveKey;
         private int _type = 0;
 
         protected override void OnEnable()
@@ -56,6 +64,7 @@ namespace Refactor.Props
 
             _key = serializedObject.FindProperty("key");
             _isSceneItem = serializedObject.FindProperty("isSceneItem");
+            _onDontHaveKey = serializedObject.FindProperty("OnDontHaveKey");
             _type = _isSceneItem.boolValue ? 0 : 1;
         }
 
@@ -82,6 +91,7 @@ namespace Refactor.Props
             EditorGUILayout.Space(5f);
             EditorGUILayout.PropertyField(_callOnEnable);
             EditorGUILayout.PropertyField(_onInteract);
+            EditorGUILayout.PropertyField(_onDontHaveKey);
 
             serializedObject.ApplyModifiedProperties();
 
