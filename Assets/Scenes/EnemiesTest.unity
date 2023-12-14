@@ -710,7 +710,8 @@ MonoBehaviour:
         leftSword: {fileID: 0}
         rightSword: {fileID: 0}
         superSword: {fileID: 0}
-        playerRenderer: {fileID: 0}
+        playerRenderer:
+        - {fileID: 0}
     - rid: 5295485814535094273
       type: {class: HealthEntityModule, ns: Refactor.Entities.Modules, asm: Assembly-CSharp}
       data:
@@ -2187,12 +2188,6 @@ Transform:
   m_Father: {fileID: 1477831796}
   m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!95 &939427682 stripped
-Animator:
-  m_CorrespondingSourceObject: {fileID: 7902477782458979386, guid: 1624a8b81b91cc44abe52942e182c075,
-    type: 3}
-  m_PrefabInstance: {fileID: 7899799850142007682}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1122790718
 GameObject:
   m_ObjectHideFlags: 0
@@ -4010,11 +4005,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: EnemyOrder VariantPluros (2)
       objectReference: {fileID: 0}
-    - target: {fileID: 1047544326308976939, guid: 0fe64c66857e46c43a40e54ecf3b4a6d,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 3133304451232703882, guid: 0fe64c66857e46c43a40e54ecf3b4a6d,
         type: 3}
       propertyPath: managedReferences[2428299030916235264].playerRef
@@ -4025,11 +4015,6 @@ PrefabInstance:
       propertyPath: managedReferences[2428299030916235264].controller
       value: 
       objectReference: {fileID: 782672068}
-    - target: {fileID: 3133304451232703882, guid: 0fe64c66857e46c43a40e54ecf3b4a6d,
-        type: 3}
-      propertyPath: managedReferences[2428299030916235264]._retreatTime
-      value: 2
-      objectReference: {fileID: 0}
     - target: {fileID: 7004191862686074230, guid: 0fe64c66857e46c43a40e54ecf3b4a6d,
         type: 3}
       propertyPath: m_RootOrder
@@ -4349,70 +4334,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 4641652778090913896, guid: 9acec470fae0cdd47a060201c215ac7e,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 6427654210918207428, guid: 9acec470fae0cdd47a060201c215ac7e,
         type: 3}
       propertyPath: m_Name
       value: EnemyOrder Boss
-      objectReference: {fileID: 0}
-    - target: {fileID: 6427654210918207428, guid: 9acec470fae0cdd47a060201c215ac7e,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8549866572015678050, guid: 9acec470fae0cdd47a060201c215ac7e,
-        type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 0.078
-      objectReference: {fileID: 0}
-    - target: {fileID: 8549866572015678050, guid: 9acec470fae0cdd47a060201c215ac7e,
-        type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0.093
-      objectReference: {fileID: 0}
-    - target: {fileID: 8549866572015678050, guid: 9acec470fae0cdd47a060201c215ac7e,
-        type: 3}
-      propertyPath: m_LocalPosition.z
-      value: -0.131
-      objectReference: {fileID: 0}
-    - target: {fileID: 8549866572015678050, guid: 9acec470fae0cdd47a060201c215ac7e,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 0.7071068
-      objectReference: {fileID: 0}
-    - target: {fileID: 8549866572015678050, guid: 9acec470fae0cdd47a060201c215ac7e,
-        type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0.7071068
-      objectReference: {fileID: 0}
-    - target: {fileID: 8549866572015678050, guid: 9acec470fae0cdd47a060201c215ac7e,
-        type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8549866572015678050, guid: 9acec470fae0cdd47a060201c215ac7e,
-        type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8549866572015678050, guid: 9acec470fae0cdd47a060201c215ac7e,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 90
-      objectReference: {fileID: 0}
-    - target: {fileID: 8549866572015678050, guid: 9acec470fae0cdd47a060201c215ac7e,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8549866572015678050, guid: 9acec470fae0cdd47a060201c215ac7e,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8989614477383938917, guid: 9acec470fae0cdd47a060201c215ac7e,
         type: 3}
@@ -4803,20 +4728,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 3526997301888398815, guid: 937a60720fa43744f8a3690bfac9192c,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 4721107060316380528, guid: 937a60720fa43744f8a3690bfac9192c,
         type: 3}
       propertyPath: m_Name
       value: EnemyOrder Tank
-      objectReference: {fileID: 0}
-    - target: {fileID: 4721107060316380528, guid: 937a60720fa43744f8a3690bfac9192c,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7239156057891693009, guid: 937a60720fa43744f8a3690bfac9192c,
         type: 3}
@@ -4828,26 +4743,6 @@ PrefabInstance:
       propertyPath: managedReferences[2428299320438292480].controller
       value: 
       objectReference: {fileID: 782672068}
-    - target: {fileID: 7239156057891693009, guid: 937a60720fa43744f8a3690bfac9192c,
-        type: 3}
-      propertyPath: managedReferences[2428299320438292480].dizzyBarMax
-      value: 20
-      objectReference: {fileID: 0}
-    - target: {fileID: 7239156057891693009, guid: 937a60720fa43744f8a3690bfac9192c,
-        type: 3}
-      propertyPath: managedReferences[2428299320438292480].dizzyBarCurrentValue
-      value: 20
-      objectReference: {fileID: 0}
-    - target: {fileID: 7239156057891693009, guid: 937a60720fa43744f8a3690bfac9192c,
-        type: 3}
-      propertyPath: managedReferences[2428299320438292480].dizzyBarAmountRecover
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 7239156057891693009, guid: 937a60720fa43744f8a3690bfac9192c,
-        type: 3}
-      propertyPath: managedReferences[2428299320438292480].dizzyBarAmountWhenDamage
-      value: 0
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -6131,31 +6026,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 1298990899427889183, guid: 1624a8b81b91cc44abe52942e182c075,
-        type: 3}
-      propertyPath: m_Enabled
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1559342889974168287, guid: 1624a8b81b91cc44abe52942e182c075,
-        type: 3}
-      propertyPath: animator
-      value: 
-      objectReference: {fileID: 939427682}
-    - target: {fileID: 2485392181847602399, guid: 1624a8b81b91cc44abe52942e182c075,
-        type: 3}
-      propertyPath: m_Enabled
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2609950272013628763, guid: 1624a8b81b91cc44abe52942e182c075,
-        type: 3}
-      propertyPath: m_Controller
-      value: 
-      objectReference: {fileID: 9100000, guid: be2f2a0c8785d8c41a6b767aab421753, type: 2}
-    - target: {fileID: 3978787456496348260, guid: 1624a8b81b91cc44abe52942e182c075,
-        type: 3}
-      propertyPath: m_Materials.Array.data[0]
-      value: 
-      objectReference: {fileID: 2100000, guid: 8b53ae03203173140b89c00712de563c, type: 2}
     - target: {fileID: 5634362803300849209, guid: 1624a8b81b91cc44abe52942e182c075,
         type: 3}
       propertyPath: managedReferences[2134308353207435264].playerRef
@@ -6166,35 +6036,10 @@ PrefabInstance:
       propertyPath: managedReferences[2134308353207435264].controller
       value: 
       objectReference: {fileID: 782672068}
-    - target: {fileID: 5634362803300849209, guid: 1624a8b81b91cc44abe52942e182c075,
-        type: 3}
-      propertyPath: managedReferences[5295485814535094273].editorOpen
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 5634362803300849209, guid: 1624a8b81b91cc44abe52942e182c075,
-        type: 3}
-      propertyPath: managedReferences[2134308353207435264].distanceToAttack
-      value: 6
-      objectReference: {fileID: 0}
-    - target: {fileID: 5634362803300849209, guid: 1624a8b81b91cc44abe52942e182c075,
-        type: 3}
-      propertyPath: managedReferences[5295485814535094273]._health.localValue
-      value: 30
-      objectReference: {fileID: 0}
-    - target: {fileID: 5634362803300849209, guid: 1624a8b81b91cc44abe52942e182c075,
-        type: 3}
-      propertyPath: managedReferences[5295485814535094273]._maxHealth.localValue
-      value: 30
-      objectReference: {fileID: 0}
     - target: {fileID: 7765152239371725464, guid: 1624a8b81b91cc44abe52942e182c075,
         type: 3}
       propertyPath: m_Name
       value: EnemyOrder VariantPalhaco
-      objectReference: {fileID: 0}
-    - target: {fileID: 7765152239371725464, guid: 1624a8b81b91cc44abe52942e182c075,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

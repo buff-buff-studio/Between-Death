@@ -202,7 +202,6 @@ namespace Refactor.Entities.Modules
             {
                 currentTime = 0;
                 var dist = Vector3.Distance(entity.transform.position, playerRef.transform.position);
-                Debug.Log(dist);
                 if (dist > distanceToCulling)
                 {
                     isEnabled = false;
@@ -683,9 +682,8 @@ namespace Refactor.Entities.Modules
         }
         protected virtual Vector3 WanderingPos()
         {
-            Debug.Log("WanderingPos");
+  
             return wanderingStart + new Vector3(Random.Range(-3, 3), 1, Random.Range(-3, 3));
-            
         }
         
         protected virtual Vector3 TargetPos()
@@ -842,8 +840,7 @@ namespace Refactor.Entities.Modules
             
             callback?.Invoke();
         }
-
-
+        
         #endregion
     }
 }

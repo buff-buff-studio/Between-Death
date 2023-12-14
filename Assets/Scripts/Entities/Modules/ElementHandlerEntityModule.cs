@@ -13,7 +13,7 @@ namespace Refactor.Entities.Modules
         public GameObject leftSword;
         public GameObject rightSword;
         public GameObject superSword;
-        public Renderer playerRenderer;
+        public Renderer[] playerRenderer;
   
         public override void OnEnable()
         {
@@ -52,8 +52,12 @@ namespace Refactor.Entities.Modules
                 rightSword.SetActive(elm == Element.Chaos);
                 superSword.SetActive(elm == Element.Order);
             }
-            
-            playerRenderer.material.color = elm.GetColor();
+            if(playerRenderer.Length == 0) return;
+            for (int i = 0; i < playerRenderer.Length; i++)
+            {
+                playerRenderer[i].material.color = elm.GetColor();
+            }
+         
         }
     }
 }
