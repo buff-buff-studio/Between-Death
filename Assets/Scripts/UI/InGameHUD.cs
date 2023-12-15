@@ -122,13 +122,20 @@ public class InGameHUD : WindowManager
     {
         UpdateSkillSlots();
         
-        if(canvasGameInput.inputStart.triggered
-           && (canvasGameInput as IngameGameInput)!.canInput
-           && !quitDialogWindow.isOpen)
+        if(canvasGameInput.inputStart.triggered)
         {
-            quitDialogWindow.Open();
-            (canvasGameInput as IngameGameInput)!.canInput = false;
-            return;
+            if((canvasGameInput as IngameGameInput)!.canInput
+                && !quitDialogWindow.isOpen)
+            {
+                quitDialogWindow.Open();
+                (canvasGameInput as IngameGameInput)!.canInput = false;
+                return;
+            }else if(quitDialogWindow.isOpen)
+            {
+                quitDialogWindow.Close();
+                (canvasGameInput as IngameGameInput)!.canInput = true;
+                return;
+            }
         }
         
         if(canvasGameInput.inputInventory.triggered && canvasGameInput.canMenu)

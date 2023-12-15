@@ -692,7 +692,7 @@ MonoBehaviour:
     - rid: 5295485814535094273
     - rid: 191450586670432256
   controller: {fileID: 4030232620408637038}
-  respawnPosition: {x: 0, y: 0, z: 0}
+  respawnPosition: {fileID: 0}
   isGrounded: 0
   velocity: {x: 0, y: 0, z: 0}
   _element:
@@ -722,12 +722,17 @@ MonoBehaviour:
         inventoryData: {fileID: 11400000, guid: e18d86ba9eafb6a49b0ee95fad06554e,
           type: 2}
         skillList: {fileID: 11400000, guid: 698f7ee0efede234c8b5d429f961cd8a, type: 2}
+        lifeDrainPercentage: {fileID: 11400000, guid: c67747527c97bd94f8074c83a9fb0054,
+          type: 2}
         currentAttackState:
           currentAttack: {fileID: 0}
           currentAttackStreak: 0
           canKeepStreak: 1
           timeSinceLastAttack: 0
           appliedDamage: 0
+        onUseSkill:
+          m_PersistentCalls:
+            m_Calls: []
     - rid: 5295485631248728064
       type: {class: GravityEntityModule, ns: Refactor.Entities.Modules, asm: Assembly-CSharp}
       data:
@@ -828,7 +833,8 @@ MonoBehaviour:
         leftSword: {fileID: 159048828028999344}
         rightSword: {fileID: 1416195399992378902}
         superSword: {fileID: 871535162471483613}
-        playerRenderer: {fileID: 6708490656982710687}
+        playerRenderer:
+        - {fileID: 6708490656982710687}
     - rid: 5295485814535094273
       type: {class: HealthEntityModule, ns: Refactor.Entities.Modules, asm: Assembly-CSharp}
       data:

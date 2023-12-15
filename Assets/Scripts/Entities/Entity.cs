@@ -92,7 +92,6 @@ namespace Refactor.Entities
             var playerModule = GetModule<PlayerControllerEntityModule>();
             playerModule.animator.CrossFade("MainMovement", 0);
             controller.enabled = false;
-            playerModule.body.localScale = new Vector3(1, 0, 1);
             transform.position = respawnPosition.position;
             playerModule.body.DOScale(Vector3.one, 1f);
             IHealth health = GetModule<HealthEntityModule>();

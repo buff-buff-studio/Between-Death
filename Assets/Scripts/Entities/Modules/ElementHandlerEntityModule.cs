@@ -55,7 +55,7 @@ namespace Refactor.Entities.Modules
             if(playerRenderer.Length == 0) return;
             for (int i = 0; i < playerRenderer.Length; i++)
             {
-                playerRenderer[i].material.color = elm.GetColor();
+                playerRenderer[i].material.SetFloat("_Order_Chaos", elm == Element.Order ? 0 : 1);
             }
          
         }

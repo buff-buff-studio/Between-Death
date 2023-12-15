@@ -5,6 +5,7 @@ using Refactor.Data;
 using Refactor.Interface.Widgets;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Events;
 
 namespace Refactor.Interface.Windows
 {
@@ -14,6 +15,9 @@ namespace Refactor.Interface.Windows
         public Window restoreAlert;
         public Settings settings;
         public TMP_Dropdown languageDropdown;
+
+        [Header("EVENTS")]
+        public UnityEvent onCancel;
 
         public override void Open()
         {
@@ -67,6 +71,12 @@ namespace Refactor.Interface.Windows
                     if (i < 0) i = widgets.Count - 1;
                     canvas.SetCurrentWidget(widgets[i]);
                     AudioSystem.PlaySound("ui_click");
+                    return true;
+                }
+
+                case InterfaceAction.Cancel:
+                {
+                    onCancel.Invoke();
                     return true;
                 }
 
