@@ -139,6 +139,12 @@ namespace Refactor.Entities.Modules
             {
                 if(!entity.element.CanDamage(target.GetElement())) continue;
                 if (target.health == 0) continue;
+
+                if (target is HealthEntityModule hem)
+                {
+                    var gem = hem.entity.GetModule<GioEntityModule>();
+                    gem.RandomBehaviour();
+                }
                 
                 var delta = (target.GetGameObject().transform.position - p);
                 var dir = delta.normalized;
