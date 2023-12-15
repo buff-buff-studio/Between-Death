@@ -5,18 +5,20 @@ using Refactor.Data;
 using Refactor.Entities;
 using Refactor.Entities.Modules;
 using Refactor.Misc;
+using Unity.AI.Navigation;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.Experimental.GlobalIllumination;
 using Random = UnityEngine.Random;
 
 [Serializable]
 public class Boss : GioEntityModule
 {
     private float amountOfStages = 3;
-    private int amountToSpawn = 10;
-    private int amountToSpawnEnemies = 2;
-    private int range = 10;
+    private int amountToSpawn = 7;
+    private int amountToSpawnEnemies = 4;
+    private int range = 20;
     private List<Entity> trees = new List<Entity>();
     [SerializeField]
     private Entity spawnObject;
@@ -36,7 +38,12 @@ public class Boss : GioEntityModule
     private float heathDif;
     
     //private List<GioEntityModule> currentEntities = new List<GioEntityModule>();
-
+    [SerializeField]
+    private Light light;
+    [SerializeField]
+    private Color chaosColor, orderColor;
+    [SerializeField]
+    private NavMeshSurface meshSurface;
     public void OnKillTree()
     {
         Debug.Log("OnKillTree");
@@ -55,6 +62,12 @@ public class Boss : GioEntityModule
     {
         base.OnEnable();
         SetHealth();
+        ChangeLightColor();
+    }
+
+    private void ChangeLightColor()
+    {
+        light.color = entity.element == Element.Chaos ? chaosColor : orderColor;
     }
 
     private void SetHealth()
@@ -124,7 +137,11 @@ public class Boss : GioEntityModule
         stateTime = 0;
         entity.element = entity.element == Element.Chaos ? Element.Order : Element.Chaos;
     }
-    
+
+    private Element GetRandomElement()
+    {
+        return Random.Range(0, 2) == 0 ? Element.Order : Element.Chaos;
+    }
     
     private void SpawnSpecial()
     {
@@ -132,13 +149,14 @@ public class Boss : GioEntityModule
         hasSpawnedTrees = true;
         currentStage++;
         currentCountOfTrees = amountToSpawn;
+        var amount = Random.Range(amountToSpawn -2, amountToSpawn + 1);
         for (int i = 0; i < amountToSpawn; i++)
         {
             var pos = RandomPoint(entity.transform.position, range);
             var e = GameObject.Instantiate(spawnObject, pos, Quaternion.identity);
             e.GetModule<HealthEntityModule>().onDie.AddListener(OnKillTree);
             trees.Add(e);
-            e.element = entity.element;
+            e.element = GetRandomElement();
         }
 
         amountToSpawnEnemies *= currentStage;
@@ -147,8 +165,9 @@ public class Boss : GioEntityModule
         {
             var pos = RandomPoint(entity.transform.position, range);
             var e = GameObject.Instantiate(enemiesToSpawn[Random.Range(0,enemiesToSpawn.Count)], pos,Quaternion.identity);
-            e.GetComponent<Entity>().element = entity.element;
+            e.GetComponent<Entity>().element = GetRandomElement();
         }
+        meshSurface.BuildNavMesh();
     }
     
 

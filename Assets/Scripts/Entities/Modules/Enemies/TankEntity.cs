@@ -24,12 +24,13 @@ namespace Refactor.Entities.Modules
         [SerializeField] private Transform rayCastPlace;
 
         private GameObject playerRefPos = null;
-        
-        /*protected override float AttackAnimation()
+        private static readonly int RushAttackOut = Animator.StringToHash("rushAttackOut");
+
+        protected override float AttackAnimation()
         {
             return 1.5f;
-        }*/
-
+        }
+        
         private void MoveObject(Vector3 pos)
         {
             if (playerRefPos == null)
@@ -41,9 +42,10 @@ namespace Refactor.Entities.Modules
         {
             if (onSpecialAttack)
             {
-                return (playerRefPos.transform.position - entity.transform.position) * 500;
+                Debug.Log("onAttackPos");
+                return playerRefPos.transform.position;
             }
-            Debug.Log("onAttackPos");
+       
             return Vector3.zero;
         }
 
@@ -67,13 +69,22 @@ namespace Refactor.Entities.Modules
         }
         private void SpecialAttack()
         {
+            animator.CrossFade("RushAttackIN", 0.1f);
             _attackEnded = false;
             MoveObject(playerRef.position);
             timeSinceLastAttack = 0;
             stateTime = 0;
             onSpecialAttack = true;
-            animator.CrossFade("RushAttackIN", 0.1f);
-      
+          
+            
+            /*entity.StartCoroutine(OnAnimationFinish(() =>
+            {
+                _attackEnded = true;    
+                Debug.Log("Attack finished");
+                RandomBehaviour();
+                /*if (!RandomBehaviour())
+                    state = State.Attacking;#1#
+            },0.5f));*/
           //  animator.CrossFade($"Attack {Random.Range(0, 3)}", 0.25f);
         }
         protected virtual bool DistanceToSpecialAttack()    
@@ -87,15 +98,26 @@ namespace Refactor.Entities.Modules
             {
                 stateTime = 0;
                 state = State.Wandering;
+                animator.CrossFade("Stop", 0.2f);
+                if (_path != null)
+                {
+                    _path.ClearCorners();
+                    _pathIndex = 0;
+                }
             }
      
             if (DistanceToAttack())
             {
                 _NewWanderTarget();
                 onSpecialAttack = true;
-                state = State.Attacking;
+               state = State.Attacking;
                 stateTime = 0;
                 Attack();
+                if (_path != null)
+                {
+                    _path.ClearCorners();
+                    _pathIndex = 0;
+                }
                 return;
                 //  if(timeSinceLastAttack >= attackCollDown)
              
@@ -103,14 +125,25 @@ namespace Refactor.Entities.Modules
             
             if (DistanceToSpecialAttack())
             {
-                if (Random.Range(0, 11) < chanceToSpecialAttack)
+                if (timeSinceLastAttack >= attackCollDown && _attackEnded)
                 {
-                    _NewWanderTarget();
-                    state = State.Attacking;
-                    stateTime = 0;
-                    onSpecialAttack = true;
-                    SpecialAttack(); 
+                    if (Random.Range(0, 11) < chanceToSpecialAttack)
+                    {
+                        _NewWanderTarget();
+                        onSpecialAttack = true;
+                        Debug.Log("Special attack");
+                        if (_path != null)
+                        {
+                            _path.ClearCorners();
+                            _pathIndex = 0;
+                        }
+                        state = State.Attacking;
+                        stateTime = 0;
+                    
+                        SpecialAttack(); 
+                    }
                 }
+               
             }
        
         }
@@ -119,15 +152,17 @@ namespace Refactor.Entities.Modules
         {
             
             state = State.Dizzy;
+            
             DizzyState();
             stateTime = 0;
-
-            if (onSpecialAttack)
+            onSpecialAttack = false;
+            /*if (onSpecialAttack)
             {
                 animator.SetTrigger("rushAttackOut");
                 onSpecialAttack = false;
-            }
+            }*/
         }
+        
         
         protected override void AttackState()
         {
@@ -140,14 +175,19 @@ namespace Refactor.Entities.Modules
                 if (Physics.SphereCast(rayCastPlace.transform.position, 2,entity.transform.forward, out RaycastHit hit, 0.8f, triggerlayer,
                         QueryTriggerInteraction.UseGlobal))
                 {
-                    ApplyDamageFor(attackDamage * 2, 3);
-                    SetDizzy();
-
+                    if (hit.transform.CompareTag("Player"))
+                    {
+                        ApplyDamageFor(attackDamage * 2, 4);
+                        SetDizzy();
+                        _attackEnded = true;
+                    }
+                    
                 }
                 else if (stateTime >= timeOnSpecialAttack)
                 {
                     ApplyDamageFor(attackDamage * 2, 3);
                     SetDizzy();
+                    _attackEnded = true;
                 }
             }
             else
@@ -166,20 +206,26 @@ namespace Refactor.Entities.Modules
             
             if (stateTime > dizzyTime)
             {
+                timeSinceLastAttack = 0;
                 stateTime = 0;
                 if (DistanceToAttack())
                 {
-                    stateTime = 0;
+                    Debug.Log("Distance to attack");
+                    onSpecialAttack = false;
                     Attack();
                 }
                 else
                 {
-                    stateTime = 0;
                     state = State.Targeting;
                 }
-                state = State.Targeting;
+                //  state = State.Targeting;
                 dizzyBarCurrentValue = dizzyBarMax;
                 animator.CrossFade("Stop", 0.2f);
+                if (_path != null)
+                {
+                    _path.ClearCorners();
+                    _pathIndex = 0;
+                }
             }
         }
 
