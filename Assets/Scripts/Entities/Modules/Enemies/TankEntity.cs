@@ -26,10 +26,10 @@ namespace Refactor.Entities.Modules
         private GameObject playerRefPos = null;
         private static readonly int RushAttackOut = Animator.StringToHash("rushAttackOut");
 
-        /*protected override float AttackAnimation()
+        protected override float AttackAnimation()
         {
             return 1.5f;
-        }*/
+        }
         
         private void MoveObject(Vector3 pos)
         {
@@ -42,9 +42,10 @@ namespace Refactor.Entities.Modules
         {
             if (onSpecialAttack)
             {
-                return (playerRefPos.transform.position - entity.transform.position) * 500;
+                Debug.Log("onAttackPos");
+                return playerRefPos.transform.position;
             }
-            Debug.Log("onAttackPos");
+       
             return Vector3.zero;
         }
 
@@ -68,13 +69,22 @@ namespace Refactor.Entities.Modules
         }
         private void SpecialAttack()
         {
+            animator.CrossFade("RushAttackIN", 0.1f);
             _attackEnded = false;
             MoveObject(playerRef.position);
             timeSinceLastAttack = 0;
             stateTime = 0;
             onSpecialAttack = true;
-            animator.CrossFade("RushAttackIN", 0.1f);
-      
+          
+            
+            /*entity.StartCoroutine(OnAnimationFinish(() =>
+            {
+                _attackEnded = true;    
+                Debug.Log("Attack finished");
+                RandomBehaviour();
+                /*if (!RandomBehaviour())
+                    state = State.Attacking;#1#
+            },0.5f));*/
           //  animator.CrossFade($"Attack {Random.Range(0, 3)}", 0.25f);
         }
         protected virtual bool DistanceToSpecialAttack()    
@@ -88,6 +98,7 @@ namespace Refactor.Entities.Modules
             {
                 stateTime = 0;
                 state = State.Wandering;
+                animator.CrossFade("Stop", 0.2f);
                 if (_path != null)
                 {
                     _path.ClearCorners();
@@ -114,21 +125,25 @@ namespace Refactor.Entities.Modules
             
             if (DistanceToSpecialAttack())
             {
-                if (Random.Range(0, 11) < chanceToSpecialAttack)
+                if (timeSinceLastAttack >= attackCollDown && _attackEnded)
                 {
-                    _NewWanderTarget();
-                    onSpecialAttack = true;
-                    Debug.Log("Special attack");
-                    if (_path != null)
+                    if (Random.Range(0, 11) < chanceToSpecialAttack)
                     {
-                        _path.ClearCorners();
-                        _pathIndex = 0;
-                    }
-                    state = State.Attacking;
-                    stateTime = 0;
+                        _NewWanderTarget();
+                        onSpecialAttack = true;
+                        Debug.Log("Special attack");
+                        if (_path != null)
+                        {
+                            _path.ClearCorners();
+                            _pathIndex = 0;
+                        }
+                        state = State.Attacking;
+                        stateTime = 0;
                     
-                    SpecialAttack(); 
+                        SpecialAttack(); 
+                    }
                 }
+               
             }
        
         }
@@ -162,8 +177,9 @@ namespace Refactor.Entities.Modules
                 {
                     if (hit.transform.CompareTag("Player"))
                     {
-                        ApplyDamageFor(attackDamage * 2, 3);
+                        ApplyDamageFor(attackDamage * 2, 4);
                         SetDizzy();
+                        _attackEnded = true;
                     }
                     
                 }
@@ -171,6 +187,7 @@ namespace Refactor.Entities.Modules
                 {
                     ApplyDamageFor(attackDamage * 2, 3);
                     SetDizzy();
+                    _attackEnded = true;
                 }
             }
             else
@@ -189,23 +206,17 @@ namespace Refactor.Entities.Modules
             
             if (stateTime > dizzyTime)
             {
+                timeSinceLastAttack = 0;
                 stateTime = 0;
                 if (DistanceToAttack())
                 {
                     Debug.Log("Distance to attack");
                     onSpecialAttack = false;
-                    stateTime = 0;
                     Attack();
                 }
                 else
                 {
-                    stateTime = 0;
                     state = State.Targeting;
-                    if (_path != null)
-                    {
-                        _path.ClearCorners();
-                        _pathIndex = 0;
-                    }
                 }
                 //  state = State.Targeting;
                 dizzyBarCurrentValue = dizzyBarMax;

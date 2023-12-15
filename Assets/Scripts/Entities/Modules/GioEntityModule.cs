@@ -563,10 +563,6 @@ namespace Refactor.Entities.Modules
             return Vector3.zero;
         }
         
-        private int GetRandomWanderingTime()
-        {
-            return Random.Range(4, 6);
-        }
         
         private int WanderingTime()
         {
@@ -594,7 +590,7 @@ namespace Refactor.Entities.Modules
                     {
                         state = State.Wandering;
                         stateTime = 0;
-                        _pathTime = WanderingTime();
+                        _pathTime = PathTime();
                     }
                     return;
                 
@@ -606,7 +602,7 @@ namespace Refactor.Entities.Modules
                         _wanderingTime = WanderingTime();
                     }
                     
-                    if (stateTime > _wanderingTime)
+                    if (stateTime > _pathTime)
                     {
                         state = State.Idling;
                         stateTime = 0;
