@@ -1,8 +1,11 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using Refactor.Data.Variables;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.Serialization;
 
 namespace Refactor.Props
 {
@@ -10,9 +13,22 @@ namespace Refactor.Props
     {
         [SerializeField] private KeyData key;
         [SerializeField] private bool isSceneItem = false;
+        [SerializeField] private BoolVariable isUsed;
 
         [Tooltip("Call only if the Interactable type is Scene Item")]
         public UnityEvent OnDontHaveKey;
+
+        private void Awake()
+        {
+            if (isUsed == null)
+            {
+                isUsed = ScriptableObject.CreateInstance<BoolVariable>();
+                isUsed.Value = true;
+            }else if(isUsed.Value)
+            {
+                SetEnabled(false);
+            }
+        }
 
         protected override void OnEnable()
         {
@@ -54,6 +70,7 @@ namespace Refactor.Props
         private SerializedProperty _key;
         private SerializedProperty _isSceneItem;
         private SerializedProperty _onDontHaveKey;
+        private SerializedProperty _isUsed;
         private int _type = 0;
 
         protected override void OnEnable()
@@ -65,6 +82,7 @@ namespace Refactor.Props
             _key = serializedObject.FindProperty("key");
             _isSceneItem = serializedObject.FindProperty("isSceneItem");
             _onDontHaveKey = serializedObject.FindProperty("OnDontHaveKey");
+            _isUsed = serializedObject.FindProperty("isUsed");
             _type = _isSceneItem.boolValue ? 0 : 1;
         }
 
@@ -76,6 +94,7 @@ namespace Refactor.Props
 
             EditorGUILayout.Space(2f);
             InteractProperty();
+            EditorGUILayout.PropertyField(_isUsed);
 
             EditorGUILayout.Space(10f);
             var typeChange = ColliderProperty(target);

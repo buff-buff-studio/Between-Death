@@ -17,10 +17,16 @@ public class CinematicController : MonoBehaviour
     public OrbitCamera camera;
     public IngameGameInput input;
 
+    public AudioSource audioSource;
+    public float timeToPlayAudio = 60f;
+
     public BoolVariable haveCinematic;
 
     private void Awake()
     {
+        audioSource ??= GetComponent<AudioSource>();
+        videoPlayer ??= GetComponent<VideoPlayer>();
+
         if (haveCinematic.Value)
         {
             camera.enabled = false;
@@ -38,13 +44,16 @@ public class CinematicController : MonoBehaviour
     {
         if (haveCinematic.Value)
         {
+            StartCoroutine(PlayLastMusic());
             input.DisableAllInput();
             input.inputConfirm.started += OnInputConfirmOnperformed;
             input.inputInteract.started += OnInputCancelOnperformed;
+            videoPlayer.Play();
             videoPlayer.loopPointReached += source => { StartCoroutine(FadeOut()); };
         }
         else
         {
+            canvasGroup.alpha = 0;
             input.DisableAllInput();
             StartCoroutine(FadeOut());
         }
@@ -59,24 +68,38 @@ public class CinematicController : MonoBehaviour
         videoPlayer.time += 10;
     }
 
+    public IEnumerator PlayLastMusic()
+    {
+        while (videoPlayer.time < timeToPlayAudio) { yield return null; }
+
+        audioSource.Play();
+        if (videoPlayer.time > timeToPlayAudio)
+        {
+            audioSource.time = (float)(videoPlayer.time - timeToPlayAudio);
+        }
+    }
+
     public IEnumerator FadeOut()
     {
         input.inputJump.started -= OnInputConfirmOnperformed;
         input.inputInteract.started -= OnInputCancelOnperformed;
 
-        haveCinematic.Value = false;
         camera.LookAtCinematic();
         camera.hudCanvas.alpha = 0;
 
-        var time = 0f;
-        var timeEnd = 2f;
-        while (time < timeEnd)
+        if(haveCinematic.Value)
         {
-            time += Time.deltaTime;
-            canvasGroup.alpha = 1 - (time / timeEnd);
-            yield return null;
-        }
+            var time = 0f;
+            var timeEnd = 2f;
+            while (time < timeEnd)
+            {
+                time += Time.deltaTime;
+                canvasGroup.alpha = 1 - (time / timeEnd);
+                yield return null;
+            }
+        }else canvasGroup.alpha = 0;
 
+        haveCinematic.Value = false;
         camera.haveCinematic = true;
         gameObject.SetActive(false);
         camera.enabled = true;

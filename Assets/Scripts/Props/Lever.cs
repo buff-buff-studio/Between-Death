@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Refactor.Data.Variables;
 using Unity.VisualScripting;
 using UnityEditor;
 using UnityEngine;
@@ -13,8 +14,8 @@ namespace Refactor.Props
     {
         private Animator animator;
 
-        public bool haveHandle;
-        public bool HaveHandle {set => haveHandle = value;}
+        public BoolVariable haveHandle;
+        public bool HaveHandle {set => haveHandle.Value = value;}
         public UnityEvent onTriggerNoHandle;
 
         [SerializeField] private string activeAnimationName = "Open";
@@ -27,6 +28,11 @@ namespace Refactor.Props
 
         private void Awake()
         {
+            if (haveHandle == null)
+            {
+                haveHandle = ScriptableObject.CreateInstance<BoolVariable>();
+                haveHandle.Value = true;
+            }
             TryGetComponent(out animator);
         }
 
@@ -54,7 +60,7 @@ namespace Refactor.Props
 
         public void Toggle(bool state)
         {
-            if(!haveHandle)
+            if(!haveHandle.Value)
             {
                 onTriggerNoHandle.Invoke();
                 this.state = startState;

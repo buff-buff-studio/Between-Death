@@ -23,7 +23,12 @@ public class SpeechTrigger : MonoBehaviour
 
     private void OnTriggerEnter(Collider col)
     {
-        if(speechTriggered.Value) return;
+        if(speechTriggered.Value)
+        {
+            gameObject.SetActive(false);
+            return;
+        }
+
         if (col.CompareTag("Player"))
         {
             SpeechManager.Play(speechTag);

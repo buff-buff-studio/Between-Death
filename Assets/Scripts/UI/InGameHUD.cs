@@ -122,7 +122,9 @@ public class InGameHUD : WindowManager
     {
         UpdateSkillSlots();
         
-        if(canvasGameInput.inputStart.triggered && (canvasGameInput as IngameGameInput)!.canInput)
+        if(canvasGameInput.inputStart.triggered
+           && (canvasGameInput as IngameGameInput)!.canInput
+           && !quitDialogWindow.isOpen)
         {
             quitDialogWindow.Open();
             (canvasGameInput as IngameGameInput)!.canInput = false;
@@ -198,6 +200,7 @@ public class InGameHUD : WindowManager
 
     public void OnInteractibleEnter(Interactable interactable, float distance, bool canInteract)
     {
+        if(interactableObject != null) _distance = Vector3.Distance(player.transform.position, interactableObject.interactionPoint);
         if (interactable != interactableObject && distance <= _distance) return;
         
         _distance = distance;
@@ -220,6 +223,9 @@ public class InGameHUD : WindowManager
     private void OnInteract()
     {
         if (interactableObject == null || _canInteract == false) return;
+
+
+
         Debug.Log("Interact");
         interactableObject.Interact();
         if(interactableObject.oneInteraction)

@@ -21,6 +21,8 @@ namespace Refactor.Interface.Windows
         public Window openOnClose;
         public bool canClose;
 
+        public bool isOpen => gameObject.activeSelf;
+
         protected override void OnEnable()
         {
             base.OnEnable();
