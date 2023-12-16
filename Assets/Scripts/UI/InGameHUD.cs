@@ -43,9 +43,10 @@ public class InGameHUD : WindowManager
     [SerializeField] private RectTransform interactibleIcon;
     [FormerlySerializedAs("interactibleObject")] [SerializeField] private Interactable interactableObject;
 
+    [FormerlySerializedAs("quitDialogWindow")]
     [Space]
     [Header("MENU")]
-    [SerializeField] private Window quitDialogWindow;
+    [SerializeField] private Window pauseDialogWindow;
     [SerializeField] private Window settingsDialogWindow;
     [SerializeField] private Window deathDialogWindow;
     [SerializeField] private InGameMenu menu;
@@ -98,7 +99,7 @@ public class InGameHUD : WindowManager
     public void QuitGame()
     {
         Time.timeScale = 1;
-        quitDialogWindow.GetComponent<CanvasGroup>().DOFade(0, 0.5f);
+        pauseDialogWindow.GetComponent<CanvasGroup>().DOFade(0, 0.5f);
         StartCoroutine(_QuitGame());
     }
 
@@ -110,7 +111,7 @@ public class InGameHUD : WindowManager
 
     public void CloseQuitGame()
     {
-        quitDialogWindow.Close();
+        pauseDialogWindow.Close();
         StartCoroutine(_CloseQuitGame());
     }
         
@@ -137,13 +138,14 @@ public class InGameHUD : WindowManager
 
     public void OpenPauseMenu()
     {
-        quitDialogWindow.Open();
+        Debug.Log("pause");
+        pauseDialogWindow.Open();
         (canvasGameInput as IngameGameInput)!.canInput = false;
     }
 
     public void ClosePauseMenu()
     {
-        quitDialogWindow.Close();
+        pauseDialogWindow.Close();
         (canvasGameInput as IngameGameInput)!.canInput = true;
     }
 
@@ -155,14 +157,11 @@ public class InGameHUD : WindowManager
         
         if(canvasGameInput.inputStart.triggered)
         {
+            Debug.Log("Esc");
             if((canvasGameInput as IngameGameInput)!.canInput
-             && !quitDialogWindow.isOpen)
+             && !pauseDialogWindow.isOpen)
             {
                 OpenPauseMenu();
-                return;
-            }else if(settingsDialogWindow.isOpen)
-            {
-                settingsDialogWindow.Close();
                 return;
             }
         }

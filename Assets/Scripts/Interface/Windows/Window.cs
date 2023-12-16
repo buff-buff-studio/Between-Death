@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using DG.Tweening;
 using Refactor.Audio;
@@ -43,7 +44,7 @@ namespace Refactor.Interface.Windows
         public virtual void Open()
         {
             gameObject.SetActive(true);
-            readyForInput = false;
+            readyForInput = true;
             canvas.AddActiveWindow(this);
             
             var tweenId = $"window_{id}";
@@ -52,7 +53,7 @@ namespace Refactor.Interface.Windows
             var group = gameObject.GetOrAddComponent<CanvasGroup>();
             group.alpha = 1;
             group.DOFade(1, 0.5f).SetId(tweenId);
-            group.interactable = true;
+            StartCoroutine(WaitToInteract());
 
             /*
             var rectTransform = group.GetRectTransform();
@@ -96,6 +97,12 @@ namespace Refactor.Interface.Windows
             if(modifyTimeScale) Time.timeScale = timeScaleOnOpen;
         }
 
+        public IEnumerator WaitToInteract()
+        {
+            readyForInput = false;
+            yield return new WaitForSeconds(0.1f);
+            readyForInput = true;
+        }
         public virtual void Close()
         {
             if(modifyTimeScale) Time.timeScale = 1;
@@ -106,7 +113,9 @@ namespace Refactor.Interface.Windows
             DOTween.Kill(tweenId);
             var group = gameObject.GetOrAddComponent<CanvasGroup>();
             group.interactable = false;
+            group.alpha = 0;
             readyForInput = false;
+            gameObject.SetActive(false);
 
             /*
             group.DOFade(0, 0.5f).SetId(tweenId).OnComplete(() =>
