@@ -13,6 +13,8 @@ namespace Refactor.Interface.Windows
         [Header("REFERENCES")]
         public CanvasGroup dimmer;
 
+        public Widget[] widgets;
+
         [Header("EVENTS")] 
         public UnityEvent onConfirm;
         public UnityEvent onCancel;
@@ -52,6 +54,7 @@ namespace Refactor.Interface.Windows
 
         public override bool DoAction(InterfaceAction action)
         {
+            Debug.Log($"DialogWindow.DoAction({action})");
             switch (action)
             {
                 case InterfaceAction.Confirm:

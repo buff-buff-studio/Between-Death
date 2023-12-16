@@ -46,6 +46,8 @@ public class InGameHUD : WindowManager
     [Space]
     [Header("MENU")]
     [SerializeField] private Window quitDialogWindow;
+    [SerializeField] private Window settingsDialogWindow;
+    [SerializeField] private Window deathDialogWindow;
     [SerializeField] private InGameMenu menu;
     [SerializeField] private GameObject skillDash;
     
@@ -64,6 +66,7 @@ public class InGameHUD : WindowManager
     //Interaction References
     private bool _canInteract;
     private float _distance;
+    private bool _isDead = false;
 
     private void Awake()
     {
@@ -94,7 +97,7 @@ public class InGameHUD : WindowManager
     
     public void QuitGame()
     {
-        Debug.Log("aaaa");
+        Time.timeScale = 1;
         quitDialogWindow.GetComponent<CanvasGroup>().DOFade(0, 0.5f);
         StartCoroutine(_QuitGame());
     }
@@ -118,22 +121,48 @@ public class InGameHUD : WindowManager
         Debug.Log("back");
     }
 
+    public void OpenDeathDialog()
+    {
+        deathDialogWindow.Open();
+        _isDead = true;
+        (canvasGameInput as IngameGameInput)!.canInput = false;
+    }
+
+    public void CloseDeathDialog()
+    {
+        deathDialogWindow.Close();
+        _isDead = false;
+        (canvasGameInput as IngameGameInput)!.canInput = true;
+    }
+
+    public void OpenPauseMenu()
+    {
+        quitDialogWindow.Open();
+        (canvasGameInput as IngameGameInput)!.canInput = false;
+    }
+
+    public void ClosePauseMenu()
+    {
+        quitDialogWindow.Close();
+        (canvasGameInput as IngameGameInput)!.canInput = true;
+    }
+
     private void Update()
     {
+        if(_isDead) return;
+
         UpdateSkillSlots();
         
         if(canvasGameInput.inputStart.triggered)
         {
             if((canvasGameInput as IngameGameInput)!.canInput
-                && !quitDialogWindow.isOpen)
+             && !quitDialogWindow.isOpen)
             {
-                quitDialogWindow.Open();
-                (canvasGameInput as IngameGameInput)!.canInput = false;
+                OpenPauseMenu();
                 return;
-            }else if(quitDialogWindow.isOpen)
+            }else if(settingsDialogWindow.isOpen)
             {
-                quitDialogWindow.Close();
-                (canvasGameInput as IngameGameInput)!.canInput = true;
+                settingsDialogWindow.Close();
                 return;
             }
         }

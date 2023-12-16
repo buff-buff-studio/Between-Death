@@ -20,6 +20,8 @@ namespace Refactor.Interface.Windows
 
         public Window openOnClose;
         public bool canClose;
+        public bool modifyTimeScale = false;
+        public float timeScaleOnOpen = 1f;
 
         public bool isOpen => gameObject.activeSelf;
 
@@ -48,11 +50,11 @@ namespace Refactor.Interface.Windows
             DOTween.Kill(tweenId);
             DOTween.Kill($"{tweenId}_child");
             var group = gameObject.GetOrAddComponent<CanvasGroup>();
-            group.alpha = 0;
+            group.alpha = 1;
             group.DOFade(1, 0.5f).SetId(tweenId);
-            group.interactable = false;
-            var hasAnim = animatedTransforms.Length;
-            
+            group.interactable = true;
+
+            /*
             var rectTransform = group.GetRectTransform();
             var p = rectTransform.localPosition;
             rectTransform.DOPunchPosition(new Vector3(0, 20, 0), 0.75f, 8, 1f).SetId(tweenId).OnComplete(() =>
@@ -89,23 +91,24 @@ namespace Refactor.Interface.Windows
                             readyForInput = true;
                     });
                 delay += 0.25f;
-            }
+            }*/
+
+            if(modifyTimeScale) Time.timeScale = timeScaleOnOpen;
         }
 
         public virtual void Close()
         {
+            if(modifyTimeScale) Time.timeScale = 1;
+
             AudioSystem.PlaySound("ui_window");
             
             var tweenId = $"window_{id}";
             DOTween.Kill(tweenId);
             var group = gameObject.GetOrAddComponent<CanvasGroup>();
-            var rectTransform = group.GetRectTransform();
-            var pos = rectTransform.localPosition;
-            
-            var tween = rectTransform.DOPunchPosition(new Vector3(0, -50, 0), 2f, 0, 1f).SetId(tweenId);
-            
             group.interactable = false;
             readyForInput = false;
+
+            /*
             group.DOFade(0, 0.5f).SetId(tweenId).OnComplete(() =>
             {
                 gameObject.SetActive(false);
@@ -115,7 +118,7 @@ namespace Refactor.Interface.Windows
             }).OnKill(() =>
             {
                 rectTransform.localPosition = pos;
-            });
+            });*/
         }
 
         public virtual Widget GetFirstWidget() => null;
