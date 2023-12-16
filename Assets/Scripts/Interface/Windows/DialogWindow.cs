@@ -26,6 +26,7 @@ namespace Refactor.Interface.Windows
 
         public override void Open()
         {
+            Debug.Log($"DialogWindow.Open()");
             base.Open();
             var tweenId = $"window_{id}";
             dimmer.alpha = 0;
@@ -37,6 +38,7 @@ namespace Refactor.Interface.Windows
         
         public override void Close()
         {
+            Debug.Log($"DialogWindow.Close()");
             AudioSystem.PlaySound("ui_click");
             base.Close();
             var tweenId = $"window_{id}";
