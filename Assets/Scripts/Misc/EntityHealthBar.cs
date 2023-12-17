@@ -23,7 +23,8 @@ namespace Refactor.Misc
             _module.onHealthChange.AddListener(_OnChangeHealth);
             var hm = (_module as IHealth);
             _OnChangeHealth(hm.health);
-            canvasGroup.alpha = Math.Abs(hm.health - hm.maxHealth) < 0.01f ? 0 : 1;
+            if(canvasGroup != null)
+                canvasGroup.alpha = Math.Abs(hm.health - hm.maxHealth) < 0.01f ? 0 : 1;
         }
 
         private void OnDisable()
@@ -47,6 +48,8 @@ namespace Refactor.Misc
             if (health < maxHealth)
             {
                 //if(health == 0)
+
+                if(canvasGroup != null)
                     canvasGroup.DOFade(health == 0 || Math.Abs(health - iHealth.maxHealth) < 0.01f ? 0f : 1f, 0.25f);
                 //else
                     //canvasGroup.DOFade(1f, 0.5f);
