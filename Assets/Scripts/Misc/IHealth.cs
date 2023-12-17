@@ -12,9 +12,11 @@ namespace Refactor.Misc
         public float health { get; protected set; }
         public float maxHealth { get; protected set;}
 
+        public bool canTakeDamage { get; set; }
+
         public float Damage(float amount)
         {
-            if (health == 0)
+            if (health == 0 || !canTakeDamage)
                 return 0;
             
             var a = math.min(health, amount);

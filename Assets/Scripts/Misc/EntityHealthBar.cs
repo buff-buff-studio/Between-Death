@@ -13,9 +13,15 @@ namespace Refactor.Misc
         private HealthEntityModule _module;
         public CanvasGroup canvasGroup;
         public Image healthBarImage;
-        public RectTransform healthBar;
         private Transform _camera;
-        
+        private float lastHealth;
+        private Color barColor;
+
+        private void Awake()
+        {
+            barColor = healthBarImage.color;
+        }
+
         private void OnEnable()
         {
             _camera = Camera.main!.transform;
@@ -23,6 +29,7 @@ namespace Refactor.Misc
             _module.onHealthChange.AddListener(_OnChangeHealth);
             var hm = (_module as IHealth);
             _OnChangeHealth(hm.health);
+            lastHealth = hm.health;
             if(canvasGroup != null)
                 canvasGroup.alpha = Math.Abs(hm.health - hm.maxHealth) < 0.01f ? 0 : 1;
         }
@@ -34,6 +41,8 @@ namespace Refactor.Misc
 
         private void Update()
         {
+            if(canvasGroup == null) return;
+
             var t = transform;
             var fw = _camera.transform.position - t.position;
             t.forward = -fw;
@@ -44,6 +53,7 @@ namespace Refactor.Misc
             var iHealth = (_module as IHealth);
             
             var maxHealth = iHealth.maxHealth;
+            var color = lastHealth > health ? Color.yellow : Color.cyan;
 
             if (health < maxHealth)
             {
@@ -54,9 +64,9 @@ namespace Refactor.Misc
                 //else
                     //canvasGroup.DOFade(1f, 0.5f);
 
-                healthBarImage.color = Color.yellow;
-                healthBarImage.DOColor(Color.red, 0.5f);
-                healthBar.DOSizeDelta(new Vector2(100 * health / maxHealth, 15), 0.5f);
+                healthBarImage.color = color;
+                healthBarImage.DOColor(barColor, 0.5f);
+                healthBarImage.DOFillAmount(health / maxHealth, 0.5f);
             }
         }
     }

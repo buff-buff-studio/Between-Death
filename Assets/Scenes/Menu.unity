@@ -1879,7 +1879,9 @@ MonoBehaviour:
   - {fileID: 1575925688}
   openOnClose: {fileID: 0}
   canClose: 1
-  dimmer: {fileID: 1427419042}
+  modifyTimeScale: 0
+  timeScaleOnOpen: 1
+  widgets: []
   onConfirm:
     m_PersistentCalls:
       m_Calls:
@@ -2789,6 +2791,8 @@ MonoBehaviour:
   - {fileID: 329941756}
   openOnClose: {fileID: 0}
   canClose: 0
+  modifyTimeScale: 0
+  timeScaleOnOpen: 1
   windowSettings: {fileID: 2062796508}
   windowCredits: {fileID: 7229127998480690416}
   windowSave: {fileID: 1313072977}
@@ -13650,7 +13654,9 @@ MonoBehaviour:
   - {fileID: 1663011456}
   openOnClose: {fileID: 0}
   canClose: 1
-  dimmer: {fileID: 1427419042}
+  modifyTimeScale: 0
+  timeScaleOnOpen: 1
+  widgets: []
   onConfirm:
     m_PersistentCalls:
       m_Calls:
@@ -16208,6 +16214,8 @@ MonoBehaviour:
   - {fileID: 91421049}
   openOnClose: {fileID: 355887395}
   canClose: 1
+  modifyTimeScale: 0
+  timeScaleOnOpen: 1
   save: {fileID: 11400000, guid: ccfcde7021a42784194f2328f1935d57, type: 2}
   widgets:
   - {fileID: 1798667987}
@@ -21489,10 +21497,27 @@ MonoBehaviour:
   animatedTransforms: []
   openOnClose: {fileID: 355887395}
   canClose: 1
+  modifyTimeScale: 0
+  timeScaleOnOpen: 1
   tab: {fileID: 17060332}
   restoreAlert: {fileID: 1063372106}
   settings: {fileID: 11400000, guid: a72fadd6b10511444bd714d13c713374, type: 2}
   languageDropdown: {fileID: 562814025}
+  onCancel:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 355887389}
+        m_TargetAssemblyTypeName: Refactor.Interface.Windows.SettingsWindow, Assembly-CSharp
+        m_MethodName: 
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1001 &2143850185
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -22550,6 +22575,8 @@ MonoBehaviour:
   - {fileID: 166638260}
   openOnClose: {fileID: 355887395}
   canClose: 1
+  modifyTimeScale: 0
+  timeScaleOnOpen: 1
 --- !u!1 &7408072605000497136
 GameObject:
   m_ObjectHideFlags: 0

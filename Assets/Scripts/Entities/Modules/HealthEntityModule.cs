@@ -37,7 +37,15 @@ namespace Refactor.Entities.Modules
             get => _maxHealth.value;
             set => _maxHealth.value = value;
         }
-        
+
+        public bool canTakeDamage { get; set; }
+
+        public override void OnEnable()
+        {
+            base.OnEnable();
+            canTakeDamage = true;
+        }
+
         public GameObject GetGameObject()
         {
             return entity.gameObject;

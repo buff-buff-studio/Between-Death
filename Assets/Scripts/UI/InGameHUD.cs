@@ -68,7 +68,9 @@ public class InGameHUD : WindowManager
     //Interaction References
     private bool _canInteract;
     private float _distance;
+    private float _lastHealth;
     private bool _isDead = false;
+    private Color _lifeColor;
 
     public bool CanInput
     {
@@ -82,6 +84,7 @@ public class InGameHUD : WindowManager
         else Destroy(this);
 
         interactibleIcon.gameObject.SetActive(false);
+        _lifeColor = lifeBar.color;
     }
 
     private void Start()
@@ -197,21 +200,11 @@ public class InGameHUD : WindowManager
     
     public void UpdateLife(float life, float maxLife)
     {
-        StartCoroutine(UpdateLifeBar(lifeCurve.Evaluate(life / maxLife)));
-    }
-    
-    private IEnumerator UpdateLifeBar(float value)
-    {
-        float time = 0;
-        float start = lifeBar.fillAmount;
-        float end = value;
-        
-        while (time < 1)
-        {
-            time += Time.deltaTime;
-            lifeBar.fillAmount = Mathf.Lerp(start, end, lifeCurve.Evaluate(time));
-            yield return null;
-        }
+        var color = _lastHealth > life ? Color.yellow : Color.cyan;
+        _lastHealth = life;
+        lifeBar.color = color;
+        lifeBar.DOColor(_lifeColor, 0.5f);
+        lifeBar.DOFillAmount(lifeCurve.Evaluate(life / maxLife), 0.5f);
     }
     
     public void UpdateSkillSlots()

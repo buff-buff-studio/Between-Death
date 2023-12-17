@@ -122,7 +122,7 @@ namespace Refactor.Entities.Modules
         private bool canRun = true;
         public bool willHaveOtherAttackAnimation;
 
-        [Header("Aniamtions")] 
+        [Header("Animations")]
         [SerializeField]
         private int animationLayer;
       
@@ -751,6 +751,8 @@ namespace Refactor.Entities.Modules
         {
             _attackEnded = false;
             timeSinceLastAttack = 0;
+
+            animator.SetLayerWeight(animationLayer,99);
             animator.CrossFade($"Attack {Random.Range(0, 3)}", 0.25f);
             ApplyDamageFor(attackDamage, 2);
             Debug.Log("Attack");

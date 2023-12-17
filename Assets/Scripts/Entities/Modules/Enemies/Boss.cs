@@ -88,7 +88,7 @@ public class Boss : GioEntityModule
        base.Special();
     
        IHealth ihm = (IHealth) hm;
-       ihm.Heal(Time.deltaTime * healSpeed);
+       ihm.Heal(hm._maxHealth*.01f);
 
        if (hm._health >= hm._maxHealth)
            BackToState();
@@ -107,6 +107,7 @@ public class Boss : GioEntityModule
             Debug.Log("StateSpecial");
             state = State.Special;
             hm.enabled = false;
+            hm.canTakeDamage = true;
             stateTime = 0;
             SpawnSpecial();
         }
@@ -122,6 +123,7 @@ public class Boss : GioEntityModule
          
            hm.enabled = false;
            stateTime = 0;
+           hm.canTakeDamage = true;
            SpawnSpecial();
        }
     }
@@ -147,6 +149,7 @@ public class Boss : GioEntityModule
     {
         if(hasSpawnedTrees) return;
         hasSpawnedTrees = true;
+        hm.canTakeDamage = false;
         currentStage++;
         currentCountOfTrees = amountToSpawn;
         var amount = Random.Range(amountToSpawn -2, amountToSpawn + 1);
@@ -187,6 +190,7 @@ public class Boss : GioEntityModule
                 GameObject.Destroy(t.gameObject);
         }
         //  currentEntities.Clear();
+        hm.canTakeDamage = true;
         trees.Clear();
     }
 }

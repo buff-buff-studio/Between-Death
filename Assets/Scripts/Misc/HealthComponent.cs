@@ -33,7 +33,9 @@ namespace Refactor.Misc
             get => _maxHealth;
             set => _maxHealth = value;
         }
-        
+
+        public bool canTakeDamage { get; set; }
+
         public GameObject GetGameObject()
         {
             return gameObject;

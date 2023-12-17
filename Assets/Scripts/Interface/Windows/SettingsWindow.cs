@@ -77,6 +77,13 @@ namespace Refactor.Interface.Windows
                 case InterfaceAction.Cancel:
                 {
                     onCancel.Invoke();
+                    if (canClose)
+                    {
+                        if(openOnClose)
+                            canvas.CloseThenOpen(this, openOnClose);
+                        else
+                            Close();
+                    }
                     return true;
                 }
 
