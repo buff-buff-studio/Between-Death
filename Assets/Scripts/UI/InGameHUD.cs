@@ -233,7 +233,7 @@ public class InGameHUD : WindowManager
             _ => elementIcon.sprite
         };
         
-        skillDash.SetActive(player.element == Element.Chaos);
+        skillDash.SetActive(true);
     }
 
     #region Interaction

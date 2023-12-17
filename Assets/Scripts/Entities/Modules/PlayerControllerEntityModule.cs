@@ -275,7 +275,7 @@ namespace Refactor.Entities.Modules
         {
             dashCooldown -= Time.deltaTime;
             
-            if (dashCooldown < 0 && IngameGameInput.InputDash.trigger && entity.element == Element.Chaos)
+            if (dashCooldown < 0 && IngameGameInput.InputDash.trigger)
             {
                 dashCooldown = 0.5f;
                 state = PlayerState.Dashing;
@@ -302,7 +302,7 @@ namespace Refactor.Entities.Modules
             #endregion
             
             animator.CrossFade("Dash", 0.25f);
-            const float delay = 0.2f;
+            const float delay = 0.1f;
             yield return new WaitForSeconds(delay);
             entity.velocity.x = inputMove.x * dashSpeed;
             entity.velocity.z = inputMove.z * dashSpeed;
@@ -323,7 +323,7 @@ namespace Refactor.Entities.Modules
             */
             
             
-            animator.CrossFade("MainMovement", 0.5f);
+            animator.CrossFade("MainMovement", 0.25f);
             lastGrounded = Time.time;
             state = PlayerState.Default;
 

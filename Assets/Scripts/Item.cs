@@ -26,7 +26,7 @@ namespace Refactor.Props
                 isUsed.Value = true;
             }else if(isUsed.Value)
             {
-                SetEnabled(false);
+                gameObject.SetActive(false);
             }
         }
 

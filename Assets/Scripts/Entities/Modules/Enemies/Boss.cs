@@ -44,6 +44,7 @@ public class Boss : GioEntityModule
     private Color chaosColor, orderColor;
     [SerializeField]
     private NavMeshSurface meshSurface;
+
     public void OnKillTree()
     {
         Debug.Log("OnKillTree");

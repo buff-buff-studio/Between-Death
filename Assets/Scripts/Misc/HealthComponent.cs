@@ -1,7 +1,9 @@
-﻿using Refactor.Data;
+﻿using System;
+using Refactor.Data;
 using Unity.Mathematics;
 using UnityEngine;
 using UnityEngine.Events;
+using Object = UnityEngine.Object;
 
 // ReSharper disable InconsistentNaming
 namespace Refactor.Misc
@@ -32,6 +34,11 @@ namespace Refactor.Misc
         {
             get => _maxHealth;
             set => _maxHealth = value;
+        }
+
+        private void OnEnable()
+        {
+            canTakeDamage = true;
         }
 
         public bool canTakeDamage { get; set; }
