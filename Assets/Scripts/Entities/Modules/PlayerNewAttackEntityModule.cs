@@ -13,6 +13,7 @@ namespace Refactor.Entities.Modules
     [Serializable]
     public class AttackState
     {
+        public SkillData currentSkill;
         public Attack currentAttack;
         public int currentAttackStreak = 0;
         public bool canKeepStreak = true;
@@ -90,7 +91,7 @@ namespace Refactor.Entities.Modules
                 return;
             
             entity.velocity.x = entity.velocity.z = 0;
-            PerformAttack(chained, skill.GetAttack());
+            PerformAttack(chained, skill.GetAttack(), skill);
             skill.actualCooldown = skill.cooldown;
         }
         
@@ -99,10 +100,10 @@ namespace Refactor.Entities.Modules
             if (resetStreak)
                 currentAttackState.currentAttackStreak = 0;
 
-            PerformAttack(chained, attacks[currentAttackState.currentAttackStreak % attacks.Length]);
+            PerformAttack(chained, attacks[currentAttackState.currentAttackStreak % attacks.Length], null);
         }
 
-        public void PerformAttack(bool chained, Attack attack)
+        public void PerformAttack(bool chained, Attack attack, SkillData skill)
         {
             AudioSystem.PlaySound("attack").At(entity.transform.position);
             entity.velocity.x = entity.velocity.z = 0;
@@ -115,10 +116,14 @@ namespace Refactor.Entities.Modules
             
             currentAttackState.timeSinceLastAttack = 0;
             currentAttackState.appliedDamage = false;
+            currentAttackState.currentSkill = skill;
 
             _controllerEntity.UpdateAttackTimer(0);
 
             DoSnap();
+            
+            if(skill != null) 
+                skill.OnBeginPerformingSkill(this);
         }
         
         public void DoSnap()
@@ -188,6 +193,9 @@ namespace Refactor.Entities.Modules
                     {
                         currentAttackState.appliedDamage = true;
                         ApplyDamage();
+                        
+                        if(currentAttackState.currentSkill != null) 
+                            currentAttackState.currentSkill.OnEndPerformingSkill(this);
                     }
 
                     bool rightWindow = animState.normalizedTime >= currentAttackState.currentAttack.nextAttackWindow;

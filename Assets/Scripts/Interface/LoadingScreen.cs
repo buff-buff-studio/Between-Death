@@ -13,7 +13,6 @@ namespace Refactor.Interface
 
         public static void LoadScene(string scene)
         {
-            Cursor.lockState = CursorLockMode.None;
             Scene = scene;
             SceneManager.LoadScene("Scenes/Loading");
         }
@@ -50,6 +49,7 @@ namespace Refactor.Interface
             yield return new WaitForSeconds(1f);
             var asyncLoad = SceneManager.LoadSceneAsync(Scene);
             asyncLoad.allowSceneActivation = false;
+       
             
             while (!asyncLoad.isDone)
             {
@@ -59,7 +59,6 @@ namespace Refactor.Interface
                     progress = 1f;
                     yield return new WaitForSeconds(1f);
                     asyncLoad.allowSceneActivation = true;
-                    Cursor.lockState = CursorLockMode.None;
                 }
                 yield return new WaitForSeconds(0.1f);
             }
