@@ -153,6 +153,7 @@ namespace Refactor.Misc
                 yield return null;
             }
             _targetItself = targetCinematic.position;
+            SpeechManager.Play("intro");
             input.EnableAllInput();
             haveCinematic = false;
         }

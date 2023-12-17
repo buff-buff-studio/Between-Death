@@ -32,8 +32,10 @@ public class SkillManager : MonoBehaviour
     
     [Space]
     [Header("Slots")]
-    [SerializeField] private SkillSlot[] inventorySlots = new SkillSlot[6];
+    [SerializeField] private List<SkillSlot> inventorySlots = new List<SkillSlot>(6);
     [SerializeField] private InputSlot[] equippedSlots = new InputSlot[3];
+    [SerializeField] private List<SkillSlot> extraSlots = new List<SkillSlot>(3);
+
 
     [SerializeField]
     private int _selectedSkill = -1;
@@ -50,7 +52,10 @@ public class SkillManager : MonoBehaviour
     private void OnEnable()
     {
         UpdateInfo(inventoryData.GetEquippedSkill(0));
+        UpdateExtras();
         UpdateEquipped();
+        UpdateInventory();
+        PassiveManager.instance?.UpdateExtras();
     }
 
     public void UpdateSkillUI()
@@ -119,6 +124,7 @@ public class SkillManager : MonoBehaviour
 
     private void UpdateInventory()
     {
+        inventorySlots.ForEach(slt => slt.UpdateSlot(-1));
         var i = 0;
         foreach (var skill in inventorySkills)
         {
@@ -137,6 +143,17 @@ public class SkillManager : MonoBehaviour
         }
         
         InGameHUD.instance?.UpdateSkillSlots();
+    }
+
+    public void UpdateExtras()
+    {
+        extraSlots.ForEach(slt => slt.UpdateSlot(-1));
+        var i = 0;
+        foreach (var skill in equippedSkills)
+        {
+            extraSlots[i].UpdateSlot(skill);
+            i++;
+        }
     }
 
     public bool IsEquipped(int id)

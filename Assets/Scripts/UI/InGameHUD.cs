@@ -22,33 +22,37 @@ public class InGameHUD : WindowManager
     [Header("UI")]
     [SerializeField] private Image lifeBar;
     [SerializeField] private AnimationCurve lifeCurve = AnimationCurve.EaseInOut(0, 0, 1, 1);
-    
+
     [Space]
     [SerializeField] private Slot[] skillSlots;
     [SerializeField] private SkillManager skillManager;
     private SkillList skills => skillManager.skills;
     private List<int> equippedSkills => inventoryData.GetEquippedSkills;
-    
+
     [Space]
     [SerializeField] private Image elementIcon;
     [SerializeField] private Sprite orderIcon;
     [SerializeField] private Sprite chaosIcon;
-    
+
     [Space]
     [Header("POP-UP")]
     [SerializeField] private PopUpManager popUp;
-    
+
     [Space]
     [Header("INTERACTION")]
     [SerializeField] private RectTransform interactibleIcon;
     [FormerlySerializedAs("interactibleObject")] [SerializeField] private Interactable interactableObject;
 
+    [FormerlySerializedAs("quitDialogWindow")]
     [Space]
     [Header("MENU")]
-    [SerializeField] private Window quitDialogWindow;
+    [SerializeField] private Window pauseDialogWindow;
+    [SerializeField] private Window settingsDialogWindow;
+    [SerializeField] private Window bellDialogWindow;
+    [SerializeField] private Window deathDialogWindow;
     [SerializeField] private InGameMenu menu;
     [SerializeField] private GameObject skillDash;
-    
+
     [Space]
     [Header("OTHERS")]
     [SerializeField] private Sprite documentIcon;
@@ -56,20 +60,27 @@ public class InGameHUD : WindowManager
     [SerializeField] private Entity player;
     [SerializeField] private CanvasGameInput canvasGameInput;
     [SerializeField] private Camera _camera;
-    
+
     private DocumentList documents => inventoryData.GetDocumentList;
     public bool HasKey(KeyData key) => inventoryData.HasKey(key);
     public void UseKey(KeyData key) => inventoryData.UseKey(key);
-    
+
     //Interaction References
     private bool _canInteract;
     private float _distance;
+    private bool _isDead = false;
+
+    public bool CanInput
+    {
+        get => (canvasGameInput as IngameGameInput)!.canInput;
+        set => (canvasGameInput as IngameGameInput)!.canInput = value;
+    }
 
     private void Awake()
     {
         if(instance == null) instance = this;
         else Destroy(this);
-        
+
         interactibleIcon.gameObject.SetActive(false);
     }
 
@@ -82,7 +93,7 @@ public class InGameHUD : WindowManager
             var hlt = (IHealth)module;
             UpdateLife(h, hlt.maxHealth);
         });
-        
+
         //UpdateSkillSlots();
         UpdateElement();
     }
@@ -91,11 +102,11 @@ public class InGameHUD : WindowManager
     {
         IngameGameInput.CanInput = true;
     }
-    
+
     public void QuitGame()
     {
-        Debug.Log("aaaa");
-        quitDialogWindow.GetComponent<CanvasGroup>().DOFade(0, 0.5f);
+        Time.timeScale = 1;
+        pauseDialogWindow.GetComponent<CanvasGroup>().DOFade(0, 0.5f);
         StartCoroutine(_QuitGame());
     }
 
@@ -107,26 +118,63 @@ public class InGameHUD : WindowManager
 
     public void CloseQuitGame()
     {
-        quitDialogWindow.Close();
+        pauseDialogWindow.Close();
         StartCoroutine(_CloseQuitGame());
     }
-        
+
     private IEnumerator _CloseQuitGame()
     {
         yield return new WaitForSeconds(0.5f);
-        (canvasGameInput as IngameGameInput)!.canInput = true;
+        CanInput = true;
         Debug.Log("back");
+    }
+
+    public void OpenDeathDialog()
+    {
+        deathDialogWindow.Open();
+        _isDead = true;
+        CanInput = false;
+    }
+
+    public void CloseDeathDialog()
+    {
+        deathDialogWindow.Close();
+        _isDead = false;
+        CanInput = true;
+    }
+
+    public void OpenPauseMenu()
+    {
+        Debug.Log("pause");
+        pauseDialogWindow.Open();
+        CanInput = false;
+    }
+
+    public void ClosePauseMenu()
+    {
+        pauseDialogWindow.Close();
+        CanInput = true;
     }
 
     private void Update()
     {
+        if(_isDead) return;
+
         UpdateSkillSlots();
-        
-        if(canvasGameInput.inputStart.triggered && (canvasGameInput as IngameGameInput)!.canInput)
+
+        if(bellDialogWindow.isOpen ||
+           settingsDialogWindow.isOpen ||
+           pauseDialogWindow.isOpen ||
+           deathDialogWindow.isOpen) return;
+
+        if(canvasGameInput.inputStart.triggered)
         {
-            quitDialogWindow.Open();
-            (canvasGameInput as IngameGameInput)!.canInput = false;
-            return;
+            Debug.Log("Esc");
+            if(CanInput)
+            {
+                OpenPauseMenu();
+                return;
+            }
         }
         
         if(canvasGameInput.inputInventory.triggered && canvasGameInput.canMenu)
@@ -198,6 +246,7 @@ public class InGameHUD : WindowManager
 
     public void OnInteractibleEnter(Interactable interactable, float distance, bool canInteract)
     {
+        if(interactableObject != null) _distance = Vector3.Distance(player.transform.position, interactableObject.interactionPoint);
         if (interactable != interactableObject && distance <= _distance) return;
         
         _distance = distance;
@@ -220,6 +269,9 @@ public class InGameHUD : WindowManager
     private void OnInteract()
     {
         if (interactableObject == null || _canInteract == false) return;
+
+
+
         Debug.Log("Interact");
         interactableObject.Interact();
         if(interactableObject.oneInteraction)

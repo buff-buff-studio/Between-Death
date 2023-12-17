@@ -36,6 +36,12 @@ namespace Refactor.Interface
             ReloadText(LanguageManager.cache);
         }
 
+        public void SetCache(string cache)
+        {
+            _cache = cache;
+            ReloadText(LanguageManager.cache);
+        }
+
         public void OnDisable()
         {
             LanguageManager.onLanguageChanged -= ReloadText;

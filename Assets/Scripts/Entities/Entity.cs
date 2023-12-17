@@ -82,17 +82,23 @@ namespace Refactor.Entities
                 playerModule.animator.CrossFade("Die", 0.2f);
                 velocity.x = velocity.z = 0;
                 playerModule.state = PlayerState.Dead;
-                StartCoroutine(_Respawn());
+                InGameHUD.instance.OpenDeathDialog();
             }
+        }
+
+        public void Respawn()
+        {
+            StartCoroutine(_Respawn());
+            InGameHUD.instance.CloseDeathDialog();
         }
         
         private IEnumerator _Respawn()
         {
             yield return new WaitForSeconds(2f);
+            Time.timeScale = 1;
             var playerModule = GetModule<PlayerControllerEntityModule>();
             playerModule.animator.CrossFade("MainMovement", 0);
             controller.enabled = false;
-            playerModule.body.localScale = new Vector3(1, 0, 1);
             transform.position = respawnPosition.position;
             playerModule.body.DOScale(Vector3.one, 1f);
             IHealth health = GetModule<HealthEntityModule>();
@@ -102,14 +108,6 @@ namespace Refactor.Entities
             
             var attackModule = GetModule<PlayerNewAttackEntityModule>();
             attackModule.LeaveAttack();
-            /*
-            if (attackModule != null)
-            {
-                foreach (var v in attackModule.attackTrails)
-                    v.emitting = false;
-                StartCoroutine(attackModule._EndAttacks());
-            }
-            */
 
             playerModule.state = PlayerState.Default;
         }

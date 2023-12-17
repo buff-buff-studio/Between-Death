@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using Refactor.Audio;
 using Refactor.Data;
+using Refactor.Data.Variables;
 using Refactor.Misc;
 using UnityEngine;
 using UnityEngine.Events;
@@ -33,10 +34,12 @@ namespace Refactor.Entities.Modules
         public GameObject hitParticlesPrefab;
         public InventoryData inventoryData;
         public SkillList skillList;
+        public FloatVariable lifeDrainPercentage;
 
         [Header("STATE")] 
         public AttackState currentAttackState;
         private PlayerControllerEntityModule _controllerEntity;
+        private IHealth _healthEntity;
         private float _targetAngle = 0;
 
         public UnityEvent<int> onUseSkill;
@@ -45,6 +48,7 @@ namespace Refactor.Entities.Modules
         {
             base.OnEnable();
             _controllerEntity = entity.GetModule<PlayerControllerEntityModule>();
+            _healthEntity = entity.GetModule<HealthEntityModule>();
         }
 
         public override void UpdatePhysics(float deltaTime)
@@ -77,6 +81,7 @@ namespace Refactor.Entities.Modules
                 
                 target.Damage(currentAttackState.currentAttack.damage);
                 AudioSystem.PlaySound("impact").At(hPos);
+                _healthEntity.Heal((currentAttackState.currentAttack.damage * lifeDrainPercentage.FinalValue)/100);
                 
                 var go = Object.Instantiate(hitParticlesPrefab, hPos, Quaternion.identity);
                 Object.Destroy(go, 2f);
@@ -205,18 +210,24 @@ namespace Refactor.Entities.Modules
                         if (IngameGameInput.InputSkill0.trigger)
                         {
                             SkillData data = skillList.Get(inventoryData.GetEquippedSkill(0));
+                            if (data.element != entity.element) return;
+
                             PerformSkill(data, true);
                             onUseSkill.Invoke(0);
                         }
                         else if (IngameGameInput.InputSkill1.trigger)
                         {
                             SkillData data = skillList.Get(inventoryData.GetEquippedSkill(1));
+                            if (data.element != entity.element) return;
+
                             PerformSkill(data, true);
                             onUseSkill.Invoke(1);
                         }
                         else if (IngameGameInput.InputSkill2.trigger)
                         {
                             SkillData data = skillList.Get(inventoryData.GetEquippedSkill(2));
+                            if (data.element != entity.element) return;
+
                             PerformSkill(data, true);
                             onUseSkill.Invoke(2);
                         }

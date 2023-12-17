@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using DG.Tweening;
 using Refactor.Audio;
@@ -20,6 +21,10 @@ namespace Refactor.Interface.Windows
 
         public Window openOnClose;
         public bool canClose;
+        public bool modifyTimeScale = false;
+        public float timeScaleOnOpen = 1f;
+
+        public bool isOpen => gameObject.activeSelf;
 
         protected override void OnEnable()
         {
@@ -39,18 +44,18 @@ namespace Refactor.Interface.Windows
         public virtual void Open()
         {
             gameObject.SetActive(true);
-            readyForInput = false;
+            readyForInput = true;
             canvas.AddActiveWindow(this);
             
             var tweenId = $"window_{id}";
             DOTween.Kill(tweenId);
             DOTween.Kill($"{tweenId}_child");
             var group = gameObject.GetOrAddComponent<CanvasGroup>();
-            group.alpha = 0;
+            group.alpha = 1;
             group.DOFade(1, 0.5f).SetId(tweenId);
-            group.interactable = false;
-            var hasAnim = animatedTransforms.Length;
-            
+            StartCoroutine(WaitToInteract());
+
+            /*
             var rectTransform = group.GetRectTransform();
             var p = rectTransform.localPosition;
             rectTransform.DOPunchPosition(new Vector3(0, 20, 0), 0.75f, 8, 1f).SetId(tweenId).OnComplete(() =>
@@ -87,23 +92,31 @@ namespace Refactor.Interface.Windows
                             readyForInput = true;
                     });
                 delay += 0.25f;
-            }
+            }*/
         }
 
+        public IEnumerator WaitToInteract()
+        {
+            readyForInput = false;
+            yield return new WaitForSeconds(0.1f);
+            if(modifyTimeScale) Time.timeScale = timeScaleOnOpen;
+            readyForInput = true;
+        }
         public virtual void Close()
         {
+            if(modifyTimeScale) Time.timeScale = 1;
+
             AudioSystem.PlaySound("ui_window");
             
             var tweenId = $"window_{id}";
             DOTween.Kill(tweenId);
             var group = gameObject.GetOrAddComponent<CanvasGroup>();
-            var rectTransform = group.GetRectTransform();
-            var pos = rectTransform.localPosition;
-            
-            var tween = rectTransform.DOPunchPosition(new Vector3(0, -50, 0), 2f, 0, 1f).SetId(tweenId);
-            
             group.interactable = false;
+            group.alpha = 0;
             readyForInput = false;
+            gameObject.SetActive(false);
+
+            /*
             group.DOFade(0, 0.5f).SetId(tweenId).OnComplete(() =>
             {
                 gameObject.SetActive(false);
@@ -113,7 +126,7 @@ namespace Refactor.Interface.Windows
             }).OnKill(() =>
             {
                 rectTransform.localPosition = pos;
-            });
+            });*/
         }
 
         public virtual Widget GetFirstWidget() => null;

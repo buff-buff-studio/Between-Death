@@ -441,7 +441,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &4308016697729821299
 Transform:
   m_ObjectHideFlags: 0
@@ -480,12 +480,12 @@ CharacterController:
   m_Enabled: 1
   serializedVersion: 3
   m_Height: 1.8
-  m_Radius: 0.4
+  m_Radius: 0.2
   m_SlopeLimit: 45
   m_StepOffset: 0.3
   m_SkinWidth: 0.08
   m_MinMoveDistance: 0.001
-  m_Center: {x: 0, y: 1.05, z: 0}
+  m_Center: {x: 0, y: 0.93, z: 0}
 --- !u!114 &557822439006981569
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -543,9 +543,9 @@ MonoBehaviour:
         distanceToChasePlayer: 10
         timeSinceLastAttack: 0
         chanceToRetreat: 3
-        _retreatTime: 2
+        _retreatTime: 1.5
         chanceToDodge: 8
-        _dodgeTime: 2
+        _dodgeTime: 1.5
         dizzyBarMax: 10
         dizzyBarCurrentValue: 10
         dizzyBarAmountWhenDamage: 5
@@ -559,7 +559,7 @@ MonoBehaviour:
       type: {class: CloneEntityModule, ns: Refactor.Entities.Modules, asm: Assembly-CSharp}
       data:
         _enabled: 1
-        editorOpen: 0
+        editorOpen: 1
         entity: {fileID: 557822439006981569}
         transformReference: {fileID: 0}
         prefab: {fileID: 210789646282768402, guid: 524e9d12719ddea459d22b3edb4e59a8,
@@ -597,13 +597,14 @@ MonoBehaviour:
       type: {class: ElementHandlerEntityModule, ns: Refactor.Entities.Modules, asm: Assembly-CSharp}
       data:
         _enabled: 1
-        editorOpen: 0
+        editorOpen: 1
         entity: {fileID: 557822439006981569}
         animator: {fileID: 0}
         leftSword: {fileID: 0}
         rightSword: {fileID: 0}
         superSword: {fileID: 0}
-        playerRenderer: {fileID: 0}
+        playerRenderer:
+        - {fileID: 7810667279972415385}
     - rid: 5295485814535094273
       type: {class: HealthEntityModule, ns: Refactor.Entities.Modules, asm: Assembly-CSharp}
       data:

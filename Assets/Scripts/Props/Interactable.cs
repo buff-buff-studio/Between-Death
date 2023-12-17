@@ -68,7 +68,7 @@ namespace Refactor.Props
             _distanceToInteract = false;
         }
 
-        protected virtual void OnDisable(){}
+        protected virtual void OnDisable(){InGameHUD.instance.OnInteractibleExit(this);}
 
         public void SetEnabled(bool value)
         {
