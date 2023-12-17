@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using Refactor;
+using Refactor.Interface.Windows;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
@@ -20,7 +21,8 @@ public class PopUpManager : MonoBehaviour
     
     private Action _onClickEvent;
     private CanvasGroup canvasGroup => GetComponent<CanvasGroup>();
-    private Animator animator => GetComponent<Animator>();
+    private Animator animator => GetComponentInChildren<Animator>();
+    private DialogWindow dialogWindow => GetComponent<DialogWindow>();
     
     public void Show(string title, string description, Sprite icon, Action onClick = null)
     {
@@ -39,6 +41,7 @@ public class PopUpManager : MonoBehaviour
         isOpen = true;
         _onClickEvent = onClick;
         animator.Play("Open");
+        dialogWindow.Open();
         StartCoroutine(OpenFade());
         StartCoroutine(AutoHide());
     }
@@ -64,8 +67,7 @@ public class PopUpManager : MonoBehaviour
         
         parent.interactable = false;
         parent.blocksRaycasts = false;
-        
-        
+
         IngameGameInput.CanInput = canInput;
     }
     
@@ -103,5 +105,6 @@ public class PopUpManager : MonoBehaviour
             parent.alpha = time;
             yield return null;
         }
+        dialogWindow.Close();
     }
 }

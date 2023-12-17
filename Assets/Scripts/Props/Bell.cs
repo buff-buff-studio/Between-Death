@@ -1,9 +1,12 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Refactor.Data;
 using Refactor.Entities;
 using Refactor.Entities.Modules;
+using Refactor.Interface.Windows;
 using Refactor.Misc;
+using TMPro;
 using UnityEngine;
 
 namespace Refactor.Props
@@ -24,20 +27,64 @@ namespace Refactor.Props
         private static readonly int Dissolve = Shader.PropertyToID("_Dissolve");
 
         [SerializeField]
+        private AudioSource audioSource;
+        [SerializeField]
+        private Animator[] gateAnimator;
+        [SerializeField]
+        private DialogWindow popUp;
+        [SerializeField]
+        private TextMeshProUGUI popUpDescription;
+        [SerializeField]
+        private GameObject interactable;
+
+        [SerializeField]
         private SkillData skill;
         [SerializeField]
         private uint ordersEnemies = 0;
         [SerializeField]
         private uint ordersToWin = 3;
 
+        private void Awake()
+        {
+            audioSource ??= GetComponent<AudioSource>();
+        }
+
         private void OnEnable()
         {
             material.SetFloat(Dissolve, 0);
         }
 
+        public void OpenPopUp()
+        {
+            if (state) return;
+
+            InGameHUD.instance.CanInput = false;
+            popUpDescription.text = ordersEnemies switch
+            {
+                0 => "[ui.challenge.description]",
+                _ => $"[ui.challenge.name] {ordersEnemies}/{ordersToWin}",
+            };
+            popUp.Open();
+        }
+
+        public void ClosePopUp()
+        {
+            Debug.Log("Close");
+            InGameHUD.instance.CanInput = true;
+            popUp.Close();
+
+            if (state) return;
+            ordersEnemies = 0;
+        }
+
         public void ClimbTheBell()
         {
+            audioSource.Play();
+            foreach (var gate in gateAnimator)
+                gate.Play("CloseColiseumGate");
+
             state = true;
+            ClosePopUp();
         }
         
         public void Update()
@@ -49,6 +96,7 @@ namespace Refactor.Props
         {
             if (state) return;
 
+            interactable.SetActive(false);
             ClimbTheBell();
             StartCoroutine(BellDissolve(true));
             var enCount = (enemyCount * (ordersEnemies + 1));
@@ -57,6 +105,7 @@ namespace Refactor.Props
                 var pos = transform.position + Vector3.up + Quaternion.Euler(0, i * 360f / enCount, 0) * new Vector3(0, 0, 10);
                 var go = Instantiate(enemiesPrefabs[i % enemiesPrefabs.Length], pos, Quaternion.identity);
                 var entity = go.GetComponent<Entity>();
+                entity.element = i % 2 == 0 ? Element.Chaos : Element.Order;
 
                 aliveEnemies.Add(entity);
                 
@@ -96,11 +145,17 @@ namespace Refactor.Props
             if(aliveEnemies.Count == 0)
             {
                 StartCoroutine(_OnAllDied());
-                StartCoroutine(BellDissolve(false));
+                foreach (var gate in gateAnimator)
+                    gate.Play("OpenColiseumGate");
+
                 if(ordersEnemies >= ordersToWin)
                 {
                     InGameHUD.instance.OpenSkill(skill);
                     ordersEnemies = 0;
+                }else
+                {
+                    StartCoroutine(BellDissolve(false));
+                    interactable.SetActive(true);
                 }
             }
         }

@@ -13,6 +13,7 @@ public class SkillSlot : Slot
     protected override void Start()
     {
         base.Start();
+        if(button == null) return;
         button.onClick.AddListener(OnClick);
     }
 
@@ -23,6 +24,8 @@ public class SkillSlot : Slot
         UpdateSlot(SkillManager.instance.InInventory(id),
             SkillManager.instance.skills.GetIcon(id),
             SkillManager.instance.skills.GetName(id), 0);
+
+        if(button == null) return;
         button.interactable = !SkillManager.instance.IsEquipped(id);
     }
     

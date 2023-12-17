@@ -22,22 +22,22 @@ public class InGameHUD : WindowManager
     [Header("UI")]
     [SerializeField] private Image lifeBar;
     [SerializeField] private AnimationCurve lifeCurve = AnimationCurve.EaseInOut(0, 0, 1, 1);
-    
+
     [Space]
     [SerializeField] private Slot[] skillSlots;
     [SerializeField] private SkillManager skillManager;
     private SkillList skills => skillManager.skills;
     private List<int> equippedSkills => inventoryData.GetEquippedSkills;
-    
+
     [Space]
     [SerializeField] private Image elementIcon;
     [SerializeField] private Sprite orderIcon;
     [SerializeField] private Sprite chaosIcon;
-    
+
     [Space]
     [Header("POP-UP")]
     [SerializeField] private PopUpManager popUp;
-    
+
     [Space]
     [Header("INTERACTION")]
     [SerializeField] private RectTransform interactibleIcon;
@@ -48,10 +48,11 @@ public class InGameHUD : WindowManager
     [Header("MENU")]
     [SerializeField] private Window pauseDialogWindow;
     [SerializeField] private Window settingsDialogWindow;
+    [SerializeField] private Window bellDialogWindow;
     [SerializeField] private Window deathDialogWindow;
     [SerializeField] private InGameMenu menu;
     [SerializeField] private GameObject skillDash;
-    
+
     [Space]
     [Header("OTHERS")]
     [SerializeField] private Sprite documentIcon;
@@ -59,21 +60,27 @@ public class InGameHUD : WindowManager
     [SerializeField] private Entity player;
     [SerializeField] private CanvasGameInput canvasGameInput;
     [SerializeField] private Camera _camera;
-    
+
     private DocumentList documents => inventoryData.GetDocumentList;
     public bool HasKey(KeyData key) => inventoryData.HasKey(key);
     public void UseKey(KeyData key) => inventoryData.UseKey(key);
-    
+
     //Interaction References
     private bool _canInteract;
     private float _distance;
     private bool _isDead = false;
 
+    public bool CanInput
+    {
+        get => (canvasGameInput as IngameGameInput)!.canInput;
+        set => (canvasGameInput as IngameGameInput)!.canInput = value;
+    }
+
     private void Awake()
     {
         if(instance == null) instance = this;
         else Destroy(this);
-        
+
         interactibleIcon.gameObject.SetActive(false);
     }
 
@@ -86,7 +93,7 @@ public class InGameHUD : WindowManager
             var hlt = (IHealth)module;
             UpdateLife(h, hlt.maxHealth);
         });
-        
+
         //UpdateSkillSlots();
         UpdateElement();
     }
@@ -95,7 +102,7 @@ public class InGameHUD : WindowManager
     {
         IngameGameInput.CanInput = true;
     }
-    
+
     public void QuitGame()
     {
         Time.timeScale = 1;
@@ -114,11 +121,11 @@ public class InGameHUD : WindowManager
         pauseDialogWindow.Close();
         StartCoroutine(_CloseQuitGame());
     }
-        
+
     private IEnumerator _CloseQuitGame()
     {
         yield return new WaitForSeconds(0.5f);
-        (canvasGameInput as IngameGameInput)!.canInput = true;
+        CanInput = true;
         Debug.Log("back");
     }
 
@@ -126,27 +133,27 @@ public class InGameHUD : WindowManager
     {
         deathDialogWindow.Open();
         _isDead = true;
-        (canvasGameInput as IngameGameInput)!.canInput = false;
+        CanInput = false;
     }
 
     public void CloseDeathDialog()
     {
         deathDialogWindow.Close();
         _isDead = false;
-        (canvasGameInput as IngameGameInput)!.canInput = true;
+        CanInput = true;
     }
 
     public void OpenPauseMenu()
     {
         Debug.Log("pause");
         pauseDialogWindow.Open();
-        (canvasGameInput as IngameGameInput)!.canInput = false;
+        CanInput = false;
     }
 
     public void ClosePauseMenu()
     {
         pauseDialogWindow.Close();
-        (canvasGameInput as IngameGameInput)!.canInput = true;
+        CanInput = true;
     }
 
     private void Update()
@@ -154,12 +161,16 @@ public class InGameHUD : WindowManager
         if(_isDead) return;
 
         UpdateSkillSlots();
-        
+
+        if(bellDialogWindow.isOpen ||
+           settingsDialogWindow.isOpen ||
+           pauseDialogWindow.isOpen ||
+           deathDialogWindow.isOpen) return;
+
         if(canvasGameInput.inputStart.triggered)
         {
             Debug.Log("Esc");
-            if((canvasGameInput as IngameGameInput)!.canInput
-             && !pauseDialogWindow.isOpen)
+            if(CanInput)
             {
                 OpenPauseMenu();
                 return;

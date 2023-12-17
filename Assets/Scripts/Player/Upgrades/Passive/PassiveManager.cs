@@ -11,10 +11,12 @@ using UnityEngine.Video;
 public class PassiveManager : MonoBehaviour
 {
     public static PassiveManager instance;
-    
-    [Header("Passives")]
-    [NotNull] public PassiveList passives;
-    [SerializeField] private int[] equippedPassives = new int[2];
+
+    [SerializeField] private InventoryData inventoryData;
+
+    public PassiveList passives => inventoryData.GetPassiveList;
+    private List<int> inventoryPassives => inventoryData.GetUnlockedPassives;
+    private List<int> equippedPassives => inventoryData.GetEquippedPassives;
     
     [Space]
     [Header("UI")]
@@ -23,10 +25,11 @@ public class PassiveManager : MonoBehaviour
     
     [Space]
     [Header("Slots")]
-    [SerializeField] private PassiveSlot[] inventorySlots = new PassiveSlot[9];
-    // 0 = Order
+    [SerializeField] private List<PassiveSlot> inventorySlots = new List<PassiveSlot>(9);
+// 0 = Order
     // 1 = Chaos
     [SerializeField] private InputSlot[] equippedSlots = new InputSlot[2];
+    [SerializeField] private List<PassiveSlot> extraSlots = new List<PassiveSlot>(2);
     
     private int _selectedPassive = -1;
     private int _infoPassive = -1;
@@ -35,8 +38,17 @@ public class PassiveManager : MonoBehaviour
     {
         if (instance == null) instance = this;
         else Destroy(gameObject);
-        
-        passives ??= Resources.Load<PassiveList>("Passive/PassiveList");
+
+        inventoryData ??= Resources.Load<InventoryData>("Inventory");
+    }
+
+    private void OnEnable()
+    {
+        UpdateInfo(equippedPassives[0]);
+        UpdateInventory();
+        UpdateEquipped();
+        UpdateExtras();
+        SkillManager.instance?.UpdateExtras();
     }
 
     private void Start()
@@ -61,7 +73,9 @@ public class PassiveManager : MonoBehaviour
             passiveDescription.text = "";
             return;
         }
-        if(_infoPassive >= 0) inventorySlots.ToList().Find(x => x.ID == _infoPassive).hover.enabled = false;
+        if(_infoPassive >= 0)
+            inventorySlots.Find(x => x.ID == _infoPassive).hover.enabled = false;
+
         passiveName.text = passives.GetName(passive);
         passiveDescription.text = passives.GetDescription(passive);
         _infoPassive = passive;
@@ -69,24 +83,27 @@ public class PassiveManager : MonoBehaviour
         inventorySlots.ToList().Find(x => x.ID == passive).hover.enabled = true;
     }
     
-    private void ChangeSlot(uint slot, int skill)
+    private void ChangeSlot(uint slot, int passive)
     {
-        if (equippedPassives.Contains(skill))
+        if (equippedPassives.Contains(passive))
         {
             //find the index 
-            int oldSlot = Array.IndexOf(equippedPassives, skill);
-            equippedPassives[oldSlot] = equippedPassives[slot];
+            int oldSlot = equippedPassives.FindIndex(x => x == passive);
+            equippedPassives[oldSlot] = equippedPassives[(int)slot];
         }
-        equippedPassives[slot] = skill;
+        equippedPassives[(int)slot] = passive;
         UpdateEquipped();
         UpdateInventory();
     }
 
     private void UpdateInventory()
     {
-        foreach (var passive in inventorySlots)
+        inventorySlots.ForEach(slt => slt.UpdateSlot(-1));
+        var i = 0;
+        foreach (var passive in inventoryPassives)
         {
-            passive.UpdateSlot();
+            inventorySlots[i].UpdateSlot(passive);
+            i++;
         }
     }
     
@@ -100,9 +117,25 @@ public class PassiveManager : MonoBehaviour
         }
     }
 
+    public void UpdateExtras()
+    {
+        extraSlots.ForEach(slt => slt.UpdateSlot(-1));
+        var i = 0;
+        foreach (var passive in equippedPassives)
+        {
+            extraSlots[i].UpdateSlot(passive);
+            i++;
+        }
+    }
+
     public bool IsEquipped(int id)
     {
         return equippedPassives.Contains(id);
+    }
+
+    public bool InInventory(int id)
+    {
+        return inventoryPassives.Contains(id);
     }
 
     public void Equip(int id, uint slot)

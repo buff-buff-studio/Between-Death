@@ -41,7 +41,8 @@ public class InventoryData : ScriptableObject
     public int GetEquippedPassive(Element element) => element == Element.Order ? orderPassive : chaosPassive;
     public int GetUnlockedPassive(int index) => unlockedPassives.Count < index+1 ? -1 : unlockedPassives[index];
     public List<int> GetUnlockedPassives => unlockedPassives;
-    
+    public List<int> GetEquippedPassives => new List<int> {orderPassive, chaosPassive};
+
     public DocumentList GetDocumentList => documentList;
     public int GetUnlockedDocument(int index) => unlockedDocuments.Count < index+1 ? -1 : unlockedDocuments[index];
     public List<int> GetUnlockedDocuments => unlockedDocuments;

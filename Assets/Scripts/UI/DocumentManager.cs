@@ -19,7 +19,7 @@ public class DocumentManager : MonoBehaviour
     [SerializeField] private DocumentSlot documentSlotPrefab;
     [SerializeField] private Transform socumentSlotParent;
     [SerializeField] private TextMeshProUGUI documentName;
-    [SerializeField] private CanvasGameInput canvasGameInput;
+    [SerializeField] private IngameGameInput canvasGameInput;
     
     private List<int> _documentsSlots = new List<int>();
     public bool InInventory(int id) => _documentsSlots.Contains(id);
@@ -33,7 +33,7 @@ public class DocumentManager : MonoBehaviour
 
     [SerializeField] private TextMeshPro textDocument;
     [SerializeField] private TextMeshProUGUI textTranscript;
-    [SerializeField] [Range(0,10)] private float dragSensitive = 1f;
+    [SerializeField] [Range(0, 10)] private float dragSensitive;
     
     private int _currentDocument = -1;
     private bool transcriptActive => transcriptView.activeSelf;
@@ -58,13 +58,13 @@ public class DocumentManager : MonoBehaviour
         if (!window._active) return;
         if(canvasGameInput.inputForth.triggered)
             SetTranscript(!transcriptActive);
-        else if (canvasGameInput.inputMove.inProgress && !transcriptActive)
+        else if (canvasGameInput.inputCamera.inProgress && !transcriptActive)
             MoveDocument();
     }
 
     public void MoveDocument()
     {
-        var xy = canvasGameInput.inputMove.ReadValue<Vector2>();
+        var xy = canvasGameInput.inputCamera.ReadValue<Vector2>();
         var x = -xy.x * dragSensitive;
         var y = xy.y * dragSensitive;
         viewParent.Rotate(new Vector3(y, x, 0), Space.Self);

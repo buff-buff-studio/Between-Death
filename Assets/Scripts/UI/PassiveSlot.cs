@@ -12,16 +12,19 @@ public class PassiveSlot : Slot
     protected override void Start()
     {
         base.Start();
+
+        if(button == null) return;
         button.onClick.AddListener(OnClick);
     }
 
     public override void UpdateSlot(int id)
     {
         base.UpdateSlot(id);
-        
-        UpdateSlot(true,
+        UpdateSlot(PassiveManager.instance.InInventory(id),
             PassiveManager.instance.passives.GetIcon(id),
             PassiveManager.instance.passives.GetName(id), 0);
+
+        if(button == null) return;
         button.interactable = !PassiveManager.instance.IsEquipped(id);
     }
     

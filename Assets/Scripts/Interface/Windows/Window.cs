@@ -93,14 +93,13 @@ namespace Refactor.Interface.Windows
                     });
                 delay += 0.25f;
             }*/
-
-            if(modifyTimeScale) Time.timeScale = timeScaleOnOpen;
         }
 
         public IEnumerator WaitToInteract()
         {
             readyForInput = false;
             yield return new WaitForSeconds(0.1f);
+            if(modifyTimeScale) Time.timeScale = timeScaleOnOpen;
             readyForInput = true;
         }
         public virtual void Close()

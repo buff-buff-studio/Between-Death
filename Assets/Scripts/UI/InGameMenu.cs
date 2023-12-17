@@ -20,9 +20,9 @@ public class InGameMenu : WindowManager
 
     [Space]
     [Header("Menu References")]
-    [SerializeField] private TextMeshProUGUI menuText;
-    [SerializeField] private TextMeshProUGUI prevMenuText;
-    [SerializeField] private TextMeshProUGUI nextMenuText;
+    [SerializeField] private Label menuText;
+    [SerializeField] private Label prevMenuText;
+    [SerializeField] private Label nextMenuText;
 
     [Space]
     [Header("Passive References")]
@@ -67,9 +67,9 @@ public class InGameMenu : WindowManager
     {
         var prev = currentWindow == 0 ? (int)(windows.Count - 1) : (int)(currentWindow - 1);
         var next = currentWindow == windows.Count - 1 ? 0 : (int)(currentWindow + 1);
-        menuText.text = windows[(int)currentWindow].Tag;
-        prevMenuText.text = windows[prev].Tag;
-        nextMenuText.text = windows[next].Tag;
+        menuText.SetCache($"[ui.{windows[(int)currentWindow].Tag}.title]");
+        prevMenuText.SetCache($"[ui.{windows[prev].Tag}.title]");
+        nextMenuText.SetCache($"[ui.{windows[next].Tag}.title]");
     }
 
     public void Menu(bool active)

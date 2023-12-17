@@ -25,7 +25,12 @@ public class InputSlot : Slot
     {
         base.UpdateSlot(id);
         button.interactable = true;
-        text = SkillManager.instance.skills.GetName(id);
+        text = type switch
+        {
+            InputType.Skill => SkillManager.instance.skills.GetName(id),
+            InputType.Passive => PassiveManager.instance.passives.GetName(id),
+            _ => null
+        };
 
         if (id < 0)
         {

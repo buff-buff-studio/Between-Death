@@ -11,7 +11,6 @@ namespace Refactor.Interface.Windows
     public class DialogWindow : Window
     {
         [Header("REFERENCES")]
-        public CanvasGroup dimmer;
 
         public Widget[] widgets;
 
@@ -29,9 +28,6 @@ namespace Refactor.Interface.Windows
             Debug.Log($"DialogWindow.Open()");
             base.Open();
             var tweenId = $"window_{id}";
-            dimmer.alpha = 0;
-            dimmer.gameObject.SetActive(true);
-            dimmer.DOFade(1f, 0.25f).SetId(tweenId);
             
             AudioSystem.PlaySound("ui_alert");
         }
@@ -42,16 +38,6 @@ namespace Refactor.Interface.Windows
             AudioSystem.PlaySound("ui_click");
             base.Close();
             var tweenId = $"window_{id}";
-            dimmer.DOFade(0f, 1f).SetId(tweenId)
-                .OnKill(() =>
-                {
-                    dimmer.alpha = 0;
-                    dimmer.gameObject.SetActive(false);
-                }).OnComplete(() =>
-                {
-                    dimmer.alpha = 0;
-                    dimmer.gameObject.SetActive(false);
-                });
         }
 
         public override bool DoAction(InterfaceAction action)

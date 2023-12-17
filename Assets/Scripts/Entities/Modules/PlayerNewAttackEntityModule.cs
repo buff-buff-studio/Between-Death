@@ -202,18 +202,24 @@ namespace Refactor.Entities.Modules
                         if (IngameGameInput.InputSkill0.trigger)
                         {
                             SkillData data = skillList.Get(inventoryData.GetEquippedSkill(0));
+                            if (data.element != entity.element) return;
+
                             PerformSkill(data, true);
                             onUseSkill.Invoke(0);
                         }
                         else if (IngameGameInput.InputSkill1.trigger)
                         {
                             SkillData data = skillList.Get(inventoryData.GetEquippedSkill(1));
+                            if (data.element != entity.element) return;
+
                             PerformSkill(data, true);
                             onUseSkill.Invoke(1);
                         }
                         else if (IngameGameInput.InputSkill2.trigger)
                         {
                             SkillData data = skillList.Get(inventoryData.GetEquippedSkill(2));
+                            if (data.element != entity.element) return;
+
                             PerformSkill(data, true);
                             onUseSkill.Invoke(2);
                         }

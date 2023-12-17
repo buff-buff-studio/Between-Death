@@ -56,11 +56,15 @@ public class Slot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
     }
 
     public virtual void UpdateSlot() => UpdateSlot(ID);
-    public virtual void UpdateSlot(int id) => this.id = id;
+
+    public virtual void UpdateSlot(int id)
+    {
+        this.id = id;
+    }
     
     public virtual void UpdateSlot(bool active, Sprite sprite, string text, float cooldown)
     {
-        gameObject.SetActive(active);
+        //gameObject.SetActive(active);
         this.active = active;
         this.sprite = sprite;
         this.text = text;

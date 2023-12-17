@@ -15,6 +15,7 @@ namespace Refactor.Props
         private Animator animator;
 
         public BoolVariable haveHandle;
+        public GameObject handle;
         public bool HaveHandle {set => haveHandle.Value = value;}
         public UnityEvent onTriggerNoHandle;
 
@@ -33,6 +34,9 @@ namespace Refactor.Props
                 haveHandle = ScriptableObject.CreateInstance<BoolVariable>();
                 haveHandle.Value = true;
             }
+
+            handle ??= transform.Find("Handle").gameObject;
+            handle.SetActive(haveHandle.Value);
             TryGetComponent(out animator);
         }
 
@@ -88,6 +92,7 @@ namespace Refactor.Props
         private SerializedProperty _onOff;
         private SerializedProperty _onTriggerNoHandle;
         private SerializedProperty _haveHandle;
+        private SerializedProperty _handle;
 
         private List<string> animations = new List<string>();
         private int _activeIndex = 0;
@@ -105,6 +110,7 @@ namespace Refactor.Props
             _onOff = serializedObject.FindProperty("onOff");
             _onTriggerNoHandle = serializedObject.FindProperty("onTriggerNoHandle");
             _haveHandle = serializedObject.FindProperty("haveHandle");
+            _handle = serializedObject.FindProperty("handle");
 
             animations.Clear();
             var animationController = lever.GetComponent<Animator>().runtimeAnimatorController;
@@ -143,6 +149,7 @@ namespace Refactor.Props
             EditorGUILayout.PropertyField(_onOff);
             EditorGUILayout.PropertyField(_onTriggerNoHandle);
             EditorGUILayout.PropertyField(_haveHandle);
+            EditorGUILayout.PropertyField(_handle);
 
             serializedObject.ApplyModifiedProperties();
 
