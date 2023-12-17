@@ -177,7 +177,7 @@ namespace Refactor.Entities.Modules
                 {
                     if (hit.transform.CompareTag("Player"))
                     {
-                        ApplyDamageFor(attackDamage * 2, 4);
+                        ApplyDamageFor(Random.Range(attackDamage.x,attackDamage.y) * 2, 4);
                         SetDizzy();
                         _attackEnded = true;
                     }
@@ -185,7 +185,7 @@ namespace Refactor.Entities.Modules
                 }
                 else if (stateTime >= timeOnSpecialAttack)
                 {
-                    ApplyDamageFor(attackDamage * 2, 3);
+                    ApplyDamageFor(Random.Range(attackDamage.x,attackDamage.y) * 2, 3);
                     SetDizzy();
                     _attackEnded = true;
                 }
@@ -233,7 +233,7 @@ namespace Refactor.Entities.Modules
         {
             animator.CrossFade($"Attack {Random.Range(0, 3)}", 0.25f);
 
-            ApplyDamageFor(attackDamage, damageRadius);
+            ApplyDamageFor(Random.Range(attackDamage.x,attackDamage.y), damageRadius);
             Debug.Log("Attack");
             entity.StartCoroutine(OnAnimationFinish(() =>
             {

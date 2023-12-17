@@ -542,6 +542,7 @@ MonoBehaviour:
         distanceToAttack: 1.25
         distanceToChasePlayer: 10
         timeSinceLastAttack: 0
+        attackDamage: {x: 15, y: 30}
         chanceToRetreat: 3
         _retreatTime: 1.5
         chanceToDodge: 8
@@ -614,10 +615,10 @@ MonoBehaviour:
         prefabHealthIndicator: {fileID: 8885578443047702529, guid: 8687291044ab0264e97888b0b62b7657,
           type: 3}
         _health:
-          localValue: 5
+          localValue: 45
           variable: {fileID: 0}
         _maxHealth:
-          localValue: 5
+          localValue: 45
           variable: {fileID: 0}
         onDie:
           m_PersistentCalls:
@@ -1202,7 +1203,6 @@ MonoBehaviour:
   entity: {fileID: 557822439006981569}
   canvasGroup: {fileID: 6738063886540002295}
   healthBarImage: {fileID: 9024599935505382445}
-  healthBar: {fileID: 4795186002349392946}
 --- !u!225 &6738063886540002295
 CanvasGroup:
   m_ObjectHideFlags: 0

@@ -533,7 +533,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e3c430f382484144e925c097c2d33cfe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Weight: 0.75
+  m_Weight: 0
   m_Data:
     m_ConstrainedObject: {fileID: 4656179573873971452}
     m_SourceObjects:
@@ -643,7 +643,7 @@ Transform:
   - {fileID: 8665210347932963731}
   - {fileID: 8457629735507400115}
   m_Father: {fileID: 0}
-  m_RootOrder: -1
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!143 &4030232620408637038
 CharacterController:
@@ -725,6 +725,7 @@ MonoBehaviour:
         lifeDrainPercentage: {fileID: 11400000, guid: c67747527c97bd94f8074c83a9fb0054,
           type: 2}
         currentAttackState:
+          currentSkill: {fileID: 0}
           currentAttack: {fileID: 0}
           currentAttackStreak: 0
           canKeepStreak: 1

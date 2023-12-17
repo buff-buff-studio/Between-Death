@@ -168,7 +168,8 @@ public class InGameHUD : WindowManager
         if(bellDialogWindow.isOpen ||
            settingsDialogWindow.isOpen ||
            pauseDialogWindow.isOpen ||
-           deathDialogWindow.isOpen) return;
+           deathDialogWindow.isOpen ||
+           popUp.isOpen) return;
 
         if(canvasGameInput.inputStart.triggered)
         {

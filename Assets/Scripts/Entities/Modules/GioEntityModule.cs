@@ -71,7 +71,7 @@ namespace Refactor.Entities.Modules
         [SerializeField]private float distanceToChasePlayer = 6f;
         protected bool _attackEnded = true;   
         public float timeSinceLastAttack = 0;
-        protected float attackDamage = 5f;
+        public Vector2 attackDamage = new Vector2(5, 10);
         
         [Header("STATE - RETREAT")] 
         [SerializeField]
@@ -754,7 +754,7 @@ namespace Refactor.Entities.Modules
 
             animator.SetLayerWeight(animationLayer,99);
             animator.CrossFade($"Attack {Random.Range(0, 3)}", 0.25f);
-            ApplyDamageFor(attackDamage, 2);
+            ApplyDamageFor(Random.Range(attackDamage.x,attackDamage.y), 2);
             Debug.Log("Attack");
             entity.StartCoroutine(OnAnimationFinish(() =>
             {
