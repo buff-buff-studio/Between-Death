@@ -74,8 +74,8 @@ namespace Refactor.Interface
         private IEnumerator _CloseThenOpen(Window close, Window open)
         {
             close.Close();
-            yield return new WaitForSeconds(0.5f);
             open.Open();
+            yield return null;
         }
 
         public void Update()
