@@ -15,8 +15,8 @@ public class EndGameDialog : MonoBehaviour
 
     public void BadEnd()
     {
-        save.ResetData();
         LoadingScreen.LoadScene("Menu");
+        save.ResetData();
     }
 
     public void Open()

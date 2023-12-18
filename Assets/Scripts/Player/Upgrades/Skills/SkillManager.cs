@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using JetBrains.Annotations;
 using Refactor.Data;
+using Refactor.Data.Variables;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Serialization;
@@ -17,8 +18,9 @@ public class SkillManager : MonoBehaviour
     
     [Header("Skills")]
 
-    [SerializeField] private InventoryData inventoryData;
+    [SerializeField] private Variable<InventoryData> inventory;
 
+    private InventoryData inventoryData => inventory.Value;
     public SkillList skills => inventoryData.GetSkillList;
     private List<int> inventorySkills => inventoryData.GetUnlockedSkills;
     private List<int> equippedSkills => inventoryData.GetEquippedSkills;
@@ -45,8 +47,6 @@ public class SkillManager : MonoBehaviour
     {
         if (instance == null) instance = this;
         else Destroy(gameObject);
-        
-        inventoryData ??= Resources.Load<InventoryData>("Inventory");
     }
 
     private void OnEnable()

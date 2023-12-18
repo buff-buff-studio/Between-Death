@@ -1786,12 +1786,12 @@ PrefabInstance:
     - target: {fileID: 4095012154168746269, guid: 0c7698c34280f8348b5635a1413288f0,
         type: 3}
       propertyPath: m_Value
-      value: 0
+      value: 50
       objectReference: {fileID: 0}
     - target: {fileID: 4095012154168746269, guid: 0c7698c34280f8348b5635a1413288f0,
         type: 3}
       propertyPath: m_MaxValue
-      value: 10
+      value: 100
       objectReference: {fileID: 0}
     - target: {fileID: 4373292729575042046, guid: 0c7698c34280f8348b5635a1413288f0,
         type: 3}
@@ -6330,6 +6330,24 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7784903686185068801, guid: 3d45a0d00c5ff1e4dbe50fba9902f3cf,
+        type: 3}
+      propertyPath: mixerFX
+      value: 
+      objectReference: {fileID: -7076049244446366713, guid: f21a18251d31cbb43a5c9dc7aec8d8c6,
+        type: 2}
+    - target: {fileID: 7784903686185068801, guid: 3d45a0d00c5ff1e4dbe50fba9902f3cf,
+        type: 3}
+      propertyPath: mixerMusic
+      value: 
+      objectReference: {fileID: 4698025805328310175, guid: f21a18251d31cbb43a5c9dc7aec8d8c6,
+        type: 2}
+    - target: {fileID: 7784903686185068801, guid: 3d45a0d00c5ff1e4dbe50fba9902f3cf,
+        type: 3}
+      propertyPath: mixerGeneral
+      value: 
+      objectReference: {fileID: 24100000, guid: f21a18251d31cbb43a5c9dc7aec8d8c6,
+        type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -12611,10 +12629,11 @@ AudioSource:
   m_GameObject: {fileID: 1126096739}
   m_Enabled: 1
   serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 0}
+  OutputAudioMixerGroup: {fileID: 4698025805328310175, guid: f21a18251d31cbb43a5c9dc7aec8d8c6,
+    type: 2}
   m_audioClip: {fileID: 8300000, guid: 254c5dbcfc1d63543b4d65709744a4be, type: 3}
   m_PlayOnAwake: 1
-  m_Volume: 1
+  m_Volume: 0.1
   m_Pitch: 1
   Loop: 1
   Mute: 0
@@ -13648,12 +13667,12 @@ PrefabInstance:
     - target: {fileID: 4095012154168746269, guid: 0c7698c34280f8348b5635a1413288f0,
         type: 3}
       propertyPath: m_Value
-      value: 0
+      value: 50
       objectReference: {fileID: 0}
     - target: {fileID: 4095012154168746269, guid: 0c7698c34280f8348b5635a1413288f0,
         type: 3}
       propertyPath: m_MaxValue
-      value: 10
+      value: 100
       objectReference: {fileID: 0}
     - target: {fileID: 4373292729575042046, guid: 0c7698c34280f8348b5635a1413288f0,
         type: 3}
@@ -15433,12 +15452,12 @@ PrefabInstance:
     - target: {fileID: 4095012154168746269, guid: 0c7698c34280f8348b5635a1413288f0,
         type: 3}
       propertyPath: m_Value
-      value: 0
+      value: 50
       objectReference: {fileID: 0}
     - target: {fileID: 4095012154168746269, guid: 0c7698c34280f8348b5635a1413288f0,
         type: 3}
       propertyPath: m_MaxValue
-      value: 10
+      value: 100
       objectReference: {fileID: 0}
     - target: {fileID: 4373292729575042046, guid: 0c7698c34280f8348b5635a1413288f0,
         type: 3}

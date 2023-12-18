@@ -17,8 +17,8 @@ namespace Refactor.Entities
         [Header("REFERENCES")]
         public CharacterController controller;
 
-        [Header("SETTINGS")] 
-        public Transform respawnPosition;
+        //[Header("SETTINGS")]
+        //public Transform respawnPosition;
         
         [Header("STATE")]
         public bool isGrounded;
@@ -99,7 +99,7 @@ namespace Refactor.Entities
             var playerModule = GetModule<PlayerControllerEntityModule>();
             playerModule.animator.CrossFade("MainMovement", 0);
             controller.enabled = false;
-            transform.position = respawnPosition.position;
+            transform.position = PlayerCheckpoints.instance.checkpoint;
             playerModule.body.DOScale(Vector3.one, 1f);
             IHealth health = GetModule<HealthEntityModule>();
             health.Heal(health.maxHealth);

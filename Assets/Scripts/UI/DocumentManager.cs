@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Player.Documents.Data;
 using Refactor;
+using Refactor.Data.Variables;
 using Refactor.Interface;
 using Refactor.Interface.Windows;
 using TMPro;
@@ -13,7 +14,9 @@ public class DocumentManager : MonoBehaviour
     public static DocumentManager instance;
     
     [Header("INVENTORY")]
-    [SerializeField] private InventoryData inventoryData;
+    [SerializeField] private Variable<InventoryData> inventory;
+
+    private InventoryData inventoryData => inventory.Value;
     public DocumentList documents => inventoryData.GetDocumentList;
     
     [SerializeField] private DocumentSlot documentSlotPrefab;
@@ -43,8 +46,6 @@ public class DocumentManager : MonoBehaviour
     {
         if (instance == null) instance = this;
         else Destroy(gameObject);
-        
-        inventoryData ??= Resources.Load<InventoryData>("Inventory");
     }
 
     public void OnEnable()

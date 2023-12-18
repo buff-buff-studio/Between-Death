@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using JetBrains.Annotations;
 using Refactor.Data;
+using Refactor.Data.Variables;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Video;
@@ -12,7 +13,9 @@ public class PassiveManager : MonoBehaviour
 {
     public static PassiveManager instance;
 
-    [SerializeField] private InventoryData inventoryData;
+    [SerializeField] private Variable<InventoryData> inventory;
+
+    private InventoryData inventoryData => inventory.Value;
 
     public PassiveList passives => inventoryData.GetPassiveList;
     private List<int> inventoryPassives => inventoryData.GetUnlockedPassives;
@@ -38,8 +41,6 @@ public class PassiveManager : MonoBehaviour
     {
         if (instance == null) instance = this;
         else Destroy(gameObject);
-
-        inventoryData ??= Resources.Load<InventoryData>("Inventory");
     }
 
     private void OnEnable()

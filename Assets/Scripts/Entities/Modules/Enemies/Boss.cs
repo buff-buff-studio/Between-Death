@@ -89,7 +89,7 @@ public class Boss : GioEntityModule
        base.Special();
     
        IHealth ihm = (IHealth) hm;
-       ihm.Heal(hm._maxHealth*.01f);
+       ihm.Heal(Time.deltaTime * healSpeed);
 
        if (hm._health >= hm._maxHealth)
            BackToState();

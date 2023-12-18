@@ -6,6 +6,20 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "Inventory", menuName = "Refactor/Data/Inventory", order = 1)]
 public class InventoryData : ScriptableObject
 {
+    public void SetData(InventoryData data)
+    {
+        skillList = data.skillList;
+        unlockedSkills = data.unlockedSkills;
+        equippedSkills = data.equippedSkills;
+        passiveList = data.passiveList;
+        unlockedPassives = data.unlockedPassives;
+        orderPassive = data.orderPassive;
+        chaosPassive = data.chaosPassive;
+        documentList = data.documentList;
+        unlockedDocuments = data.unlockedDocuments;
+        keys = data.keys;
+    }
+
     [Header("Skills")]
     [SerializeField] private SkillList skillList;
     [SerializeField] private List<int> unlockedSkills = new List<int>(9);

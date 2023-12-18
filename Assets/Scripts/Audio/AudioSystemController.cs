@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Refactor.Data.Variables;
+using UnityEngine.Audio;
 using UnityEngine.Serialization;
 
 namespace Refactor.Audio
@@ -15,6 +16,7 @@ namespace Refactor.Audio
         public int nextSourceId = 0;
 
         [FormerlySerializedAs("pallete")] [Header("REFERENCES")]
+        public AudioMixer mixerGeneral;
         public AudioPalette palette;
         public FloatVariable volumeGeneral;
         public FloatVariable volumeFX;
@@ -47,9 +49,24 @@ namespace Refactor.Audio
                 _CreateNewSource();
         }
 
+        public void UpdateMixerVolumes()
+        {
+            var volGen = Mathf.Clamp01(volumeGeneral.Value/100f);
+            var volFX = Mathf.Clamp01(volumeFX.Value/100);
+            var volMusic = Mathf.Clamp01(volumeMusic.Value/100);
+            mixerGeneral.GetFloat("fxVol", out var volsFX);
+            Debug.Log(volsFX);
+
+
+            mixerGeneral.SetFloat("masterVol", Mathf.Log10(volGen) * 20);
+            mixerGeneral.SetFloat("fxVol", Mathf.Log10(volFX) * 20);
+            mixerGeneral.SetFloat("musicVol", Mathf.Log10(volMusic) * 20);
+        }
+
         protected override void OnEnable()
         {
             base.OnEnable();
+            UpdateMixerVolumes();
             if(AudioSystem.controller != null) 
                 Destroy(gameObject);
 
@@ -66,6 +83,7 @@ namespace Refactor.Audio
         public void FixedUpdate()
         {
             transform.position = Camera.main.transform.position;
+            UpdateMixerVolumes();
 
             var volGen = Mathf.Clamp01(volumeGeneral.Value/10f);
             var volFX = Mathf.Clamp01(volumeFX.Value/10) * volGen;
@@ -134,6 +152,7 @@ namespace Refactor.Audio
         public AudioPlayer PlaySound(int sound)
         {
             AudioPalette.Audio audio = palette.GetAudio(sound);
+            UpdateMixerVolumes();
             
             if(audio != null)
             {
@@ -153,6 +172,7 @@ namespace Refactor.Audio
         public void PlayMusic(int music, float fadeIn = 1f, float fadeOut = 1f)
         {
             AudioPalette.Audio audio = palette.GetAudio(music);
+            UpdateMixerVolumes();
 
             if(audio != null)
             {
@@ -202,6 +222,7 @@ namespace Refactor.Audio
         public void StopAllFX()
         {
             int count = busy.Count;
+            UpdateMixerVolumes();
             for(int i = 0; i < count; i ++)
             {
                 AudioPlayer player = busy[i];

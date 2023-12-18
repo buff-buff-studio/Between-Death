@@ -52,6 +52,7 @@ namespace Refactor.Interface.Windows
             DOTween.Kill($"{tweenId}_child");
             var group = gameObject.GetOrAddComponent<CanvasGroup>();
             group.alpha = 1;
+            group.interactable = true;
             group.DOFade(1, 0.5f).SetId(tweenId);
             StartCoroutine(WaitToInteract());
 
