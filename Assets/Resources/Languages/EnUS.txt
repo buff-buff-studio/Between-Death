@@ -28,6 +28,7 @@ input
         highlight=Highlight
 ui
     wip=<color=#ffff00>[WIP]</color>
+    end=Thanks for playing!
     mm
         play=Play Game
         tutorial=Tutorial
@@ -79,7 +80,14 @@ ui
             menu=Main Menu
     quit
         title=Quit to Menu
-        message=Are you sure that you want to quit to menu?  
+        message=Are you sure that you want to quit to menu?
+    pause
+        title=Pause
+    death
+        title=You Died
+        message=You died, but you can try again
+        boss=Você foi derrotada novamente, desta vez você não terá uma nova chance.
+        respawn=Respawn
     saves=Saves
         slot_0=Save Slot #1
         slot_1=Save Slot #2  
@@ -88,6 +96,21 @@ ui
         alert
             title=Delete Save?
             content=Are you sure that you want to delete save data?
+    challenge
+        title=Coliseum Challenge
+        description=Teste as suas habilidades contra os inimigos deste mundo em 3 desafios, ao final você será recompensado com um item especial.\nVocê está preparado?
+        name=Challenge
+        ask=Você deseja ir para o proximo desafio?\nOu deseja desistir? (Você perderá o progresso)
+        ok=Accept
+        cancel=Give Up
+    passive
+        title=Runes
+        equiped=Equiped Runes
+    skill
+        title=Skills
+        equiped=Equiped Skills
+    document
+        title=Documents
 infobutton
     spawn=Interact to spawn other <color=#ff00ff>Enemy</color>
     damage=Take 1 damage

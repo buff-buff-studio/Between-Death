@@ -18,7 +18,8 @@ public class PopUpManager : MonoBehaviour
     [SerializeField] private GameObject cancelBtt;
 
     public bool isOpen = false;
-    
+    public bool IsOpen => dialogWindow.isOpen;
+
     private Action _onClickEvent;
     private CanvasGroup canvasGroup => GetComponent<CanvasGroup>();
     private Animator animator => GetComponentInChildren<Animator>();

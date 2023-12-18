@@ -169,7 +169,7 @@ public class InGameHUD : WindowManager
            settingsDialogWindow.isOpen ||
            pauseDialogWindow.isOpen ||
            deathDialogWindow.isOpen ||
-           popUp.isOpen) return;
+           popUp.IsOpen) return;
 
         if(canvasGameInput.inputStart.triggered)
         {

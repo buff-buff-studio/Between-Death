@@ -65,6 +65,7 @@ public class DocumentManager : MonoBehaviour
 
     public void MoveDocument()
     {
+        return;
         var xy = canvasGameInput.inputCamera.ReadValue<Vector2>();
         var x = -xy.x * dragSensitive;
         var y = xy.y * dragSensitive;
