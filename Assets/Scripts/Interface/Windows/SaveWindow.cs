@@ -82,7 +82,8 @@ namespace Refactor.Interface.Windows
                             save.ResetData();
                             save.SaveTo(n);
                         }
-               
+
+                        save.currentSlot = n;
                         Close();
                         canvas.StartCoroutine(_LoadScene("Scenes/Game_Playground"));
                     }
