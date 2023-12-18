@@ -48,14 +48,14 @@ namespace Refactor.Props
             {
                 InGameHUD.instance.OpenItem(key);
                 base.Interact();
-                Destroy(gameObject);
+                gameObject.SetActive(false);
             }
             else if(key != null && InGameHUD.instance.HasKey(key))
             {
                 InGameHUD.instance.UseKey(key);
                 Debug.Log("Item used");
                 base.Interact();
-                SetEnabled(false);
+                gameObject.SetActive(false);
             }else
             {
                 OnDontHaveKey.Invoke();

@@ -69,6 +69,7 @@ namespace Refactor.Data
                     v.Reset();
                     v.ForceUpdate();
                 }
+                Save();
 
                 return;
             }

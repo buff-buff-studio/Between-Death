@@ -55,7 +55,6 @@ namespace Refactor.Audio
             var volFX = Mathf.Clamp01(volumeFX.Value/100);
             var volMusic = Mathf.Clamp01(volumeMusic.Value/100);
             mixerGeneral.GetFloat("fxVol", out var volsFX);
-            Debug.Log(volsFX);
 
 
             mixerGeneral.SetFloat("masterVol", Mathf.Log10(volGen) * 20);
