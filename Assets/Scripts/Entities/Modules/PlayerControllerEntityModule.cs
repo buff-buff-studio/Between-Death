@@ -108,6 +108,11 @@ namespace Refactor.Entities.Modules
         public ParticleSystem[] particlesChaos;
         public ParticleSystem[] particlesOrder;
 
+        private PlayerState stt = PlayerState.Default;
+        private bool lookStt = false;
+        private float time;
+        private float endTime = 1;
+
         #region Callbacks
         public override void OnEnable()
         {
@@ -121,6 +126,53 @@ namespace Refactor.Entities.Modules
             _playerAttack = entity.GetModule<PlayerNewAttackEntityModule>();
         }
 
+        public override void StateDebug()
+        {
+            if(state != PlayerState.Default && stt == PlayerState.Default)
+            {
+                stt = state;
+                lookStt = true;
+                time = 0;
+                switch (state)
+                {
+                    case PlayerState.Default:
+                        break;
+                    case PlayerState.Jumping:
+                        endTime = 1.25f;
+                        break;
+                    case PlayerState.Dashing:
+                        endTime = 3f;
+                        break;
+                    case PlayerState.Attacking:
+                        endTime = 7f;
+                        break;
+                    case PlayerState.UsingSkill:
+                        endTime = 10f;
+                        break;
+                    case PlayerState.Casting:
+                        endTime = 1.25f;
+                        break;
+                    case PlayerState.Dead:
+                        endTime = 10f;
+                        break;
+                    default:
+                        throw new ArgumentOutOfRangeException();
+                }
+            }
+
+            if (lookStt)
+            {
+                time += Time.deltaTime;
+                if (time > endTime)
+                {
+                    state = PlayerState.Default;
+                    stt = PlayerState.Default;
+                    lookStt = false;
+                    time = 0;
+                }
+            }
+        }
+
         public override void OnDisable()
         {
             base.OnDisable();
@@ -131,8 +183,8 @@ namespace Refactor.Entities.Modules
 
         public override void UpdateFrame(float deltaTime)
         {
-            UpdateAttackTimer(timeSinceLastAttack + deltaTime);
-        
+            Debug.Log(state + " - " + IngameGameInput.InputMove);
+
             switch (state)
             {
                 case PlayerState.Dead:
@@ -169,6 +221,8 @@ namespace Refactor.Entities.Modules
             
             if(state is not PlayerState.Casting and not PlayerState.Dashing && _playerAttack != null)
                 _playerAttack.HandleAttacks(state, deltaTime);
+
+            UpdateAttackTimer(timeSinceLastAttack + deltaTime);
         }
         #endregion
 

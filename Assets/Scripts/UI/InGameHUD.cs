@@ -176,7 +176,9 @@ public class InGameHUD : WindowManager
             Debug.Log("Esc");
             if(CanInput)
             {
+                player.GetModule<PlayerControllerEntityModule>().enabled = false;
                 OpenPauseMenu();
+                player.GetModule<PlayerControllerEntityModule>().enabled = true;
                 return;
             }
         }

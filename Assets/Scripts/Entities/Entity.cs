@@ -63,6 +63,7 @@ namespace Refactor.Entities
             foreach (var module in GetModules())
             {
                 if (!module.enabled) continue;
+                (module as EntityModule)!.StateDebug();
                 (module as EntityModule)!.UpdatePhysics(deltaTime);
                 (module as EntityModule)!.UpdateFrame(deltaTime);
             }
@@ -72,6 +73,15 @@ namespace Refactor.Entities
                 velocity.y = math.min(velocity.y, 0);
             
             isGrounded = controller.isGrounded;
+        }
+
+        private void FixedUpdate()
+        {
+            foreach (var module in GetModules())
+            {
+                if (!module.enabled) continue;
+                (module as EntityModule)!.StateDebug();
+            }
         }
 
         public void Die()
@@ -134,6 +144,11 @@ namespace Refactor.Entities
 
         public virtual void UpdateFrame(float deltaTime)
         {
+        }
+
+        public virtual void StateDebug()
+        {
+
         }
     }
 }
