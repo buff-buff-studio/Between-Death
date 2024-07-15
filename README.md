@@ -10,6 +10,18 @@
   </p>
 </p>
 
+## Built With
+Between Death and its assets were built using the following software:
+* [Unity](https://unity.com/)
+* [Blender](https://www.blender.org/)
+* [Adobe Photoshop](https://www.adobe.com/products/photoshop.html)
+* [Krita](https://krita.org)
+* [Adobe Audition](https://www.adobe.com/products/audition.html)
+* [Audacity](https://www.audacityteam.org/)
+* [Visual Studio Code](https://code.visualstudio.com/)
+* [JetBrains Rider](https://www.jetbrains.com/rider/)
+
+
 ## Videos
 ### Cinematic
 <a href="https://www.youtube.com/watch?v=BI-2vxe8KDc"> <img alt="License" width="400" src="https://github.com/buff-buff-studio/Between-Death/assets/17664054/03b981b2-9be1-45c2-839e-4eb1390fa7a9"> </a>
